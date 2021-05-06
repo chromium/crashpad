@@ -207,6 +207,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7f8f28dc_cbcfdeb0",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-06T14:51:03Z",
+      "side": 1,
+      "message": "\u003e I use it sometimes for things like:\n\u003e \n\u003e   ScopedVMRead\u003cSimpleStringDictionary\u003e simple_annotations(\n\u003e      crashpad_info-\u003esimple_annotations,\n\u003e       sizeof(SimpleStringDictionary::Entry) *\n\u003e           SimpleStringDictionary::num_entries);\n\nSounds like you want the constructor to accept a count argument defaulted to 1, instead of a size argument that forces the caller to do math and lets things break when the math is done badly.\n\n(Gerrit has lost the comment context, so I’ll just write this again in-line below.)",
+      "parentUuid": "1e885548_b68da146",
+      "range": {
+        "startLine": 39,
+        "startChar": 40,
+        "endLine": 39,
+        "endChar": 71
+      },
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d70da4e1_fa7e3f5d",
         "filename": "util/ios/scoped_vm_read.h",
         "patchSetId": 7
@@ -265,6 +289,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "16a1d896_b111e1aa",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-06T14:51:03Z",
+      "side": 1,
+      "message": "\u003e I do not know if I can log runs-during crash.  For now I\u0027m assuming yes.\n\nPer offline discussion, safer to assume no and do something RAW_LOG-style, which is essentially a write(STDERR_FILENO, …).",
+      "parentUuid": "8dc52adc_ecac85ae",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae968261_6d362417",
         "filename": "util/ios/scoped_vm_read.h",
         "patchSetId": 7
@@ -300,6 +342,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "68f50b85_71eb6d21",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-06T14:51:03Z",
+      "side": 1,
+      "message": "\u003e ScopedMachVM doesn\u0027t do vm_read does it?\n\nNo, it doesn’t do anything that allocates at all, but you can give it some Mach-allocated memory and it’ll own deallocation. (But it doesn’t guarantee RUNS-AT-CRASH safety.)",
+      "parentUuid": "db267812_30875cd1",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "be83f2c4_9881844a",
         "filename": "util/ios/scoped_vm_read.h",
         "patchSetId": 7
@@ -329,6 +389,24 @@
       "side": 1,
       "message": "I use reset for things like (see usage of |current| in this method.)\n\n// static\nvoid InProcessIntermediatedumpHandler::WriteAnnotationList(\n    IOSIntermediatedumpWriter* writer,\n    process_types::CrashpadInfo* crashpad_info) {\n  if (!crashpad_info-\u003eannotations_list) {\n    return;\n  }\n  ScopedVMRead\u003cprocess_types::AnnotationList\u003e annotation_list(\n      crashpad_info-\u003eannotations_list);\n  if (!annotation_list.is_valid()) {\n    LOG(WARNING) \u003c\u003c \"could not read annotations list object\";\n    return;\n  }\n  IOSIntermediatedumpWriter::ScopedArray annotationsArray(\n      writer, IntermediateDumpKey::kAnnotationObjects);\n  ScopedVMRead\u003cprocess_types::Annotation\u003e current(\u0026annotation_list-\u003ehead);\n  if (!current.is_valid()) {\n    LOG(WARNING) \u003c\u003c \"could not read annotation\";\n    return;\n  }\n  for (size_t index \u003d 0;\n       current-\u003elink_node !\u003d annotation_list.get()-\u003etail_pointer \u0026\u0026\n       index \u003c kMaxNumberOfAnnotations;\n       ++index) {\n    ScopedVMRead\u003cprocess_types::Annotation\u003e node(current-\u003elink_node);\n    if (!node.is_valid()) {\n      LOG(WARNING) \u003c\u003c \"could not read annotation\";\n      return;\n    }\n    current.reset(\n        reinterpret_cast\u003cprocess_types::Annotation*\u003e(current-\u003elink_node));\n    if (node-\u003esize \u003d\u003d 0)\n      continue;\n    if (node-\u003esize \u003e Annotation::kValueMaxSize) {\n      DLOG(WARNING) \u003c\u003c \"Incorrect annotation length \" \u003c\u003c node-\u003esize;\n      continue;\n    }\n    IOSIntermediatedumpWriter::ScopedMap annotationMap(writer);\n    const size_t name_len \u003d\n        strnlen((const char*)node-\u003ename, Annotation::kNameMaxLength);\n    writer-\u003eAddProperty(IntermediateDumpKey::kAnnotationName,\n                        reinterpret_cast\u003cconst void*\u003e(node-\u003ename),\n                        name_len);\n    writer-\u003eAddProperty(IntermediateDumpKey::kAnnotationValue,\n                        reinterpret_cast\u003cconst void*\u003e(node-\u003evalue),\n                        node-\u003esize);\n    writer-\u003eAddProperty(IntermediateDumpKey::kAnnotationType,\n                        reinterpret_cast\u003cconst void*\u003e(\u0026node-\u003etype),\n                        sizeof(node-\u003etype));\n  }\n}",
       "parentUuid": "be83f2c4_9881844a",
+      "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de105fb7_217d419d",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-06T14:51:03Z",
+      "side": 1,
+      "message": "\u003e I use reset for things like (see usage of |current| in this method.)\n\u003e \n\u003e // static\n\u003e void InProcessIntermediatedumpHandler::WriteAnnotationList(\n\u003e     IOSIntermediatedumpWriter* writer,\n\u003e     process_types::CrashpadInfo* crashpad_info) {\n\u003e   if (!crashpad_info-\u003eannotations_list) {\n\u003e     return;\n\u003e   }\n\u003e   ScopedVMRead\u003cprocess_types::AnnotationList\u003e annotation_list(\n\u003e       crashpad_info-\u003eannotations_list);\n\u003e   if (!annotation_list.is_valid()) {\n\u003e     LOG(WARNING) \u003c\u003c \"could not read annotations list object\";\n\u003e     return;\n\u003e   }\n\u003e   IOSIntermediatedumpWriter::ScopedArray annotationsArray(\n\u003e       writer, IntermediateDumpKey::kAnnotationObjects);\n\u003e   ScopedVMRead\u003cprocess_types::Annotation\u003e current(\u0026annotation_list-\u003ehead);\n\u003e   if (!current.is_valid()) {\n\u003e     LOG(WARNING) \u003c\u003c \"could not read annotation\";\n\u003e     return;\n\u003e   }\n\u003e   for (size_t index \u003d 0;\n\u003e        current-\u003elink_node !\u003d annotation_list.get()-\u003etail_pointer \u0026\u0026\n\u003e        index \u003c kMaxNumberOfAnnotations;\n\u003e        ++index) {\n\u003e     ScopedVMRead\u003cprocess_types::Annotation\u003e node(current-\u003elink_node);\n\u003e     if (!node.is_valid()) {\n\u003e       LOG(WARNING) \u003c\u003c \"could not read annotation\";\n\u003e       return;\n\u003e     }\n\u003e     current.reset(\n\u003e         reinterpret_cast\u003cprocess_types::Annotation*\u003e(current-\u003elink_node));\n\nOne thing that I’m noticing here is that you don’t check current.is_valid().\n\nYou’d always want to check validity any time you ask ScopedVMRead to read something new. That’s really an argument for there to be a single method that returns a success boolean. (We don’t really use WARN_UNUSED_RESULT in Crashpad, but we do expect that success will be checked meticulously.)\n\nThis is an argument in favor of providing _only_ that interface. You wouldn’t need is_valid in that case, and you wouldn’t want the constructors at all, because they can’t report status.\n\nThis discussion only concerns the outer, user-facing ScopedVMRead. The internal class can do whatever, since it’s intended only to be used by the outer class, and can trust the outer class to use it correctly. Although if it’s easier to do so, the inner class’ interface can be adapted to match the outer too.\n\n\u003e     if (node-\u003esize \u003d\u003d 0)\n\u003e       continue;\n\u003e     if (node-\u003esize \u003e Annotation::kValueMaxSize) {\n\u003e       DLOG(WARNING) \u003c\u003c \"Incorrect annotation length \" \u003c\u003c node-\u003esize;\n\u003e       continue;\n\u003e     }\n\u003e     IOSIntermediatedumpWriter::ScopedMap annotationMap(writer);\n\u003e     const size_t name_len \u003d\n\u003e         strnlen((const char*)node-\u003ename, Annotation::kNameMaxLength);\n\u003e     writer-\u003eAddProperty(IntermediateDumpKey::kAnnotationName,\n\u003e                         reinterpret_cast\u003cconst void*\u003e(node-\u003ename),\n\u003e                         name_len);\n\u003e     writer-\u003eAddProperty(IntermediateDumpKey::kAnnotationValue,\n\u003e                         reinterpret_cast\u003cconst void*\u003e(node-\u003evalue),\n\u003e                         node-\u003esize);\n\u003e     writer-\u003eAddProperty(IntermediateDumpKey::kAnnotationType,\n\u003e                         reinterpret_cast\u003cconst void*\u003e(\u0026node-\u003etype),\n\u003e                         sizeof(node-\u003etype));\n\u003e   }\n\u003e }",
+      "parentUuid": "d793197b_ad68354b",
       "revId": "51c48e781dc2e1d64b4f30d487ff623f4341f413",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
