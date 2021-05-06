@@ -16,6 +16,24 @@
       "message": "LGTM, but this does make the tests worse: harder to read and harder to maintain. Is there no exception for tests?",
       "revId": "af2ca41d58d74d6ed1e2a05684f11562f0383ba6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a88079e_a8228079",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000805
+      },
+      "writtenOn": "2021-05-06T16:02:13Z",
+      "side": 1,
+      "message": "Yeah, I\u0027m not in love with it.  In the majority of tests, it\u0027s still an improvement, which is part of why we haven\u0027t proposed carving out an exemption for tests.  But in this file, it\u0027s just deadweight loss.\n\nIt\u0027s possible to get around the restriction by using char*s instead of char[]s.  If you really want, we could change the types here (or even cast) to continue using the conversion functions.  However, this is the pattern we\u0027ve been using elsewhere.",
+      "parentUuid": "803dca36_adb135d6",
+      "revId": "af2ca41d58d74d6ed1e2a05684f11562f0383ba6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
