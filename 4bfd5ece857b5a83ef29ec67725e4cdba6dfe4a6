@@ -257,6 +257,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b4f51ae_220028c6",
+        "filename": "util/ios/exception_logging.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T20:26:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba2677d9_846c7eaa",
+      "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ae1172f_7f5cd961",

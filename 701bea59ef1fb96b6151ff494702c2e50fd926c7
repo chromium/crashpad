@@ -18,6 +18,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39789894_101ba397",
+        "filename": "util/ios/scoped_vm_read.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T20:26:39Z",
+      "side": 1,
+      "message": "added a test.",
+      "parentUuid": "d64d3e67_98ecef02",
+      "revId": "701bea59ef1fb96b6151ff494702c2e50fd926c7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c7d1556_710bd842",
