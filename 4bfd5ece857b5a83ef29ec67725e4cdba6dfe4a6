@@ -41,6 +41,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3731187_2b8dd4bf",
+        "filename": "util/ios/exception_logging.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T20:26:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3bd7544_a20df874",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 45
+      },
+      "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74069d65_8c3169b8",
@@ -54,6 +78,24 @@
       "writtenOn": "2021-05-06T14:58:15Z",
       "side": 1,
       "message": "If you wind up getting rid of the rv below (see below), this can move into the loop body.",
+      "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44aecb09_dd9bccdb",
+        "filename": "util/ios/exception_logging.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T20:26:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74069d65_8c3169b8",
       "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -75,6 +117,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "28a17290_c21bca7b",
+        "filename": "util/ios/exception_logging.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T20:26:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6029f62_5779d6c5",
+      "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d154343_e567e016",
@@ -88,6 +148,24 @@
       "writtenOn": "2021-05-06T14:58:15Z",
       "side": 1,
       "message": "rv can only be 1 here, there’s no need for a loop. All you really need is\n\n  HANDLE_EINTR(write(STDERR_FILENO, \"\\n\", 1));\n\nsince there’s nothing you can do if it fails, there’s no need to check the return value.",
+      "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36deee79_39908e74",
+        "filename": "util/ios/exception_logging.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T20:26:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d154343_e567e016",
       "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -109,6 +187,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63105354_48eeb30d",
+        "filename": "util/ios/exception_logging.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T20:26:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa1ac2f1_2450004e",
+      "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95c8d852_9529aa07",
@@ -122,6 +218,24 @@
       "writtenOn": "2021-05-06T14:58:15Z",
       "side": 1,
       "message": "Reduce namespace proliferation. crashpad::internal is enough.",
+      "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d87437d4_ec8071d1",
+        "filename": "util/ios/exception_logging.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T20:26:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95c8d852_9529aa07",
       "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -156,6 +270,24 @@
       "writtenOn": "2021-05-06T14:58:15Z",
       "side": 1,
       "message": "Ought to capture __FILE__ and __LINE__ too. (These are just compile-time constants, so it’s safe.)",
+      "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3a1c249_bdf6cfc5",
+        "filename": "util/ios/exception_logging.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T20:26:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ae1172f_7f5cd961",
       "revId": "4bfd5ece857b5a83ef29ec67725e4cdba6dfe4a6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }

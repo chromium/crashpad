@@ -35,6 +35,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de1764af_0dd2afc3",
+        "filename": "util/ios/scoped_vm_read.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T20:26:14Z",
+      "side": 1,
+      "message": "removed.",
+      "parentUuid": "2c7d1556_710bd842",
+      "revId": "701bea59ef1fb96b6151ff494702c2e50fd926c7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae66ec0e_35a1f59a",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-05-06T14:51:03Z",
       "side": 1,
       "message": "Nah, you’re already in crashpad::internal, and the class name already has Internal in it too. This extra namespace isn’t necessary.",
+      "revId": "701bea59ef1fb96b6151ff494702c2e50fd926c7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3333e561_7021b1af",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T20:26:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae66ec0e_35a1f59a",
       "revId": "701bea59ef1fb96b6151ff494702c2e50fd926c7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -75,6 +111,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9539f6a5_f23a4dae",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T20:26:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4c20c1a_9842314c",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 29
+      },
+      "revId": "701bea59ef1fb96b6151ff494702c2e50fd926c7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f75b9fb_7d0fd38b",
@@ -88,6 +148,24 @@
       "writtenOn": "2021-05-06T14:51:03Z",
       "side": 1,
       "message": "DISALLOW_COPY_AND_ASSIGN",
+      "revId": "701bea59ef1fb96b6151ff494702c2e50fd926c7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e87d6e2d_c48af60b",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T20:26:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f75b9fb_7d0fd38b",
       "revId": "701bea59ef1fb96b6151ff494702c2e50fd926c7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -115,6 +193,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b45e53f9_9fd5670e",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T20:26:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8865e029_6b71873c",
+      "range": {
+        "startLine": 68,
+        "startChar": 39,
+        "endLine": 68,
+        "endChar": 69
+      },
+      "revId": "701bea59ef1fb96b6151ff494702c2e50fd926c7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "46ba71df_0788b64b",
@@ -128,6 +230,24 @@
       "writtenOn": "2021-05-06T14:51:03Z",
       "side": 1,
       "message": "It would be cleaner if you allowed (required, even) the internal class to be constructed with this state by removing its no-argument default constructor and defining a (const void*, size_t) constructor. Then this would simplify to\n\n  explicit ScopedVMRead(const T* data, size_t count \u003d 1) : internal_(data, count * sizeof(T)) {}",
+      "revId": "701bea59ef1fb96b6151ff494702c2e50fd926c7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb9ad209_5bc183d8",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T20:26:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46ba71df_0788b64b",
       "revId": "701bea59ef1fb96b6151ff494702c2e50fd926c7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -149,6 +269,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ba2d46c_2b2e9de9",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T20:26:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3ff23fd_a4121ddb",
+      "revId": "701bea59ef1fb96b6151ff494702c2e50fd926c7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b10925b_a779d255",
@@ -162,6 +300,24 @@
       "writtenOn": "2021-05-06T14:51:03Z",
       "side": 1,
       "message": "Naming: internal_",
+      "revId": "701bea59ef1fb96b6151ff494702c2e50fd926c7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a601c27_5d1fdab1",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-06T20:26:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b10925b_a779d255",
       "revId": "701bea59ef1fb96b6151ff494702c2e50fd926c7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
