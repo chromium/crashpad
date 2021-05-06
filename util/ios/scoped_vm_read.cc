@@ -20,7 +20,8 @@ namespace crashpad {
 namespace internal {
 namespace vmread_internal {
 
-ScopedVMReadInternal::ScopedVMReadInternal() = default;
+ScopedVMReadInternal::ScopedVMReadInternal()
+    : data_(0), vm_read_data_(0), vm_read_data_count_(0) {}
 
 ScopedVMReadInternal::~ScopedVMReadInternal() {
   if (data_) {
