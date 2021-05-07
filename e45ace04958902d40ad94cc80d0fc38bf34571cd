@@ -16,6 +16,205 @@
       "message": "ptal.",
       "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5133562b_01749a9c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-07T17:41:26Z",
+      "side": 1,
+      "message": "Good good good.",
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e25bb1b_157c2b45",
+        "filename": "util/ios/raw_logging.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-07T17:41:26Z",
+      "side": 1,
+      "message": "1. Just use unsigned int, not uint64_t\n\n2. Please stop overloading everything! It makes it really hard to jump from a call site to the right implementation, or from an implementation to all of the call sites. We should have RawLogString(const char*) and RawLogInt(unsigned int).",
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c40e8a4d_ca3fbac6",
+        "filename": "util/ios/raw_logging.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-07T17:41:26Z",
+      "side": 1,
+      "message": "Off by one?\n\n\u0026buffer[sizeof(buffer) - 1]",
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "977114a4_b173e2db",
+        "filename": "util/ios/raw_logging.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-07T17:41:26Z",
+      "side": 1,
+      "message": "\u0027\\0\u0027 makes this clearer.",
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2eceb78_d806a144",
+        "filename": "util/ios/raw_logging.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-07T17:41:26Z",
+      "side": 1,
+      "message": "Rather than putting the default here, put it in the macro.",
+      "range": {
+        "startLine": 26,
+        "startChar": 61,
+        "endLine": 26,
+        "endChar": 74
+      },
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e5c0b6a_52d022b9",
+        "filename": "util/ios/scoped_vm_read.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-07T17:41:26Z",
+      "side": 1,
+      "message": "Nope, decided it wasn’t safe enough.",
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e74fecb_b01bb9f0",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-07T17:41:26Z",
+      "side": 1,
+      "message": "Not anymore.",
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "266ad47f_dcaf18d9",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-07T17:41:26Z",
+      "side": 1,
+      "message": "Also?",
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09536888_27290efc",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-07T17:41:26Z",
+      "side": 1,
+      "message": "Please please please put a blank line between a codey thing and a comment that doesn’t apply to the codey thing above it.",
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc9c917d_7cab0b6a",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-07T17:41:26Z",
+      "side": 1,
+      "message": ": internal_() {}",
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd9ffe0b_a9b29d90",
+        "filename": "util/ios/scoped_vm_read_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-07T17:41:26Z",
+      "side": 1,
+      "message": "Just use getpagesize().",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 47
+      },
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
