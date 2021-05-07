@@ -16,6 +16,74 @@
       "message": "ptal",
       "revId": "2139f760c89f54f11778e4c25a60f7ce3026d847",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fd3c0a7_09a6f843",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-07T18:15:30Z",
+      "side": 1,
+      "message": "LGTM, come back for a quick follow-up if your changes are big enough to warrant it.",
+      "revId": "2139f760c89f54f11778e4c25a60f7ce3026d847",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99896dc0_a1ba84b9",
+        "filename": "util/ios/raw_logging.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-07T18:15:30Z",
+      "side": 1,
+      "message": "I\u0027d make this RawLogString(\": \").",
+      "revId": "2139f760c89f54f11778e4c25a60f7ce3026d847",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96742327_0f9af389",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-07T18:15:30Z",
+      "side": 1,
+      "message": "Move \"logs an error\" to a new \\return that says what the return value indicates.",
+      "revId": "2139f760c89f54f11778e4c25a60f7ce3026d847",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a600d2c_1ddaa40f",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-07T18:15:30Z",
+      "side": 1,
+      "message": "this one is simple and should be inlined. Or consider making Read return data_, with a 0/nullptr return value indicating failure, and getting rid of data(), and possibly even data_, altogether.",
+      "revId": "2139f760c89f54f11778e4c25a60f7ce3026d847",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
