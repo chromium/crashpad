@@ -52,6 +52,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14a8e91f_42cf420b",
+        "filename": "util/ios/raw_logging.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-07T17:55:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e25bb1b_157c2b45",
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c40e8a4d_ca3fbac6",
@@ -69,6 +87,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66e4e99d_d86f436b",
+        "filename": "util/ios/raw_logging.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-07T17:55:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c40e8a4d_ca3fbac6",
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "977114a4_b173e2db",
@@ -82,6 +118,24 @@
       "writtenOn": "2021-05-07T17:41:26Z",
       "side": 1,
       "message": "\u0027\\0\u0027 makes this clearer.",
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "748171da_4e6f807c",
+        "filename": "util/ios/raw_logging.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-07T17:55:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "977114a4_b173e2db",
       "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -109,6 +163,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b82d0fba_c219982a",
+        "filename": "util/ios/raw_logging.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-07T17:55:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2eceb78_d806a144",
+      "range": {
+        "startLine": 26,
+        "startChar": 61,
+        "endLine": 26,
+        "endChar": 74
+      },
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e5c0b6a_52d022b9",
@@ -122,6 +200,24 @@
       "writtenOn": "2021-05-07T17:41:26Z",
       "side": 1,
       "message": "Nope, decided it wasn’t safe enough.",
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01547ada_09eba8ab",
+        "filename": "util/ios/scoped_vm_read.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-07T17:55:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e5c0b6a_52d022b9",
       "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -143,6 +239,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2163cacf_a839518b",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-07T17:55:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e74fecb_b01bb9f0",
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "266ad47f_dcaf18d9",
@@ -156,6 +270,24 @@
       "writtenOn": "2021-05-07T17:41:26Z",
       "side": 1,
       "message": "Also?",
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a9a9f89_f188663a",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-07T17:55:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "266ad47f_dcaf18d9",
       "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -177,6 +309,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfcddd55_bb2fc841",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-07T17:55:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09536888_27290efc",
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc9c917d_7cab0b6a",
@@ -194,6 +344,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73210ef7_96f3819a",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-07T17:55:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc9c917d_7cab0b6a",
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd9ffe0b_a9b29d90",
@@ -207,6 +375,30 @@
       "writtenOn": "2021-05-07T17:41:26Z",
       "side": 1,
       "message": "Just use getpagesize().",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 47
+      },
+      "revId": "e45ace04958902d40ad94cc80d0fc38bf34571cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f9b3325_012eb2b0",
+        "filename": "util/ios/scoped_vm_read_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-07T17:55:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd9ffe0b_a9b29d90",
       "range": {
         "startLine": 57,
         "startChar": 0,
