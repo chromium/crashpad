@@ -138,6 +138,24 @@
       "parentUuid": "5a600d2c_1ddaa40f",
       "revId": "2139f760c89f54f11778e4c25a60f7ce3026d847",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3263a8a3_0fae7525",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-07T18:38:17Z",
+      "side": 1,
+      "message": "You can keep it to service the operator and get, but still make Read return a pointer if that would simplify things for callers.",
+      "parentUuid": "a1a88060_e317aa74",
+      "revId": "2139f760c89f54f11778e4c25a60f7ce3026d847",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
