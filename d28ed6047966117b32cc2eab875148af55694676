@@ -39,6 +39,30 @@
       },
       "revId": "d28ed6047966117b32cc2eab875148af55694676",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e14a9dba_bcf0f0fe",
+        "filename": "minidump/minidump_misc_info_writer_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1000805
+      },
+      "writtenOn": "2021-05-07T19:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca871d3b_9425ccbe",
+      "range": {
+        "startLine": 402,
+        "startChar": 0,
+        "endLine": 405,
+        "endChar": 65
+      },
+      "revId": "d28ed6047966117b32cc2eab875148af55694676",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
