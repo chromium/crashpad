@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5843a402_5b3e41ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-07T00:07:51Z",
+      "side": 1,
+      "message": "The casts are better than the duplication. Consider this optional suggestion as a further enhancement.",
+      "revId": "d28ed6047966117b32cc2eab875148af55694676",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca871d3b_9425ccbe",
+        "filename": "minidump/minidump_misc_info_writer_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-07T00:07:51Z",
+      "side": 1,
+      "message": "For documentary value, I suggest putting something like this at the top of the file:\n\n  // Your explanatory comment moves here.\n  template \u003ctypename To, typename From\u003e\n  To Crbug1189439StaticCast(const From\u0026 value) {\n    return static_cast\u003cTo\u003e(value);\n  }\n\nThen, by virtue of this appearing at each use site, there’s no opportunity for anyone to miss what’s going on just because they haven’t seen a comment that only appears at a single use site.",
+      "range": {
+        "startLine": 402,
+        "startChar": 0,
+        "endLine": 405,
+        "endChar": 65
+      },
+      "revId": "d28ed6047966117b32cc2eab875148af55694676",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
