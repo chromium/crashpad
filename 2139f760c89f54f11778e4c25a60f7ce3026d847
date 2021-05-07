@@ -52,6 +52,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c76ba3f8_8085e004",
+        "filename": "util/ios/raw_logging.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-07T18:32:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99896dc0_a1ba84b9",
+      "revId": "2139f760c89f54f11778e4c25a60f7ce3026d847",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96742327_0f9af389",
@@ -69,6 +87,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50818770_c056fe1f",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-07T18:32:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96742327_0f9af389",
+      "revId": "2139f760c89f54f11778e4c25a60f7ce3026d847",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a600d2c_1ddaa40f",
@@ -82,6 +118,24 @@
       "writtenOn": "2021-05-07T18:15:30Z",
       "side": 1,
       "message": "this one is simple and should be inlined. Or consider making Read return data_, with a 0/nullptr return value indicating failure, and getting rid of data(), and possibly even data_, altogether.",
+      "revId": "2139f760c89f54f11778e4c25a60f7ce3026d847",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1a88060_e317aa74",
+        "filename": "util/ios/scoped_vm_read.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-07T18:32:52Z",
+      "side": 1,
+      "message": "If I get rid of data(), I\u0027ll need to either move it up into the templatized ScopedVMRead, or get rid of operator-\u003e()/get(), which I quite like.  If inlined it, but I\u0027d like to leave it as-is otherwise. \n\nSG?",
+      "parentUuid": "5a600d2c_1ddaa40f",
       "revId": "2139f760c89f54f11778e4c25a60f7ce3026d847",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }

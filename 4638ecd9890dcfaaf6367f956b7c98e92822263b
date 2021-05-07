@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3736286_74f6c8dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-07T18:32:52Z",
+      "side": 1,
+      "message": "Kept the changes small (only inlined).  But feel free to take another look if you like.",
+      "revId": "4638ecd9890dcfaaf6367f956b7c98e92822263b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
