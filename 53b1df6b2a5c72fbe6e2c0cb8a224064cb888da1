@@ -1,0 +1,1033 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47d95ab5_5fe44e70",
+        "filename": "util/ios/ios_intermediate_dump_data.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Seems like this could just be a vector\u003cuint8_t\u003e with only advantages. But if there’s any unique_ptr left in here, be sure to #include \u003cmemory\u003e.",
+      "range": {
+        "startLine": 35,
+        "startChar": 26,
+        "endLine": 35,
+        "endChar": 74
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdea4e69_51b609ad",
+        "filename": "util/ios/ios_intermediate_dump_data.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Best for virtual methods (including overrides) to be implemented in the .cc.",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ea889bb_55639301",
+        "filename": "util/ios/ios_intermediate_dump_data.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "represent an",
+      "range": {
+        "startLine": 44,
+        "startChar": 40,
+        "endLine": 44,
+        "endChar": 52
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "912bd974_d663d970",
+        "filename": "util/ios/ios_intermediate_dump_data.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "represent",
+      "range": {
+        "startLine": 49,
+        "startChar": 40,
+        "endLine": 49,
+        "endChar": 50
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b99a0677_b2892449",
+        "filename": "util/ios/ios_intermediate_dump_data.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "How are these not the same as GetValue\u003cint\u003e and GetValue\u003cbool\u003e?",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 34
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a29c7bca_19544c25",
+        "filename": "util/ios/ios_intermediate_dump_data.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Delegate to a private bool GetValueInternal(void*, size_t) that’s implemented in the .cc file, called as “return GetValueInternal(reinterpret_cast\u003cvoid*\u003e(value), sizeof(*value));”.",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 3
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "822360b5_25978be2",
+        "filename": "util/ios/ios_intermediate_dump_data.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Access could return a const std::vector\u003cuint8_t\u003e\u0026.\n\nThe simple non-templated accessors (particularly when named lowercase) could (should, even) be inline.",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 26
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "741241df_b220e7c5",
+        "filename": "util/ios/ios_intermediate_dump_data.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Internal storage could also be a std::vector\u003cuint8_t\u003e.",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 25
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1022ff2a_a73dea3e",
+        "filename": "util/ios/ios_intermediate_dump_data.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "#include \"base/macros.h\"",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a5118cd_d0cdd51f",
+        "filename": "util/ios/ios_intermediate_dump_list.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "It’s best for virtual methods (here, both the destructor and type) to be in the .cc file.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 52
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca7d0192_d38a3203",
+        "filename": "util/ios/ios_intermediate_dump_list.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "std::vector\u003c\u003e::operator[] is unsafe because it’s not range-checked.\n\n(And we use it everywhere…)\n\nSince we’re targeting safety, consider inventing a different interface that does length-checking and bool-returning (or nullptr-returning). This would be the same sort of thing that you have for the map now, where you’re not accessing via operator[] but via specific getters.\n\nstd::vector\u003c\u003e offers the range-checking at(), but out-of-range is signaled by an exception, so that’s not helpful for us.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91545585_e7b81654",
+        "filename": "util/ios/ios_intermediate_dump_list.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "#include \"base/macros.h\"",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebb1d8f7_5fe74d8b",
+        "filename": "util/ios/ios_intermediate_dump_map.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Outer (parentheses) unnecessary.",
+      "range": {
+        "startLine": 31,
+        "startChar": 9,
+        "endLine": 31,
+        "endChar": 39
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99970931_c5da3d83",
+        "filename": "util/ios/ios_intermediate_dump_map.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "This does a double lookup, that’s not necessary. Write your own map_.find here.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 59
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25621903_652be34f",
+        "filename": "util/ios/ios_intermediate_dump_map.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Best to not inline virtual methods.",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49cbcea4_c3b3287c",
+        "filename": "util/ios/ios_intermediate_dump_map.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Do you ever use this now that you have the specific GetAs* methods below?\n\n(Use in the implementation of the GetAs* methods doesn’t count.)",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 52
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a2bac8b_a989c021",
+        "filename": "util/ios/ios_intermediate_dump_map.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "IntermediateDumpKey is declared in the writer header file, which isn’t included here, and maybe shouldn’t be. Probably you want intermediate_dump_format.h that’s safe to include from both reader-oriented and writer-oriented places.",
+      "range": {
+        "startLine": 37,
+        "startChar": 20,
+        "endLine": 37,
+        "endChar": 39
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0b263b6_1dd95bd2",
+        "filename": "util/ios/ios_intermediate_dump_map.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "#include \u003cmemory\u003e",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78873ce8_2c19bd67",
+        "filename": "util/ios/ios_intermediate_dump_map.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "#include \"base/macros.h\"",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d4b598c_1cde483c",
+        "filename": "util/ios/ios_intermediate_dump_object.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 47
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16a75a25_4fa399ed",
+        "filename": "util/ios/ios_intermediate_dump_object.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Unused.\n\n(Knowledge in a base class of its descendants is a hint of a problem, so it’s good to get rid of these.)",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 30
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf97e69a_6108bc3b",
+        "filename": "util/ios/ios_intermediate_dump_object.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Because best practice will be for this method to be implemented out-of-line in .cc files, it should be named with a capital letter. Type would conflict with the enum type named Type, so you could call this GetType.",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fc4423f_7e97999c",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Is the seeking really necessary? Won’t you detect an empty file elsewhere and do the right thing?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 17
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47880017_2b00a662",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Everything that you DLOG should be a LOG.",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9570b6a3_1d3dd370",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Get rid of this.",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 6
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0da01baa_fc6ecbb3",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "There doesn’t appear to be a good reason for ParseInternal, it should all just be Parse. Bits of the implementation that need their own logging should get it.",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cff98c68_e7a71ef3",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "main_document, or better, root_map.",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56447852_d4fadc31",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "The parent will be stack.top(). The whole stack isn’t a parent.\n\nSince you only have a single stack in here, if you don’t have a more descriptive name, you can just call it stack or object_stack or something.",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "267ada1c_ef7c87ba",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Since you’re going to be looking at stack.top() frequently in here, you might want to stash it off in a const IOSIntermediateDumpObject* parent, which lets you retain the descriptiveness of what’s at the top wherever you’d otherwise say stack.top().",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17ee706c_f6ce3d4d",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "I think that an enum class might not be the best switch target for something read from disk, because the compiler may assume that it can only see values that are listed in the enum, but garbage coming in from the disk may not.\n\nThere may be similar concerns with the use of Type.",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 22
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb5fd5ef_4f68d52d",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Naming: new_document. But, as before, “document” is confusing. Isn’t this new_map?",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5f7ac0c_14def663",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Naming: parent_map",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbbb01b6_6d40c526",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "parent_list",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93464f45_dd6e1abb",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Don’t forget comments (there are several others) when changing the name of “document”.",
+      "range": {
+        "startLine": 86,
+        "startChar": 44,
+        "endLine": 86,
+        "endChar": 52
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa4127bd_e6e693d2",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "break goes on its own line.",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f41e338f_c5d6de86",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "new_list",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eea4b043_abc7271f",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "break",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "085f3f4b_673b548b",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "What if that key was already in the map? Probably want to at least LOG something.",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 43
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c51b6b5_5bc65414",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "break goes on its own line.",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3610969_9a6a0bf7",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "If our terminology is “intermediate”, call it the same thing here.\n\n(Terminology is up to you, you could have called it interim if you wanted.)",
+      "range": {
+        "startLine": 154,
+        "startChar": 51,
+        "endLine": 154,
+        "endChar": 58
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f646d773_a7648b17",
+        "filename": "util/ios/ios_intermediate_dump_reader.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "What’s my return value, then? You said that you wanted to tolerate partial parses.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 15
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "245fef6e_79c911cf",
+        "filename": "util/ios/ios_intermediate_dump_reader.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Regarding keeping Initialize and Parse separated:\n\nI still don’t see the value in having them be different calls in. Initialize opens the file, Parse reads it. Why does the file need to stay open after parsing? Why can’t Parse open the file, and fail hard if it doesn’t exist? It seems that Parse also has other hard failures. Is a bool enough to convey what you want, or do you want a three-state enum? (You don’t necessarily need a three-state enum, by the way, I’m just offering it in case you have concerns around the precision of status reporting with a single combined method.)",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 15
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ead6d0ed_77a79608",
+        "filename": "util/ios/ios_intermediate_dump_reader.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Style guide says main_document (this isn’t Objective-C). But I think that the “document” terminology is confusing, and you haven’t really introduced it anywhere to explain what you mean. Isn’t this just the root_map?",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fa9e8e3_8a026479",
+        "filename": "util/ios/ios_intermediate_dump_writer.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Throughout this file:\n\n1. Absolutely no need to be static. You could be const, though.\n\n2. “t”: don’t abbreviate. This is “command_type”?",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63cecef2_71a5a87a",
+        "filename": "util/ios/ios_intermediate_dump_writer.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "I probably would have done these with something writev-based, since a bunch of them are writing multiple things, but it’s OK.",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 53
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dc92b0f_39d2feba",
+        "filename": "util/ios/ios_intermediate_dump_writer.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Seems a little big for the intended purpose.",
+      "range": {
+        "startLine": 111,
+        "startChar": 33,
+        "endLine": 111,
+        "endChar": 41
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "813670bc_df376f81",
+        "filename": "util/ios/ios_intermediate_dump_writer.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "enum class?",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dde83571_1dfaed2b",
+        "filename": "util/ios/ios_intermediate_dump_writer.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "kMapStart, etc.",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbc4bfa9_52397527",
+        "filename": "util/ios/ios_intermediate_dump_writer.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Did you want to pair this with a start tag?",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 24
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2eade8f_c7486531",
+        "filename": "util/ios/ios_intermediate_dump_writer.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "80 columns (git cl format?)",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 193,
+        "endChar": 82
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e13b5d28_06d9a749",
+        "filename": "util/ios/ios_intermediate_dump_writer.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-13T15:44:49Z",
+      "side": 1,
+      "message": "Gerrit shows whitespace on this line.",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
