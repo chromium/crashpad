@@ -101,6 +101,7 @@ namespace internal {
     TD(kThreadContextMemoryRegions, 6011) \
     TD(kThreadContextMemoryRegionAddress, 6012) \
     TD(kThreadContextMemoryRegionData, 6013) \
+  TD(kMaxValue, 9999) \
 // clang-format on
 
 
