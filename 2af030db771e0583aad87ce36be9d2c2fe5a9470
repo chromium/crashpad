@@ -41,6 +41,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1543fd8a_f311da22",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 34
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d745cb1d_5136257f",
+      "range": {
+        "startLine": 385,
+        "startChar": 15,
+        "endLine": 385,
+        "endChar": 31
+      },
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e160292d_fc1fded5",
@@ -54,6 +78,24 @@
       "writtenOn": "2021-05-12T16:23:22Z",
       "side": 1,
       "message": "Is this RUNS-DURING-CRASH?",
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3f4e7f2_771c3941",
+        "filename": "util/ios/ios_intermediatedump_data.cc",
+        "patchSetId": 34
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "No, the reader and all the helper classes IOSIntermediateDump* are *not* runs-during-crash.",
+      "parentUuid": "e160292d_fc1fded5",
       "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -75,6 +117,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db95011d_1ba8651b",
+        "filename": "util/ios/ios_intermediatedump_data.cc",
+        "patchSetId": 34
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e93cc92d_5bca98ce",
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e335454_31fce8f2",
@@ -88,6 +148,30 @@
       "writtenOn": "2021-05-12T16:23:22Z",
       "side": 1,
       "message": "What’s up with these conversions? They seem totally weird and unsafe (unchecked length). Can’t callers just deal with the data?",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 1
+      },
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44266550_58bfdb89",
+        "filename": "util/ios/ios_intermediatedump_data.cc",
+        "patchSetId": 34
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "Added length_ check, is that OK?",
+      "parentUuid": "4e335454_31fce8f2",
       "range": {
         "startLine": 25,
         "startChar": 0,
@@ -121,6 +205,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c450a14_ef32aefb",
+        "filename": "util/ios/ios_intermediatedump_data.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25328809_d7bc8ad1",
+      "range": {
+        "startLine": 26,
+        "startChar": 6,
+        "endLine": 26,
+        "endChar": 29
+      },
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f13d5f9_4d75fa8b",
@@ -134,6 +242,24 @@
       "writtenOn": "2021-05-12T16:23:22Z",
       "side": 1,
       "message": "Does this copy the data or point to existing data without taking ownership or take ownership of existing data, requiring that it be allocated in a certain way?",
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "819661c6_fc9d41e7",
+        "filename": "util/ios/ios_intermediatedump_data.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "I didn\u0027t want to copy around the data within the ios_intermediate_dump_* classes, it\u0027s all owned by the root map.  If the root map is released, this points to nothing.\n\nIs that OK?  What\u0027s a good way to document this?",
+      "parentUuid": "6f13d5f9_4d75fa8b",
       "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -155,6 +281,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e3bb35f_78222706",
+        "filename": "util/ios/ios_intermediatedump_data.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "writer is all RUNS-DURING-CRASH.  Nothing in reader is.",
+      "parentUuid": "6de9c9de_7552a202",
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "930de1b1_2e0a47bb",
@@ -168,6 +312,24 @@
       "writtenOn": "2021-05-12T16:23:22Z",
       "side": 1,
       "message": "DISALLOW_COPY_AND_ASSIGN? (Applies to other classes too.)",
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce69376d_1ba889f1",
+        "filename": "util/ios/ios_intermediatedump_data.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "930de1b1_2e0a47bb",
       "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -195,6 +357,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "300b4ecc_6c0c69dd",
+        "filename": "util/ios/ios_intermediatedump_list.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "s/\n//! Provides a wrapper around an internal std::vector.",
+      "parentUuid": "256b3b4d_c0c0be2a",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 11
+      },
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac5fca6c_db512330",
@@ -208,6 +394,24 @@
       "writtenOn": "2021-05-12T16:23:22Z",
       "side": 1,
       "message": "Is this RUNS-DURING-CRASH?",
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0de99917_8021a4d9",
+        "filename": "util/ios/ios_intermediatedump_list.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "no.",
+      "parentUuid": "ac5fca6c_db512330",
       "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -235,6 +439,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea6063c1_55f6f15f",
+        "filename": "util/ios/ios_intermediatedump_map.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "removed.  I\u0027ll add a helper app to walk intermediate dump files.",
+      "parentUuid": "0c25d54c_54a4e2ea",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 6
+      },
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc71a253_9cc09cb8",
@@ -248,6 +476,24 @@
       "writtenOn": "2021-05-12T16:23:22Z",
       "side": 1,
       "message": "type_ was never initialized. You need a constructor. Subclasses should invoke this base class’ constructor during their own construction.\n\nOr: if type_ is not needed, you can have no constructor, but get rid of type_.",
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d68fdea4_dd11796a",
+        "filename": "util/ios/ios_intermediatedump_object.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "got rid of type_.",
+      "parentUuid": "dc71a253_9cc09cb8",
       "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -271,6 +517,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d903c792_dea09915",
+        "filename": "util/ios/ios_intermediatedump_object.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "I am not sure I did this correctly.  IOSIntermediateDumpList has no cc file -- does it need one just to add ~ override?",
+      "parentUuid": "0a6ea66b_87a12b64",
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7abf5dc_ab5bc6d4",
         "filename": "util/ios/ios_intermediatedump_object.h",
         "patchSetId": 34
@@ -282,6 +546,24 @@
       "writtenOn": "2021-05-12T16:23:22Z",
       "side": 1,
       "message": "enum class\n\nAlso, since it’s IOSIntermediateDumpObject::IOSIntermediateDumpObjectType, you can rely on scoping and don’t need to be so wordy on the enum name. This can just be Type.",
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db87c9de_dee0c458",
+        "filename": "util/ios/ios_intermediatedump_object.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7abf5dc_ab5bc6d4",
       "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -303,6 +585,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51a16aaa_481fa0e2",
+        "filename": "util/ios/ios_intermediatedump_object.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5ae6014_8cb60f77",
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "933bcc93_d95f8db3",
@@ -316,6 +616,24 @@
       "writtenOn": "2021-05-12T16:23:22Z",
       "side": 1,
       "message": "This comment doesn’t seem right.",
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d99a20b_71e71339",
+        "filename": "util/ios/ios_intermediatedump_object.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "933bcc93_d95f8db3",
       "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -366,6 +684,54 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30ba9d13_f7b5ad56",
+        "filename": "util/ios/ios_intermediatedump_object.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4153375d_ae7092bf",
+      "range": {
+        "startLine": 47,
+        "startChar": 49,
+        "endLine": 48,
+        "endChar": 26
+      },
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a89682c2_d611709a",
+        "filename": "util/ios/ios_intermediatedump_object.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1768a470_3368c94f",
+      "range": {
+        "startLine": 48,
+        "startChar": 51,
+        "endLine": 48,
+        "endChar": 57
+      },
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed746edb_c8c134a2",
@@ -379,6 +745,30 @@
       "writtenOn": "2021-05-12T16:23:22Z",
       "side": 1,
       "message": "These three reinvent RTTI-based dynamic_cast, which is generally frowned upon, but I’m ignoring that for now.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 54
+      },
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1318cc07_a8589c3d",
+        "filename": "util/ios/ios_intermediatedump_object.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "ed746edb_c8c134a2",
       "range": {
         "startLine": 47,
         "startChar": 0,
@@ -412,6 +802,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23d5bd08_f77fe5cc",
+        "filename": "util/ios/ios_intermediatedump_object.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "23447c19_3ca74645",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 40
+      },
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a601523_12876b5c",
@@ -425,6 +839,30 @@
       "writtenOn": "2021-05-12T16:23:22Z",
       "side": 1,
       "message": "If you’re keeping these methods (and I don’t think you should):\n\nVirtual methods (including overrides) should normally have their implementations out-of-line in the associated .cc file.\n\nVirtual dispatch is based on lots of function pointers, and things get messy if they’re inlined all over the place.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 3
+      },
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09975a1b_7d337bf9",
+        "filename": "util/ios/ios_intermediatedump_object.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "2a601523_12876b5c",
       "range": {
         "startLine": 61,
         "startChar": 0,
@@ -458,6 +896,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de95632d_c59a529a",
+        "filename": "util/ios/ios_intermediatedump_object.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd5dbc5a_003d9acd",
+      "range": {
+        "startLine": 72,
+        "startChar": 25,
+        "endLine": 72,
+        "endChar": 37
+      },
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fdea4a5_f86df7f6",
@@ -471,6 +933,30 @@
       "writtenOn": "2021-05-12T16:23:22Z",
       "side": 1,
       "message": "These helpers all seem like bad ideas.\n\nValidation is good. This goes to some trouble to allow callers to avoid doing it properly.\n\nIt’s not that much work for callers to do the right thing and get the benefit of safety.",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 47
+      },
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d8bac8e_bcc2b8cc",
+        "filename": "util/ios/ios_intermediatedump_object.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fdea4a5_f86df7f6",
       "range": {
         "startLine": 59,
         "startChar": 0,
@@ -498,6 +984,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0e0c6fa_8996c6a6",
+        "filename": "util/ios/ios_intermediatedump_object.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9cada5d_2f5358f1",
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "630bf703_607db95c",
@@ -511,6 +1015,24 @@
       "writtenOn": "2021-05-12T16:23:22Z",
       "side": 1,
       "message": "DISALLOW_COPY_AND_ASSIGN?",
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "722f2c0a_75a8965f",
+        "filename": "util/ios/ios_intermediatedump_object.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "630bf703_607db95c",
       "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -532,6 +1054,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dc69a23_6bdef937",
+        "filename": "util/ios/ios_intermediatedump_reader.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "Yes!  If we shouldn\u0027t bother with dump files that we cannot open, but if we can partially parse a dump, we should read what we can get, but not throw away the entire minidump.",
+      "parentUuid": "b369536d_4ccc1ea5",
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41f24d7d_50d0c079",
@@ -545,6 +1085,24 @@
       "writtenOn": "2021-05-12T16:23:22Z",
       "side": 1,
       "message": "DISALLOW_COPY_AND_ASSIGN",
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "deea1a2f_07c8d675",
+        "filename": "util/ios/ios_intermediatedump_reader.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-13T01:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41f24d7d_50d0c079",
       "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
