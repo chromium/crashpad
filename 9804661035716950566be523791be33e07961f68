@@ -16,6 +16,24 @@
       "message": "FYI: I have WIP towards fixing this for linux at https://chromium-review.googlesource.com/c/crashpad/crashpad/+/2567650",
       "revId": "9804661035716950566be523791be33e07961f68",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5abd56e4_b482f60c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1306103
+      },
+      "writtenOn": "2021-05-13T23:53:08Z",
+      "side": 1,
+      "message": "Thanks. The comment is mostly while we are trying to figure out what we could do on Fuchsia! I tagged you in the issue – not sure what we can port from Linux.",
+      "parentUuid": "39469ffe_68015fbb",
+      "revId": "9804661035716950566be523791be33e07961f68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
