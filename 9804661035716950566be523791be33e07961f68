@@ -34,6 +34,24 @@
       "parentUuid": "39469ffe_68015fbb",
       "revId": "9804661035716950566be523791be33e07961f68",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84fda615_eb728aa9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2021-05-14T00:06:54Z",
+      "side": 1,
+      "message": "Thanks for the pointer... I didn\u0027t understand the important part.\n\nThe TLS pointer is stored in the stack, is that right? https://chromium-review.googlesource.com/c/crashpad/crashpad/+/2567650/1/snapshot/linux/process_reader_linux.cc#121",
+      "parentUuid": "5abd56e4_b482f60c",
+      "revId": "9804661035716950566be523791be33e07961f68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
