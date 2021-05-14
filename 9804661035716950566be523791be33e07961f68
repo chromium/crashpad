@@ -52,6 +52,24 @@
       "parentUuid": "5abd56e4_b482f60c",
       "revId": "9804661035716950566be523791be33e07961f68",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83ab1b2a_73f52f8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2021-05-14T00:11:28Z",
+      "side": 1,
+      "message": "Oh, no, the range[s] before where the TLS is. Er, maybe o_O? I don\u0027t think we have any guarantee like that on Fuchsia.\n\nRequiring the runtime to stash the base/size of the stack in a TLS structure seems like a nice idea though.",
+      "parentUuid": "84fda615_eb728aa9",
+      "revId": "9804661035716950566be523791be33e07961f68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
