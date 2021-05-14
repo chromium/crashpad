@@ -306,6 +306,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a909ff6_4ca4fe80",
+        "filename": "util/ios/ios_intermediatedump_data.h",
+        "patchSetId": 34
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-14T17:27:39Z",
+      "side": 1,
+      "message": "I meant the root map owns this dump, which owns this vector.  I\u0027ll document",
+      "parentUuid": "f6ef8cb1_140a1c06",
+      "revId": "2af030db771e0583aad87ce36be9d2c2fe5a9470",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6de9c9de_7552a202",

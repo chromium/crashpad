@@ -1984,6 +1984,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58102956_18730f98",
+        "filename": "util/ios/ios_intermediate_dump_writer.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-14T17:27:39Z",
+      "side": 1,
+      "message": "I\u0027m going to skip for simplicity.  But I\u0027m open to revisiting if you disagree.",
+      "parentUuid": "ffffb20d_7b91ac80",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 53
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2dc92b0f_39d2feba",
@@ -2186,6 +2210,30 @@
       "side": 1,
       "message": "\u003e Not really?  It\u0027s kind of assumed?  I did rename to kRootMapEnd.\n\nIt’d only be as a guard against front-truncation.",
       "parentUuid": "650d29a1_fdbe5c8a",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 24
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a173b150_c51f960b",
+        "filename": "util/ios/ios_intermediate_dump_writer.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-14T17:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38316754_f1a6e5be",
       "range": {
         "startLine": 154,
         "startChar": 0,
