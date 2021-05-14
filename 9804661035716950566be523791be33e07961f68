@@ -88,6 +88,24 @@
       "parentUuid": "84fda615_eb728aa9",
       "revId": "9804661035716950566be523791be33e07961f68",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48a5044a_22febb0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2021-05-14T00:15:53Z",
+      "side": 1,
+      "message": "Right, OK, thanks.\n\nSadly (or not depending on where you\u0027re typing code at the moment) Fuchsia is bring-your-own-runtime, the default C one is musl, and we\u0027ve got a lot of Rust now too!\n\nSo I think the comment and slightly amended logging is probably reasonable for now until we codify a more reliable way to find the stack mapping.",
+      "parentUuid": "905cf737_ac3df5e6",
+      "revId": "9804661035716950566be523791be33e07961f68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
