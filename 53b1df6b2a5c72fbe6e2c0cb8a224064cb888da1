@@ -1267,6 +1267,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "454f7786_8a8973be",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-14T16:06:31Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t understand this comment.  I missed it in our in-chat discussion.  Can you elaborate on what\u0027d you prefer to see?  Wouldn\u0027t the compile send unexpected commands to `default:` (which is an error in the parser)\n\nI looked a little more closely and think we actually might not have a problem here. I’ll double-check on the next pass.",
+      "parentUuid": "755df5cc_af72500f",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 22
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb5fd5ef_4f68d52d",
@@ -1660,6 +1684,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca219f3c_1402d34a",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-14T16:06:31Z",
+      "side": 1,
+      "message": "\u003e fixed break by putting it inside the }\n\nExactly what I was going to suggest.",
+      "parentUuid": "6301c193_a7b086d2",
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3610969_9a6a0bf7",
@@ -1920,6 +1962,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ffffb20d_7b91ac80",
+        "filename": "util/ios/ios_intermediate_dump_writer.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-14T16:06:31Z",
+      "side": 1,
+      "message": "\u003e Happy to change -- is it worth it?\n\nNot a hard requirement. It’s optional. Just pointing it out. We discussed the differences between writev and write and the reasons to have a preference in the chat.\n\nutil/file/file_writer.cc WeakFileHandleFileWriter::WriteIoVec shows how to do it carefully, but you can’t reuse as-is because you don’t want the LOGs.",
+      "parentUuid": "f37c7612_17b1b336",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 53
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2dc92b0f_39d2feba",
         "filename": "util/ios/ios_intermediate_dump_writer.h",
         "patchSetId": 38
@@ -1955,6 +2021,30 @@
       "side": 1,
       "message": "Dropped to 16.  too small?",
       "parentUuid": "2dc92b0f_39d2feba",
+      "range": {
+        "startLine": 111,
+        "startChar": 33,
+        "endLine": 111,
+        "endChar": 41
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98a9d664_ed1c9b4f",
+        "filename": "util/ios/ios_intermediate_dump_writer.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-14T16:06:31Z",
+      "side": 1,
+      "message": "\u003e Dropped to 16.  too small?\n\n16’s fine.",
+      "parentUuid": "8bd9ab33_4f0b155d",
       "range": {
         "startLine": 111,
         "startChar": 33,
@@ -2072,6 +2162,30 @@
       "side": 1,
       "message": "Not really?  It\u0027s kind of assumed?  I did rename to kRootMapEnd.",
       "parentUuid": "fbc4bfa9_52397527",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 24
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38316754_f1a6e5be",
+        "filename": "util/ios/ios_intermediate_dump_writer.h",
+        "patchSetId": 38
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-14T16:06:31Z",
+      "side": 1,
+      "message": "\u003e Not really?  It\u0027s kind of assumed?  I did rename to kRootMapEnd.\n\nIt’d only be as a guard against front-truncation.",
+      "parentUuid": "650d29a1_fdbe5c8a",
       "range": {
         "startLine": 154,
         "startChar": 0,
