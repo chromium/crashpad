@@ -18,8 +18,9 @@
 namespace crashpad {
 namespace internal {
 
-// Declare tokens for intermediate format as enum DumpKey. Use
-// |INTERMEDIATE_DUMP_KEYS|'s so it's easier to log keys in debug for testing.
+// Define values for intermediate dump enum class IntermediateDumpKey. Use
+// |INTERMEDIATE_DUMP_KEYS| so it is easier to print human readable keys in
+// logs.
 // clang-format off
 #define INTERMEDIATE_DUMP_KEYS(TD) \
   TD(kInvalid, 0) \
