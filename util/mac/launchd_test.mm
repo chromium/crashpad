@@ -78,14 +78,14 @@ TEST(Launchd, CFPropertyToLaunchData_FloatingPoint) {
       @0.0,
       @1.0,
       @-1.0,
-      [NSNumber numberWithFloat:std::numeric_limits<float>::min()],
-      [NSNumber numberWithFloat:std::numeric_limits<float>::max()],
-      [NSNumber numberWithDouble:std::numeric_limits<double>::min()],
-      [NSNumber numberWithDouble:std::numeric_limits<double>::max()],
+      @(std::numeric_limits<float>::min()),
+      @(std::numeric_limits<float>::max()),
+      @(std::numeric_limits<double>::min()),
+      @(std::numeric_limits<double>::max()),
       @3.1415926535897932,
-      [NSNumber numberWithDouble:std::numeric_limits<double>::infinity()],
-      [NSNumber numberWithDouble:std::numeric_limits<double>::quiet_NaN()],
-      [NSNumber numberWithDouble:std::numeric_limits<double>::signaling_NaN()],
+      @(std::numeric_limits<double>::infinity()),
+      @(std::numeric_limits<double>::quiet_NaN()),
+      @(std::numeric_limits<double>::signaling_NaN()),
     };
 
     for (size_t index = 0; index < base::size(double_nses); ++index) {
