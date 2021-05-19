@@ -105,9 +105,19 @@ void Metrics::HandlerLifetimeMilestone(LifetimeMilestone milestone) {
 }
 
 // static
-void Metrics::HandlerCrashed(uint32_t exception_code) {
-  base::UmaHistogramSparse(
-      "Crashpad.HandlerCrash.ExceptionCode." METRICS_OS_NAME, exception_code);
+void Metrics::MissingIntermediateDumpKey(const IntermediateDumpKey& key) {
+  UMA_HISTOGRAM_ENUMERATION("Crashpad.IntermediateDump.Reader.MissingKey",
+                            key,
+                            IntermediateDumpKey::kMaxValue);
 }
+
+// static
+void Metrics::InvalidIntermediateDumpKeySize(const IntermediateDumpKey& key) {
+  UMA_HISTOGRAM_ENUMERATION("Crashpad.IntermediateDump.Reader.InvalidKeySize",
+                            key,
+                            IntermediateDumpKey::kMaxValue);
+}
+
+// static
 
 }  // namespace crashpad
