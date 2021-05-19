@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1faf5a27_b4f99b78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 48
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-19T19:49:55Z",
+      "side": 1,
+      "message": "ptal!",
+      "revId": "343278fab2e5813adebbe29db9aa6eff1f797560",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "177d5cc0_20972dc9",
@@ -14,6 +31,30 @@
       "writtenOn": "2021-05-19T18:18:20Z",
       "side": 1,
       "message": "was supposed to go away and then maybe come back but not yet?",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 3
+      },
+      "revId": "343278fab2e5813adebbe29db9aa6eff1f797560",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8e796d2_9358e78c",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 48
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-19T19:49:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "177d5cc0_20972dc9",
       "range": {
         "startLine": 53,
         "startChar": 0,
@@ -47,6 +88,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a1f71ba_46f0d44d",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 48
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-19T19:49:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "424ff7f4_0e8b13d4",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 30
+      },
+      "revId": "343278fab2e5813adebbe29db9aa6eff1f797560",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0caeb95_e8b23914",
@@ -60,6 +125,24 @@
       "writtenOn": "2021-05-19T18:18:20Z",
       "side": 1,
       "message": "Also assure that you’re at EOF here?",
+      "revId": "343278fab2e5813adebbe29db9aa6eff1f797560",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e697444_db97447b",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 48
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-19T19:49:55Z",
+      "side": 1,
+      "message": "Didn\u0027t see an easy way to do this, so I passed in file_size from checking the size in Initialize, and compare it with SEEK_CUR here?",
+      "parentUuid": "d0caeb95_e8b23914",
       "revId": "343278fab2e5813adebbe29db9aa6eff1f797560",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
