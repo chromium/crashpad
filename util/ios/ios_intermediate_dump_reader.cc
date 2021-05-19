@@ -30,20 +30,18 @@ namespace crashpad {
 namespace internal {
 
 bool IOSIntermediateDumpReader::Initialize(const base::FilePath& path) {
-  ScopedFileHandle handle(LoggingOpenFileForRead(path));
-  auto reader = std::make_unique<WeakFileHandleFileReader>(handle.get());
+  auto reader = std::make_unique<crashpad::FileReader>();
+  bool opened = reader->Open(path);
 
   // In the event a crash is introduced by this intermediate dump, don't ever
   // read a file twice.  To ensure this doesn't happen, immediately unlink.
   LoggingRemoveFile(path);
 
-  // Don't initialize invalid or empty files.
-  FileOffset size = LoggingFileSizeByHandle(handle.get());
-  if (!handle.is_valid() || size == 0) {
+  if (!opened) {
     return false;
   }
 
-  if (!Parse(reader.get(), size)) {
+  if (!Parse(reader.get(), minidump_)) {
     LOG(ERROR) << "Intermediate dump parsing failed";
   }
 
@@ -51,9 +49,12 @@ bool IOSIntermediateDumpReader::Initialize(const base::FilePath& path) {
 }
 
 bool IOSIntermediateDumpReader::Parse(FileReaderInterface* reader,
-                                      FileOffset file_size) {
+                                      IOSIntermediateDumpMap& root_map) {
+  if (!reader->SeekSet(0)) {
+    return false;
+  }
   std::stack<IOSIntermediateDumpObject*> stack;
-  stack.push(&minidump_);
+  stack.push(&root_map);
   using Command = IOSIntermediateDumpWriter::CommandType;
   using Type = IOSIntermediateDumpObject::Type;
 
@@ -109,24 +110,9 @@ bool IOSIntermediateDumpReader::Parse(FileReaderInterface* reader,
         break;
       }
       case Command::kMapEnd:
-        if (stack.size() < 2) {
-          LOG(ERROR) << "Attempting to pop off main map.";
-          return false;
-        }
-
-        if (parent->GetType() != Type::kMap) {
-          LOG(ERROR) << "Unexpected map end not in a map.";
-          return false;
-        }
-        stack.pop();
-        break;
       case Command::kArrayEnd:
         if (stack.size() < 2) {
           LOG(ERROR) << "Attempting to pop off main map.";
-          return false;
-        }
-        if (parent->GetType() != Type::kList) {
-          LOG(ERROR) << "Unexpected list end not in a list.";
           return false;
         }
         stack.pop();
@@ -169,11 +155,6 @@ bool IOSIntermediateDumpReader::Parse(FileReaderInterface* reader,
       case Command::kRootMapEnd: {
         if (stack.size() != 1) {
           LOG(ERROR) << "Unexpected end of root map.";
-          return false;
-        }
-
-        if (reader->Seek(0, SEEK_CUR) == file_size) {
-          LOG(ERROR) << "Root map ended before end of file.";
           return false;
         }
         return true;

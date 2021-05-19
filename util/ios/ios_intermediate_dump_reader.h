@@ -46,7 +46,7 @@ class IOSIntermediateDumpReader {
   const IOSIntermediateDumpMap* RootMap() { return &minidump_; }
 
  private:
-  bool Parse(FileReaderInterface* reader, FileOffset file_size);
+  bool Parse(FileReaderInterface* reader, IOSIntermediateDumpMap& root_map);
   IOSIntermediateDumpMap minidump_;
 
   DISALLOW_COPY_AND_ASSIGN(IOSIntermediateDumpReader);

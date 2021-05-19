@@ -77,7 +77,7 @@ TEST_F(IOSIntermediateDumpReaderTest, ReadNoFile) {
 
 TEST_F(IOSIntermediateDumpReaderTest, ReadEmptyFile) {
   internal::IOSIntermediateDumpReader reader;
-  EXPECT_FALSE(reader.Initialize(path()));
+  EXPECT_TRUE(reader.Initialize(path()));
   EXPECT_FALSE(IsRegularFile(path()));
 
   const auto root_map = reader.RootMap();

@@ -19,8 +19,11 @@
 
 #include "base/macros.h"
 #include "util/file/file_io.h"
+#include "util/ios/ios_intermediate_dump_format.h"
 
 namespace crashpad {
+
+using internal::IntermediateDumpKey;
 
 //! \brief Container class to hold shared UMA metrics integration points.
 //!
@@ -194,6 +197,12 @@ class Metrics {
   //!
   //! This is currently only reported on Windows.
   static void HandlerCrashed(uint32_t exception_code);
+
+  //! \brief Records a missing key from an intermediate dump.
+  static void MissingIntermediateDumpKey(const IntermediateDumpKey& key);
+
+  //! \brief Records a key with an invalid key size from an intermediate dump.
+  static void InvalidIntermediateDumpKeySize(const IntermediateDumpKey& key);
 
  private:
   DISALLOW_IMPLICIT_CONSTRUCTORS(Metrics);
