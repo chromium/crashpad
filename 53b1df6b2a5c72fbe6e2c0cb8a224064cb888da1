@@ -1048,6 +1048,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1a98d0b7_33ba1dbf",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-19T18:18:20Z",
+      "side": 1,
+      "message": "\u003e Without this, nearly every app start will log this:\n\u003e [35981:9493884:20210519,135226.066892:ERROR ios_intermediate_dump_reader.cc:64] Unexpected start to root map.\n\u003e [35981:9493884:20210519,135226.066906:ERROR ios_intermediate_dump_reader.cc:45] Intermediate dump parsing failed\n\u003e \n\u003e Because we will try to parse empty files.  Would you be open to putting this back?\n\nI guess. I’d pick up the size from an fstat than a pair of seeks, though.",
+      "parentUuid": "9d849d8a_9b3cd71b",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 17
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "47880017_2b00a662",
         "filename": "util/ios/ios_intermediate_dump_reader.cc",
         "patchSetId": 38

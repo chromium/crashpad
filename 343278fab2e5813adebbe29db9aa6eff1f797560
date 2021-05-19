@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "177d5cc0_20972dc9",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 48
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-19T18:18:20Z",
+      "side": 1,
+      "message": "was supposed to go away and then maybe come back but not yet?",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 3
+      },
+      "revId": "343278fab2e5813adebbe29db9aa6eff1f797560",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "424ff7f4_0e8b13d4",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 48
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-19T18:18:20Z",
+      "side": 1,
+      "message": "These should really ensure that parent-\u003eGetType() matches the type of end command.",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 30
+      },
+      "revId": "343278fab2e5813adebbe29db9aa6eff1f797560",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0caeb95_e8b23914",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 48
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-19T18:18:20Z",
+      "side": 1,
+      "message": "Also assure that you’re at EOF here?",
+      "revId": "343278fab2e5813adebbe29db9aa6eff1f797560",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
