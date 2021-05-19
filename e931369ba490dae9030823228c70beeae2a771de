@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d604a0c3_f423d4f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-19T21:31:05Z",
+      "side": 1,
+      "message": "Can you walk me through this a bit more carefully?\n\nI see how DropRangesThatOverlapNonOwned can destroy children, but I don’t see how those destroyed children can remain in children_, and I don’t see how anything in children_ can wind up null.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 63
+      },
+      "revId": "e931369ba490dae9030823228c70beeae2a771de",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a5bc9587_44ec9cf6",
@@ -14,6 +37,23 @@
       "writtenOn": "2021-05-19T21:10:17Z",
       "side": 1,
       "message": "For discussion.  I\u0027m not familiar enough with this code to know if this is the correct solution.",
+      "revId": "e931369ba490dae9030823228c70beeae2a771de",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edcf1c40_55426a0b",
+        "filename": "minidump/minidump_writable.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-19T21:31:05Z",
+      "side": 1,
+      "message": "If there is a logic error that results in a null child, this will essentially force the entire dump write to fail, because the error will bubble back up to the root. We should fix whatever logic error is causing null children to appear in the first place.",
       "revId": "e931369ba490dae9030823228c70beeae2a771de",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
