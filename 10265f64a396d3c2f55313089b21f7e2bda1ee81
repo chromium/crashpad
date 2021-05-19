@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7abb933_ea1e88b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-19T03:07:22Z",
+      "side": 1,
+      "message": "If the intermediate dump reader/writer CL is in good enough shape to peak ahead, here\u0027s the next CL, to to translate the intermediate dump into snapshot interfaces.",
+      "revId": "10265f64a396d3c2f55313089b21f7e2bda1ee81",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
