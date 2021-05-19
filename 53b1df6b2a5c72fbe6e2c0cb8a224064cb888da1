@@ -1024,6 +1024,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9d849d8a_9b3cd71b",
+        "filename": "util/ios/ios_intermediate_dump_reader.cc",
+        "patchSetId": 38
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-19T17:54:40Z",
+      "side": 1,
+      "message": "Without this, nearly every app start will log this:\n[35981:9493884:20210519,135226.066892:ERROR ios_intermediate_dump_reader.cc:64] Unexpected start to root map.\n[35981:9493884:20210519,135226.066906:ERROR ios_intermediate_dump_reader.cc:45] Intermediate dump parsing failed\n\nBecause we will try to parse empty files.  Would you be open to putting this back?",
+      "parentUuid": "beaa9fe2_44f2d5fd",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 17
+      },
+      "revId": "53b1df6b2a5c72fbe6e2c0cb8a224064cb888da1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "47880017_2b00a662",
         "filename": "util/ios/ios_intermediate_dump_reader.cc",
         "patchSetId": 38
