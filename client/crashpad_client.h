@@ -462,7 +462,8 @@ class CrashpadClient {
   //! \param[in] database The path to a Crashpad database.
   //! \param[in] url The URL of an upload server.
   //! \param[in] annotations Process annotations to set in each crash report.
-  void StartCrashpadInProcessHandler(
+  //! \return `true` on success, `false` on failure with a message logged.
+  bool StartCrashpadInProcessHandler(
       const base::FilePath& database,
       const std::string& url,
       const std::map<std::string, std::string>& annotations);
