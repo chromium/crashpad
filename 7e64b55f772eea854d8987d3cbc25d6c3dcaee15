@@ -18,6 +18,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e361fe2c_403e73ed",
+        "filename": "snapshot/ios/intermediate_dump_reader_util.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-19T20:41:43Z",
+      "side": 1,
+      "message": "Moved to util/misc/metrics.",
+      "parentUuid": "e8bad76a_416f2729",
+      "revId": "7e64b55f772eea854d8987d3cbc25d6c3dcaee15",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b24a7118_4e578d07",
@@ -35,6 +53,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89a49321_e7721150",
+        "filename": "snapshot/ios/intermediate_dump_reader_util.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-19T20:41:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b24a7118_4e578d07",
+      "revId": "7e64b55f772eea854d8987d3cbc25d6c3dcaee15",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d276af5_2aa8cf41",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-05-19T18:29:44Z",
       "side": 1,
       "message": "Is the IfExists naming necessary?",
+      "revId": "7e64b55f772eea854d8987d3cbc25d6c3dcaee15",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cef2d911_becae60e",
+        "filename": "snapshot/ios/intermediate_dump_reader_util.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-19T20:41:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d276af5_2aa8cf41",
       "revId": "7e64b55f772eea854d8987d3cbc25d6c3dcaee15",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
@@ -75,6 +129,30 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3a8715a_28b578e3",
+        "filename": "snapshot/ios/intermediate_dump_reader_util.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-19T20:41:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4317d1e3_0fe92b85",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 14
+      },
+      "revId": "7e64b55f772eea854d8987d3cbc25d6c3dcaee15",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "185815e2_1a80aee3",
@@ -88,6 +166,24 @@
       "writtenOn": "2021-05-19T18:29:44Z",
       "side": 1,
       "message": "This is so similar to the above. Are both necessary?",
+      "revId": "7e64b55f772eea854d8987d3cbc25d6c3dcaee15",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "718dc124_53080f34",
+        "filename": "snapshot/ios/intermediate_dump_reader_util.h",
+        "patchSetId": 18
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-19T20:41:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "185815e2_1a80aee3",
       "revId": "7e64b55f772eea854d8987d3cbc25d6c3dcaee15",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
