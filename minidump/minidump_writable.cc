@@ -94,7 +94,7 @@ bool MinidumpWritable::Freeze() {
 
   std::vector<MinidumpWritable*> children = Children();
   for (MinidumpWritable* child : children) {
-    if (!child->Freeze()) {
+    if (!child || !child->Freeze()) {
       return false;
     }
   }
