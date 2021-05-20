@@ -32,8 +32,8 @@ using CrashpadIOSClient = PlatformTest;
 TEST_F(CrashpadIOSClient, DumpWithoutCrash) {
   CrashpadClient client;
   ScopedTempDir database_dir;
-  client.StartCrashpadInProcessHandler(
-      base::FilePath(database_dir.path()), "", {});
+  ASSERT_TRUE(client.StartCrashpadInProcessHandler(
+      base::FilePath(database_dir.path()), "", {}));
   CRASHPAD_SIMULATE_CRASH();
 }
 
@@ -44,8 +44,8 @@ TEST_F(CrashpadIOSClient, DumpWithoutCrash) {
 TEST_F(CrashpadIOSClient, DISABLED_ThrowNSException) {
   CrashpadClient client;
   ScopedTempDir database_dir;
-  client.StartCrashpadInProcessHandler(
-      base::FilePath(database_dir.path()), "", {});
+  ASSERT_TRUE(client.StartCrashpadInProcessHandler(
+      base::FilePath(database_dir.path()), "", {}));
   [NSException raise:@"GoogleTestNSException" format:@"ThrowException"];
 }
 
@@ -56,8 +56,8 @@ TEST_F(CrashpadIOSClient, DISABLED_ThrowNSException) {
 TEST_F(CrashpadIOSClient, DISABLED_ThrowException) {
   CrashpadClient client;
   ScopedTempDir database_dir;
-  client.StartCrashpadInProcessHandler(
-      base::FilePath(database_dir.path()), "", {});
+  ASSERT_TRUE(client.StartCrashpadInProcessHandler(
+      base::FilePath(database_dir.path()), "", {}));
   std::vector<int> empty_vector;
   empty_vector.at(42);
 }
