@@ -41,6 +41,23 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "837e74b5_b73b1884",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-20T02:45:02Z",
+      "side": 1,
+      "message": "I had a unit test that created 2 different threads with a stack with the same stack_region_address (in this case 0)\n    stack_.Initialize(\n        stack_region_address, stack_region_data, stack_region_size);\n\nNot realistic, but who knows what\u0027s possible with intermediate dumps...",
+      "revId": "e931369ba490dae9030823228c70beeae2a771de",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edcf1c40_55426a0b",
