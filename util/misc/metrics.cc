@@ -110,4 +110,20 @@ void Metrics::HandlerCrashed(uint32_t exception_code) {
       "Crashpad.HandlerCrash.ExceptionCode." METRICS_OS_NAME, exception_code);
 }
 
+// static
+void Metrics::MissingIntermediateDumpKey(const IntermediateDumpKey& key) {
+  UMA_HISTOGRAM_ENUMERATION("Crashpad.IntermediateDump.Reader.MissingKey",
+                            key,
+                            IntermediateDumpKey::kMaxValue);
+}
+
+// static
+void Metrics::InvalidIntermediateDumpKeySize(const IntermediateDumpKey& key) {
+  UMA_HISTOGRAM_ENUMERATION("Crashpad.IntermediateDump.Reader.InvalidKeySize",
+                            key,
+                            IntermediateDumpKey::kMaxValue);
+}
+
+// static
+
 }  // namespace crashpad
