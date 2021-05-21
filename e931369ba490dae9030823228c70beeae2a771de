@@ -58,6 +58,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a0e1630_d3493fa5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-21T00:24:44Z",
+      "side": 1,
+      "message": "\u003e I had a unit test that created 2 different threads with a stack with the same stack_region_address (in this case 0)\n\u003e     stack_.Initialize(\n\u003e         stack_region_address, stack_region_data, stack_region_size);\n\u003e \n\u003e Not realistic, but who knows what\u0027s possible with intermediate dumps...\n\nWell, so the right solution would be to EITHER have both threads point to different instances of memory snapshots of the same region (which is a little wasteful, but you know, this shouldn’t actually happen) OR to let them both point to the same one, but for one to do it as “owned” and the other to do it as non-owned. Don’t just fail and throw away the entire dump.",
+      "parentUuid": "837e74b5_b73b1884",
+      "revId": "e931369ba490dae9030823228c70beeae2a771de",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edcf1c40_55426a0b",
