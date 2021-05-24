@@ -112,6 +112,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d4e94c3_86778636",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-24T17:51:47Z",
+      "side": 1,
+      "message": "MinidumpMemoryListWriter::CoalesceOwnedMemory seems to cause the issue\n\nvoid MinidumpMemoryListWriter::CoalesceOwnedMemory() {\n  if (children_.empty())\n    return;\n\n\u003e\u003e  DropRangesThatOverlapNonOwned();\n\nAfter DropRanges, children_ is empty.\n\nLater down we do:\n\nall_merged.push_back(std::move(children_.front()));\n\nwhich pushes NULL into all_merged.\n\nLater down we do:\n\nstd::swap(children_, all_merged);\n\nWhich points children_ in a bad state.\n\nMaybe just:\n\n  if (children_.empty())\n    return;\n\n  DropRangesThatOverlapNonOwned();\n\n|  if (children_.empty())\n|    return;\n\n\n?",
+      "parentUuid": "48f38c5b_fb01c72c",
+      "revId": "e931369ba490dae9030823228c70beeae2a771de",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edcf1c40_55426a0b",
