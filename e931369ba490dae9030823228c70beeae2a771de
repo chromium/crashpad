@@ -76,6 +76,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74cae406_ca1acab9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-24T16:16:35Z",
+      "side": 1,
+      "message": "I don\u0027t think an intermediate dump should ever be able to crash the minidump writer. How can we make minidump writer safer in this scenario?  I don\u0027t really understand what DropRangesThatOverlapNonOwned is doing, or what it\u0027s for.  But I can reproduce the issue.",
+      "parentUuid": "2a0e1630_d3493fa5",
+      "revId": "e931369ba490dae9030823228c70beeae2a771de",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edcf1c40_55426a0b",
