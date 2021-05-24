@@ -94,6 +94,24 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48f38c5b_fb01c72c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-05-24T16:58:30Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think an intermediate dump should ever be able to crash the minidump writer. How can we make minidump writer safer in this scenario?  I don\u0027t really understand what DropRangesThatOverlapNonOwned is doing, or what it\u0027s for.\n\nThe memory list “owns” some memory in its list and doesn’t “own” other memory that’s owned by other objects. Typically a thread will own its stack. If the memory list winds up with two copies of the same memory, it’d be a little bit wrong, so we do this little dance where we prioritize the non-owned (thread stack) memory over the owned (other stuff) memory in the list. We drop the ones that are owned, favoring the ones that are non-owned. Then, if any of the owned ones overlap, the list can coalesce them. (This is allowed because the list owns them.)\n\nIt’s not perfect but the theory is reasonably sound given the way that non-thread stack memory shows up in snapshots.\n\nWhat’s surprising is that DropRangesThatOverlapNonOwned might leave a destroyed owned child in children_, or that it might leave a null child in children_. Those would be bugs.\n\nMaybe with this better description of what it’s supposed to do, it’ll be easier to figure out how those destroyed or null owned children are winding up in children_?",
+      "parentUuid": "74cae406_ca1acab9",
+      "revId": "e931369ba490dae9030823228c70beeae2a771de",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edcf1c40_55426a0b",
