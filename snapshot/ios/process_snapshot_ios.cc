@@ -17,9 +17,9 @@
 #include <mach-o/loader.h>
 #include <mach/mach.h>
 
+#include "base/cxx17_backports.h"
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
-#include "base/stl_util.h"
 
 namespace {
 

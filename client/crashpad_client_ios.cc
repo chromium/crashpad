@@ -18,10 +18,10 @@
 
 #include <ios>
 
+#include "base/cxx17_backports.h"
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
 #include "base/mac/scoped_mach_port.h"
-#include "base/stl_util.h"
 #include "snapshot/ios/process_snapshot_ios.h"
 #include "util/ios/exception_processor.h"
 #include "util/ios/ios_system_data_collector.h"
