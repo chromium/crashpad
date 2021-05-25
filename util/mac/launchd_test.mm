@@ -22,8 +22,8 @@
 #include <cmath>
 #include <limits>
 
+#include "base/cxx17_backports.h"
 #include "base/mac/scoped_launch_data.h"
-#include "base/stl_util.h"
 #include "gtest/gtest.h"
 #include "util/stdlib/objc.h"
 
