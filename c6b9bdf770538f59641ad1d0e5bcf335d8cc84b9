@@ -35,6 +35,42 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4c46cb8_b66a2f1d",
+        "filename": "snapshot/ios/intermediate_dump_reader_util.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-26T15:47:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbc8ef73_2e852749",
+      "revId": "c6b9bdf770538f59641ad1d0e5bcf335d8cc84b9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53b700e4_46e3850e",
+        "filename": "snapshot/ios/intermediate_dump_reader_util.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-26T15:47:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbc8ef73_2e852749",
+      "revId": "c6b9bdf770538f59641ad1d0e5bcf335d8cc84b9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec3ecb8d_01ec5a20",
@@ -52,6 +88,42 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d20d14c_8d88d757",
+        "filename": "util/misc/metrics.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-26T15:47:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec3ecb8d_01ec5a20",
+      "revId": "c6b9bdf770538f59641ad1d0e5bcf335d8cc84b9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b539464_2529d646",
+        "filename": "util/misc/metrics.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-26T15:47:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec3ecb8d_01ec5a20",
+      "revId": "c6b9bdf770538f59641ad1d0e5bcf335d8cc84b9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "045b0ac5_64b08406",
@@ -65,6 +137,42 @@
       "writtenOn": "2021-05-25T19:14:16Z",
       "side": 1,
       "message": "Can you do this on non-iOS?\n\nWell, maybe you _can_ given the format as it is now, but that doesn’t mean you should. People won’t see anything wrong with adding iOS-specific things to ios/ios_intermediate_dump_format.h, and that’ll break this metrics.h on other platforms.\n\nYou should put your iOS stuff in #include \"build/build_config.h\" #if defined(OS_IOS).",
+      "revId": "c6b9bdf770538f59641ad1d0e5bcf335d8cc84b9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81996d62_baae30ab",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 24
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-26T15:47:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "045b0ac5_64b08406",
+      "revId": "c6b9bdf770538f59641ad1d0e5bcf335d8cc84b9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa333ab8_bae50d56",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 24
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-05-26T15:47:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "045b0ac5_64b08406",
       "revId": "c6b9bdf770538f59641ad1d0e5bcf335d8cc84b9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
