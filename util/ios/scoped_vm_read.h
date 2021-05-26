@@ -77,6 +77,10 @@ class ScopedVMRead {
     return internal_.Read(data, data_length);
   }
 
+  bool Read(vm_address_t address, size_t count = 1) {
+    return Read(reinterpret_cast<T*>(address), count);
+  }
+
   //! \brief Returns the pointer to memory safe to read during the in-process
   //!   crash handler.
   T* operator->() const { return get(); }
