@@ -25,13 +25,11 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
     deps = [
       "client:client_test",
       "minidump:minidump_test",
+      "snapshot:snapshot_test",
       "test:googlemock_main",
       "test:test_test",
       "util:util_test",
     ]
-    if (!crashpad_is_ios) {
-      deps += [ "snapshot:snapshot_test" ]
-    }
     if (!crashpad_is_ios && !crashpad_is_fuchsia) {
       deps += [ "handler:handler_test" ]
     }
@@ -150,9 +148,6 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
       "snapshot:snapshot_test",
       "test:googletest_main",
     ]
-    if (crashpad_is_ios) {
-      deps -= [ "snapshot:snapshot_test" ]
-    }
   }
 
   test("crashpad_test_test") {
