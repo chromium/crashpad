@@ -172,6 +172,7 @@ bool ThreadSnapshotIOSIntermediateDump::Initialize(
   if (thread_context_memory_regions) {
     for (auto& region : *thread_context_memory_regions) {
       vm_address_t address;
+      // Optional.
       const IOSIntermediateDumpData* region_data =
           region->GetAsData(Key::kThreadContextMemoryRegionData);
       if (!region_data)
