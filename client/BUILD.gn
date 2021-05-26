@@ -33,6 +33,8 @@ crashpad_static_library("client") {
   if (crashpad_is_ios) {
     sources += [
       "crashpad_client_ios.cc",
+      "ios_handler/in_process_intermediatedump_handler.cc",
+      "ios_handler/in_process_intermediatedump_handler.h",
       "simulate_crash_ios.h",
     ]
   }
