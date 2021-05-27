@@ -33,6 +33,8 @@ crashpad_static_library("client") {
   if (crashpad_is_ios) {
     sources += [
       "crashpad_client_ios.cc",
+      "ios_handler/in_process_intermediate_dump_handler.cc",
+      "ios_handler/in_process_intermediate_dump_handler.h",
       "simulate_crash_ios.h",
     ]
   }
@@ -160,13 +162,9 @@ source_set("client_test") {
   }
 
   if (crashpad_is_ios) {
-    sources += [ "crashpad_client_ios_test.mm" ]
-    sources -= [
-      "annotation_list_test.cc",
-      "annotation_test.cc",
-      "crash_report_database_test.cc",
-      "prune_crash_reports_test.cc",
-      "settings_test.cc",
+    sources += [
+      "crashpad_client_ios_test.mm",
+      "ios_handler/in_process_intermediate_dump_handler_test.cc",
     ]
   }
 
