@@ -19,6 +19,7 @@
 #include "base/cxx17_backports.h"
 #include "base/files/scoped_file.h"
 #include "base/posix/eintr_wrapper.h"
+#include "build/build_config.h"
 #include "client/annotation.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_file_writer.h"

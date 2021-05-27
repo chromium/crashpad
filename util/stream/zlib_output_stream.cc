@@ -14,6 +14,7 @@
 
 #include "util/stream/zlib_output_stream.h"
 
+#include "base/check.h"
 #include "base/cxx17_backports.h"
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
