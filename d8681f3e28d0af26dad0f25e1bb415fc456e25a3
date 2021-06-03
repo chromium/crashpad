@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf688e04_3c01a92f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-06-03T11:37:41Z",
+      "side": 1,
+      "message": "This is a blind copy from chromium to crashpad.  I imagine some of these are wrong.  Can you chime in one which ones we should keep, which ones we should fix in chromium or something else?",
+      "revId": "d8681f3e28d0af26dad0f25e1bb415fc456e25a3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
