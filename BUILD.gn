@@ -79,6 +79,12 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
 
     fuchsia_test_package("crashpad-test") {
       test_components = [ ":crashpad-test-component" ]
+
+      test_specs = {
+        log_settings = {
+          max_severity = "ERROR"
+        }
+      }
     }
 
     _resource_files = [
