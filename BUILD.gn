@@ -82,7 +82,7 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
 
       test_specs = {
         log_settings = {
-          max_severity = "ERROR"
+          max_severity = "FATAL"
         }
       }
     }
