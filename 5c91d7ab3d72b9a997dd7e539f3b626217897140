@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63d223ac_92426dd7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-06-03T18:33:46Z",
+      "side": 1,
+      "message": "So, what\u0027s appropriate for Crashpad vs should stay in Chromium, vs what is just plain wrong?",
+      "revId": "5c91d7ab3d72b9a997dd7e539f3b626217897140",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c801e83_9990e70f",
+        "filename": "tools/tool_support.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-06-03T18:33:46Z",
+      "side": 1,
+      "message": "I didn\u0027t pull in the Chromium StringPiece change that allows this to just be std::string(path).  WDYT?",
+      "range": {
+        "startLine": 96,
+        "startChar": 21,
+        "endLine": 96,
+        "endChar": 45
+      },
+      "revId": "5c91d7ab3d72b9a997dd7e539f3b626217897140",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
