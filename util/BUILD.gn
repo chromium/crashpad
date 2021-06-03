@@ -71,8 +71,16 @@ if (crashpad_is_mac || crashpad_is_ios) {
         import("//build/config/mac/mac_sdk.gni")
         clang_path =
             rebase_path("$clang_base_path/bin/", root_build_dir) + "clang"
-        mig_path = "$mac_bin_path" + "mig"
-        migcom_path = "$mac_bin_path" + "../libexec/migcom"
+        if (host_os == "mac") {
+          mig_path = "$mac_bin_path" + "mig"
+          migcom_path = "$mac_bin_path" + "../libexec/migcom"
+        } else if (host_os == "linux") {
+          mig_path = rebase_path("//third_party/mig/bin/mig", root_build_dir)
+          migcom_path =
+              rebase_path("//third_party/mig/bin/migcom", root_build_dir)
+        } else {
+          assert(false, "don't know how to mig on $host_os")
+        }
 
         args += [
           "--clang-path",
@@ -404,7 +412,7 @@ crashpad_static_library("util") {
     ]
   }
 
-  deps = []
+  deps = [ "../third_party/mini_chromium:chromeos_buildflags" ]
 
   if (crashpad_http_transport_impl == "socket") {
     sources += [ "net/http_transport_socket.cc" ]
@@ -895,6 +903,12 @@ source_set("util_test") {
 
   if (crashpad_is_android || crashpad_is_linux) {
     deps += [ "../third_party/lss" ]
+  }
+
+  if (crashpad_is_in_chromium && (crashpad_is_linux || crashpad_is_android)) {
+    # TODO(crbug.com/1163794): Disabling MemoryMap tests if PartitionAlloc is
+    # used for malloc.
+    deps += [ "//base/allocator:buildflags" ]
   }
 
   if (crashpad_is_win) {
