@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74443829_234a470a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-06-09T14:37:09Z",
+      "side": 1,
+      "message": "This is a reasonable solution for a test, particularly where we’re already in control of all of the data. (Incidentally, these casts were also inserted solely for Windows’ benefit, as they were required by MSVC++ at the healthy warning level we used, and still use outside of Chromium.)\n\n“timeval” is less of a concern with respect to the larger year-2038 problem, because all timeval use is strictly internal, and can easily be moved to a “timeval-like” struct that always carries a wider tv_sec-equivalent if we find that not all of our platforms offer such an “evolved” timeval inherently. I just learned that Windows’ timeval comes from Winsock and not CRT as I had thought, so I’m not holding on to hope that it’ll ever evolve: for Winsock’s purposes, a timeval need only represent a timeout interval, and 32 (minus one) bits or 68 years is more than enough for that, so we probably will need to make this change. But:\n\nThe bigger problem is the minidump format’s use of 32-bit quantities persisted to disk for interchange. Those fields are all in the base Microsoft format, so we can’t change them. If necessary, we could supersede them with wider values in our extension structures, but I’d rather wait to see if Microsoft solves the problem in the format themselves, so we could adopt the changes and remain compatible. I’ll give ’em about 15 more years before getting to the point of having to roll our own…\n\nThanks for the patch, Peter.",
+      "revId": "4d1fb672b5bb49346931d03de4973a5bbec8eecd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
