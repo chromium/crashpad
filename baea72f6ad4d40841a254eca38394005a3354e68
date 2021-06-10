@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fc5515a4_f4cb83f2",
+        "filename": "test/scoped_guarded_page_posix.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-06-10T16:58:09Z",
+      "side": 1,
+      "message": "\u003e That came from https://crrev.com/758850, which notes a 3% decrease in chrome target build time. I wasn\u0027t involved in that CL, but I imagine those involved were willing to make that trade-off, considering base/check.h is included in 65% of all translation units.\n\nHow many of those are already using base/logging.h too, though?\n\nIf we need to keep these \u003costream\u003es, then we’ll have to make mini_chromium’s base/check.h match with respect to Chromium’s, or this will keep breaking.",
+      "parentUuid": "25f77c9a_e1255871",
+      "revId": "baea72f6ad4d40841a254eca38394005a3354e68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "69abe4bb_9e1109f2",
         "filename": "test/scoped_guarded_page_win.cc",
         "patchSetId": 4
