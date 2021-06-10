@@ -22,6 +22,30 @@
       },
       "revId": "e70a9d73f1d1f8ee03f1431252b89af3d1e043f8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0208432c_bed96b52",
+        "filename": "util/posix/scoped_mmap.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-06-10T14:28:10Z",
+      "side": 1,
+      "message": "\u003e Should this stay in Chromium?\n\nWell, you did bring over the BUILD and mini_chromium change to fake-make this work? It’s fine in that case.\n\nIf you wanted to, you could put in util/BUILD.gn:\n\n  configs \u003d [ \"../build:crashpad_is_in_chromium\" ]\n  \nwhich would give you the ability to do\n\n  #if defined(OS_LINUX) || (CRASHPAD_IS_IN_CHROMIUM \u0026\u0026 BUILDFLAGS(IS_CHROMEOS_LACROS))\n  \nif needed. I don’t know if it’s so important, though. I like to minimize the use of CRASHPAD_IS_IN_CHROMIUM.",
+      "parentUuid": "eefa2ce5_d0504040",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 78
+      },
+      "revId": "e70a9d73f1d1f8ee03f1431252b89af3d1e043f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
