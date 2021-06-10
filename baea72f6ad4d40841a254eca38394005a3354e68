@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4dcb440d_3e0434f8",
+        "filename": "test/scoped_guarded_page_posix.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-06-10T14:52:58Z",
+      "side": 1,
+      "message": "../../third_party/crashpad/crashpad/test/scoped_guarded_page_posix.cc:32:30: error: invalid operands to binary expression (\u0027std::ostream\u0027 (aka \u0027basic_ostream\u003cchar\u003e\u0027) and \u0027const char [5]\u0027)\n  PCHECK(ptr_ !\u003d MAP_FAILED) \u003c\u003c \"mmap\";\n  ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^  ~~~~~~\n../../third_party/crashpad/crashpad/test/scoped_guarded_page_posix.cc:39:57: error: invalid operands to binary expression (\u0027std::ostream\u0027 (aka \u0027basic_ostream\u003cchar\u003e\u0027) and \u0027const char [7]\u0027)\n  PCHECK(munmap(second_page, base::GetPageSize()) \u003e\u003d 0) \u003c\u003c \"munmap\";\n  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~\n../../third_party/crashpad/crashpad/test/scoped_guarded_page_posix.cc:43:50: error: invalid operands to binary expression (\u0027std::ostream\u0027 (aka \u0027basic_ostream\u003cchar\u003e\u0027) and \u0027const char [7]\u0027)\n  PCHECK(munmap(ptr_, base::GetPageSize()) \u003e\u003d 0) \u003c\u003c \"munmap\";\n  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~\n3 errors generated.",
+      "parentUuid": "b7a3a76b_8ba7d413",
+      "revId": "baea72f6ad4d40841a254eca38394005a3354e68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "69abe4bb_9e1109f2",
         "filename": "test/scoped_guarded_page_win.cc",
         "patchSetId": 4
