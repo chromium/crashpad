@@ -15,6 +15,7 @@ mc_append_sources(
     check.h
     check_op.h
     compiler_specific.h
+    cxx17_backports.h
     debug/alias.cc
     debug/alias.h
     files/file_path.cc
@@ -50,7 +51,6 @@ mc_append_sources(
     rand_util.h
     scoped_clear_last_error.h
     scoped_generic.h
-    stl_util.h
     strings/string_number_conversions.cc
     strings/string_number_conversions.h
     strings/string_piece.h
