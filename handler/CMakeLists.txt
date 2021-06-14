@@ -11,14 +11,18 @@ add_library(crashpad_handler_lib STATIC
     user_stream_data_source.h
 )
 
+if(APPLE)
+    target_sources(crashpad_handler_lib PRIVATE
+        mac/file_limit_annotation.cc
+        mac/file_limit_annotation.h
+    )
+endif()
 if(APPLE AND NOT IOS)
     target_sources(crashpad_handler_lib PRIVATE
         mac/crash_report_exception_handler.cc
         mac/crash_report_exception_handler.h
         mac/exception_handler_server.cc
         mac/exception_handler_server.h
-        mac/file_limit_annotation.cc
-        mac/file_limit_annotation.h
     )
 endif()
 

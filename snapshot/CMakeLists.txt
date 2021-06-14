@@ -84,18 +84,20 @@ elseif(IOS)
     target_sources(crashpad_snapshot PRIVATE
         posix/timezone.cc
         posix/timezone.h
-        ios/exception_snapshot_ios.cc
-        ios/exception_snapshot_ios.h
-        ios/memory_snapshot_ios.cc
-        ios/memory_snapshot_ios.h
-        ios/module_snapshot_ios.cc
-        ios/module_snapshot_ios.h
-        ios/process_snapshot_ios.cc
-        ios/process_snapshot_ios.h
-        ios/system_snapshot_ios.cc
-        ios/system_snapshot_ios.h
-        ios/thread_snapshot_ios.cc
-        ios/thread_snapshot_ios.h
+        ios/exception_snapshot_ios_intermediate_dump.cc
+        ios/exception_snapshot_ios_intermediate_dump.h
+        ios/intermediate_dump_reader_util.cc
+        ios/intermediate_dump_reader_util.h
+        ios/memory_snapshot_ios_intermediate_dump.cc
+        ios/memory_snapshot_ios_intermediate_dump.h
+        ios/module_snapshot_ios_intermediate_dump.cc
+        ios/module_snapshot_ios_intermediate_dump.h
+        ios/process_snapshot_ios_intermediate_dump.cc
+        ios/process_snapshot_ios_intermediate_dump.h
+        ios/system_snapshot_ios_intermediate_dump.cc
+        ios/system_snapshot_ios_intermediate_dump.h
+        ios/thread_snapshot_ios_intermediate_dump.cc
+        ios/thread_snapshot_ios_intermediate_dump.h
         mac/cpu_context_mac.cc
         mac/cpu_context_mac.h
     )
