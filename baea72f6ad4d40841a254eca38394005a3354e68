@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "649a654a_6c6d3500",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-06-15T19:07:13Z",
+      "side": 1,
+      "message": "I\u0027m not sure what the next step is for this CL...?",
+      "revId": "baea72f6ad4d40841a254eca38394005a3354e68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7a3a76b_8ba7d413",
