@@ -53,6 +53,23 @@
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5bd3eee_0a35bffa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-06-16T02:54:55Z",
+      "side": 1,
+      "message": "In mini_chromium, base/check.h and base/check_op.h #include base/logging.h, and base/logging.h #includes \u003csstream\u003e.\n\nIn Chromium, base/check_op.h #includes base/check.h, and base/check.h #includes \u003ciosfwd\u003e but not base/logging.h. base/logging.h does #include \u003csstream\u003e.\n\nThe key difference is \u003csstream\u003e being available to users of base/check[_op].h when using mini_chromium, but not when building in Chromium.",
+      "revId": "baea72f6ad4d40841a254eca38394005a3354e68",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7a3a76b_8ba7d413",
