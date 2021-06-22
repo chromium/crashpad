@@ -16,6 +16,24 @@
       "message": "Thanks for the quick fix!\n\nIf it\u0027s alright with you, please wait with disabling the test downstream until the mac/arm tester is on the main waterfall.",
       "revId": "571e84a1937ad16ef6f08b0a91abe674bfe728c4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e3f3e32_d7ab3d7e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2021-06-22T15:21:20Z",
+      "side": 1,
+      "message": "\u003e Thanks for the quick fix!\n\u003e \n\u003e If it\u0027s alright with you, please wait with disabling the test downstream until the mac/arm tester is on the main waterfall.\n\nOK, let’s leave the bug open to track un-disabling until then.",
+      "parentUuid": "7728bac9_857d3f71",
+      "revId": "571e84a1937ad16ef6f08b0a91abe674bfe728c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
