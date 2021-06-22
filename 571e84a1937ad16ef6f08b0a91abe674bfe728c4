@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7728bac9_857d3f71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001629
+      },
+      "writtenOn": "2021-06-22T15:01:11Z",
+      "side": 1,
+      "message": "Thanks for the quick fix!\n\nIf it\u0027s alright with you, please wait with disabling the test downstream until the mac/arm tester is on the main waterfall.",
+      "revId": "571e84a1937ad16ef6f08b0a91abe674bfe728c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
