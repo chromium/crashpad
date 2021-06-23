@@ -46,6 +46,30 @@
       },
       "revId": "e70a9d73f1d1f8ee03f1431252b89af3d1e043f8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f01e3f29_3b22e9e7",
+        "filename": "util/posix/scoped_mmap.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-06-23T19:34:19Z",
+      "side": 1,
+      "message": "Leaving as-is, is that ok?",
+      "parentUuid": "0208432c_bed96b52",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 78
+      },
+      "revId": "e70a9d73f1d1f8ee03f1431252b89af3d1e043f8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
