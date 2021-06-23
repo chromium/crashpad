@@ -14,6 +14,8 @@
 
 #include "util/posix/close_stdio.h"
 
+#include <ostream>
+
 #include <fcntl.h>
 #include <paths.h>
 #include <unistd.h>
