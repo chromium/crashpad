@@ -220,8 +220,13 @@ void CrashpadClient::ProcessIntermediateDumps(
 }
 
 // static
-void CrashpadClient::StartProcesingPendingReports() {
+void CrashpadClient::StartProcessingPendingReports() {
   // TODO(justincohen): Start the CrashReportUploadThread.
+}
+
+// static
+void AddIntermediateDump(const base::FilePath& file) {
+  // TODO(justincohen): Move |file| so it can processed as an intermediate dump.
 }
 
 // static
@@ -239,6 +244,16 @@ void CrashpadClient::DumpWithoutCrashAndDeferProcessing(
     NativeCPUContext* context) {
   CrashHandler* crash_handler = CrashHandler::Get();
   DCHECK(crash_handler);
+  crash_handler->DumpWithoutCrash(context);
+}
+
+// static
+void CrashpadClient::DumpWithoutCrashAndDeferProcessingAtPath(
+    NativeCPUContext* context,
+    const base::FilePath& path) {
+  CrashHandler* crash_handler = CrashHandler::Get();
+  DCHECK(crash_handler);
+  // TODO(justincohen): Add implementation to write to a different path.
   crash_handler->DumpWithoutCrash(context);
 }
 

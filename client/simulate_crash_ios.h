@@ -47,4 +47,21 @@
         &cpu_context);                                            \
   } while (false)
 
+//! \brief Captures the CPU context and captures an intermediate dump at |path|
+//!     without an exception. Does not convert the intermediate dump into a
+//!     minidump.
+//!
+//! Deferring processing is useful when the application may be in an unstable
+//! state, such as during a hang.
+//!
+//! \param[in] path The path for writing the intermediate dump.
+//! \sa CRASHPAD_SIMULATE_CRASH
+#define CRASHPAD_SIMULATE_CRASH_AND_DEFER_PROCESSING_AT_PATH(path)      \
+  do {                                                                  \
+    crashpad::NativeCPUContext cpu_context;                             \
+    crashpad::CaptureContext(&cpu_context);                             \
+    crashpad::CrashpadClient::DumpWithoutCrashAndDeferProcessingAtPath( \
+        &cpu_context, path);                                            \
+  } while (false)
+
 #endif  // CRASHPAD_CLIENT_SIMULATE_CRASH_IOS_H_
