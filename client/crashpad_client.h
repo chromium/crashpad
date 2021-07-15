@@ -506,11 +506,11 @@ class CrashpadClient {
   //! on another thread. This method does not block.
   //!
   //! A handler must have already been installed before calling this method.
-  static void StartProcesingPendingReports();
+  static void StartProcessingPendingReports();
 
   //! \brief Requests that the handler capture an intermediate dump even though
   //!     there hasn't been a crash. The intermediate dump will be converted
-  //!     to a mindump immediately. If StartProcesingPendingReports() has been
+  //!     to a mindump immediately. If StartProcessingPendingReports() has been
   //!     called, this will also trigger an upload.
   //!
   //! For internal use only. Clients should use CRASHPAD_SIMULATE_CRASH().
