@@ -233,7 +233,7 @@ void CrashpadClient::ProcessIntermediateDump(
 }
 
 // static
-void CrashpadClient::StartProcesingPendingReports() {
+void CrashpadClient::StartProcessingPendingReports() {
   // TODO(justincohen): Start the CrashReportUploadThread.
 }
 
