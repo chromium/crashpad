@@ -17,6 +17,7 @@
 #include <objc/runtime.h>
 #import "Service/Sources/EDOClientService.h"
 #import "test/ios/host/cptest_shared_object.h"
+#include "util/mach/exception_types.h"
 
 #if !defined(__has_feature) || !__has_feature(objc_arc)
 #error "This file requires ARC support."
@@ -24,6 +25,7 @@
 
 @interface CPTestTestCase : XCTestCase {
   XCUIApplication* _app;
+  CPTestSharedObject* _rootObject;
 }
 
 @end
@@ -57,185 +59,144 @@
 - (void)setUp {
   _app = [[XCUIApplication alloc] init];
   [_app launch];
+  _rootObject = [EDOClientService rootObjectWithPort:12345];
+  [_rootObject clearReports];
+  XCTAssertEqual([_rootObject pendingReportCount], 0);
+  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+}
+
+- (void)verifyCrashReportException:(int)exception {
+  // Confirm the app is not running.
+  XCTAssertTrue([_app waitForState:XCUIApplicationStateNotRunning timeout:15]);
+  XCTAssertTrue(_app.state == XCUIApplicationStateNotRunning);
+
+  // Restart app to get the report signal.
+  [_app launch];
+  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  _rootObject = [EDOClientService rootObjectWithPort:12345];
+  XCTAssertEqual([_rootObject pendingReportCount], 1);
+  XCTAssertEqual([_rootObject lastException], exception);
 }
 
 - (void)testEDO {
-  CPTestSharedObject* rootObject = [EDOClientService rootObjectWithPort:12345];
-  NSString* result = [rootObject testEDO];
+  NSString* result = [_rootObject testEDO];
   XCTAssertEqualObjects(result, @"crashpad");
 }
 
 - (void)testSegv {
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
-
-  // Crash the app.
-  CPTestSharedObject* rootObject = [EDOClientService rootObjectWithPort:12345];
-  [rootObject crashSegv];
-
-  // Confirm the app is not running.
-  XCTAssertTrue([_app waitForState:XCUIApplicationStateNotRunning timeout:15]);
-  XCTAssertTrue(_app.state == XCUIApplicationStateNotRunning);
-
-  // TODO: Query the app for crash data
-  [_app launch];
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  [_rootObject crashSegv];
+#if defined(NDEBUG)
+#if TARGET_OS_SIMULATOR
+  [self verifyCrashReportException:SIGINT];
+#else
+  [self verifyCrashReportException:SIGABRT];
+#endif
+#else
+  [self verifyCrashReportException:SIGHUP];
+#endif
 }
 
 - (void)testKillAbort {
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
-
-  // Crash the app.
-  CPTestSharedObject* rootObject = [EDOClientService rootObjectWithPort:12345];
-  [rootObject crashKillAbort];
-
-  // Confirm the app is not running.
-  XCTAssertTrue([_app waitForState:XCUIApplicationStateNotRunning timeout:15]);
-  XCTAssertTrue(_app.state == XCUIApplicationStateNotRunning);
-
-  // TODO: Query the app for crash data
-  [_app launch];
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  [_rootObject crashKillAbort];
+  [self verifyCrashReportException:SIGABRT];
 }
 
 - (void)testTrap {
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
-
-  // Crash the app.
-  CPTestSharedObject* rootObject = [EDOClientService rootObjectWithPort:12345];
-  [rootObject crashTrap];
-
-  // Confirm the app is not running.
-  XCTAssertTrue([_app waitForState:XCUIApplicationStateNotRunning timeout:15]);
-  XCTAssertTrue(_app.state == XCUIApplicationStateNotRunning);
-
-  // TODO: Query the app for crash data
-  [_app launch];
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  [_rootObject crashTrap];
+#if TARGET_OS_SIMULATOR
+  [self verifyCrashReportException:SIGINT];
+#else
+  [self verifyCrashReportException:SIGABRT];
+#endif
 }
 
 - (void)testAbort {
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
-
-  // Crash the app.
-  CPTestSharedObject* rootObject = [EDOClientService rootObjectWithPort:12345];
-  [rootObject crashAbort];
-
-  // Confirm the app is not running.
-  XCTAssertTrue([_app waitForState:XCUIApplicationStateNotRunning timeout:15]);
-  XCTAssertTrue(_app.state == XCUIApplicationStateNotRunning);
-
-  // TODO: Query the app for crash data
-  [_app launch];
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  [_rootObject crashAbort];
+  [self verifyCrashReportException:SIGABRT];
 }
 
 - (void)testBadAccess {
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
-
-  // Crash the app.
-  CPTestSharedObject* rootObject = [EDOClientService rootObjectWithPort:12345];
-  [rootObject crashBadAccess];
-
-  // Confirm the app is not running.
-  XCTAssertTrue([_app waitForState:XCUIApplicationStateNotRunning timeout:15]);
-  XCTAssertTrue(_app.state == XCUIApplicationStateNotRunning);
-
-  // TODO: Query the app for crash data
-  [_app launch];
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  [_rootObject crashBadAccess];
+#if defined(NDEBUG)
+#if TARGET_OS_SIMULATOR
+  [self verifyCrashReportException:SIGINT];
+#else
+  [self verifyCrashReportException:SIGABRT];
+#endif
+#else
+  [self verifyCrashReportException:SIGHUP];
+#endif
 }
 
 - (void)testException {
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
-
-  // Crash the app.
-  CPTestSharedObject* rootObject = [EDOClientService rootObjectWithPort:12345];
-  [rootObject crashException];
-
-  // Confirm the app is not running.
-  XCTAssertTrue([_app waitForState:XCUIApplicationStateNotRunning timeout:15]);
-  XCTAssertTrue(_app.state == XCUIApplicationStateNotRunning);
-
-  // TODO: Query the app for crash data
-  [_app launch];
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  [_rootObject crashException];
+  [self verifyCrashReportException:SIGABRT];
 }
 
 - (void)testNSException {
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
-
-  // Crash the app.
-  CPTestSharedObject* rootObject = [EDOClientService rootObjectWithPort:12345];
-  [rootObject crashNSException];
-
-  // Confirm the app is not running.
-  XCTAssertTrue([_app waitForState:XCUIApplicationStateNotRunning timeout:15]);
-  XCTAssertTrue(_app.state == XCUIApplicationStateNotRunning);
-
-  // TODO: Query the app for crash data
-  [_app launch];
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  [_rootObject crashNSException];
+  [self verifyCrashReportException:EXC_SOFTWARE];
 }
 
 - (void)testCrashUnreocgnizedSelectorAfterDelay {
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
-
-  // Crash the app.
-  CPTestSharedObject* rootObject = [EDOClientService rootObjectWithPort:12345];
-  [rootObject crashUnreocgnizedSelectorAfterDelay];
-
-  // Confirm the app is not running.
-  XCTAssertTrue([_app waitForState:XCUIApplicationStateNotRunning timeout:15]);
-  XCTAssertTrue(_app.state == XCUIApplicationStateNotRunning);
-
-  // TODO: Query the app for crash data
-  [_app launch];
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  [_rootObject crashUnreocgnizedSelectorAfterDelay];
+  [self verifyCrashReportException:EXC_SOFTWARE];
 }
 
 - (void)testCatchUIGestureEnvironmentNSException {
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
-
   // Tap the button with the string UIGestureEnvironmentException.
   [_app.buttons[@"UIGestureEnvironmentException"] tap];
-
-  // Confirm the app is not running.
-  XCTAssertTrue([_app waitForState:XCUIApplicationStateNotRunning timeout:15]);
-  XCTAssertTrue(_app.state == XCUIApplicationStateNotRunning);
-
-  // TODO: Query the app for crash data
-  [_app launch];
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  [self verifyCrashReportException:EXC_SOFTWARE];
 }
 
 - (void)testCatchNSException {
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  [_rootObject catchNSException];
 
   // The app should not crash
-  CPTestSharedObject* rootObject = [EDOClientService rootObjectWithPort:12345];
-  [rootObject catchNSException];
-
   XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  XCTAssertEqual([_rootObject pendingReportCount], 0);
 }
 
 - (void)testRecursion {
-  // TODO(justincohen): Crashpad iOS does not currently support stack type
-  // crashes.
-  return;
+  [_rootObject crashRecursion];
+  [self verifyCrashReportException:SIGHUP];
+}
 
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+- (void)testCrashWithCrashInfoMessage {
+  [_rootObject crashWithCrashInfoMessage];
+  [self verifyCrashReportException:SIGHUP];
+  XCTAssertTrue([[_rootObject crashInfoMessage:true]
+      isEqualToString:@"dyld: in dlsym()"]);
+}
 
-  // Crash the app.
-  CPTestSharedObject* rootObject = [EDOClientService rootObjectWithPort:12345];
-  [rootObject crashRecursion];
+// TODO(justincohen): Figure out how to test this on device.
+#if TARGET_OS_SIMULATOR
+- (void)testCrashWithDyldErrorString {
+  [_rootObject crashWithDyldErrorString];
+  [self verifyCrashReportException:SIGABRT];
+  XCTAssertTrue([[_rootObject crashInfoMessage:false]
+      isEqualToString:@"image not found"]);
+}
+#endif
 
-  // Confirm the app is not running.
-  XCTAssertTrue([_app waitForState:XCUIApplicationStateNotRunning timeout:15]);
-  XCTAssertTrue(_app.state == XCUIApplicationStateNotRunning);
+- (void)testCrashWithAnnotations {
+  [_rootObject crashWithAnnotations];
+  [self verifyCrashReportException:SIGABRT];
+  NSDictionary* dict = [_rootObject getAnnotations];
 
-  // TODO: Query the app for crash data
-  [_app launch];
-  XCTAssertTrue(_app.state == XCUIApplicationStateRunningForeground);
+  NSDictionary* simpleMap = dict[@"simplemap"];
+  XCTAssertTrue([simpleMap[@"#TEST# empty_value"] isEqualToString:@""]);
+  XCTAssertTrue([simpleMap[@"#TEST# key"] isEqualToString:@"value"]);
+  XCTAssertTrue([simpleMap[@"#TEST# longer"] isEqualToString:@"shorter"]);
+  XCTAssertTrue([simpleMap[@"#TEST# pad"] isEqualToString:@"crash"]);
+  XCTAssertTrue([simpleMap[@"#TEST# x"] isEqualToString:@"y"]);
+
+  XCTAssertTrue([[dict[@"objects"][0] valueForKeyPath:@"#TEST# same-name"]
+      isEqualToString:@"same-name 4"]);
+  XCTAssertTrue([[dict[@"objects"][1] valueForKeyPath:@"#TEST# same-name"]
+      isEqualToString:@"same-name 3"]);
+  XCTAssertTrue([[dict[@"objects"][2] valueForKeyPath:@"#TEST# one"]
+      isEqualToString:@"moocow"]);
 }
 
 @end
