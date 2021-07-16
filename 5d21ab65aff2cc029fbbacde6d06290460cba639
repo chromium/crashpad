@@ -33,6 +33,24 @@
       "message": "this looks more appropriate.\n\nMark - i noticed the crashpad UMA metric doesn\u0027t exist in the XML. Does crashpad not use any metadata from UMA?",
       "revId": "5d21ab65aff2cc029fbbacde6d06290460cba639",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bab3fae_0ea82682",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2021-07-16T20:53:46Z",
+      "side": 1,
+      "message": "Our histograms were automatically deleted when they expired. I think the reasoning for not extending them was that they were not being actively monitored/investigated.\n\nhttps://bugs.chromium.org/p/chromium/issues/detail?id\u003d1165040\nhttps://bugs.chromium.org/p/chromium/issues/detail?id\u003d1228300",
+      "parentUuid": "ad8e730c_470d33e5",
+      "revId": "5d21ab65aff2cc029fbbacde6d06290460cba639",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
