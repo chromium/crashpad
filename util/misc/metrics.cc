@@ -114,17 +114,15 @@ void Metrics::HandlerCrashed(uint32_t exception_code) {
 // static
 void Metrics::MissingIntermediateDumpKey(
     const internal::IntermediateDumpKey& key) {
-  UMA_HISTOGRAM_ENUMERATION("Crashpad.IntermediateDump.Reader.MissingKey",
-                            key,
-                            internal::IntermediateDumpKey::kMaxValue);
+  base::UmaHistogramSparse("Crashpad.IntermediateDump.Reader.MissingKey",
+                           static_cast<uint16_t>(key));
 }
 
 // static
 void Metrics::InvalidIntermediateDumpKeySize(
     const internal::IntermediateDumpKey& key) {
-  UMA_HISTOGRAM_ENUMERATION("Crashpad.IntermediateDump.Reader.InvalidKeySize",
-                            key,
-                            internal::IntermediateDumpKey::kMaxValue);
+  base::UmaHistogramSparse("Crashpad.IntermediateDump.Reader.InvalidKeySize",
+                           static_cast<uint16_t>(key));
 }
 #endif
 
