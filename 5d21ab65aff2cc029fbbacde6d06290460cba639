@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9b9f27e_7b781cf5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1116294
+      },
+      "writtenOn": "2021-07-16T19:30:05Z",
+      "side": 1,
+      "message": "mark@ ptal\n\nrkaplow@ noted these aren\u0027t listed in histogram.xml.  How does Crashpad usually handle this?",
+      "revId": "5d21ab65aff2cc029fbbacde6d06290460cba639",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    }
+  ]
+}
