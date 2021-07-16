@@ -16,6 +16,23 @@
       "message": "mark@ ptal\n\nrkaplow@ noted these aren\u0027t listed in histogram.xml.  How does Crashpad usually handle this?",
       "revId": "5d21ab65aff2cc029fbbacde6d06290460cba639",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad8e730c_470d33e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003176
+      },
+      "writtenOn": "2021-07-16T19:35:45Z",
+      "side": 1,
+      "message": "this looks more appropriate.\n\nMark - i noticed the crashpad UMA metric doesn\u0027t exist in the XML. Does crashpad not use any metadata from UMA?",
+      "revId": "5d21ab65aff2cc029fbbacde6d06290460cba639",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba"
     }
   ]
 }
