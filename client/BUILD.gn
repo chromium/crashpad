@@ -35,6 +35,8 @@ crashpad_static_library("client") {
       "crashpad_client_ios.cc",
       "ios_handler/exception_processor.h",
       "ios_handler/exception_processor.mm",
+      "ios_handler/in_process_intermediate_dump_handler.cc",
+      "ios_handler/in_process_intermediate_dump_handler.h",
       "simulate_crash_ios.h",
     ]
   }
@@ -165,13 +167,7 @@ source_set("client_test") {
     sources += [
       "crashpad_client_ios_test.mm",
       "ios_handler/exception_processor_test.mm",
-    ]
-    sources -= [
-      "annotation_list_test.cc",
-      "annotation_test.cc",
-      "crash_report_database_test.cc",
-      "prune_crash_reports_test.cc",
-      "settings_test.cc",
+      "ios_handler/in_process_intermediate_dump_handler_test.cc",
     ]
   }
 
@@ -181,12 +177,12 @@ source_set("client_test") {
 
   deps = [
     ":client",
+    "$mini_chromium_source_parent:base",
     "../compat",
     "../snapshot",
     "../test",
     "../third_party/googletest:googlemock",
     "../third_party/googletest:googletest",
-    "$mini_chromium_source_parent:base",
     "../util",
   ]
 
