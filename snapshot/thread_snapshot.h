@@ -24,10 +24,33 @@ namespace crashpad {
 struct CPUContext;
 class MemorySnapshot;
 
+// TODO: Create a stub that will later return a real stack trace:
+// `ThreadSnapshot.StackTrace` would need to return a
+// `const std::vector<FrameSnapshot>&`.
+// That would be https://getsentry.atlassian.net/browse/NATIVE-198
+class FrameSnapshot {
+ public:
+  FrameSnapshot(uint64_t instruction_addr, std::string symbol)
+      : instruction_addr_(instruction_addr), symbol_(symbol) {}
+
+  uint64_t InstructionAddr() const { return instruction_addr_; };
+  const std::string& Symbol() const { return symbol_; };
+
+ private:
+  uint64_t instruction_addr_;
+  std::string symbol_;
+};
+
 //! \brief An abstract interface to a snapshot representing a thread
 //!     (lightweight process) present in a snapshot process.
 class ThreadSnapshot {
  public:
+  ThreadSnapshot() {
+    frames_ = std::vector<FrameSnapshot>();
+    frames_.emplace_back(0xfff70001, std::string("uiaeo"));
+    frames_.emplace_back(0xfff70002, std::string("snrtdy"));
+  }
+
   virtual ~ThreadSnapshot() {}
 
   //! \brief Returns a CPUContext object corresponding to the thread’s CPU
@@ -73,6 +96,15 @@ class ThreadSnapshot {
   //!     are scoped to the lifetime of the ThreadSnapshot object that they
   //!     were obtained from.
   virtual std::vector<const MemorySnapshot*> ExtraMemory() const = 0;
+
+  // TODO: This should return a `const std::vector<FrameSnapshot>&`.
+  const std::vector<FrameSnapshot>& StackTrace() const {
+    return frames_;
+  }
+
+  private:
+   std::vector<FrameSnapshot> frames_;
+
 };
 
 }  // namespace crashpad

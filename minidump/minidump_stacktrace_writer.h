@@ -39,24 +39,6 @@ struct RawFrame {
 
 }  // namespace internal
 
-// TODO: Create a stub that will later return a real stack trace:
-// `ThreadSnapshot.StackTrace` would need to return a
-// `const std::vector<const FrameSnapshot*>&`, so that followup will also move
-// that type to a more appropriate place.
-// That would be https://getsentry.atlassian.net/browse/NATIVE-198
-class FrameSnapshot {
- public:
-  FrameSnapshot(uint64_t instruction_addr, std::string symbol)
-      : instruction_addr_(instruction_addr), symbol_(symbol) {}
-
-  uint64_t InstructionAddr() const { return instruction_addr_; };
-  const std::string& Symbol() const { return symbol_; };
-
- private:
-  uint64_t instruction_addr_;
-  std::string symbol_;
-};
-
 class ThreadSnapshot;
 
 //! \brief The writer for our custom client-side stacktraces stream in a
