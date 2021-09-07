@@ -26,7 +26,7 @@ struct Header {
 };
 
 struct RawThread {
-  uint64_t thread_id;
+  uint32_t thread_id;
   uint32_t start_frame;
   uint32_t num_frames;
 };

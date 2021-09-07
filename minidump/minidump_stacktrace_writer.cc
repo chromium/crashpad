@@ -12,6 +12,15 @@
 
 namespace crashpad {
 
+size_t align_to_8(size_t size) {
+  size_t rest = size % 8;
+  if (rest == 0) {
+    return 0;
+  } else {
+    return 8 - rest;
+  }
+}
+
 MinidumpStacktraceListWriter::MinidumpStacktraceListWriter()
     : MinidumpStreamWriter(),
       threads_(),
@@ -32,7 +41,10 @@ void MinidumpStacktraceListWriter::InitializeFromSnapshot(
 
   for (auto thread_snapshot : thread_snapshots) {
     internal::RawThread thread;
-    thread.thread_id = thread_snapshot->ThreadID();
+
+    auto thread_id_it = thread_id_map.find(thread_snapshot->ThreadID());
+    DCHECK(thread_id_it != thread_id_map.end());
+    thread.thread_id = thread_id_it->second;
     thread.start_frame = (uint32_t)frames_.size();
 
     // TODO: Create a stub that will later return a real stack trace:
@@ -71,9 +83,14 @@ void MinidumpStacktraceListWriter::InitializeFromSnapshot(
 size_t MinidumpStacktraceListWriter::SizeOfObject() {
   DCHECK_GE(state(), kStateFrozen);
 
-  return sizeof(stacktrace_header_) +
-         threads_.size() * sizeof(internal::RawThread) +
-         frames_.size() * sizeof(internal::RawFrame) + symbol_bytes_.size();
+  size_t header_size = sizeof(stacktrace_header_);
+  header_size += align_to_8(header_size);
+  size_t threads_size = threads_.size() * sizeof(internal::RawThread);
+  threads_size += align_to_8(threads_size);
+  size_t frames_size = frames_.size() * sizeof(internal::RawFrame);
+  frames_size += align_to_8(frames_size);
+
+  return header_size + threads_size + frames_size + symbol_bytes_.size();
 }
 
 size_t MinidumpStacktraceListWriter::Alignment() {
@@ -85,6 +102,7 @@ bool MinidumpStacktraceListWriter::WriteObject(
     FileWriterInterface* file_writer) {
   DCHECK_EQ(state(), kStateWritable);
 
+  uint64_t padding = 0;
   WritableIoVec iov;
   // header, threads, frames, symbol_bytes
   std::vector<WritableIoVec> iovecs(4);
@@ -93,13 +111,32 @@ bool MinidumpStacktraceListWriter::WriteObject(
   iov.iov_len = sizeof(stacktrace_header_);
   iovecs.push_back(iov);
 
+  // align the length of iov to a multiple of 8 and write zeros as padding
+  iov.iov_base = &padding;
+  iov.iov_len = align_to_8(iov.iov_len);
+  if (iov.iov_len > 0) {
+      iovecs.push_back(iov);
+  }
+
   iov.iov_base = &threads_.front();
   iov.iov_len = threads_.size() * sizeof(internal::RawThread);
   iovecs.push_back(iov);
 
+  iov.iov_base = &padding;
+  iov.iov_len = align_to_8(iov.iov_len);
+  if (iov.iov_len > 0) {
+      iovecs.push_back(iov);
+  }
+
   iov.iov_base = &frames_.front();
   iov.iov_len = frames_.size() * sizeof(internal::RawFrame);
   iovecs.push_back(iov);
+
+  iov.iov_base = &padding;
+  iov.iov_len = align_to_8(iov.iov_len);
+  if (iov.iov_len > 0) {
+      iovecs.push_back(iov);
+  }
 
   iov.iov_base = &symbol_bytes_.front();
   iov.iov_len = symbol_bytes_.size();
