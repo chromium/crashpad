@@ -26,6 +26,7 @@
 #include "minidump/minidump_module_writer.h"
 #include "minidump/minidump_stacktrace_writer.h"
 #include "minidump/minidump_system_info_writer.h"
+#include "minidump/minidump_thread_id_map.h"
 #include "minidump/minidump_thread_writer.h"
 #include "minidump/minidump_unloaded_module_writer.h"
 #include "minidump/minidump_user_extension_stream_data_source.h"

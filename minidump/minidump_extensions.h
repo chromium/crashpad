@@ -15,9 +15,9 @@
 #ifndef CRASHPAD_MINIDUMP_MINIDUMP_EXTENSIONS_H_
 #define CRASHPAD_MINIDUMP_MINIDUMP_EXTENSIONS_H_
 
+#include <windows.h>
 #include <dbghelp.h>
 #include <stdint.h>
-#include <windows.h>
 #include <winnt.h>
 
 #include "base/compiler_specific.h"
@@ -32,7 +32,7 @@
 // disable it with other silly warnings in the build files. See:
 //   https://connect.microsoft.com/VisualStudio/feedback/details/1114440
 #pragma warning(push)
-#pragma warning(disable : 4200)
+#pragma warning(disable: 4200)
 
 #define PACKED
 #pragma pack(push, 1)
@@ -447,7 +447,8 @@ struct ALIGNAS(4) PACKED MinidumpCrashpadInfo {
         report_id(),
         client_id(),
         simple_annotations(),
-        module_list() {}
+        module_list() {
+    }
 
   //! \brief The structure’s currently-defined version number.
   //!
