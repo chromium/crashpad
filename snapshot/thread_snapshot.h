@@ -98,7 +98,6 @@ class ThreadSnapshot {
   //!     were obtained from.
   virtual std::vector<const MemorySnapshot*> ExtraMemory() const = 0;
 
-  // TODO: This should return a `const std::vector<FrameSnapshot>&`.
   const std::vector<FrameSnapshot>& StackTrace() const {
     return frames_;
   }
