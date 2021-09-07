@@ -202,8 +202,6 @@ if(APPLE)
         )
     else()
         target_sources(crashpad_util PRIVATE
-            ios/exception_processor.h
-            ios/exception_processor.mm
             ios/ios_intermediate_dump_data.cc
             ios/ios_intermediate_dump_data.h
             ios/ios_intermediate_dump_format.h
