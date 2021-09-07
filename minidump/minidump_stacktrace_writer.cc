@@ -7,14 +7,8 @@
 #include <utility>
 
 #include "base/logging.h"
-#include "base/numerics/safe_conversions.h"
-#include "minidump/minidump_string_writer.h"
-#include "minidump/minidump_writer_util.h"
 #include "snapshot/thread_snapshot.h"
 #include "util/file/file_writer.h"
-#include "util/misc/implicit_cast.h"
-#include "util/numeric/in_range_cast.h"
-#include "util/numeric/safe_assignment.h"
 
 namespace crashpad {
 
@@ -39,7 +33,7 @@ void MinidumpStacktraceListWriter::InitializeFromSnapshot(
   for (auto thread_snapshot : thread_snapshots) {
     internal::RawThread thread;
     thread.thread_id = thread_snapshot->ThreadID();
-    thread.start_frame = frames_.size();
+    thread.start_frame = (uint32_t)frames_.size();
 
     // TODO: Create a stub that will later return a real stack trace:
     // That would be https://getsentry.atlassian.net/browse/NATIVE-198
@@ -51,27 +45,27 @@ void MinidumpStacktraceListWriter::InitializeFromSnapshot(
     for (auto frame_snapshot : frames) {
       internal::RawFrame frame;
       frame.instruction_addr = frame_snapshot.InstructionAddr();
-      frame.symbol_offset = symbol_bytes_.size();
+      frame.symbol_offset = (uint32_t)symbol_bytes_.size();
 
       auto symbol = frame_snapshot.Symbol();
 
       symbol_bytes_.reserve(symbol.size());
       symbol_bytes_.insert(symbol_bytes_.end(), symbol.begin(), symbol.end());
 
-      frame.symbol_len = symbol.size();
+      frame.symbol_len = (uint32_t)symbol.size();
 
       frames_.push_back(frame);
     }
 
-    thread.num_frames = frames_.size() - thread.start_frame;
+    thread.num_frames = (uint32_t)frames_.size() - thread.start_frame;
 
     threads_.push_back(thread);
   }
 
   stacktrace_header_.version = 1;
-  stacktrace_header_.num_threads = threads_.size();
-  stacktrace_header_.num_frames = frames_.size();
-  stacktrace_header_.symbol_bytes = symbol_bytes_.size();
+  stacktrace_header_.num_threads = (uint32_t)threads_.size();
+  stacktrace_header_.num_frames = (uint32_t)frames_.size();
+  stacktrace_header_.symbol_bytes = (uint32_t)symbol_bytes_.size();
 }
 
 size_t MinidumpStacktraceListWriter::SizeOfObject() {
