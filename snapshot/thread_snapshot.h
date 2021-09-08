@@ -46,11 +46,7 @@ class FrameSnapshot {
 //!     (lightweight process) present in a snapshot process.
 class ThreadSnapshot {
  public:
-  ThreadSnapshot() {
-    frames_ = std::vector<FrameSnapshot>();
-    frames_.emplace_back(0xfff70001, std::string("uiaeo"));
-    frames_.emplace_back(0xfff70002, std::string("snrtdy"));
-  }
+  ThreadSnapshot() : frames_() {}
 
   virtual ~ThreadSnapshot() {}
 
@@ -102,7 +98,7 @@ class ThreadSnapshot {
     return frames_;
   }
 
-  private:
+  protected:
    std::vector<FrameSnapshot> frames_;
 
 };
