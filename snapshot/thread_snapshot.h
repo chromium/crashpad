@@ -25,10 +25,6 @@ namespace crashpad {
 struct CPUContext;
 class MemorySnapshot;
 
-// TODO: Create a stub that will later return a real stack trace:
-// `ThreadSnapshot.StackTrace` would need to return a
-// `const std::vector<FrameSnapshot>&`.
-// That would be https://getsentry.atlassian.net/browse/NATIVE-198
 class FrameSnapshot {
  public:
   FrameSnapshot(uint64_t instruction_addr, std::string symbol)
