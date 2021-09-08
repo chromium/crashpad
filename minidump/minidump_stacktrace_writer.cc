@@ -47,10 +47,7 @@ void MinidumpStacktraceListWriter::InitializeFromSnapshot(
     thread.thread_id = thread_id_it->second;
     thread.start_frame = (uint32_t)frames_.size();
 
-    // TODO: Create a stub that will later return a real stack trace:
-    // That would be https://getsentry.atlassian.net/browse/NATIVE-198
-    // auto frames = thread_snapshot->StackTrace();
-    std::vector<FrameSnapshot> frames;
+    std::vector<FrameSnapshot> frames = thread_snapshot->StackTrace();
 
     for (auto frame_snapshot : frames) {
       internal::RawFrame frame;
