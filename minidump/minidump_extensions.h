@@ -105,6 +105,14 @@ enum MinidumpStreamType : uint32_t {
 
   //! \brief The last reserved crashpad stream.
   kMinidumpStreamTypeCrashpadLastReservedStream = 0x4350ffff,
+
+  // 0x5379 = "Sy"
+
+  //! \brief The stream type for client-side stack traces.
+  kMinidumpStreamTypeSentryStackTraces = 0x53790001,
+
+  //! \brief The last reserved Sentry stream.
+  kMinidumpStreamTypeSentryLastReservedStream = 0x5379ffff,
 };
 
 //! \brief A variable-length UTF-8-encoded string carried within a minidump
@@ -440,7 +448,7 @@ struct ALIGNAS(4) PACKED MinidumpCrashpadInfo {
         client_id(),
         simple_annotations(),
         module_list() {
-  }
+    }
 
   //! \brief The structure’s currently-defined version number.
   //!
