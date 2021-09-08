@@ -51,8 +51,6 @@ void MinidumpStacktraceListWriter::InitializeFromSnapshot(
     // That would be https://getsentry.atlassian.net/browse/NATIVE-198
     // auto frames = thread_snapshot->StackTrace();
     std::vector<FrameSnapshot> frames;
-    frames.emplace_back(0xfff70001, std::string("uiaeo"));
-    frames.emplace_back(0xfff70002, std::string("snrtdy"));
 
     for (auto frame_snapshot : frames) {
       internal::RawFrame frame;
