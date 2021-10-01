@@ -21,6 +21,8 @@ lucicfg.enable_experiment("crbug.com/1085650")
 # Launch 100% of Swarming tasks for builds in "realms-aware mode".
 luci.builder.defaults.experiments.set({"luci.use_realms": 100})
 
+REPO_URL = "https://chromium.googlesource.com/crashpad/crashpad"
+REVIEW_URL = "https://chromium-review.googlesource.com/crashpad/crashpad"
 
 luci.project(
     name = "crashpad",
@@ -36,7 +38,71 @@ luci.project(
             ],
             groups = "all",
         ),
+        acl.entry(
+            roles = acl.LOGDOG_WRITER,
+            groups = "luci-logdog-chromium-writers",
+        ),
+        acl.entry(
+            roles = acl.SCHEDULER_OWNER,
+            groups = "project-crashpad-admins",
+        ),
     ],
+    logdog = "luci-logdog.appspot.com",
+    milo = "luci-milo.appspot.com",
+    scheduler = "luci-scheduler.appspot.com",
+)
+
+luci.cq(
+    status_host = "chromium-cq-status.appspot.com",
+    submit_max_burst = 4,
+    submit_burst_delay = 8 * time.minute,
+)
+
+luci.cq_group(
+    name = "crashpad",
+    watch = cq.refset(repo = REVIEW_URL, refs = ["refs/heads/.+"]),
+    retry_config = cq.retry_config(
+        single_quota = 1,
+        global_quota = 2,
+        failure_weight = 1,
+        transient_failure_weight = 1,
+        timeout_weight = 2,
+    ),
+    acls = [
+        acl.entry(
+            roles = acl.CQ_COMMITTER,
+            groups = "project-crashpad-tryjob-access",
+        ),
+        acl.entry(
+            roles = acl.CQ_DRY_RUNNER,
+            groups = "project-crashpad-tryjob-access",
+        ),
+    ],
+)
+
+luci.gitiles_poller(
+    name = "master-gitiles-trigger",
+    bucket = "ci",
+    repo = REPO_URL,
+)
+
+luci.logdog(
+    gs_bucket = "chromium-luci-logdog",
+)
+
+luci.milo(
+    logo = "https://storage.googleapis.com/chrome-infra-public/logo/crashpad-logo.svg",
+)
+
+luci.console_view(
+    name = "main",
+    repo = REPO_URL,
+    title = "Crashpad Main Console",
+)
+
+luci.list_view(
+    name = "try",
+    title = "Crashpad Try Builders",
 )
 
 luci.bucket(
@@ -131,8 +197,29 @@ def crashpad_properties(platform, cpu, config, bucket):
     return properties
 
 def crashpad_builder(platform, cpu, config, bucket):
+    name = "_".join(["crashpad", platform, cpu, config])
+    triggered_by = None
+
+    if bucket == "ci":
+        luci.console_view_entry(
+            builder = "ci/" + name,
+            console_view = "main",
+            short_name = config,
+            category = platform + "|" + cpu,
+        )
+        triggered_by = ["master-gitiles-trigger"]
+    elif bucket == "try":
+        luci.list_view_entry(
+            builder = "try/" + name,
+            list_view = "try",
+        )
+        luci.cq_tryjob_verifier(
+            "try/" + name,
+            cq_group = "crashpad",
+        )
+
     return luci.builder(
-        name = "_".join(["crashpad", platform, cpu, config]),
+        name = name,
         bucket = bucket,
         executable = crashpad_recipe(),
         build_numbers = True,
@@ -140,8 +227,8 @@ def crashpad_builder(platform, cpu, config, bucket):
         dimensions = crashpad_dimensions(platform, bucket),
         execution_timeout = 3 * time.hour,
         properties = crashpad_properties(platform, cpu, config, bucket),
-        service_account = "crashpad-" + bucket +
-                          "-builder@chops-service-accounts.iam.gserviceaccount.com",
+        service_account = "crashpad-" + bucket + "-builder@chops-service-accounts.iam.gserviceaccount.com",
+        triggered_by = triggered_by,
     )
 
 crashpad_builder("fuchsia", "arm64", "dbg", "ci")
