@@ -13,6 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+lucicfg.check_version("1.28.0", "Please update depot_tools")
+
+# Enable LUCI Realms support.
+lucicfg.enable_experiment("crbug.com/1085650")
+
+# Launch 100% of Swarming tasks for builds in "realms-aware mode".
+luci.builder.defaults.experiments.set({"luci.use_realms": 100})
+
+
 luci.project(
     name = "crashpad",
     buildbucket = "cr-buildbucket.appspot.com",
