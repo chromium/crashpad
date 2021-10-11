@@ -24,7 +24,9 @@
 #include "minidump/minidump_memory_writer.h"
 #include "minidump/minidump_misc_info_writer.h"
 #include "minidump/minidump_module_writer.h"
+#ifdef CLIENT_STACKTRACES_ENABLED
 #include "minidump/minidump_stacktrace_writer.h"
+#endif
 #include "minidump/minidump_system_info_writer.h"
 #include "minidump/minidump_thread_id_map.h"
 #include "minidump/minidump_thread_writer.h"
@@ -104,11 +106,13 @@ void MinidumpFileWriter::InitializeFromSnapshot(
   add_stream_result = AddStream(std::move(module_list));
   DCHECK(add_stream_result);
 
+#ifdef CLIENT_STACKTRACES_ENABLED
   auto stacktrace_list = std::make_unique<MinidumpStacktraceListWriter>();
   stacktrace_list->InitializeFromSnapshot(
       process_snapshot->Threads(), thread_id_map, exception_snapshot);
   add_stream_result = AddStream(std::move(stacktrace_list));
   DCHECK(add_stream_result);
+#endif
 
   auto unloaded_modules = process_snapshot->UnloadedModules();
   if (!unloaded_modules.empty()) {

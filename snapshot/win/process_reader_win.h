@@ -62,7 +62,9 @@ class ProcessReaderWin {
     uint32_t priority_class;
     uint32_t priority;
 
+#ifdef CLIENT_STACKTRACES_ENABLED
     std::vector<FrameSnapshot> frames;
+#endif
   };
 
   ProcessReaderWin();

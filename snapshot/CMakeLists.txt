@@ -201,8 +201,15 @@ target_link_libraries(crashpad_snapshot
         mini_chromium
 )
 
+if(CRASHPAD_ENABLE_STACKTRACE)
+    target_compile_definitions(crashpad_snapshot PRIVATE CLIENT_STACKTRACES_ENABLED)
+endif()
+
 if(WIN32)
-    target_link_libraries(crashpad_snapshot PRIVATE powrprof dbghelp)
+    target_link_libraries(crashpad_snapshot PRIVATE powrprof)
+    if(CRASHPAD_ENABLE_STACKTRACE)
+        target_link_libraries(crashpad_snapshot PRIVATE dbghelp)
+    endif()
     if(MSVC)
         target_compile_options(crashpad_snapshot PRIVATE "/wd4201")
     endif()

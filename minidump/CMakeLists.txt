@@ -30,8 +30,6 @@ add_library(crashpad_minidump STATIC
     minidump_rva_list_writer.h
     minidump_simple_string_dictionary_writer.cc
     minidump_simple_string_dictionary_writer.h
-    minidump_stacktrace_writer.cc
-    minidump_stacktrace_writer.h
     minidump_stream_writer.cc
     minidump_stream_writer.h
     minidump_string_writer.cc
@@ -63,6 +61,14 @@ target_link_libraries(crashpad_minidump
         crashpad_util
         mini_chromium
 )
+
+if(CRASHPAD_ENABLE_STACKTRACE)
+    target_sources(crashpad_minidump PRIVATE
+        minidump_stacktrace_writer.cc
+        minidump_stacktrace_writer.h
+    )
+    target_compile_definitions(crashpad_minidump PRIVATE CLIENT_STACKTRACES_ENABLED)
+endif()
 
 if(MSVC)
     target_compile_options(crashpad_minidump PRIVATE "/wd4201" "/wd4324")

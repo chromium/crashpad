@@ -14,7 +14,9 @@
 
 #include "snapshot/win/process_reader_win.h"
 
+#ifdef CLIENT_STACKTRACES_ENABLED
 #include <dbghelp.h>
+#endif
 #include <string.h>
 #include <winternl.h>
 
@@ -126,6 +128,7 @@ HANDLE OpenThread(
   return handle;
 }
 
+#ifdef CLIENT_STACKTRACES_ENABLED
 void DoStackWalk(ProcessReaderWin::Thread* thread,
                  HANDLE process,
                  HANDLE thread_handle,
@@ -198,6 +201,7 @@ void DoStackWalk(ProcessReaderWin::Thread* thread,
     thread->frames.push_back(frame);
   }
 }
+#endif
 
 // It's necessary to suspend the thread to grab CONTEXT. SuspendThread has a
 // side-effect of returning the SuspendCount of the thread on success, so we
@@ -208,6 +212,10 @@ bool FillThreadContextAndSuspendCount(HANDLE process,
                                       ProcessReaderWin::Thread* thread,
                                       ProcessSuspensionState suspension_state,
                                       bool is_64_reading_32) {
+#ifndef CLIENT_STACKTRACES_ENABLED
+  (void)process;
+#endif
+
   // Don't suspend the thread if it's this thread. This is really only for test
   // binaries, as we won't be walking ourselves, in general.
   bool is_current_thread =
@@ -221,7 +229,9 @@ bool FillThreadContextAndSuspendCount(HANDLE process,
     DCHECK(!is_64_reading_32);
     CaptureContext(&thread->context.native);
 
+#ifdef CLIENT_STACKTRACES_ENABLED
     DoStackWalk(thread, process, thread_handle, is_64_reading_32);
+#endif
   } else {
     DWORD previous_suspend_count = SuspendThread(thread_handle);
     if (previous_suspend_count == static_cast<DWORD>(-1)) {
@@ -261,7 +271,9 @@ bool FillThreadContextAndSuspendCount(HANDLE process,
       }
     }
 
+#ifdef CLIENT_STACKTRACES_ENABLED
     DoStackWalk(thread, process, thread_handle, is_64_reading_32);
+#endif
 
     if (!ResumeThread(thread_handle)) {
       PLOG(ERROR) << "ResumeThread";
@@ -386,9 +398,11 @@ void ProcessReaderWin::ReadThreadData(bool is_64_reading_32) {
   if (!process_information)
     return;
 
+#ifdef CLIENT_STACKTRACES_ENABLED
   DWORD options = SymGetOptions();
   SymSetOptions(options | SYMOPT_UNDNAME);
   SymInitialize(process_, NULL, TRUE);
+#endif
 
   for (unsigned long i = 0; i < process_information->NumberOfThreads; ++i) {
     const process_types::SYSTEM_THREAD_INFORMATION<Traits>& thread_info =

@@ -84,7 +84,9 @@ bool ThreadSnapshotWin::Initialize(
 #error Unsupported Windows Arch
 #endif  // ARCH_CPU_X86
 
+#ifdef CLIENT_STACKTRACES_ENABLED
   frames_ = thread_.frames;
+#endif
 
   CaptureMemoryDelegateWin capture_memory_delegate(
       process_reader,
