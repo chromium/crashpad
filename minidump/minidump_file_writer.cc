@@ -105,8 +105,8 @@ void MinidumpFileWriter::InitializeFromSnapshot(
   DCHECK(add_stream_result);
 
   auto stacktrace_list = std::make_unique<MinidumpStacktraceListWriter>();
-  stacktrace_list->InitializeFromSnapshot(process_snapshot->Threads(),
-                                          thread_id_map);
+  stacktrace_list->InitializeFromSnapshot(
+      process_snapshot->Threads(), thread_id_map, exception_snapshot);
   add_stream_result = AddStream(std::move(stacktrace_list));
   DCHECK(add_stream_result);
 

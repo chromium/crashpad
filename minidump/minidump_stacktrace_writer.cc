@@ -7,6 +7,7 @@
 #include <utility>
 
 #include "base/logging.h"
+#include "snapshot/exception_snapshot.h"
 #include "snapshot/thread_snapshot.h"
 #include "util/file/file_writer.h"
 
@@ -32,7 +33,8 @@ MinidumpStacktraceListWriter::~MinidumpStacktraceListWriter() {}
 
 void MinidumpStacktraceListWriter::InitializeFromSnapshot(
     const std::vector<const ThreadSnapshot*>& thread_snapshots,
-    const MinidumpThreadIDMap& thread_id_map) {
+    const MinidumpThreadIDMap& thread_id_map,
+    const ExceptionSnapshot* exception_snapshot) {
   DCHECK_EQ(state(), kStateMutable);
 
   DCHECK(threads_.empty());
@@ -48,6 +50,20 @@ void MinidumpStacktraceListWriter::InitializeFromSnapshot(
     thread.start_frame = (uint32_t)frames_.size();
 
     std::vector<FrameSnapshot> frames = thread_snapshot->StackTrace();
+
+    // filter out the stack frames that are *above* the exception addr, as those
+    // are related to exception handling, and not really useful.
+    if (exception_snapshot &&
+        thread_snapshot->ThreadID() == exception_snapshot->ThreadID()) {
+      auto it = begin(frames);
+      for (; it != end(frames); it++)
+        if (it->InstructionAddr() == exception_snapshot->ExceptionAddress()) {
+          break;
+        }
+      if (it < end(frames)) {
+        frames.erase(begin(frames), it);
+      }
+    }
 
     for (auto frame_snapshot : frames) {
       internal::RawFrame frame;
@@ -110,32 +126,38 @@ bool MinidumpStacktraceListWriter::WriteObject(
   iov.iov_base = &padding;
   iov.iov_len = align_to_8(iov.iov_len);
   if (iov.iov_len > 0) {
-      iovecs.push_back(iov);
+    iovecs.push_back(iov);
   }
 
-  iov.iov_base = &threads_.front();
-  iov.iov_len = threads_.size() * sizeof(internal::RawThread);
-  iovecs.push_back(iov);
+  if (!threads_.empty()) {
+    iov.iov_base = &threads_.front();
+    iov.iov_len = threads_.size() * sizeof(internal::RawThread);
+    iovecs.push_back(iov);
 
-  iov.iov_base = &padding;
-  iov.iov_len = align_to_8(iov.iov_len);
-  if (iov.iov_len > 0) {
+    iov.iov_base = &padding;
+    iov.iov_len = align_to_8(iov.iov_len);
+    if (iov.iov_len > 0) {
       iovecs.push_back(iov);
+    }
   }
 
-  iov.iov_base = &frames_.front();
-  iov.iov_len = frames_.size() * sizeof(internal::RawFrame);
-  iovecs.push_back(iov);
+  if (!frames_.empty()) {
+    iov.iov_base = &frames_.front();
+    iov.iov_len = frames_.size() * sizeof(internal::RawFrame);
+    iovecs.push_back(iov);
 
-  iov.iov_base = &padding;
-  iov.iov_len = align_to_8(iov.iov_len);
-  if (iov.iov_len > 0) {
+    iov.iov_base = &padding;
+    iov.iov_len = align_to_8(iov.iov_len);
+    if (iov.iov_len > 0) {
       iovecs.push_back(iov);
+    }
   }
 
-  iov.iov_base = &symbol_bytes_.front();
-  iov.iov_len = symbol_bytes_.size();
-  iovecs.push_back(iov);
+  if (!symbol_bytes_.empty()) {
+    iov.iov_base = &symbol_bytes_.front();
+    iov.iov_len = symbol_bytes_.size();
+    iovecs.push_back(iov);
+  }
 
   return file_writer->WriteIoVec(&iovecs);
 }

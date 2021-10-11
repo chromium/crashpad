@@ -22,6 +22,7 @@
 
 #include "base/macros.h"
 #include "build/build_config.h"
+#include "snapshot/thread_snapshot.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/process/process_memory_win.h"
 #include "util/win/address_types.h"
@@ -60,6 +61,8 @@ class ProcessReaderWin {
     uint32_t suspend_count;
     uint32_t priority_class;
     uint32_t priority;
+
+    std::vector<FrameSnapshot> frames;
   };
 
   ProcessReaderWin();

@@ -202,7 +202,7 @@ target_link_libraries(crashpad_snapshot
 )
 
 if(WIN32)
-    target_link_libraries(crashpad_snapshot PRIVATE powrprof)
+    target_link_libraries(crashpad_snapshot PRIVATE powrprof dbghelp)
     if(MSVC)
         target_compile_options(crashpad_snapshot PRIVATE "/wd4201")
     endif()

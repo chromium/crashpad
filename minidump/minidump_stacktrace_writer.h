@@ -40,6 +40,7 @@ struct RawFrame {
 }  // namespace internal
 
 class ThreadSnapshot;
+class ExceptionSnapshot;
 
 //! \brief The writer for our custom client-side stacktraces stream in a
 //! minidump file.
@@ -57,7 +58,8 @@ class MinidumpStacktraceListWriter final
   //!     identified by \a thread_snapshots.
   void InitializeFromSnapshot(
       const std::vector<const ThreadSnapshot*>& thread_snapshots,
-      const MinidumpThreadIDMap& thread_id_map);
+      const MinidumpThreadIDMap& thread_id_map,
+      const ExceptionSnapshot* exception_snapshot);
 
  protected:
   // MinidumpWritable:
