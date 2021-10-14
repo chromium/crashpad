@@ -42,9 +42,7 @@ constexpr int kUnexpectedExitStatus = 3;
 
 // Keep synchronized with CauseSignal().
 bool CanCauseSignal(int sig) {
-  return sig == SIGABRT ||
-         sig == SIGALRM ||
-         sig == SIGBUS ||
+  return sig == SIGABRT || sig == SIGALRM || sig == SIGBUS ||
 /* According to DDI0487D (Armv8 Architecture Reference Manual) the expected
  * behavior for division by zero (Section 3.4.8) is: "... results in a
  * zero being written to the destination register, without any
@@ -58,8 +56,7 @@ bool CanCauseSignal(int sig) {
 #if defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARMEL)
          sig == SIGILL ||
 #endif  // defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARMEL)
-         sig == SIGPIPE ||
-         sig == SIGSEGV ||
+         sig == SIGPIPE || sig == SIGSEGV ||
 #if defined(OS_APPLE)
          sig == SIGSYS ||
 #endif  // OS_APPLE
