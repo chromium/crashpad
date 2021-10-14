@@ -19,7 +19,7 @@
 #include <vector>
 
 #include "base/files/file_path.h"
-#include "handler/mac/crash_report_exception_handler.h"
+#include "handler/crash_report_upload_thread.h"
 #include "snapshot/ios/process_snapshot_ios_intermediate_dump.h"
 #include "util/ios/ios_intermediate_dump_writer.h"
 #include "util/ios/ios_system_data_collector.h"
