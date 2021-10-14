@@ -39,6 +39,7 @@ std::string exeCmd(const char* cmd) {
   return result;
 }
 
+
 void killCrashedPidChildren(const std::string& pid) {
   // if crashed process has children kill them
   std::string cmd = "pgrep -P " + pid;
