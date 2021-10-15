@@ -180,17 +180,15 @@ void RelaunchOnCrash(const std::map<std::string, std::string>& annotations) {
 
       killCrashedPidChildren(pidCrashed->second);
 
-      int returnC = 0;
       if (!maybeCrashLoop) {
 #if defined(WIN32)
-        returnC = _execvp(appPath->second.c_str(), cargv.data());
+        auto returnC = _execvp(appPath->second.c_str(), cargv.data());
 #else
-        returnC = execvp(appPath->second.c_str(), cargv.data());
+        auto returnC = execvp(appPath->second.c_str(), cargv.data());
 #endif
-      }
-
-      if (returnC == -1) {
-        LOG(ERROR) << "execl return code: " << returnC << " error " << errno;
+        if (returnC == -1) {
+          LOG(ERROR) << "execl return code: " << returnC << " error " << errno;
+        }
       }
 
       freeRelaunchArgv(cargv);
