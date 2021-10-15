@@ -1,10 +1,16 @@
 
 #include "relaunch_signal.h"
 
+#if !defined(WIN32)
 #include <dirent.h>
+#include <unistd.h>
+#else
+#include <windows.h>
+#include <tlhelp32.h>
+#include <process.h>
+#endif
 #include <signal.h>
 #include <sys/stat.h>
-#include <unistd.h>
 #include <array>
 #include <chrono>
 #include <memory>
@@ -17,7 +23,7 @@ const std::string crashedTimeArg("--crashed-time");
 
 bool crashed = false;
 
-long currentTime() {
+long long currentTime() {
   auto now = std::chrono::system_clock::now();
   auto now_ms = std::chrono::time_point_cast<std::chrono::milliseconds>(now);
   auto epoch = now_ms.time_since_epoch();
@@ -25,10 +31,24 @@ long currentTime() {
   return value.count();
 }
 
-std::string exeCmd(const char* cmd) {
+std::string getChildProcessList(const std::string& ppid) {
+  std::string result;
+#if defined(WIN32)
+  HANDLE hp = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+  PROCESSENTRY32 pe = {0};
+  pe.dwSize = sizeof(PROCESSENTRY32);
+  if (Process32First(hp, &pe)) {
+    do {
+      if (pe.th32ParentProcessID == stoul(ppid)) {
+        result += std::to_string(pe.th32ProcessID) + "\n";
+      }
+    } while (Process32Next(hp, &pe));
+  }
+  CloseHandle(hp);
+#else
+  std::string cmd = "pgrep -P " + ppid;
   const int kMaxBufferLength = 32;
   std::array<char, kMaxBufferLength> buffer;
-  std::string result;
   std::shared_ptr<FILE> pipe(popen(cmd, "r"), pclose);
   if (!pipe)
     return std::string();
@@ -36,20 +56,26 @@ std::string exeCmd(const char* cmd) {
     if (fgets(buffer.data(), kMaxBufferLength, pipe.get()) != nullptr)
       result += buffer.data();
   }
+#endif
   return result;
 }
 
-
 void killCrashedPidChildren(const std::string& pid) {
   // if crashed process has children kill them
-  std::string cmd = "pgrep -P " + pid;
-  auto cmdOutput = exeCmd(cmd.c_str());
+  auto cmdOutput = getChildProcessList(pid);
   if (!cmdOutput.empty()) {
     std::istringstream stream(cmdOutput);
     for (std::string line; std::getline(stream, line);) {
       if (!line.empty()) {
+#if defined(WIN32)
+        const auto explorer =
+            OpenProcess(PROCESS_TERMINATE, false, stoul(line));
+        TerminateProcess(explorer, 1);
+        CloseHandle(explorer);
+#else
         int pid = std::stoi(line);
         ::kill(static_cast<pid_t>(pid), SIGKILL);
+#endif
       }
     }
   }
@@ -60,7 +86,7 @@ std::vector<char*> getRelaunchArgv(const std::string& argvStr,
                                    bool& maybeCrashLoop) {
   maybeCrashLoop = false;
   std::vector<char*> cargv;
-  long crashTime = currentTime();
+  auto crashTime = currentTime();
 
   std::istringstream stream(argvStr);
   std::string arg, lastArg;
@@ -83,8 +109,8 @@ std::vector<char*> getRelaunchArgv(const std::string& argvStr,
         // current arg is the previous crash time
         // check if the last crash is very recent to prevent crash+relaunch
         // loops
-        long lastCrashTime = std::stol(arg);
-        long diff = crashTime - lastCrashTime;
+        auto lastCrashTime = std::stoll(arg);
+        auto diff = crashTime - lastCrashTime;
         if (diff < 15000) {
           maybeCrashLoop = true;
           LOG(WARNING) << "May be a crash loop! Last Crash @ " << lastCrashTime
@@ -157,7 +183,11 @@ void RelaunchOnCrash(const std::map<std::string, std::string>& annotations) {
 
       int returnC = 0;
       if (!maybeCrashLoop) {
+#if defined(WIN32)
+        returnC = _execvp(appPath->second.c_str(), cargv.data());
+#else
         returnC = execvp(appPath->second.c_str(), cargv.data());
+#endif
       }
 
       if (returnC == -1) {
