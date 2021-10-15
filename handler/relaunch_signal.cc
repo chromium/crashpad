@@ -49,7 +49,7 @@ std::string getChildProcessList(const std::string& ppid) {
   std::string cmd = "pgrep -P " + ppid;
   const int kMaxBufferLength = 32;
   std::array<char, kMaxBufferLength> buffer;
-  std::shared_ptr<FILE> pipe(popen(cmd, "r"), pclose);
+  std::shared_ptr<FILE> pipe(popen(cmd.c_str(), "r"), pclose);
   if (!pipe)
     return std::string();
   while (!feof(pipe.get())) {
@@ -68,8 +68,7 @@ void killCrashedPidChildren(const std::string& pid) {
     for (std::string line; std::getline(stream, line);) {
       if (!line.empty()) {
 #if defined(WIN32)
-        const auto explorer =
-            OpenProcess(PROCESS_TERMINATE, false, stoul(line));
+        const auto explorer = OpenProcess(PROCESS_TERMINATE, false, stoul(line));
         TerminateProcess(explorer, 1);
         CloseHandle(explorer);
 #else
