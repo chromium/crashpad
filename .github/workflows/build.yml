@@ -17,10 +17,22 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: "recursive"
-      - uses: lukka/run-cmake@v2
-        with:
-          cmakeListsOrSettingsJson: "CMakeListsTxtAdvanced"
-          buildWithCMakeArgs: "--parallel"
+
+      - name: Installing Linux Dependencies
+        if: ${{ runner.os == 'Linux' }}
+        run: |
+          sudo apt update
+          sudo apt install zlib1g-dev libcurl4-openssl-dev libssl-dev libunwind-dev
+
+      - name: Build crashpad
+        run: |
+          cmake -B cmake-build
+          cmake --build cmake-build --parallel
+
+      - name: Build crashpad with client-side stack traces
+        run: |
+          cmake -B cmake-build-stacks -D CRASHPAD_ENABLE_STACKTRACE=ON
+          cmake --build cmake-build-stacks --parallel
 
   build-ios:
     runs-on: macos-latest
