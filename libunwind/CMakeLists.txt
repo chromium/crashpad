@@ -1,7 +1,3 @@
-if (NOT IS_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/../libcxx")
-  message(FATAL_ERROR "libunwind requires being built in a monorepo layout with libcxx available")
-endif()
-
 #===============================================================================
 # Setup Project
 #===============================================================================

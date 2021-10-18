@@ -121,6 +121,11 @@ add_subdirectory(third_party/getopt)
 add_subdirectory(tools)
 add_subdirectory(handler)
 
+if(CRASHPAD_ENABLE_STACKTRACE AND APPLE AND NOT IOS)
+    set(LIBUNWIND_ENABLE_SHARED OFF)
+    add_subdirectory(libunwind)
+endif()
+
 if(CRASHPAD_ENABLE_INSTALL_DEV)
     install(EXPORT crashpad_export NAMESPACE crashpad:: FILE crashpad-targets.cmake
         DESTINATION "${CMAKE_INSTALL_CMAKEDIR}")
