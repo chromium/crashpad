@@ -224,6 +224,12 @@ if(WIN32)
     endif()
 endif()
 
+if(LINUX AND CRASHPAD_ENABLE_STACKTRACE)
+	find_package(PkgConfig REQUIRED)
+	pkg_check_modules(UNWIND REQUIRED IMPORTED_TARGET libunwind-ptrace)
+	target_link_libraries(crashpad_snapshot PRIVATE PkgConfig::UNWIND)
+endif()
+
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_compile_options(crashpad_snapshot PRIVATE
         "-Wno-multichar"

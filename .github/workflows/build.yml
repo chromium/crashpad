@@ -22,7 +22,7 @@ jobs:
         if: ${{ runner.os == 'Linux' }}
         run: |
           sudo apt update
-          sudo apt install zlib1g-dev libcurl4-openssl-dev libssl-dev libunwind-dev
+          sudo apt install zlib1g-dev libcurl4-openssl-dev libssl-dev libunwind-dev pkg-config
 
       - name: Build crashpad
         run: |
