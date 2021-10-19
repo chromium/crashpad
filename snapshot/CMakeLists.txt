@@ -46,7 +46,6 @@ add_library(crashpad_snapshot STATIC
     unloaded_module_snapshot.h
 )
 
-
 if(APPLE AND NOT IOS)
     target_sources(crashpad_snapshot PRIVATE
         posix/timezone.cc
@@ -224,10 +223,15 @@ if(WIN32)
     endif()
 endif()
 
+if(APPLE AND NOT IOS AND CRASHPAD_ENABLE_STACKTRACE)
+    target_include_directories(crashpad_snapshot PRIVATE ../libunwind/include)
+    target_link_libraries(crashpad_snapshot PRIVATE unwind_static)
+endif()
+
 if(LINUX AND CRASHPAD_ENABLE_STACKTRACE)
-	find_package(PkgConfig REQUIRED)
-	pkg_check_modules(UNWIND REQUIRED IMPORTED_TARGET libunwind-ptrace)
-	target_link_libraries(crashpad_snapshot PRIVATE PkgConfig::UNWIND)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(UNWIND REQUIRED IMPORTED_TARGET libunwind-ptrace)
+    target_link_libraries(crashpad_snapshot PRIVATE PkgConfig::UNWIND)
 endif()
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
