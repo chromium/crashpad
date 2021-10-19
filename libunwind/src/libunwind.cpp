@@ -88,6 +88,43 @@ _LIBUNWIND_HIDDEN int __unw_init_local(unw_cursor_t *cursor,
 }
 _LIBUNWIND_WEAK_ALIAS(__unw_init_local, unw_init_local)
 
+/// Create a cursor into a thread in another process.
+_LIBUNWIND_EXPORT int unw_init_remote_thread(unw_cursor_t *cursor,
+                                             unw_addr_space_t as, thread_t thread) {
+#if defined(__x86_64__)
+# define REGISTER_KIND Registers_x86_64
+#elif defined(__aarch64__)
+# define REGISTER_KIND Registers_arm64
+#else
+# error Architecture not supported
+#endif
+  // Use "placement new" to allocate UnwindCursor in the cursor buffer.
+  new (reinterpret_cast<UnwindCursor<RemoteAddressSpace, REGISTER_KIND> *>(
+      cursor))
+      UnwindCursor<RemoteAddressSpace, REGISTER_KIND>(*(RemoteAddressSpace*)as,
+                                                      thread);
+#undef REGISTER_KIND
+  AbstractUnwindCursor *co = (AbstractUnwindCursor *)cursor;
+  co->setInfoBasedOnIPRegister();
+
+  return UNW_ESUCCESS;
+}
+
+/// Create an address_space object for use in examining another task.
+_LIBUNWIND_EXPORT unw_addr_space_t unw_create_addr_space_for_task(task_t task) {
+  RemoteAddressSpace *as =
+      (RemoteAddressSpace *)malloc(sizeof(RemoteAddressSpace));
+  new (as) RemoteAddressSpace(task);
+  return (unw_addr_space_t)as;
+}
+
+/// Delete an address_space object.
+_LIBUNWIND_EXPORT void unw_destroy_addr_space(unw_addr_space_t asp) {
+  RemoteAddressSpace *as = (RemoteAddressSpace *)asp;
+  as->~RemoteAddressSpace();
+  free(as);
+}
+
 /// Get value of specified register at cursor position in stack frame.
 _LIBUNWIND_HIDDEN int __unw_get_reg(unw_cursor_t *cursor, unw_regnum_t regNum,
                                     unw_word_t *value) {

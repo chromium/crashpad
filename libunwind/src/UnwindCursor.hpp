@@ -23,6 +23,7 @@
 #endif
 #ifdef __APPLE__
   #include <mach-o/dyld.h>
+  #include <mach/thread_act.h>
 #endif
 
 #if defined(_LIBUNWIND_SUPPORT_SEH_UNWIND)
@@ -889,7 +890,7 @@ class UnwindCursor : public AbstractUnwindCursor{
   typedef typename A::pint_t pint_t;
 public:
                       UnwindCursor(unw_context_t *context, A &as);
-                      UnwindCursor(A &as, void *threadArg);
+                      UnwindCursor(A &as, thread_t thread);
   virtual             ~UnwindCursor() {}
   virtual bool        validReg(int);
   virtual unw_word_t  getReg(int);
@@ -1226,13 +1227,31 @@ UnwindCursor<A, R>::UnwindCursor(unw_context_t *context, A &as)
 }
 
 template <typename A, typename R>
-UnwindCursor<A, R>::UnwindCursor(A &as, void *)
+UnwindCursor<A, R>::UnwindCursor(A &as, thread_t thread)
     : _addressSpace(as), _unwindInfoMissing(false), _isSignalFrame(false) {
   memset(&_info, 0, sizeof(_info));
-  // FIXME
-  // fill in _registers from thread arg
-}
 
+#if defined(__x86_64__)
+  thread_state_flavor_t thread_state_flavor = x86_THREAD_STATE64;
+  mach_msg_type_number_t thread_state_count = x86_THREAD_STATE64_COUNT;
+#elif defined(__aarch64__)
+  thread_state_flavor_t thread_state_flavor = ARM_THREAD_STATE64;
+  mach_msg_type_number_t thread_state_count = ARM_THREAD_STATE64_COUNT;
+#else
+#error Architecture not supported
+#endif
+
+  // lucky us: the layout of the various `Registers_X` classes matches whatever
+  // the mach kernel is writing here.
+
+  kern_return_t kr =
+      thread_get_state(thread, thread_state_flavor,
+                       (thread_state_t)&_registers,
+                       &thread_state_count);
+
+  // FIXME: the function is infallible
+  (void)kr;
+}
 
 template <typename A, typename R>
 bool UnwindCursor<A, R>::validReg(int regNum) {
@@ -1951,8 +1970,10 @@ void UnwindCursor<A, R>::setInfoBasedOnIPRegister(bool isReturnAddress) {
   #endif
         // If unwind table has entry, but entry says there is no unwind info,
         // record that we have no unwind info.
+#ifndef _LIBUNWIND_TARGET_X86_64
         if (_info.format == 0)
           _unwindInfoMissing = true;
+#endif
         return;
       }
     }

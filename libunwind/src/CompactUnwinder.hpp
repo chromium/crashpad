@@ -274,6 +274,8 @@ private:
   static void frameUnwind(A &addressSpace, Registers_x86_64 &registers);
   static void framelessUnwind(A &addressSpace, uint64_t returnAddressLocation,
                               Registers_x86_64 &registers);
+  static int stepSpeculatively(
+    A &addressSpace, Registers_x86_64 &registers);
   static int
       stepWithCompactEncodingRBPFrame(compact_unwind_encoding_t compactEncoding,
                                       uint64_t functionStart, A &addressSpace,
@@ -288,6 +290,8 @@ int CompactUnwinder_x86_64<A>::stepWithCompactEncoding(
     compact_unwind_encoding_t compactEncoding, uint64_t functionStart,
     A &addressSpace, Registers_x86_64 &registers) {
   switch (compactEncoding & UNWIND_X86_64_MODE_MASK) {
+  case 0:
+    return stepSpeculatively(addressSpace, registers);
   case UNWIND_X86_64_MODE_RBP_FRAME:
     return stepWithCompactEncodingRBPFrame(compactEncoding, functionStart,
                                            addressSpace, registers);
@@ -299,6 +303,28 @@ int CompactUnwinder_x86_64<A>::stepWithCompactEncoding(
                                             addressSpace, registers, true);
   }
   _LIBUNWIND_ABORT("invalid compact unwind encoding");
+}
+
+template <typename A>
+int CompactUnwinder_x86_64<A>::stepSpeculatively(
+    A &addressSpace, Registers_x86_64 &registers) {
+  uint64_t rsp = registers.getSP();
+  uint64_t rbp = registers.getRBP();
+  if (rsp == rbp) {
+    // In this case we assume this was a standard `push rbp, rbp = rsp`
+    // preamble, so the stack should only have the old rbp, and the return
+    // address on it. This is the case in, for example:
+    // - `libsystem_platform.dylib/_platform_bzero$VARIANT$Haswell`
+    frameUnwind(addressSpace, registers);
+  } else {
+    // Here, we assume that the function has no stack space of its own, so we
+    // assume the return address is right there at the top. This happens for
+    // for example in:
+    // - `libsystem_kernel.dylib/__psynch_cvwait`
+    // - and other functions which appear to be syscall wrappers
+    framelessUnwind(addressSpace, rsp, registers);
+  }
+  return UNW_STEP_SUCCESS;
 }
 
 template <typename A>

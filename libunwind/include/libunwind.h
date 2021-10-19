@@ -19,6 +19,9 @@
 #include <stddef.h>
 
 #ifdef __APPLE__
+
+  #include <mach/mach_types.h>
+
   #if __clang__
     #if __has_include(<Availability.h>)
       #include <Availability.h>
@@ -129,6 +132,13 @@ extern int unw_get_proc_name(unw_cursor_t *, char *, size_t, unw_word_t *) LIBUN
 //extern int       unw_get_save_loc(unw_cursor_t*, int, unw_save_loc_t*);
 
 extern unw_addr_space_t unw_local_addr_space;
+
+/*
+ * Mac OS X "remote" API for unwinding other processes on same machine
+ */
+extern unw_addr_space_t unw_create_addr_space_for_task(task_t);
+extern void unw_destroy_addr_space(unw_addr_space_t);
+extern int unw_init_remote_thread(unw_cursor_t *, unw_addr_space_t, thread_t);
 
 #ifdef __cplusplus
 }
