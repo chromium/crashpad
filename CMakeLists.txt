@@ -12,6 +12,7 @@ endif()
 
 option(CRASHPAD_ENABLE_INSTALL "Enable crashpad installation" "${CRASHPAD_MAIN_PROJECT}")
 option(CRASHPAD_ENABLE_INSTALL_DEV "Enable crashpad development installation" "${CRASHPAD_MAIN_PROJECT}")
+option(CRASHPAD_ENABLE_STACKTRACE "Enable client-side stack trace recording" OFF)
 
 if(MSVC)
     set(CRASHPAD_ZLIB_SYSTEM_DEFAULT OFF)
@@ -119,6 +120,12 @@ add_subdirectory(third_party/getopt)
 
 add_subdirectory(tools)
 add_subdirectory(handler)
+
+if(CRASHPAD_ENABLE_STACKTRACE AND APPLE AND NOT IOS)
+    set(LIBUNWIND_ENABLE_SHARED OFF)
+    add_subdirectory(libunwind)
+    crashpad_install_target(unwind_static)
+endif()
 
 if(CRASHPAD_ENABLE_INSTALL_DEV)
     install(EXPORT crashpad_export NAMESPACE crashpad:: FILE crashpad-targets.cmake

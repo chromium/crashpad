@@ -16,6 +16,12 @@
 
 #include <sched.h>
 
+#ifdef CLIENT_STACKTRACES_ENABLED
+#include <endian.h>
+#include <libunwind-ptrace.h>
+#include <libunwind.h>
+#endif
+
 #include "base/logging.h"
 #include "snapshot/linux/cpu_context_linux.h"
 #include "util/misc/reinterpret_bytes.h"
@@ -199,6 +205,37 @@ bool ThreadSnapshotLinux::Initialize(ProcessReaderLinux* process_reader,
 
   thread_id_ = thread.tid;
 
+#ifdef CLIENT_STACKTRACES_ENABLED
+  void* upt = _UPT_create(thread_id_);
+  if (upt) {
+    unw_addr_space_t as =
+        unw_create_addr_space(&_UPT_accessors, __LITTLE_ENDIAN);
+    unw_cursor_t cursor;
+    if (unw_init_remote(&cursor, as, upt) == UNW_ESUCCESS) {
+      do {
+        unw_word_t addr;
+        if (unw_get_reg(&cursor, UNW_REG_IP, &addr) < 0) {
+          return false;
+        }
+
+        std::string sym("");
+        char buf[1024];
+        unw_word_t symbol_offset;
+        if (unw_get_proc_name(&cursor, buf, sizeof(buf), &symbol_offset) ==
+            UNW_ESUCCESS) {
+          sym = std::string(buf);
+        }
+
+        FrameSnapshot frame(addr, sym);
+        frames_.push_back(frame);
+      } while (unw_step(&cursor) > 0);
+    }
+
+    unw_destroy_addr_space(as);
+    _UPT_destroy(upt);
+  }
+#endif
+
   priority_ =
       thread.have_priorities
           ? ComputeThreadPriority(
@@ -242,6 +279,21 @@ uint64_t ThreadSnapshotLinux::ThreadSpecificDataAddress() const {
 std::vector<const MemorySnapshot*> ThreadSnapshotLinux::ExtraMemory() const {
   return std::vector<const MemorySnapshot*>();
 }
+
+#ifdef CLIENT_STACKTRACES_ENABLED
+void ThreadSnapshotLinux::TrimStackTrace(uint64_t exception_address) {
+  auto start_frame = begin(frames_);
+  for (; start_frame != end(frames_); start_frame++) {
+    // These two addresses are never equivalent to each other
+    if (start_frame->InstructionAddr() == exception_address) {
+      break;
+    }
+  }
+  if (start_frame < end(frames_)) {
+    frames_.erase(begin(frames_), start_frame);
+  }
+}
+#endif
 
 }  // namespace internal
 }  // namespace crashpad

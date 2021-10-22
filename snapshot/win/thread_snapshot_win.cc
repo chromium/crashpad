@@ -32,11 +32,9 @@ ThreadSnapshotWin::ThreadSnapshotWin()
       stack_(),
       teb_(),
       thread_(),
-      initialized_() {
-}
+      initialized_() {}
 
-ThreadSnapshotWin::~ThreadSnapshotWin() {
-}
+ThreadSnapshotWin::~ThreadSnapshotWin() {}
 
 bool ThreadSnapshotWin::Initialize(
     ProcessReaderWin* process_reader,
@@ -85,6 +83,10 @@ bool ThreadSnapshotWin::Initialize(
 #else
 #error Unsupported Windows Arch
 #endif  // ARCH_CPU_X86
+
+#ifdef CLIENT_STACKTRACES_ENABLED
+  frames_ = thread_.frames;
+#endif
 
   CaptureMemoryDelegateWin capture_memory_delegate(
       process_reader,

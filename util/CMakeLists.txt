@@ -202,10 +202,25 @@ if(APPLE)
         )
     else()
         target_sources(crashpad_util PRIVATE
-            ios/exception_processor.h
-            ios/exception_processor.mm
+            ios/ios_intermediate_dump_data.cc
+            ios/ios_intermediate_dump_data.h
+            ios/ios_intermediate_dump_format.h
+            ios/ios_intermediate_dump_list.cc
+            ios/ios_intermediate_dump_list.h
+            ios/ios_intermediate_dump_map.cc
+            ios/ios_intermediate_dump_map.h
+            ios/ios_intermediate_dump_object.cc
+            ios/ios_intermediate_dump_object.h
+            ios/ios_intermediate_dump_reader.cc
+            ios/ios_intermediate_dump_reader.h
+            ios/ios_intermediate_dump_writer.cc
+            ios/ios_intermediate_dump_writer.h
             ios/ios_system_data_collector.h
             ios/ios_system_data_collector.mm
+            ios/raw_logging.cc
+            ios/raw_logging.h
+            ios/scoped_vm_read.cc
+            ios/scoped_vm_read.h
     )
     endif()
 endif()
@@ -429,7 +444,8 @@ if(APPLE)
     get_property(archs TARGET crashpad_util PROPERTY OSX_ARCHITECTURES)
     if (archs)
         list(TRANSFORM archs PREPEND "-arch ")
-        set(CMAKE_ASM_FLAGS "${CFLAGS} ${archs}")
+        list(JOIN archs " " archs_str)
+        set(CMAKE_ASM_FLAGS "${CFLAGS} ${archs_str}")
     endif()
 
     target_link_libraries(crashpad_util PRIVATE

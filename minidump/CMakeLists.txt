@@ -62,6 +62,14 @@ target_link_libraries(crashpad_minidump
         mini_chromium
 )
 
+if(CRASHPAD_ENABLE_STACKTRACE)
+    target_sources(crashpad_minidump PRIVATE
+        minidump_stacktrace_writer.cc
+        minidump_stacktrace_writer.h
+    )
+    target_compile_definitions(crashpad_minidump PRIVATE CLIENT_STACKTRACES_ENABLED)
+endif()
+
 if(MSVC)
     target_compile_options(crashpad_minidump PRIVATE "/wd4201" "/wd4324")
 endif()

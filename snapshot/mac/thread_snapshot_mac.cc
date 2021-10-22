@@ -18,6 +18,10 @@
 #include "snapshot/mac/cpu_context_mac.h"
 #include "snapshot/mac/process_reader_mac.h"
 
+#ifdef CLIENT_STACKTRACES_ENABLED
+#include <libunwind.h>
+#endif
+
 namespace crashpad {
 namespace internal {
 
@@ -31,11 +35,9 @@ ThreadSnapshotMac::ThreadSnapshotMac()
       thread_(MACH_PORT_NULL),
       suspend_count_(0),
       priority_(0),
-      initialized_() {
-}
+      initialized_() {}
 
-ThreadSnapshotMac::~ThreadSnapshotMac() {
-}
+ThreadSnapshotMac::~ThreadSnapshotMac() {}
 
 bool ThreadSnapshotMac::Initialize(
     ProcessReaderMac* process_reader,
@@ -87,6 +89,35 @@ bool ThreadSnapshotMac::Initialize(
                             &process_reader_thread.debug_context);
 #else
 #error Port to your CPU architecture
+#endif
+
+#ifdef CLIENT_STACKTRACES_ENABLED
+  unw_addr_space_t as = unw_create_addr_space_for_task(process_reader->task_);
+  unw_cursor_t cursor;
+
+  if (unw_init_remote_thread(&cursor, as, thread_) == UNW_ESUCCESS) {
+    do {
+      unw_word_t addr;
+      unw_get_reg(&cursor, UNW_REG_IP, &addr);
+
+      std::string sym("");
+      char buf[1024];
+      unw_word_t symbol_offset;
+      if (unw_get_proc_name(&cursor, buf, sizeof(buf), &symbol_offset) ==
+          UNW_ESUCCESS) {
+        if (buf[0] == '_') {
+          sym = std::string(buf + 1);
+        } else {
+          sym = std::string(buf);
+        }
+      }
+
+      FrameSnapshot frame(addr, sym);
+      frames_.push_back(frame);
+    } while (unw_step(&cursor) > 0);
+  }
+
+  unw_destroy_addr_space(as);
 #endif
 
   INITIALIZATION_STATE_SET_VALID(initialized_);

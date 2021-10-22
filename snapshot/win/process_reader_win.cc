@@ -14,13 +14,15 @@
 
 #include "snapshot/win/process_reader_win.h"
 
+#ifdef CLIENT_STACKTRACES_ENABLED
+#include <dbghelp.h>
+#endif
 #include <string.h>
 #include <winternl.h>
 
 #include <memory>
 
 #include "base/numerics/safe_conversions.h"
-#include "base/strings/stringprintf.h"
 #include "util/misc/capture_context.h"
 #include "util/misc/time.h"
 #include "util/win/nt_internals.h"
@@ -126,25 +128,110 @@ HANDLE OpenThread(
   return handle;
 }
 
+#ifdef CLIENT_STACKTRACES_ENABLED
+void DoStackWalk(ProcessReaderWin::Thread* thread,
+                 HANDLE process,
+                 HANDLE thread_handle,
+                 bool is_64_reading_32) {
+  if (is_64_reading_32) {
+    // TODO: we dont support it right away, maybe in the future
+    return;
+  }
+
+  STACKFRAME64 stack_frame;
+  memset(&stack_frame, 0, sizeof(stack_frame));
+
+  stack_frame.AddrPC.Mode = AddrModeFlat;
+  stack_frame.AddrFrame.Mode = AddrModeFlat;
+  stack_frame.AddrStack.Mode = AddrModeFlat;
+
+  int machine_type = IMAGE_FILE_MACHINE_I386;
+  LPVOID ctx = NULL;
+#if defined(ARCH_CPU_X86)
+  const CONTEXT* ctx_ = &thread->context.native;
+  stack_frame.AddrPC.Offset = ctx_->Eip;
+  stack_frame.AddrFrame.Offset = ctx_->Ebp;
+  stack_frame.AddrStack.Offset = ctx_->Esp;
+  ctx = (LPVOID)ctx_;
+#elif defined(ARCH_CPU_X86_64)
+  // if (!is_64_reading_32) {
+  machine_type = IMAGE_FILE_MACHINE_AMD64;
+
+  const CONTEXT* ctx_ = &thread->context.native;
+  stack_frame.AddrPC.Offset = ctx_->Rip;
+  stack_frame.AddrFrame.Offset = ctx_->Rbp;
+  stack_frame.AddrStack.Offset = ctx_->Rsp;
+  ctx = (LPVOID)ctx_;
+  // } else {
+  //   const WOW64_CONTEXT* ctx_ = &thread->context.wow64;
+  //   stack_frame.AddrPC.Offset = ctx_->Eip;
+  //   stack_frame.AddrFrame.Offset = ctx_->Ebp;
+  //   stack_frame.AddrStack.Offset = ctx_->Esp;
+  //   ctx = (LPVOID)ctx_;
+  // }
+
+// TODO: we dont support this right away, maybe in the future
+//#elif defined(ARCH_CPU_ARM64)
+//  machine_type = IMAGE_FILE_MACHINE_ARM64;
+#else
+#error Unsupported Windows Arch
+#endif  // ARCH_CPU_X86
+
+  char buffer[sizeof(SYMBOL_INFO) + MAX_SYM_NAME];
+  PSYMBOL_INFO pSymbol = (PSYMBOL_INFO)buffer;
+
+  pSymbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+  pSymbol->MaxNameLen = MAX_SYM_NAME;
+
+  while (StackWalk64(machine_type,
+                     process,
+                     thread_handle,
+                     &stack_frame,
+                     ctx,
+                     NULL,
+                     SymFunctionTableAccess64,
+                     SymGetModuleBase64,
+                     NULL)) {
+    uint64_t addr = stack_frame.AddrPC.Offset;
+    std::string sym("");
+    if (SymFromAddr(process, addr, 0, pSymbol)) {
+      sym = std::string(pSymbol->Name);
+    }
+    FrameSnapshot frame(addr, sym);
+    thread->frames.push_back(frame);
+  }
+}
+#endif
+
 // It's necessary to suspend the thread to grab CONTEXT. SuspendThread has a
 // side-effect of returning the SuspendCount of the thread on success, so we
 // fill out these two pieces of semi-unrelated data in the same function.
 template <class Traits>
-bool FillThreadContextAndSuspendCount(HANDLE thread_handle,
+bool FillThreadContextAndSuspendCount(HANDLE process,
+                                      HANDLE thread_handle,
                                       ProcessReaderWin::Thread* thread,
                                       ProcessSuspensionState suspension_state,
                                       bool is_64_reading_32) {
+#ifndef CLIENT_STACKTRACES_ENABLED
+  (void)process;
+#endif
+
   // Don't suspend the thread if it's this thread. This is really only for test
   // binaries, as we won't be walking ourselves, in general.
-  bool is_current_thread = thread->id ==
-                           reinterpret_cast<process_types::TEB<Traits>*>(
-                               NtCurrentTeb())->ClientId.UniqueThread;
+  bool is_current_thread =
+      thread->id ==
+      reinterpret_cast<process_types::TEB<Traits>*>(NtCurrentTeb())
+          ->ClientId.UniqueThread;
 
   if (is_current_thread) {
     DCHECK(suspension_state == ProcessSuspensionState::kRunning);
     thread->suspend_count = 0;
     DCHECK(!is_64_reading_32);
     CaptureContext(&thread->context.native);
+
+#ifdef CLIENT_STACKTRACES_ENABLED
+    DoStackWalk(thread, process, thread_handle, is_64_reading_32);
+#endif
   } else {
     DWORD previous_suspend_count = SuspendThread(thread_handle);
     if (previous_suspend_count == static_cast<DWORD>(-1)) {
@@ -184,6 +271,10 @@ bool FillThreadContextAndSuspendCount(HANDLE thread_handle,
       }
     }
 
+#ifdef CLIENT_STACKTRACES_ENABLED
+    DoStackWalk(thread, process, thread_handle, is_64_reading_32);
+#endif
+
     if (!ResumeThread(thread_handle)) {
       PLOG(ERROR) << "ResumeThread";
       return false;
@@ -204,8 +295,7 @@ ProcessReaderWin::Thread::Thread()
       stack_region_size(0),
       suspend_count(0),
       priority_class(0),
-      priority(0) {
-}
+      priority(0) {}
 
 ProcessReaderWin::ProcessReaderWin()
     : process_(INVALID_HANDLE_VALUE),
@@ -215,11 +305,9 @@ ProcessReaderWin::ProcessReaderWin()
       modules_(),
       suspension_state_(),
       initialized_threads_(false),
-      initialized_() {
-}
+      initialized_() {}
 
-ProcessReaderWin::~ProcessReaderWin() {
-}
+ProcessReaderWin::~ProcessReaderWin() {}
 
 bool ProcessReaderWin::Initialize(HANDLE process,
                                   ProcessSuspensionState suspension_state) {
@@ -310,6 +398,12 @@ void ProcessReaderWin::ReadThreadData(bool is_64_reading_32) {
   if (!process_information)
     return;
 
+#ifdef CLIENT_STACKTRACES_ENABLED
+  DWORD options = SymGetOptions();
+  SymSetOptions(options | SYMOPT_UNDNAME);
+  SymInitialize(process_, NULL, TRUE);
+#endif
+
   for (unsigned long i = 0; i < process_information->NumberOfThreads; ++i) {
     const process_types::SYSTEM_THREAD_INFORMATION<Traits>& thread_info =
         process_information->Threads[i];
@@ -320,7 +414,8 @@ void ProcessReaderWin::ReadThreadData(bool is_64_reading_32) {
     if (!thread_handle.is_valid())
       continue;
 
-    if (!FillThreadContextAndSuspendCount<Traits>(thread_handle.get(),
+    if (!FillThreadContextAndSuspendCount<Traits>(process_,
+                                                  thread_handle.get(),
                                                   &thread,
                                                   suspension_state_,
                                                   is_64_reading_32)) {
