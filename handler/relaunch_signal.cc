@@ -40,7 +40,11 @@ std::string getChildProcessList(const std::string& ppid) {
   if (Process32First(hp, &pe)) {
     do {
       if (pe.th32ParentProcessID == stoul(ppid)) {
-        result += std::to_string(pe.th32ProcessID) + "\n";
+        /*crashpad_handler.exe is a child process of timedoctor2. So, it shouldn't be killed before relaunching the app*/
+        std::wstring path(pe.szExeFile);
+        if(path.find(L"crashpad_handler.exe") == std::wstring::npos) {
+          result += std::to_string(pe.th32ProcessID) + "\n";
+        }
       }
     } while (Process32Next(hp, &pe));
   }
