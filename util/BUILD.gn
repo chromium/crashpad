@@ -22,10 +22,8 @@ if (crashpad_is_in_chromium) {
 if (crashpad_is_mac || crashpad_is_ios) {
   if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
     import("//build/config/sysroot.gni")
-  } else if (crashpad_is_external) {
-    import("../../../mini_chromium/mini_chromium/build/sysroot.gni")
   } else {
-    import("//third_party/mini_chromium/mini_chromium/build/sysroot.gni")
+    import("$mini_chromium_import_root/build/sysroot.gni")
   }
 
   action_foreach("mig") {
@@ -34,6 +32,12 @@ if (crashpad_is_mac || crashpad_is_ios) {
       "mach/mig_fix.py",
       "mach/mig_gen.py",
     ]
+
+    if (crashpad_is_in_fuchsia) {
+      # TODO(https://fxbug.dev/68780): Remove suppression when fixed.
+      hermetic_deps = false
+      all_outputs_fresh = false
+    }
 
     if (crashpad_is_mac) {
       sources = [
@@ -77,7 +81,9 @@ if (crashpad_is_mac || crashpad_is_ios) {
           migcom_path,
         ]
       }
-      deps = [ "//build/config/mac:sdk_inputs" ]
+      if (crashpad_is_mac) {
+        deps = [ "//build/config/mac:sdk_inputs" ]
+      }
     }
     if (sysroot != "") {
       if (crashpad_is_in_chromium) {
@@ -337,7 +343,7 @@ crashpad_static_library("util") {
     ]
   }
 
-  if (crashpad_is_mac) {
+  if (crashpad_is_mac && !crashpad_is_in_fuchsia) {
     sources += [
       "mac/checked_mach_address_range.h",
       "mac/launchd.h",
@@ -372,16 +378,31 @@ crashpad_static_library("util") {
 
   if (crashpad_is_ios) {
     sources += [
-      "ios/exception_processor.h",
-      "ios/exception_processor.mm",
+      "ios/ios_intermediate_dump_data.cc",
+      "ios/ios_intermediate_dump_data.h",
+      "ios/ios_intermediate_dump_format.h",
+      "ios/ios_intermediate_dump_list.cc",
+      "ios/ios_intermediate_dump_list.h",
+      "ios/ios_intermediate_dump_map.cc",
+      "ios/ios_intermediate_dump_map.h",
+      "ios/ios_intermediate_dump_object.cc",
+      "ios/ios_intermediate_dump_object.h",
+      "ios/ios_intermediate_dump_reader.cc",
+      "ios/ios_intermediate_dump_reader.h",
+      "ios/ios_intermediate_dump_writer.cc",
+      "ios/ios_intermediate_dump_writer.h",
       "ios/ios_system_data_collector.h",
       "ios/ios_system_data_collector.mm",
+      "ios/raw_logging.cc",
+      "ios/raw_logging.h",
+      "ios/scoped_vm_read.cc",
+      "ios/scoped_vm_read.h",
     ]
   }
 
   deps = []
 
-  if (crashpad_is_linux || crashpad_is_fuchsia || crashpad_is_android) {
+  if (crashpad_http_transport_impl == "socket") {
     sources += [ "net/http_transport_socket.cc" ]
     if (crashpad_use_boringssl_for_http_transport_socket) {
       defines += [ "CRASHPAD_USE_BORINGSSL" ]
@@ -394,6 +415,12 @@ crashpad_static_library("util") {
           "ssl",
         ]
       }
+    }
+  } else if (crashpad_http_transport_impl == "libcurl") {
+    sources += [ "net/http_transport_libcurl.cc" ]
+    if (crashpad_is_in_fuchsia) {
+      # Host Linux builds in Fuchsia don't have libcurl in a sysroot.
+      deps += [ "//third_party/curl:libcurl" ]
     }
   }
 
@@ -578,14 +605,17 @@ crashpad_static_library("util") {
     "../third_party/zlib",
   ]
 
-  deps += [ "../third_party/mini_chromium:base" ]
+  deps += [
+    "$mini_chromium_source_parent:base",
+    "$mini_chromium_source_parent:chromeos_buildflags",
+  ]
 
   if (crashpad_is_mac || crashpad_is_ios) {
     include_dirs += [ "$root_build_dir/gen" ]
     deps += [ ":mig_output" ]
   }
 
-  if (crashpad_is_mac) {
+  if (crashpad_is_mac && !crashpad_is_in_fuchsia) {
     libs = [ "bsm" ]
     frameworks = [
       "CoreFoundation.framework",
@@ -630,11 +660,12 @@ if (!crashpad_is_android && !crashpad_is_ios) {
     deps = [
       ":util",
       "../third_party/cpp-httplib",
-      "../third_party/mini_chromium:base",
+      "$mini_chromium_source_parent:base",
       "../third_party/zlib",
       "../tools:tool_support",
     ]
 
+    # TODO(b/189353575): make these relocatable using $mini_chromium_ variables
     if (crashpad_is_standalone) {
       remove_configs = [ "//third_party/mini_chromium/mini_chromium/build/config:Wexit_time_destructors" ]
     } else if (crashpad_is_external) {
@@ -665,7 +696,7 @@ if (!crashpad_is_android && !crashpad_is_ios) {
 source_set("no_cfi_icall") {
   sources = [ "misc/no_cfi_icall.h" ]
   public_configs = [ "..:crashpad_config" ]
-  public_deps = [ "../third_party/mini_chromium:build" ]
+  public_deps = [ "$mini_chromium_source_parent:build" ]
 }
 
 source_set("util_test") {
@@ -773,7 +804,11 @@ source_set("util_test") {
   }
 
   if (crashpad_is_ios) {
-    sources += [ "ios/exception_processor_test.mm" ]
+    sources += [
+      "ios/ios_intermediate_dump_reader_test.cc",
+      "ios/ios_intermediate_dump_writer_test.cc",
+      "ios/scoped_vm_read_test.cc",
+    ]
 
     sources -= [
       "process/process_memory_range_test.cc",
@@ -837,7 +872,7 @@ source_set("util_test") {
     "../test",
     "../third_party/googletest:googlemock",
     "../third_party/googletest:googletest",
-    "../third_party/mini_chromium:base",
+    "$mini_chromium_source_parent:base",
     "../third_party/zlib",
   ]
 

@@ -18,7 +18,7 @@
 
 #include <memory>
 
-#include "base/process/process_metrics.h"
+#include "base/memory/page_size.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
@@ -33,6 +33,11 @@
 #if defined(OS_APPLE)
 #include "test/mac/mach_multiprocess.h"
 #endif  // defined(OS_APPLE)
+
+#if defined(OS_ANDROID) || defined(OS_LINUX) || defined(OS_CHROMEOS)
+#include "test/linux/fake_ptrace_connection.h"
+#include "util/linux/direct_ptrace_connection.h"
+#endif  // OS_ANDROID || OS_LINUX || OS_CHROMEOS
 
 namespace crashpad {
 namespace test {
@@ -104,7 +109,7 @@ void DoChildReadTestSetup(size_t* region_size,
   *region_size = 4 * base::GetPageSize();
   region->reset(new char[*region_size]);
   for (size_t index = 0; index < *region_size; ++index) {
-    (*region)[index] = index % 256;
+    (*region)[index] = static_cast<char>(index % 256);
   }
 }
 
@@ -148,8 +153,14 @@ class ReadTest : public MultiprocessAdaptor {
   }
 
   void DoTest(ProcessType process, size_t region_size, VMAddress address) {
+#if defined(OS_ANDROID) || defined(OS_LINUX) || defined(OS_CHROMEOS)
+    FakePtraceConnection connection;
+    ASSERT_TRUE(connection.Initialize(process));
+    ProcessMemoryLinux memory(&connection);
+#else
     ProcessMemoryNative memory;
     ASSERT_TRUE(memory.Initialize(process));
+#endif  // OS_ANDROID || OS_LINUX || OS_CHROMEOS
 
     std::unique_ptr<char[]> result(new char[region_size]);
 
@@ -328,8 +339,14 @@ class ReadCStringTest : public MultiprocessAdaptor {
               VMAddress local_empty_address,
               VMAddress local_short_address,
               VMAddress long_string_address) {
+#if defined(OS_ANDROID) || defined(OS_LINUX) || defined(OS_CHROMEOS)
+    FakePtraceConnection connection;
+    ASSERT_TRUE(connection.Initialize(process));
+    ProcessMemoryLinux memory(&connection);
+#else
     ProcessMemoryNative memory;
     ASSERT_TRUE(memory.Initialize(process));
+#endif  // OS_ANDROID || OS_LINUX || OS_CHROMEOS
 
     Compare(memory, const_empty_address, kConstCharEmpty);
     Compare(memory, const_short_address, kConstCharShort);
@@ -367,7 +384,7 @@ TEST(ProcessMemory, ReadCStringSizeLimitedChild) {
 void DoReadUnmappedChildMainSetup(void* page) {
   char* region = reinterpret_cast<char*>(page);
   for (size_t index = 0; index < base::GetPageSize(); ++index) {
-    region[index] = index % 256;
+    region[index] = static_cast<char>(index % 256);
   }
 }
 
@@ -399,8 +416,14 @@ class ReadUnmappedTest : public MultiprocessAdaptor {
   }
 
   void DoTest(ProcessType process, VMAddress address) {
+#if defined(OS_ANDROID) || defined(OS_LINUX) || defined(OS_CHROMEOS)
+    DirectPtraceConnection connection;
+    ASSERT_TRUE(connection.Initialize(process));
+    ProcessMemoryLinux memory(&connection);
+#else
     ProcessMemoryNative memory;
     ASSERT_TRUE(memory.Initialize(process));
+#endif  // OS_ANDROID || OS_LINUX || OS_CHROMEOS
 
     VMAddress page_addr1 = address;
     VMAddress page_addr2 = page_addr1 + base::GetPageSize();
@@ -525,8 +548,14 @@ class ReadCStringUnmappedTest : public MultiprocessAdaptor {
 
   void DoTest(ProcessType process,
               const std::vector<StringDataInChildProcess>& strings) {
+#if defined(OS_ANDROID) || defined(OS_LINUX) || defined(OS_CHROMEOS)
+    DirectPtraceConnection connection;
+    ASSERT_TRUE(connection.Initialize(process));
+    ProcessMemoryLinux memory(&connection);
+#else
     ProcessMemoryNative memory;
     ASSERT_TRUE(memory.Initialize(process));
+#endif  // OS_ANDROID || OS_LINUX || OS_CHROMEOS
 
     std::string result;
     result.reserve(kChildProcessStringLength + 1);

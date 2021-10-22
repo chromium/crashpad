@@ -15,6 +15,7 @@ mc_append_sources(
     check.h
     check_op.h
     compiler_specific.h
+    cxx17_backports.h
     debug/alias.cc
     debug/alias.h
     files/file_path.cc
@@ -27,6 +28,7 @@ mc_append_sources(
     logging.h
     macros.h
     memory/free_deleter.h
+    memory/page_size.h
     memory/scoped_policy.h
     metrics/histogram_functions.h
     metrics/histogram_macros.h
@@ -45,14 +47,10 @@ mc_append_sources(
     numerics/safe_math_shared_impl.h
     process/memory.cc
     process/memory.h
-    process/process_metrics.h
     rand_util.cc
     rand_util.h
     scoped_clear_last_error.h
     scoped_generic.h
-    stl_util.h
-    strings/string16.cc
-    strings/string16.h
     strings/string_number_conversions.cc
     strings/string_number_conversions.h
     strings/string_piece.h
@@ -126,7 +124,7 @@ endif()
 
 if(WIN32)
     mc_append_sources(
-        process/process_metrics_win.cc
+        memory/page_size_win.cc
         scoped_clear_last_error_win.cc
         strings/string_util_win.cc
         strings/string_util_win.h
@@ -136,10 +134,10 @@ if(WIN32)
 else()
     mc_append_sources(
         files/file_util_posix.cc
+        memory/page_size_posix.cc
         posix/eintr_wrapper.h
         posix/safe_strerror.cc
         posix/safe_strerror.h
-        process/process_metrics_posix.cc
         strings/string_util_posix.h
         synchronization/condition_variable_posix.cc
         synchronization/lock_impl_posix.cc
@@ -207,5 +205,9 @@ add_library(crashpad::mini_chromium ALIAS mini_chromium)
 crashpad_install_target(mini_chromium)
 crashpad_install_dev(DIRECTORY mini_chromium
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/crashpad"
+    FILES_MATCHING PATTERN "*.h"
+)
+crashpad_install_dev(DIRECTORY build
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/crashpad/mini_chromium"
     FILES_MATCHING PATTERN "*.h"
 )

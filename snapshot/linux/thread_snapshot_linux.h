@@ -57,6 +57,10 @@ class ThreadSnapshotLinux final : public ThreadSnapshot {
   uint64_t ThreadSpecificDataAddress() const override;
   std::vector<const MemorySnapshot*> ExtraMemory() const override;
 
+#ifdef CLIENT_STACKTRACES_ENABLED
+  void TrimStackTrace(uint64_t exception_address);
+#endif
+
  private:
   union {
 #if defined(ARCH_CPU_X86_FAMILY)
