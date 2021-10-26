@@ -42,7 +42,7 @@ std::string getChildProcessList(const std::string& ppid) {
       if (pe.th32ParentProcessID == stoul(ppid)) {
         /*crashpad_handler.exe is a child process of timedoctor2. So, it shouldn't be killed before relaunching the app*/
         std::wstring path(pe.szExeFile);
-        if(path.find(L"crashpad_handler.exe") == std::wstring::npos) {
+        if (path.find(L"crashpad_handler.exe") == std::wstring::npos) {
           result += std::to_string(pe.th32ProcessID) + "\n";
         }
       }
@@ -186,6 +186,8 @@ void RelaunchOnCrash(const std::map<std::string, std::string>& annotations) {
 
       if (!maybeCrashLoop) {
 #if defined(WIN32)
+        /*Windows needs some delay to create envelope file to create before restarting the app*/
+        Sleep(5000);
         auto returnC = _execvp(appPath->second.c_str(), cargv.data());
 #else
         auto returnC = execvp(appPath->second.c_str(), cargv.data());
