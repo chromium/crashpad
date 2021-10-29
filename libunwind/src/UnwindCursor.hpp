@@ -1970,10 +1970,8 @@ void UnwindCursor<A, R>::setInfoBasedOnIPRegister(bool isReturnAddress) {
   #endif
         // If unwind table has entry, but entry says there is no unwind info,
         // record that we have no unwind info.
-#ifndef _LIBUNWIND_TARGET_X86_64
-        if (_info.format == 0)
-          _unwindInfoMissing = true;
-#endif
+        // if (_info.format == 0)
+        //   _unwindInfoMissing = true;
         return;
       }
     }
