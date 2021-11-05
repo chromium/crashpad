@@ -77,9 +77,9 @@ bool ProcessSnapshotIOSIntermediateDump::Initialize(
   const IOSIntermediateDumpMap* thread_times =
       process_info->GetAsMap(Key::kTaskThreadTimes);
   if (thread_times) {
-    GetDataValueFromMap(basic_info, Key::kUserTime, &thread_times_user_time_);
+    GetDataValueFromMap(thread_times, Key::kUserTime, &thread_times_user_time_);
     GetDataValueFromMap(
-        basic_info, Key::kSystemTime, &thread_times_system_time_);
+        thread_times, Key::kSystemTime, &thread_times_system_time_);
   }
 
   GetDataValueFromMap(process_info, Key::kSnapshotTime, &snapshot_time_);
