@@ -84,6 +84,21 @@ bool ProcessSnapshotIOSIntermediateDump::Initialize(
 
   GetDataValueFromMap(process_info, Key::kSnapshotTime, &snapshot_time_);
 
+  const IOSIntermediateDumpList* simple_map_dump =
+      process_info->GetAsList(IntermediateDumpKey::kAnnotationsSimpleMap);
+  if (simple_map_dump) {
+    for (auto& annotation : *simple_map_dump) {
+      const IOSIntermediateDumpData* name_dump =
+          annotation->GetAsData(IntermediateDumpKey::kAnnotationName);
+      const IOSIntermediateDumpData* value_dump =
+          annotation->GetAsData(IntermediateDumpKey::kAnnotationValue);
+      if (name_dump && value_dump) {
+        annotations_simple_map_.insert(
+            make_pair(name_dump->GetString(), value_dump->GetString()));
+      }
+    }
+  }
+
   const IOSIntermediateDumpMap* system_info =
       GetMapFromMap(root_map, Key::kSystemInfo);
   if (!system_info) {
