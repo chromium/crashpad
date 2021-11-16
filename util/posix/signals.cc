@@ -298,9 +298,7 @@ void Signals::RestoreHandlerAndReraiseSignalOnReturn(
   if (retval != 0) {
     _exit(kFailureExitCode);
   }
-  return;
-#endif  // defined(OS_LINUX) || defined(OS_ANDROID) || defined(OS_CHROMEOS)
-
+#else
   // Explicitly re-raise the signal if it will not re-raise itself. Because
   // signal handlers normally execute with their signal blocked, this raise()
   // cannot immediately deliver the signal. Delivery is deferred until the
@@ -310,6 +308,7 @@ void Signals::RestoreHandlerAndReraiseSignalOnReturn(
   if (!WillSignalReraiseAutonomously(siginfo) && raise(sig) != 0) {
     _exit(kFailureExitCode);
   }
+#endif  // defined(OS_LINUX) || defined(OS_ANDROID) || defined(OS_CHROMEOS)
 }
 
 // static
