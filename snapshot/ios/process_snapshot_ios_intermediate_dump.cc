@@ -36,14 +36,24 @@ namespace internal {
 
 using Key = internal::IntermediateDumpKey;
 
-bool ProcessSnapshotIOSIntermediateDump::Initialize(
+bool ProcessSnapshotIOSIntermediateDump::InitializeWithFilePath(
     const base::FilePath& dump_path,
+    const std::map<std::string, std::string>& annotations) {
+  IOSIntermediateDumpFilePath dump_interface;
+  if (!dump_interface.Initialize(dump_path))
+    return false;
+
+  return InitializeWithFileInterface(dump_interface, annotations);
+}
+
+bool ProcessSnapshotIOSIntermediateDump::InitializeWithFileInterface(
+    const IOSIntermediateDumpInterface& dump_interface,
     const std::map<std::string, std::string>& annotations) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   annotations_simple_map_ = annotations;
 
-  if (!reader_.Initialize(dump_path)) {
+  if (!reader_.Initialize(dump_interface)) {
     return false;
   }
 
@@ -163,6 +173,16 @@ bool ProcessSnapshotIOSIntermediateDump::Initialize(
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
+}
+
+void ProcessSnapshotIOSIntermediateDump::SetClientID(const UUID& client_id) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  client_id_ = client_id;
+}
+
+void ProcessSnapshotIOSIntermediateDump::SetReportID(const UUID& report_id) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  report_id_ = report_id;
 }
 
 pid_t ProcessSnapshotIOSIntermediateDump::ProcessID() const {

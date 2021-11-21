@@ -178,7 +178,7 @@ void InProcessHandler::ProcessIntermediateDump(
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   ProcessSnapshotIOSIntermediateDump process_snapshot;
-  if (process_snapshot.Initialize(file, annotations)) {
+  if (process_snapshot.InitializeWithFilePath(file, annotations)) {
     SaveSnapshot(process_snapshot);
   }
 }

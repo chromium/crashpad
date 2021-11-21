@@ -29,31 +29,35 @@
 namespace crashpad {
 namespace internal {
 
-bool IOSIntermediateDumpReader::Initialize(const base::FilePath& path) {
-  ScopedFileHandle handle(LoggingOpenFileForRead(path));
-  auto reader = std::make_unique<WeakFileHandleFileReader>(handle.get());
+bool IOSIntermediateDumpReader::Initialize(
+    const IOSIntermediateDumpInterface& dump_interface) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
-  // In the event a crash is introduced by this intermediate dump, don't ever
-  // read a file twice.  To ensure this doesn't happen, immediately unlink.
-  LoggingRemoveFile(path);
-
-  // Don't initialize invalid or empty files.
-  FileOffset size = LoggingFileSizeByHandle(handle.get());
-  if (!handle.is_valid() || size == 0) {
+  // Don't initialize empty files.
+  FileOffset size = dump_interface.Size();
+  if (size == 0) {
     return false;
   }
 
-  if (!Parse(reader.get(), size)) {
+  if (!Parse(dump_interface.FileReader(), size)) {
     LOG(ERROR) << "Intermediate dump parsing failed";
+    // Intentially do not return false here, as it may be possible to extract a
+    // useful minidump out of a partial intermediate dump.
   }
 
+  INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
+}
+
+const IOSIntermediateDumpMap* IOSIntermediateDumpReader::RootMap() {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return &intermediate_dump_;
 }
 
 bool IOSIntermediateDumpReader::Parse(FileReaderInterface* reader,
                                       FileOffset file_size) {
   std::stack<IOSIntermediateDumpObject*> stack;
-  stack.push(&minidump_);
+  stack.push(&intermediate_dump_);
   using Command = IOSIntermediateDumpWriter::CommandType;
   using Type = IOSIntermediateDumpObject::Type;
 

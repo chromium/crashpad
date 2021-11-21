@@ -456,14 +456,14 @@ class ProcessSnapshotIOSIntermediateDumpTest : public testing::Test {
 TEST_F(ProcessSnapshotIOSIntermediateDumpTest, InitializeNoFile) {
   const base::FilePath file;
   ProcessSnapshotIOSIntermediateDump process_snapshot;
-  EXPECT_FALSE(process_snapshot.Initialize(file, annotations()));
+  EXPECT_FALSE(process_snapshot.InitializeWithFilePath(file, annotations()));
   EXPECT_TRUE(LoggingRemoveFile(path()));
   EXPECT_FALSE(IsRegularFile(path()));
 }
 
 TEST_F(ProcessSnapshotIOSIntermediateDumpTest, InitializeEmpty) {
   ProcessSnapshotIOSIntermediateDump process_snapshot;
-  EXPECT_FALSE(process_snapshot.Initialize(path(), annotations()));
+  EXPECT_FALSE(process_snapshot.InitializeWithFilePath(path(), annotations()));
   EXPECT_FALSE(IsRegularFile(path()));
 }
 
@@ -476,7 +476,7 @@ TEST_F(ProcessSnapshotIOSIntermediateDumpTest, InitializeMinimumDump) {
     { IOSIntermediateDumpWriter::ScopedMap map(writer(), Key::kProcessInfo); }
   }
   ProcessSnapshotIOSIntermediateDump process_snapshot;
-  ASSERT_TRUE(process_snapshot.Initialize(path(), annotations()));
+  ASSERT_TRUE(process_snapshot.InitializeWithFilePath(path(), annotations()));
   EXPECT_FALSE(IsRegularFile(path()));
   EXPECT_TRUE(DumpSnapshot(process_snapshot));
 }
@@ -489,7 +489,7 @@ TEST_F(ProcessSnapshotIOSIntermediateDumpTest, MissingSystemDump) {
     { IOSIntermediateDumpWriter::ScopedMap map(writer(), Key::kProcessInfo); }
   }
   ProcessSnapshotIOSIntermediateDump process_snapshot;
-  ASSERT_FALSE(process_snapshot.Initialize(path(), annotations()));
+  ASSERT_FALSE(process_snapshot.InitializeWithFilePath(path(), annotations()));
   EXPECT_FALSE(IsRegularFile(path()));
 }
 
@@ -501,7 +501,7 @@ TEST_F(ProcessSnapshotIOSIntermediateDumpTest, MissingProcessDump) {
     { IOSIntermediateDumpWriter::ScopedMap map(writer(), Key::kSystemInfo); }
   }
   ProcessSnapshotIOSIntermediateDump process_snapshot;
-  ASSERT_FALSE(process_snapshot.Initialize(path(), annotations()));
+  ASSERT_FALSE(process_snapshot.InitializeWithFilePath(path(), annotations()));
   EXPECT_FALSE(IsRegularFile(path()));
 }
 
@@ -526,7 +526,7 @@ TEST_F(ProcessSnapshotIOSIntermediateDumpTest, EmptySignalDump) {
     }
   }
   ProcessSnapshotIOSIntermediateDump process_snapshot;
-  ASSERT_TRUE(process_snapshot.Initialize(path(), annotations()));
+  ASSERT_TRUE(process_snapshot.InitializeWithFilePath(path(), annotations()));
   EXPECT_FALSE(IsRegularFile(path()));
   EXPECT_TRUE(DumpSnapshot(process_snapshot));
 }
@@ -552,7 +552,7 @@ TEST_F(ProcessSnapshotIOSIntermediateDumpTest, EmptyMachDump) {
     }
   }
   ProcessSnapshotIOSIntermediateDump process_snapshot;
-  ASSERT_TRUE(process_snapshot.Initialize(path(), annotations()));
+  ASSERT_TRUE(process_snapshot.InitializeWithFilePath(path(), annotations()));
   EXPECT_FALSE(IsRegularFile(path()));
   EXPECT_TRUE(DumpSnapshot(process_snapshot));
 }
@@ -578,7 +578,7 @@ TEST_F(ProcessSnapshotIOSIntermediateDumpTest, EmptyExceptionDump) {
     }
   }
   ProcessSnapshotIOSIntermediateDump process_snapshot;
-  ASSERT_TRUE(process_snapshot.Initialize(path(), annotations()));
+  ASSERT_TRUE(process_snapshot.InitializeWithFilePath(path(), annotations()));
   EXPECT_FALSE(IsRegularFile(path()));
   EXPECT_TRUE(DumpSnapshot(process_snapshot));
 }
@@ -608,7 +608,7 @@ TEST_F(ProcessSnapshotIOSIntermediateDumpTest, EmptyUncaughtNSExceptionDump) {
     }
   }
   ProcessSnapshotIOSIntermediateDump process_snapshot;
-  ASSERT_TRUE(process_snapshot.Initialize(path(), annotations()));
+  ASSERT_TRUE(process_snapshot.InitializeWithFilePath(path(), annotations()));
   EXPECT_FALSE(IsRegularFile(path()));
   EXPECT_TRUE(DumpSnapshot(process_snapshot));
 }
@@ -625,7 +625,7 @@ TEST_F(ProcessSnapshotIOSIntermediateDumpTest, FullReport) {
     WriteMachException(writer());
   }
   ProcessSnapshotIOSIntermediateDump process_snapshot;
-  ASSERT_TRUE(process_snapshot.Initialize(path(), annotations()));
+  ASSERT_TRUE(process_snapshot.InitializeWithFilePath(path(), annotations()));
   EXPECT_FALSE(IsRegularFile(path()));
   EXPECT_TRUE(DumpSnapshot(process_snapshot));
   ExpectSnapshot(process_snapshot);
@@ -634,9 +634,8 @@ TEST_F(ProcessSnapshotIOSIntermediateDumpTest, FullReport) {
 TEST_F(ProcessSnapshotIOSIntermediateDumpTest, FuzzTestCases) {
   base::FilePath fuzz_path = TestPaths::TestDataRoot().Append(FILE_PATH_LITERAL(
       "snapshot/ios/testdata/crash-1fa088dda0adb41459d063078a0f384a0bb8eefa"));
-
   crashpad::internal::ProcessSnapshotIOSIntermediateDump process_snapshot;
-  EXPECT_TRUE(process_snapshot.Initialize(fuzz_path, {}));
+  EXPECT_TRUE(process_snapshot.InitializeWithFilePath(fuzz_path, {}));
   EXPECT_TRUE(LoggingRemoveFile(path()));
 }
 
