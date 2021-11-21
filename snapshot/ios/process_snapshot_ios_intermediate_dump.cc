@@ -52,6 +52,7 @@ bool ProcessSnapshotIOSIntermediateDump::InitializeWithFileInterface(
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   annotations_simple_map_ = annotations;
+  client_id_.InitializeToZero();
 
   IOSIntermediateDumpReaderInitializeResult result =
       reader_.Initialize(dump_interface);

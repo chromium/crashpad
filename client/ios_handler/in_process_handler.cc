@@ -201,6 +201,12 @@ void InProcessHandler::SaveSnapshot(
   }
   process_snapshot.SetReportID(new_report->ReportID());
 
+  UUID client_id;
+  Settings* const settings = database_->GetSettings();
+  if (settings && settings->GetClientID(&client_id)) {
+    process_snapshot.SetClientID(client_id);
+  }
+
   MinidumpFileWriter minidump;
   minidump.InitializeFromSnapshot(&process_snapshot);
   if (!minidump.WriteEverything(new_report->Writer())) {
