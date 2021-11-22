@@ -273,7 +273,8 @@ class ProcessSnapshotIOSIntermediateDumpTest : public testing::Test {
     }
   }
 
-  void WriteMachException(IOSIntermediateDumpWriter* writer) {
+  void WriteMachException(IOSIntermediateDumpWriter* writer,
+                          bool short_context = false) {
     IOSIntermediateDumpWriter::ScopedMap machExceptionMap(writer,
                                                           Key::kMachException);
     exception_type_t exception = 5;
@@ -298,6 +299,10 @@ class ProcessSnapshotIOSIntermediateDumpTest : public testing::Test {
     EXPECT_TRUE(writer->AddProperty(Key::kException, &exception));
     EXPECT_TRUE(writer->AddProperty(Key::kCodes, code, code_count));
     EXPECT_TRUE(writer->AddProperty(Key::kFlavor, &flavor));
+
+    if (short_context) {
+      state_length -= 10;
+    }
     EXPECT_TRUE(writer->AddPropertyBytes(
         Key::kState, reinterpret_cast<const void*>(&state), state_length));
     uint64_t thread_id = 1;
@@ -613,6 +618,24 @@ TEST_F(ProcessSnapshotIOSIntermediateDumpTest, EmptyUncaughtNSExceptionDump) {
   EXPECT_TRUE(DumpSnapshot(process_snapshot));
 }
 
+TEST_F(ProcessSnapshotIOSIntermediateDumpTest, ShortContext) {
+  {
+    IOSIntermediateDumpWriter::ScopedRootMap rootMap(writer());
+    uint8_t version = 1;
+    EXPECT_TRUE(writer()->AddProperty(Key::kVersion, &version));
+    WriteSystemInfo(writer());
+    WriteProcessInfo(writer());
+    WriteThreads(writer());
+    WriteModules(writer());
+    WriteMachException(writer(), true /* short_context=true*/);
+  }
+  ProcessSnapshotIOSIntermediateDump process_snapshot;
+  ASSERT_TRUE(process_snapshot.InitializeWithFilePath(path(), annotations()));
+  EXPECT_FALSE(IsRegularFile(path()));
+  EXPECT_TRUE(DumpSnapshot(process_snapshot));
+  ExpectSnapshot(process_snapshot);
+}
+
 TEST_F(ProcessSnapshotIOSIntermediateDumpTest, FullReport) {
   {
     IOSIntermediateDumpWriter::ScopedRootMap rootMap(writer());
@@ -637,6 +660,10 @@ TEST_F(ProcessSnapshotIOSIntermediateDumpTest, FuzzTestCases) {
   crashpad::internal::ProcessSnapshotIOSIntermediateDump process_snapshot;
   EXPECT_TRUE(process_snapshot.InitializeWithFilePath(fuzz_path, {}));
   EXPECT_TRUE(LoggingRemoveFile(path()));
+
+  auto map = process_snapshot.AnnotationsSimpleMap();
+  ASSERT_TRUE(map.find("crashpad_intermediate_dump_incomplete") != map.end());
+  EXPECT_EQ(map["crashpad_intermediate_dump_incomplete"], "yes");
 }
 
 }  // namespace

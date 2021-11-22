@@ -29,24 +29,25 @@
 namespace crashpad {
 namespace internal {
 
-bool IOSIntermediateDumpReader::Initialize(
+IOSIntermediateDumpReaderInitializeResult IOSIntermediateDumpReader::Initialize(
     const IOSIntermediateDumpInterface& dump_interface) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   // Don't initialize empty files.
   FileOffset size = dump_interface.Size();
   if (size == 0) {
-    return false;
+    return IOSIntermediateDumpReaderInitializeResult::kFailure;
   }
 
+  IOSIntermediateDumpReaderInitializeResult result =
+      IOSIntermediateDumpReaderInitializeResult::kSuccess;
   if (!Parse(dump_interface.FileReader(), size)) {
     LOG(ERROR) << "Intermediate dump parsing failed";
-    // Intentially do not return false here, as it may be possible to extract a
-    // useful minidump out of a partial intermediate dump.
+    result = IOSIntermediateDumpReaderInitializeResult::kIncomplete;
   }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
-  return true;
+  return result;
 }
 
 const IOSIntermediateDumpMap* IOSIntermediateDumpReader::RootMap() {

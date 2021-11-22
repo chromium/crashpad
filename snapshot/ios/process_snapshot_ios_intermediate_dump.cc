@@ -53,8 +53,12 @@ bool ProcessSnapshotIOSIntermediateDump::InitializeWithFileInterface(
 
   annotations_simple_map_ = annotations;
 
-  if (!reader_.Initialize(dump_interface)) {
+  IOSIntermediateDumpReaderInitializeResult result =
+      reader_.Initialize(dump_interface);
+  if (result == IOSIntermediateDumpReaderInitializeResult::kFailure) {
     return false;
+  } else if (result == IOSIntermediateDumpReaderInitializeResult::kIncomplete) {
+    annotations_simple_map_["crashpad_intermediate_dump_incomplete"] = "yes";
   }
 
   const IOSIntermediateDumpMap* root_map = reader_.RootMap();

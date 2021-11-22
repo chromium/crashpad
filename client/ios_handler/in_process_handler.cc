@@ -308,12 +308,21 @@ InProcessHandler::ScopedReport::ScopedReport(
     const std::map<std::string, std::string>& annotations,
     const uint64_t* frames,
     const size_t num_frames)
-    : rootMap_(writer) {
+    : writer_(writer),
+      frames_(frames),
+      num_frames_(num_frames),
+      rootMap_(writer) {
   InProcessIntermediateDumpHandler::WriteHeader(writer);
   InProcessIntermediateDumpHandler::WriteProcessInfo(writer, annotations);
   InProcessIntermediateDumpHandler::WriteSystemInfo(writer, system_data);
-  InProcessIntermediateDumpHandler::WriteThreadInfo(writer, frames, num_frames);
-  InProcessIntermediateDumpHandler::WriteModuleInfo(writer);
+}
+
+InProcessHandler::ScopedReport::~ScopedReport() {
+  // Write threads and modules last (after the exception itself is written by
+  // DumpExceptionFrom*.)
+  InProcessIntermediateDumpHandler::WriteThreadInfo(
+      writer_, frames_, num_frames_);
+  InProcessIntermediateDumpHandler::WriteModuleInfo(writer_);
 }
 
 bool InProcessHandler::OpenNewFile() {

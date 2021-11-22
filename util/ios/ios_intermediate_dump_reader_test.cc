@@ -33,6 +33,7 @@ namespace test {
 namespace {
 
 using Key = internal::IntermediateDumpKey;
+using Result = internal::IOSIntermediateDumpReaderInitializeResult;
 using internal::IOSIntermediateDumpWriter;
 
 class IOSIntermediateDumpReaderTest : public testing::Test {
@@ -80,7 +81,7 @@ TEST_F(IOSIntermediateDumpReaderTest, ReadNoFile) {
 
 TEST_F(IOSIntermediateDumpReaderTest, ReadEmptyFile) {
   internal::IOSIntermediateDumpReader reader;
-  EXPECT_FALSE(reader.Initialize(dump_interface()));
+  EXPECT_EQ(reader.Initialize(dump_interface()), Result::kFailure);
   EXPECT_FALSE(IsRegularFile(path()));
 }
 
@@ -89,7 +90,7 @@ TEST_F(IOSIntermediateDumpReaderTest, ReadHelloWorld) {
   EXPECT_TRUE(
       LoggingWriteFile(fd(), hello_world.c_str(), hello_world.length()));
   internal::IOSIntermediateDumpReader reader;
-  EXPECT_TRUE(reader.Initialize(dump_interface()));
+  EXPECT_EQ(reader.Initialize(dump_interface()), Result::kIncomplete);
   EXPECT_FALSE(IsRegularFile(path()));
 
   const auto root_map = reader.RootMap();
@@ -116,7 +117,7 @@ TEST_F(IOSIntermediateDumpReaderTest, FuzzTestCases) {
 
   internal::IOSIntermediateDumpByteArray dump_interface(fuzz1, sizeof(fuzz1));
   internal::IOSIntermediateDumpReader reader;
-  EXPECT_TRUE(reader.Initialize(dump_interface));
+  EXPECT_EQ(reader.Initialize(dump_interface), Result::kIncomplete);
   const auto root_map = reader.RootMap();
   EXPECT_TRUE(root_map->empty());
 }
@@ -135,7 +136,7 @@ TEST_F(IOSIntermediateDumpReaderTest, WriteBadPropertyDataLength) {
   size_t value_length = 999999;
   EXPECT_TRUE(LoggingWriteFile(fd(), &value_length, sizeof(size_t)));
   EXPECT_TRUE(LoggingWriteFile(fd(), &value, sizeof(value)));
-  EXPECT_TRUE(reader.Initialize(dump_interface()));
+  EXPECT_EQ(reader.Initialize(dump_interface()), Result::kIncomplete);
   EXPECT_FALSE(IsRegularFile(path()));
 
   const auto root_map = reader.RootMap();
@@ -158,7 +159,7 @@ TEST_F(IOSIntermediateDumpReaderTest, InvalidArrayInArray) {
     writer_->AddProperty(Key::kVersion, &version);
   }
   EXPECT_TRUE(writer_->Close());
-  EXPECT_TRUE(reader.Initialize(dump_interface()));
+  EXPECT_EQ(reader.Initialize(dump_interface()), Result::kIncomplete);
   EXPECT_FALSE(IsRegularFile(path()));
 
   const auto root_map = reader.RootMap();
@@ -180,7 +181,7 @@ TEST_F(IOSIntermediateDumpReaderTest, InvalidPropertyInArray) {
     writer_->AddProperty(Key::kVersion, &version);
   }
   EXPECT_TRUE(writer_->Close());
-  EXPECT_TRUE(reader.Initialize(dump_interface()));
+  EXPECT_EQ(reader.Initialize(dump_interface()), Result::kIncomplete);
   EXPECT_FALSE(IsRegularFile(path()));
 
   const auto root_map = reader.RootMap();
@@ -217,7 +218,7 @@ TEST_F(IOSIntermediateDumpReaderTest, ReadValidData) {
   }
 
   EXPECT_TRUE(writer_->Close());
-  EXPECT_TRUE(reader.Initialize(dump_interface()));
+  EXPECT_EQ(reader.Initialize(dump_interface()), Result::kSuccess);
   EXPECT_FALSE(IsRegularFile(path()));
 
   auto root_map = reader.RootMap();
