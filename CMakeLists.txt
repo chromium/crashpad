@@ -92,7 +92,6 @@ if(MSVC)
         $<$<COMPILE_LANGUAGE:C,CXX>:/FS>
         $<$<COMPILE_LANGUAGE:C,CXX>:/W4>
         $<$<COMPILE_LANGUAGE:C,CXX>:/WX>
-        $<$<COMPILE_LANGUAGE:C,CXX>:/Zi>
         $<$<COMPILE_LANGUAGE:C,CXX>:/bigobj> # Support larger number of sections in obj file.
         $<$<COMPILE_LANGUAGE:C,CXX>:/wd4100> # Unreferenced formal parameter.
         $<$<COMPILE_LANGUAGE:C,CXX>:/wd4127> # Conditional expression is constant.
