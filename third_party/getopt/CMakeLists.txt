@@ -9,6 +9,7 @@ if(MSVC)
     target_link_libraries(crashpad_getopt PRIVATE
         $<BUILD_INTERFACE:crashpad_interface>
     )
+    crashpad_install_target(crashpad_getopt)
 else()
     add_library(crashpad_getopt INTERFACE)
 endif()
