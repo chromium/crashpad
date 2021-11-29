@@ -474,6 +474,9 @@ if(WIN32)
     target_link_libraries(crashpad_util PRIVATE user32 version winhttp)
     if(MSVC)
         target_compile_options(crashpad_util PRIVATE "/wd4201")
+        if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+            set(CMAKE_ASM_MASM_FLAGS "${CMAKE_ASM_MASM_FLAGS} /safeseh")
+        endif()
     elseif(MINGW)
         target_compile_options(crashpad_util PRIVATE
             $<$<COMPILE_LANGUAGE:CXX>:-municode>
