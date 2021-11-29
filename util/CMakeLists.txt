@@ -339,9 +339,17 @@ if(WIN32)
         win/termination_codes.h
         win/traits.h
         win/xp_compat.h
-        misc/capture_context_win.asm
-        win/safe_terminate_process.asm
     )
+    if(${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm")
+        target_sources(crashpad_util PRIVATE
+            misc/capture_context_win_arm64.asm
+        )
+    else()
+        target_sources(crashpad_util PRIVATE
+            misc/capture_context_win.asm
+            win/safe_terminate_process.asm
+        )
+    endif()
 endif()
 
 # Copied from: https://github.com/qedsoftware/crashpad/blob/3583c50a6575857abcf140f6ea3b8d11390205b3/util/CMakeLists.txt#L196-L233

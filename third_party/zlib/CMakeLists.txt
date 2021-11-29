@@ -35,6 +35,7 @@ else()
         zlib/trees.c
         zlib/trees.h
         zlib/uncompr.c
+        zlib/x86.h
         zlib/zconf.h
         zlib/zlib.h
         zlib/zutil.c
@@ -52,7 +53,6 @@ else()
             zlib/crc_folding.c
             zlib/fill_window_sse.c
             zlib/x86.c
-            zlib/x86.h
         )
 
         if(NOT MSVC)
