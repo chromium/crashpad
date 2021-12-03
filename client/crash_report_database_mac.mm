@@ -49,7 +49,6 @@ namespace {
 constexpr char kWriteDirectory[] = "new";
 constexpr char kUploadPendingDirectory[] = "pending";
 constexpr char kCompletedDirectory[] = "completed";
-constexpr char kAttachmentsDirectory[] = "attachments";
 
 constexpr char kSettings[] = "settings.dat";
 
@@ -71,14 +70,6 @@ constexpr char kXattrIsUploadExplicitlyRequested[] =
     "upload_explicitly_requested";
 
 constexpr char kXattrDatabaseInitialized[] = "initialized";
-
-bool AttachmentNameIsOK(const std::string& name) {
-  for (const char c : name) {
-    if (c != '_' && c != '-' && c != '.' && !isalnum(c))
-      return false;
-  }
-  return true;
-}
 
 // Ensures that the node at |path| is a directory. If the |path| refers to a
 // file, rather than a directory, returns false. Otherwise, returns true,
@@ -471,6 +462,7 @@ CrashReportDatabaseMac::GetReportForUploading(
     return kFileSystemError;
   }
 
+  upload_report->database_ = this;
   upload_report->lock_fd.reset(lock.release());
   upload_report->report_metrics_ = report_metrics;
   report->reset(upload_report.release());
