@@ -111,6 +111,8 @@ if(LINUX OR ANDROID)
     target_sources(crashpad_snapshot PRIVATE
         posix/timezone.cc
         posix/timezone.h
+        linux/capture_memory_delegate_linux.cc
+        linux/capture_memory_delegate_linux.h
         linux/cpu_context_linux.cc
         linux/cpu_context_linux.h
         linux/debug_rendezvous.cc

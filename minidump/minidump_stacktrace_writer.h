@@ -8,7 +8,6 @@
 #include <string>
 #include <vector>
 
-#include "base/macros.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_thread_id_map.h"
@@ -48,6 +47,11 @@ class MinidumpStacktraceListWriter final
     : public internal::MinidumpStreamWriter {
  public:
   MinidumpStacktraceListWriter();
+
+  MinidumpStacktraceListWriter(const MinidumpStacktraceListWriter&) = delete;
+  MinidumpStacktraceListWriter& operator=(const MinidumpStacktraceListWriter&) =
+      delete;
+
   ~MinidumpStacktraceListWriter() override;
 
   //! \brief  TODO
@@ -77,8 +81,6 @@ class MinidumpStacktraceListWriter final
   std::vector<internal::RawFrame> frames_;
   std::vector<uint8_t> symbol_bytes_;
   internal::Header stacktrace_header_;
-
-  DISALLOW_COPY_AND_ASSIGN(MinidumpStacktraceListWriter);
 };
 
 }  // namespace crashpad

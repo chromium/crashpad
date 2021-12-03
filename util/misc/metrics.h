@@ -17,7 +17,6 @@
 
 #include <inttypes.h>
 
-#include "base/macros.h"
 #include "build/build_config.h"
 #include "util/file/file_io.h"
 
@@ -35,6 +34,10 @@ namespace crashpad {
 //! Chromium's base, they allow integration with its metrics system.
 class Metrics {
  public:
+  Metrics() = delete;
+  Metrics(const Metrics&) = delete;
+  Metrics& operator=(const Metrics&) = delete;
+
   //! \brief Values for CrashReportPending().
   //!
   //! \note These are used as metrics enumeration values, so new values should
@@ -85,6 +88,10 @@ class Metrics {
     //! \brief There was an error between accessing the report from the database
     //!     and uploading it to the crash server.
     kPrepareForUploadFailed = 5,
+
+    //! \brief The upload of the crash failed during communication with the
+    //!     server, but the upload can be retried later.
+    kUploadFailedButCanRetry = 6,
 
     //! \brief The number of values in this enumeration; not a valid value.
     kMaxValue
@@ -209,9 +216,6 @@ class Metrics {
   static void InvalidIntermediateDumpKeySize(
       const internal::IntermediateDumpKey& key);
 #endif
-
- private:
-  DISALLOW_IMPLICIT_CONSTRUCTORS(Metrics);
 };
 
 }  // namespace crashpad

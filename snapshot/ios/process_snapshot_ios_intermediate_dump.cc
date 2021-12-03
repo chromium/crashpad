@@ -36,15 +36,30 @@ namespace internal {
 
 using Key = internal::IntermediateDumpKey;
 
-bool ProcessSnapshotIOSIntermediateDump::Initialize(
+bool ProcessSnapshotIOSIntermediateDump::InitializeWithFilePath(
     const base::FilePath& dump_path,
+    const std::map<std::string, std::string>& annotations) {
+  IOSIntermediateDumpFilePath dump_interface;
+  if (!dump_interface.Initialize(dump_path))
+    return false;
+
+  return InitializeWithFileInterface(dump_interface, annotations);
+}
+
+bool ProcessSnapshotIOSIntermediateDump::InitializeWithFileInterface(
+    const IOSIntermediateDumpInterface& dump_interface,
     const std::map<std::string, std::string>& annotations) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   annotations_simple_map_ = annotations;
+  client_id_.InitializeToZero();
 
-  if (!reader_.Initialize(dump_path)) {
+  IOSIntermediateDumpReaderInitializeResult result =
+      reader_.Initialize(dump_interface);
+  if (result == IOSIntermediateDumpReaderInitializeResult::kFailure) {
     return false;
+  } else if (result == IOSIntermediateDumpReaderInitializeResult::kIncomplete) {
+    annotations_simple_map_["crashpad_intermediate_dump_incomplete"] = "yes";
   }
 
   const IOSIntermediateDumpMap* root_map = reader_.RootMap();
@@ -77,12 +92,27 @@ bool ProcessSnapshotIOSIntermediateDump::Initialize(
   const IOSIntermediateDumpMap* thread_times =
       process_info->GetAsMap(Key::kTaskThreadTimes);
   if (thread_times) {
-    GetDataValueFromMap(basic_info, Key::kUserTime, &thread_times_user_time_);
+    GetDataValueFromMap(thread_times, Key::kUserTime, &thread_times_user_time_);
     GetDataValueFromMap(
-        basic_info, Key::kSystemTime, &thread_times_system_time_);
+        thread_times, Key::kSystemTime, &thread_times_system_time_);
   }
 
   GetDataValueFromMap(process_info, Key::kSnapshotTime, &snapshot_time_);
+
+  const IOSIntermediateDumpList* simple_map_dump =
+      process_info->GetAsList(IntermediateDumpKey::kAnnotationsSimpleMap);
+  if (simple_map_dump) {
+    for (auto& annotation : *simple_map_dump) {
+      const IOSIntermediateDumpData* name_dump =
+          annotation->GetAsData(IntermediateDumpKey::kAnnotationName);
+      const IOSIntermediateDumpData* value_dump =
+          annotation->GetAsData(IntermediateDumpKey::kAnnotationValue);
+      if (name_dump && value_dump) {
+        annotations_simple_map_.insert(
+            make_pair(name_dump->GetString(), value_dump->GetString()));
+      }
+    }
+  }
 
   const IOSIntermediateDumpMap* system_info =
       GetMapFromMap(root_map, Key::kSystemInfo);
@@ -148,6 +178,16 @@ bool ProcessSnapshotIOSIntermediateDump::Initialize(
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
+}
+
+void ProcessSnapshotIOSIntermediateDump::SetClientID(const UUID& client_id) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  client_id_ = client_id;
+}
+
+void ProcessSnapshotIOSIntermediateDump::SetReportID(const UUID& report_id) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  report_id_ = report_id;
 }
 
 pid_t ProcessSnapshotIOSIntermediateDump::ProcessID() const {

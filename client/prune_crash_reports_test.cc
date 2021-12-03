@@ -69,6 +69,7 @@ class MockDatabase : public CrashReportDatabase {
               (override));
   MOCK_METHOD(OperationStatus, DeleteReport, (const UUID&), (override));
   MOCK_METHOD(OperationStatus, RequestUpload, (const UUID&), (override));
+  MOCK_METHOD(base::FilePath, DatabasePath, (), (override));
 
   // Google Mock doesn't support mocking methods with non-copyable types such as
   // unique_ptr.
@@ -149,6 +150,10 @@ TEST(PruneCrashReports, SizeCondition) {
 class StaticCondition final : public PruneCondition {
  public:
   explicit StaticCondition(bool value) : value_(value), did_execute_(false) {}
+
+  StaticCondition(const StaticCondition&) = delete;
+  StaticCondition& operator=(const StaticCondition&) = delete;
+
   ~StaticCondition() {}
 
   bool ShouldPruneReport(const CrashReportDatabase::Report& report) override {
@@ -161,8 +166,6 @@ class StaticCondition final : public PruneCondition {
  private:
   const bool value_;
   bool did_execute_;
-
-  DISALLOW_COPY_AND_ASSIGN(StaticCondition);
 };
 
 TEST(PruneCrashReports, BinaryCondition) {

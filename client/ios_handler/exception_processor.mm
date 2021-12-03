@@ -12,6 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// std::unexpected_handler is deprecated starting in C++11, and removed in
+// C++17.  But macOS versions we run on still ship it. This define makes
+// std::unexpected_handler reappear. If that define ever stops working,
+// we hopefully no longer run on macOS versions that still have it.
+// (...or we'll have to define it in this file instead of getting it from
+// <exception>). This define must before all includes.
+#define _LIBCPP_ENABLE_CXX17_REMOVED_UNEXPECTED_FUNCTIONS
+
 #include "client/ios_handler/exception_processor.h"
 
 #include <Availability.h>
@@ -128,15 +136,34 @@ crashpad::ObjcExceptionDelegate* g_exception_delegate;
 objc_exception_preprocessor g_next_preprocessor;
 NSUncaughtExceptionHandler* g_next_uncaught_exception_handler;
 
-static void SetNSExceptionAnnotations(id exception,
+static void SetNSExceptionAnnotations(NSException* exception,
                                       std::string& name,
                                       std::string& reason) {
-  name = base::SysNSStringToUTF8([exception name]);
-  reason = base::SysNSStringToUTF8([exception reason]);
-  static crashpad::StringAnnotation<256> nameKey("exceptionName");
-  nameKey.Set(name);
-  static crashpad::StringAnnotation<512> reasonKey("exceptionReason");
-  reasonKey.Set(reason);
+  @try {
+    name = base::SysNSStringToUTF8(exception.name);
+    static crashpad::StringAnnotation<256> nameKey("exceptionName");
+    nameKey.Set(name);
+  } @catch (id name_exception) {
+    LOG(ERROR) << "Unable to read uncaught Objective-C exception name.";
+  }
+
+  @try {
+    reason = base::SysNSStringToUTF8(exception.reason);
+    static crashpad::StringAnnotation<512> reasonKey("exceptionReason");
+    reasonKey.Set(reason);
+  } @catch (id reason_exception) {
+    LOG(ERROR) << "Unable to read uncaught Objective-C exception reason.";
+  }
+
+  @try {
+    if (exception.userInfo) {
+      static crashpad::StringAnnotation<512> userInfoKey("exceptionUserInfo");
+      userInfoKey.Set(base::SysNSStringToUTF8(
+          [NSString stringWithFormat:@"%@", exception.userInfo]));
+    }
+  } @catch (id user_info_exception) {
+    LOG(ERROR) << "Unable to read uncaught Objective-C exception user info.";
+  }
 }
 
 static void ObjcUncaughtExceptionHandler(NSException* exception) {
@@ -147,7 +174,6 @@ static void ObjcUncaughtExceptionHandler(NSException* exception) {
     static crashpad::StringAnnotation<256> nameKey("UncaughtNSException");
     nameKey.Set("true");
     std::vector<uint64_t> addresses;
-    NSArray<NSNumber*>* addressArray = [exception callStackReturnAddresses];
     for (NSNumber* address in addressArray)
       addresses.push_back([address unsignedLongLongValue]);
     g_exception_delegate->HandleUncaughtNSException(&addresses[0],
@@ -359,6 +385,24 @@ id ObjcExceptionPreprocessor(id exception) {
           return HANDLE_UNCAUGHT_NSEXCEPTION(exception, sinkhole);
         }
       }
+
+      // Another set of iOS redacted sinkholes appear in CoreAutoLayout.
+      // However, this is often called by client code, so it's unsafe to simply
+      // handle an uncaught nsexception here. Instead, skip the frame and
+      // continue searching for either a handler that belongs to us, or another
+      // sinkhole. See:
+      //    -[NSISEngine
+      //    performModifications:withUnsatisfiableConstraintsHandler:]:
+      //    -[NSISEngine withBehaviors:performModifications:]
+      //    +[NSLayoutConstraintParser
+      //    constraintsWithVisualFormat:options:metrics:views:]:
+      static constexpr const char* kCoreAutoLayoutSinkhole =
+          "/System/Library/PrivateFrameworks/CoreAutoLayout.framework/"
+          "CoreAutoLayout";
+      if (ModulePathMatchesSinkhole(dl_info.dli_fname,
+                                    kCoreAutoLayoutSinkhole)) {
+        continue;
+      }
     }
 
     // Some <redacted> sinkholes are harder to find. _UIGestureEnvironmentUpdate
@@ -367,20 +411,22 @@ id ObjcExceptionPreprocessor(id exception) {
     // internally and also has has non-sinkhole handlers. While all the
     // calling methods in UIKit are marked <redacted> starting in iOS14, it's
     // currently true that all callers to _UIGestureEnvironmentUpdate are within
-    // UIGestureEnvironment.  That means a very hacky way to detect this are to
-    // check if the calling method IMP is within the range of all
-    // UIGestureEnvironment methods.
+    // UIWindow sendEvent -> UIGestureEnvironment.  That means a very hacky way
+    // to detect this is to check if the calling (2x) method IMP is within the
+    // range of all UIWindow methods.
     static constexpr const char kUIKitCorePath[] =
         "/System/Library/PrivateFrameworks/UIKitCore.framework/UIKitCore";
     if (ModulePathMatchesSinkhole(dl_info.dli_fname, kUIKitCorePath)) {
       unw_proc_info_t caller_frame_info;
       if (LoggingUnwStep(&cursor) > 0 &&
+          unw_get_proc_info(&cursor, &caller_frame_info) == UNW_ESUCCESS &&
+          LoggingUnwStep(&cursor) > 0 &&
           unw_get_proc_info(&cursor, &caller_frame_info) == UNW_ESUCCESS) {
-        auto uigestureimp_lambda = [](IMP* max) {
+        auto uiwindowimp_lambda = [](IMP* max) {
           IMP min = *max = bit_cast<IMP>(nullptr);
           unsigned int method_count = 0;
           std::unique_ptr<Method[], base::FreeDeleter> method_list(
-              class_copyMethodList(NSClassFromString(@"UIGestureEnvironment"),
+              class_copyMethodList(NSClassFromString(@"UIWindow"),
                                    &method_count));
           if (method_count > 0) {
             min = *max = method_getImplementation(method_list[0]);
@@ -395,15 +441,14 @@ id ObjcExceptionPreprocessor(id exception) {
           return min;
         };
 
-        static IMP gesture_environment_max_imp;
-        static IMP gesture_environment_min_imp =
-            uigestureimp_lambda(&gesture_environment_max_imp);
+        static IMP uiwindow_max_imp;
+        static IMP uiwindow_min_imp = uiwindowimp_lambda(&uiwindow_max_imp);
 
-        if (gesture_environment_min_imp && gesture_environment_max_imp &&
+        if (uiwindow_min_imp && uiwindow_max_imp &&
             caller_frame_info.start_ip >=
-                reinterpret_cast<unw_word_t>(gesture_environment_min_imp) &&
+                reinterpret_cast<unw_word_t>(uiwindow_min_imp) &&
             caller_frame_info.start_ip <=
-                reinterpret_cast<unw_word_t>(gesture_environment_max_imp)) {
+                reinterpret_cast<unw_word_t>(uiwindow_max_imp)) {
           return HANDLE_UNCAUGHT_NSEXCEPTION(exception,
                                              "_UIGestureEnvironmentUpdate");
         }
