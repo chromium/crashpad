@@ -64,6 +64,9 @@ class ScopedTaskThreads {
                              mach_msg_type_number_t thread_count)
       : threads_(threads), thread_count_(thread_count) {}
 
+  ScopedTaskThreads(const ScopedTaskThreads&) = delete;
+  ScopedTaskThreads& operator=(const ScopedTaskThreads&) = delete;
+
   ~ScopedTaskThreads() {
     for (uint32_t thread_index = 0; thread_index < thread_count_;
          ++thread_index) {
@@ -77,8 +80,6 @@ class ScopedTaskThreads {
  private:
   thread_act_array_t threads_;
   mach_msg_type_number_t thread_count_;
-
-  DISALLOW_COPY_AND_ASSIGN(ScopedTaskThreads);
 };
 
 //! \brief Log \a key as a string.
@@ -581,7 +582,8 @@ void InProcessIntermediateDumpHandler::WriteHeader(
 
 // static
 void InProcessIntermediateDumpHandler::WriteProcessInfo(
-    IOSIntermediateDumpWriter* writer) {
+    IOSIntermediateDumpWriter* writer,
+    const std::map<std::string, std::string>& annotations) {
   IOSIntermediateDumpWriter::ScopedMap process_map(
       writer, IntermediateDumpKey::kProcessInfo);
 
@@ -645,6 +647,24 @@ void InProcessIntermediateDumpHandler::WriteProcessInfo(
                   &task_thread_times.system_time);
   } else {
     CRASHPAD_RAW_LOG("task_info task_basic_info");
+  }
+
+  if (!annotations.empty()) {
+    IOSIntermediateDumpWriter::ScopedArray simple_annotations_array(
+        writer, IntermediateDumpKey::kAnnotationsSimpleMap);
+    for (const auto& annotation_pair : annotations) {
+      const std::string& key = annotation_pair.first;
+      const std::string& value = annotation_pair.second;
+      IOSIntermediateDumpWriter::ScopedArrayMap annotation_map(writer);
+      WriteProperty(writer,
+                    IntermediateDumpKey::kAnnotationName,
+                    key.c_str(),
+                    key.length());
+      WriteProperty(writer,
+                    IntermediateDumpKey::kAnnotationValue,
+                    value.c_str(),
+                    value.length());
+    }
   }
 }
 
@@ -746,7 +766,9 @@ void InProcessIntermediateDumpHandler::WriteThreadInfo(
       writer, IntermediateDumpKey::kThreads);
 
   // Exception thread ID.
+#if defined(ARCH_CPU_ARM64)
   uint64_t exception_thread_id = 0;
+#endif
   thread_identifier_info identifier_info;
   mach_msg_type_number_t count = THREAD_IDENTIFIER_INFO_COUNT;
   kern_return_t kr =
@@ -755,7 +777,9 @@ void InProcessIntermediateDumpHandler::WriteThreadInfo(
                   reinterpret_cast<thread_info_t>(&identifier_info),
                   &count);
   if (kr == KERN_SUCCESS) {
+#if defined(ARCH_CPU_ARM64)
     exception_thread_id = identifier_info.thread_id;
+#endif
   } else {
     CRASHPAD_RAW_LOG_ERROR(kr, "thread_info::THREAD_IDENTIFIER_INFO");
   }
@@ -773,7 +797,7 @@ void InProcessIntermediateDumpHandler::WriteThreadInfo(
     thread_t thread = threads[thread_index];
 
     thread_basic_info basic_info;
-    mach_msg_type_number_t count = THREAD_BASIC_INFO_COUNT;
+    count = THREAD_BASIC_INFO_COUNT;
     kr = thread_info(thread,
                      THREAD_BASIC_INFO,
                      reinterpret_cast<thread_info_t>(&basic_info),
@@ -802,15 +826,18 @@ void InProcessIntermediateDumpHandler::WriteThreadInfo(
     }
 
     // Thread ID.
+#if defined(ARCH_CPU_ARM64)
     uint64_t thread_id;
-    thread_identifier_info identifier_info;
+#endif
     count = THREAD_IDENTIFIER_INFO_COUNT;
     kr = thread_info(thread,
                      THREAD_IDENTIFIER_INFO,
                      reinterpret_cast<thread_info_t>(&identifier_info),
                      &count);
     if (kr == KERN_SUCCESS) {
+#if defined(ARCH_CPU_ARM64)
       thread_id = identifier_info.thread_id;
+#endif
       WriteProperty(
           writer, IntermediateDumpKey::kThreadID, &identifier_info.thread_id);
       WriteProperty(writer,
@@ -850,11 +877,10 @@ void InProcessIntermediateDumpHandler::WriteThreadInfo(
     mach_msg_type_number_t debug_state_count = ARM_DEBUG_STATE64_COUNT;
 #endif
 
-    kern_return_t kr =
-        thread_get_state(thread,
-                         kThreadStateFlavor,
-                         reinterpret_cast<thread_state_t>(&thread_state),
-                         &thread_state_count);
+    kr = thread_get_state(thread,
+                          kThreadStateFlavor,
+                          reinterpret_cast<thread_state_t>(&thread_state),
+                          &thread_state_count);
     if (kr != KERN_SUCCESS) {
       CRASHPAD_RAW_LOG_ERROR(kr, "thread_get_state::kThreadStateFlavor");
     }

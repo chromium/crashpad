@@ -128,6 +128,8 @@ crashpad_static_library("snapshot") {
 
   if (crashpad_is_linux || crashpad_is_android) {
     sources += [
+      "linux/capture_memory_delegate_linux.cc",
+      "linux/capture_memory_delegate_linux.h",
       "linux/cpu_context_linux.cc",
       "linux/cpu_context_linux.h",
       "linux/debug_rendezvous.cc",
@@ -244,10 +246,10 @@ crashpad_static_library("snapshot") {
   public_deps = [ ":context" ]
 
   deps = [
+    "$mini_chromium_source_parent:base",
     "../client:common",
     "../compat",
     "../minidump:format",
-    "$mini_chromium_source_parent:base",
     "../util",
   ]
 
@@ -318,8 +320,8 @@ static_library("test_support") {
   public_deps = [ ":snapshot" ]
 
   deps = [
-    "../compat",
     "$mini_chromium_source_parent:base",
+    "../compat",
     "../util",
   ]
 
@@ -429,13 +431,13 @@ source_set("snapshot_test") {
 
   deps = [
     ":test_support",
+    "$mini_chromium_source_parent:base",
     "../client:common",
     "../compat",
     "../minidump:format",
     "../test",
     "../third_party/googletest:googlemock",
     "../third_party/googletest:googletest",
-    "$mini_chromium_source_parent:base",
     "../util",
   ]
 
@@ -444,7 +446,10 @@ source_set("snapshot_test") {
   }
 
   if (crashpad_is_ios) {
-    deps += [ "../minidump" ]
+    deps += [
+      ":snapshot_test_ios_data",
+      "../minidump",
+    ]
   }
 
   data_deps = [
@@ -485,12 +490,23 @@ source_set("snapshot_test") {
   }
 }
 
+bundle_data("snapshot_test_ios_data") {
+  testonly = true
+
+  sources = [
+    "ios/testdata/crash-1fa088dda0adb41459d063078a0f384a0bb8eefa",
+    "ios/testdata/crash-5726011582644224",
+  ]
+
+  outputs = [ "{{bundle_resources_dir}}/crashpad_test_data/" +
+              "{{source_root_relative_dir}}/{{source_file_part}}" ]
+}
 crashpad_loadable_module("crashpad_snapshot_test_module") {
   testonly = true
   sources = [ "crashpad_info_client_options_test_module.cc" ]
   deps = [
-    "../client",
     "$mini_chromium_source_parent:base",
+    "../client",
   ]
 }
 
@@ -533,7 +549,7 @@ if ((crashpad_is_linux || crashpad_is_android || crashpad_is_fuchsia) &&
   }
 }
 
-if (crashpad_is_mac) {
+if (crashpad_is_mac || crashpad_is_ios) {
   crashpad_loadable_module("crashpad_snapshot_test_module_crashy_initializer") {
     testonly = true
     sources = [
@@ -552,9 +568,9 @@ if (crashpad_is_win) {
     testonly = true
     sources = [ "win/crashpad_snapshot_test_annotations.cc" ]
     deps = [
+      "$mini_chromium_source_parent:base",
       "../client",
       "../compat",
-      "$mini_chromium_source_parent:base",
     ]
   }
 
@@ -562,9 +578,9 @@ if (crashpad_is_win) {
     testonly = true
     sources = [ "win/crashpad_snapshot_test_crashing_child.cc" ]
     deps = [
+      "$mini_chromium_source_parent:base",
       "../client",
       "../compat",
-      "$mini_chromium_source_parent:base",
       "../util",
     ]
   }
@@ -573,9 +589,9 @@ if (crashpad_is_win) {
     testonly = true
     sources = [ "win/crashpad_snapshot_test_dump_without_crashing.cc" ]
     deps = [
+      "$mini_chromium_source_parent:base",
       "../client",
       "../compat",
-      "$mini_chromium_source_parent:base",
       "../util",
     ]
   }
@@ -584,9 +600,9 @@ if (crashpad_is_win) {
     testonly = true
     sources = [ "win/crashpad_snapshot_test_extra_memory_ranges.cc" ]
     deps = [
+      "$mini_chromium_source_parent:base",
       "../client",
       "../compat",
-      "$mini_chromium_source_parent:base",
     ]
   }
 
@@ -594,9 +610,9 @@ if (crashpad_is_win) {
     testonly = true
     sources = [ "win/crashpad_snapshot_test_image_reader.cc" ]
     deps = [
+      "$mini_chromium_source_parent:base",
       "../client",
       "../compat",
-      "$mini_chromium_source_parent:base",
       "../util",
     ]
     if (crashpad_is_in_chromium) {
@@ -613,8 +629,8 @@ if (crashpad_is_win) {
     testonly = true
     sources = [ "win/crashpad_snapshot_test_image_reader_module.cc" ]
     deps = [
-      "../client",
       "$mini_chromium_source_parent:base",
+      "../client",
     ]
     if (crashpad_is_in_chromium) {
       if (symbol_level == 0) {

@@ -20,12 +20,12 @@
 
 #include <vector>
 
-#include "base/macros.h"
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/exception_snapshot.h"
 #include "snapshot/linux/process_reader_linux.h"
 #include "snapshot/memory_snapshot.h"
+#include "snapshot/memory_snapshot_generic.h"
 #include "util/linux/address_types.h"
 #include "util/misc/initialization_state_dcheck.h"
 
@@ -37,6 +37,10 @@ namespace internal {
 class ExceptionSnapshotLinux final : public ExceptionSnapshot {
  public:
   ExceptionSnapshotLinux();
+
+  ExceptionSnapshotLinux(const ExceptionSnapshotLinux&) = delete;
+  ExceptionSnapshotLinux& operator=(const ExceptionSnapshotLinux&) = delete;
+
   ~ExceptionSnapshotLinux() override;
 
   //! \brief Initializes the object.
@@ -88,13 +92,12 @@ class ExceptionSnapshotLinux final : public ExceptionSnapshot {
   } context_union_;
   CPUContext context_;
   std::vector<uint64_t> codes_;
+  std::vector<std::unique_ptr<internal::MemorySnapshotGeneric>> extra_memory_;
   uint64_t thread_id_;
   uint64_t exception_address_;
   uint32_t signal_number_;
   uint32_t signal_code_;
   InitializationStateDcheck initialized_;
-
-  DISALLOW_COPY_AND_ASSIGN(ExceptionSnapshotLinux);
 };
 
 }  // namespace internal
