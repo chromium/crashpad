@@ -167,6 +167,7 @@ if(APPLE)
         misc/capture_context_mac.S
         misc/clock_mac.cc
         misc/paths_mac.cc
+        net/http_transport_mac.mm
         synchronization/semaphore_mac.cc
     )
     if(NOT IOS)
@@ -195,7 +196,6 @@ if(APPLE)
             mach/scoped_task_suspend.h
             mach/task_for_pid.cc
             mach/task_for_pid.h
-            net/http_transport_mac.mm
             posix/process_info_mac.cc
             process/process_memory_mac.cc
             process/process_memory_mac.h
@@ -205,6 +205,8 @@ if(APPLE)
             ios/ios_intermediate_dump_data.cc
             ios/ios_intermediate_dump_data.h
             ios/ios_intermediate_dump_format.h
+            ios/ios_intermediate_dump_interface.cc
+            ios/ios_intermediate_dump_interface.h
             ios/ios_intermediate_dump_list.cc
             ios/ios_intermediate_dump_list.h
             ios/ios_intermediate_dump_map.cc
