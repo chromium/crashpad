@@ -159,11 +159,11 @@ def crashpad_dimensions(platform, bucket):
     if platform == "fuchsia":
         dimensions["os"] = "Ubuntu-16.04"
     elif platform == "ios":
-        dimensions["os"] = "Mac-10.15"
+        dimensions["os"] = "Mac-11"
     elif platform == "linux":
         dimensions["os"] = "Ubuntu-16.04"
     elif platform == "mac":
-        dimensions["os"] = "Mac-10.15"
+        dimensions["os"] = "Mac-11"
     elif platform == "win":
         dimensions["os"] = "Windows-10"
 
