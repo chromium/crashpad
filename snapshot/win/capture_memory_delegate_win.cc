@@ -55,7 +55,7 @@ void CaptureMemoryDelegateWin::AddNewMemorySnapshot(
     return;
   if (range.size() == 0)
     return;
-  if (budget_remaining_ && *budget_remaining_ == 0)
+  if (!budget_remaining_ || *budget_remaining_ == 0)
     return;
   snapshots_->push_back(std::make_unique<internal::MemorySnapshotGeneric>());
   internal::MemorySnapshotGeneric* snapshot = snapshots_->back().get();
