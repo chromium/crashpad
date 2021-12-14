@@ -183,6 +183,11 @@ def crashpad_properties(platform, cpu, config, bucket):
     if cpu != "x64":
         properties["target_cpu"] = cpu
 
+    if platform == "win":
+        properties["$depot_tools/windows_sdk"] = {
+            "version": "uploaded:2021-04-28",
+        }
+
     if bucket == "ci":
         properties["$gatekeeper"] = {
             "group": "client.crashpad",

@@ -39,7 +39,7 @@ deps = {
       '7bde79cc274d06451bf65ae82c012a5d3e476b5a',
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
-      '0e22eed71eec97dacbe80822a14c5cd0b580d793',
+      '4c50bd67f8db485f9cdd887b4bf7f498eaf49c17',
   'crashpad/third_party/libfuzzer/src':
       Var('chromium_git') + '/chromium/llvm-project/compiler-rt/lib/fuzzer.git@' +
       'fda403cf93ecb8792cb1d061564d89a6553ca020',
@@ -106,7 +106,7 @@ deps = {
     'packages': [
       {
         'package': 'chrome_internal/third_party/sdk/windows',
-        'version': 'uploaded:2018-06-13'
+        'version': 'uploaded:2021-04-28'
       },
     ],
     'condition': 'checkout_win and pull_win_toolchain',
