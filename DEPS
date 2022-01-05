@@ -36,7 +36,7 @@ deps = {
       '5bcd8e3bb929714e031a542d303f818e5a5af45d',
   'crashpad/third_party/lss/lss':
       Var('chromium_git') + '/linux-syscall-support.git@' +
-      '7bde79cc274d06451bf65ae82c012a5d3e476b5a',
+      'e1e7b0ad8ee99a875b272c8e33e308472e897660',
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
       '502930381b23c5fa3911c8b82ec3e4ba6ceb3658',
