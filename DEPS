@@ -39,7 +39,7 @@ deps = {
       'e1e7b0ad8ee99a875b272c8e33e308472e897660',
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
-      '6562d2d0b2a86026a0c8bfc89d95c0a547ed9e5e',
+      '0243b40af70e34c81fc8a30d9b15cd276b2d49ba',
   'crashpad/third_party/libfuzzer/src':
       Var('chromium_git') + '/chromium/llvm-project/compiler-rt/lib/fuzzer.git@' +
       'fda403cf93ecb8792cb1d061564d89a6553ca020',
