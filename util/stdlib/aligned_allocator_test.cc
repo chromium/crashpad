@@ -16,6 +16,7 @@
 
 #include <stdint.h>
 
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/gtest_death.h"
 

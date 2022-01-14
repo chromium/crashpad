@@ -176,11 +176,17 @@ using InitializationStateDcheck = bool[0];
 // Avoid triggering warnings by repurposing these macros when DCHECKs are
 // disabled.
 #define INITIALIZATION_STATE_SET_INITIALIZING(initialization_state_dcheck) \
-  do { std::ignore = initialization_state_dcheck; } while (false)
+  do {                                                                     \
+    std::ignore = initialization_state_dcheck;                             \
+  } while (false)
 #define INITIALIZATION_STATE_SET_VALID(initialization_state_dcheck) \
-  do { std::ignore = initialization_state_dcheck; } while (false)
+  do {                                                              \
+    std::ignore = initialization_state_dcheck;                      \
+  } while (false)
 #define INITIALIZATION_STATE_DCHECK_VALID(initialization_state_dcheck) \
-  do { std::ignore = initialization_state_dcheck; } while (false)
+  do {                                                                 \
+    std::ignore = initialization_state_dcheck;                         \
+  } while (false)
 
 #endif
 
