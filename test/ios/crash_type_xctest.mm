@@ -16,6 +16,7 @@
 #include <objc/runtime.h>
 
 #import "Service/Sources/EDOClientService.h"
+#include "build/build_config.h"
 #import "test/ios/host/cptest_shared_object.h"
 #include "util/mach/exception_types.h"
 #include "util/mach/mach_extensions.h"
@@ -85,19 +86,6 @@
   XCTAssertEqualObjects(result, @"crashpad");
 }
 
-- (void)testSegv {
-  [rootObject_ crashSegv];
-#if defined(NDEBUG)
-#if TARGET_OS_SIMULATOR
-  [self verifyCrashReportException:EXC_BAD_INSTRUCTION];
-#else
-  [self verifyCrashReportException:EXC_BREAKPOINT];
-#endif
-#else
-  [self verifyCrashReportException:EXC_BAD_ACCESS];
-#endif
-}
-
 - (void)testKillAbort {
   [rootObject_ crashKillAbort];
   [self verifyCrashReportException:EXC_SOFT_SIGNAL];
@@ -108,10 +96,12 @@
 
 - (void)testTrap {
   [rootObject_ crashTrap];
-#if TARGET_OS_SIMULATOR
+#if defined(ARCH_CPU_X86_64)
   [self verifyCrashReportException:EXC_BAD_INSTRUCTION];
-#else
+#elif defined(ARCH_CPU_ARM64)
   [self verifyCrashReportException:EXC_BREAKPOINT];
+#else
+#error Port to your CPU architecture
 #endif
 }
 
@@ -125,15 +115,7 @@
 
 - (void)testBadAccess {
   [rootObject_ crashBadAccess];
-#if defined(NDEBUG)
-#if TARGET_OS_SIMULATOR
-  [self verifyCrashReportException:EXC_BAD_INSTRUCTION];
-#else
-  [self verifyCrashReportException:EXC_BREAKPOINT];
-#endif
-#else
   [self verifyCrashReportException:EXC_BAD_ACCESS];
-#endif
 }
 
 - (void)testException {
