@@ -28,6 +28,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include <atomic>
+
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"

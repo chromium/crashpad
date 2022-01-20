@@ -223,7 +223,10 @@ sigjmp_buf do_crash_sigjmp_env;
 
 bool HandleCrashSuccessfully(int, siginfo_t*, ucontext_t*) {
   siglongjmp(do_crash_sigjmp_env, 1);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunreachable-code-return"
   return true;
+#pragma clang diagnostic pop
 }
 
 void DoCrash(const StartHandlerForSelfTestOptions& options,
