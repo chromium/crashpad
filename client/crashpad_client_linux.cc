@@ -148,17 +148,7 @@ class SignalHandler {
 
   // The base implementation for all signal handlers, suitable for calling
   // directly to simulate signal delivery.
-  bool HandleCrash(int signo, siginfo_t* siginfo, void* context) {
-    if (disabled_for_thread_) {
-      return false;
-    }
-
-    if (first_chance_handler_ &&
-        first_chance_handler_(
-            signo, siginfo, static_cast<ucontext_t*>(context))) {
-      return true;
-    }
-
+  void HandleCrash(int signo, siginfo_t* siginfo, void* context) {
     exception_information_.siginfo_address =
         FromPointerCast<decltype(exception_information_.siginfo_address)>(
             siginfo);
@@ -169,7 +159,6 @@ class SignalHandler {
 
     ScopedPrSetDumpable set_dumpable(false);
     HandleCrashImpl();
-    return false;
   }
 
  protected:
@@ -198,9 +187,16 @@ class SignalHandler {
   static void HandleOrReraiseSignal(int signo,
                                     siginfo_t* siginfo,
                                     void* context) {
-    if (handler_->HandleCrash(signo, siginfo, context)) {
+    if (handler_->first_chance_handler_ &&
+        handler_->first_chance_handler_(
+            signo, siginfo, static_cast<ucontext_t*>(context))) {
       return;
     }
+
+    if (!handler_->disabled_for_thread_) {
+      handler_->HandleCrash(signo, siginfo, context);
+    }
+
     Signals::RestoreHandlerAndReraiseSignalOnReturn(
         siginfo, handler_->old_actions_.ActionForSignal(signo));
   }
