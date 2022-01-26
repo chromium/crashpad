@@ -34,15 +34,8 @@
 @implementation CPTestTestCase
 
 + (void)setUp {
-  // Swizzle away the handleCrashUnderSymbol callback.  Without this, any time
-  // the host app is intentionally crashed, the test is immediately failed.
-  SEL originalSelector = NSSelectorFromString(@"handleCrashUnderSymbol:");
-  SEL swizzledSelector = @selector(handleCrashUnderSymbol:);
-  Method originalMethod = class_getInstanceMethod(
-      objc_getClass("XCUIApplicationImpl"), originalSelector);
-  Method swizzledMethod =
-      class_getInstanceMethod([self class], swizzledSelector);
-  method_exchangeImplementations(originalMethod, swizzledMethod);
+  [CPTestTestCase swizzleHandleCrashUnderSymbol];
+  [CPTestTestCase swizleMayTerminateOutOfBandWithoutCrashReport];
 
   // Override EDO default error handler.  Without this, the default EDO error
   // handler will throw an error and fail the test.
@@ -51,10 +44,41 @@
   });
 }
 
+// Swizzle away the -[XCUIApplicationImpl handleCrashUnderSymbol:] callback.
+// Without this, any time the host app is intentionally crashed, the test is
+// immediately failed.
++ (void)swizzleHandleCrashUnderSymbol {
+  SEL originalSelector = NSSelectorFromString(@"handleCrashUnderSymbol:");
+  SEL swizzledSelector = @selector(handleCrashUnderSymbol:);
+  Method originalMethod = class_getInstanceMethod(
+      objc_getClass("XCUIApplicationImpl"), originalSelector);
+  Method swizzledMethod =
+      class_getInstanceMethod([self class], swizzledSelector);
+  method_exchangeImplementations(originalMethod, swizzledMethod);
+}
+
+// Swizzle away the time consuming 'Checking for crash reports corresponding to'
+// from -[XCUIApplicationProcess swizleMayTerminateOutOfBandWithoutCrashReport]
+// that is unnecessary for these tests.
++ (void)swizleMayTerminateOutOfBandWithoutCrashReport {
+  SEL originalSelector =
+      NSSelectorFromString(@"mayTerminateOutOfBandWithoutCrashReport");
+  SEL swizzledSelector = @selector(mayTerminateOutOfBandWithoutCrashReport);
+  Method originalMethod = class_getInstanceMethod(
+      objc_getClass("XCUIApplicationProcess"), originalSelector);
+  Method swizzledMethod =
+      class_getInstanceMethod([self class], swizzledSelector);
+  method_exchangeImplementations(originalMethod, swizzledMethod);
+}
+
 // This gets called after tearDown, so there's no straightforward way to
 // test that this is called. However, not swizzling this out will cause every
 // crashing test to fail.
 - (void)handleCrashUnderSymbol:(id)arg1 {
+}
+
+- (BOOL)mayTerminateOutOfBandWithoutCrashReport {
+  return YES;
 }
 
 - (void)setUp {
