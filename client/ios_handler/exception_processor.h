@@ -59,6 +59,10 @@ class ObjcExceptionDelegate {
 //! signal handler. It should only be installed once.
 void InstallObjcExceptionPreprocessor(ObjcExceptionDelegate* delegate);
 
+//! \brief Uninstalls the Objective-C exception preprocessor. Expected to be
+//!     used by tests only.
+void UninstallObjcExceptionPreprocessor();
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_IOS_EXCEPTION_PROCESSOR_H_
