@@ -13,10 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-lucicfg.check_version("1.28.0", "Please update depot_tools")
+lucicfg.check_version("1.30.9", "Please update depot_tools")
 
 REPO_URL = "https://chromium.googlesource.com/crashpad/crashpad"
 REVIEW_URL = "https://chromium-review.googlesource.com/crashpad/crashpad"
+
+# Use LUCI Scheduler BBv2 names and add Scheduler realms configs.
+lucicfg.enable_experiment("crbug.com/1182002")
 
 luci.project(
     name = "crashpad",
