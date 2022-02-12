@@ -15,8 +15,6 @@
 #ifndef CRASHPAD_UTIL_IOS_EXCEPTION_PROCESSOR_H_
 #define CRASHPAD_UTIL_IOS_EXCEPTION_PROCESSOR_H_
 
-#include <vector>
-
 #include "util/misc/capture_context.h"
 
 namespace crashpad {
