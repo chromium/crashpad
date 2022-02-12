@@ -30,7 +30,7 @@ namespace crashpad {
 namespace test {
 namespace {
 
-class CrashpadIOSClient : public testing::Test {
+class CrashpadIOSClient : public PlatformTest {
  protected:
   // testing::Test:
 
