@@ -350,6 +350,7 @@ TEST(ProcessSnapshotMinidump, Modules) {
       "libgeorgism",
       "librealistutopia",
   };
+  constexpr char debug_name[] = "debugme.pdb";
 
   minidump_module.BaseOfImage = 0xbadf00d;
   minidump_module.SizeOfImage = 9001;
@@ -373,12 +374,15 @@ TEST(ProcessSnapshotMinidump, Modules) {
   pdb70_cv.signature = CodeViewRecordPDB70::kSignature;
   pdb70_cv.age = 7;
   pdb70_cv.uuid.InitializeFromString("00112233-4455-6677-8899-aabbccddeeff");
-  pdb70_cv.pdb_name[0] = '\0';
 
   auto pdb70_loc = static_cast<RVA>(string_file.SeekGet());
-  auto pdb70_size = sizeof(pdb70_cv);
+  auto pdb70_size = offsetof(CodeViewRecordPDB70, pdb_name);
 
-  EXPECT_TRUE(string_file.Write(&pdb70_cv, sizeof(pdb70_cv)));
+  EXPECT_TRUE(string_file.Write(&pdb70_cv, pdb70_size));
+
+  size_t nul_terminated_length = strlen(debug_name) + 1;
+  EXPECT_TRUE(string_file.Write(debug_name, nul_terminated_length));
+  pdb70_size += nul_terminated_length;
 
   CodeViewRecordBuildID build_id_cv;
   build_id_cv.signature = CodeViewRecordBuildID::kSignature;
@@ -545,6 +549,7 @@ TEST(ProcessSnapshotMinidump, Modules) {
 
       EXPECT_EQ(uuid.ToString(), "00112233-4455-6677-8899-aabbccddeeff");
       EXPECT_EQ(age, 7U);
+      EXPECT_EQ(modules[i]->DebugFileName(), debug_name);
     } else {
       auto build_id = modules[i]->BuildID();
       std::string build_id_text(build_id.data(),
