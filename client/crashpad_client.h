@@ -563,6 +563,10 @@ class CrashpadClient {
   //!     multiple Crashpad clients can be started and stopped. Not expected to
   //!     be used in a shipping application.
   static void ResetForTesting();
+
+  //! \brief Inject a callback into Mach handling. Intended to be used by
+  //!     tests to trigger a reentrant exception.
+  static void SetMachExceptionCallbackForTesting(void (*callback)());
 #endif
 
 #if BUILDFLAG(IS_APPLE) || DOXYGEN

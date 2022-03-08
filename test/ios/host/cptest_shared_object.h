@@ -91,6 +91,20 @@
 // Trigger a crash after writing various annotations.
 - (void)crashWithAnnotations;
 
+// Triggers a DumpWithoutCrash |dump_count| times in each of |threads| threads.
+- (void)generateDumpWithoutCrash:(int)dump_count threads:(int)threads;
+
+// Triggers a simulataneous Mach exception and signal in different threads.
+- (void)crashConcurrentSignalAndMach;
+
+// Triggers a SIGABRT signal while handling an NSException to test reentrant
+// exceptions.
+- (void)crashInHandlerReentrant;
+
+// Return the contents of the stderr file used when the host app is launch with
+// the arguments --redirect-stderr-to-file
+- (NSString*)stderrContents;
+
 @end
 
 #endif  // CRASHPAD_TEST_IOS_HOST_SHARED_OBJECT_H_
