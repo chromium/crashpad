@@ -103,6 +103,9 @@
   NSNumber* report_exception;
   XCTAssertTrue([rootObject_ pendingReportException:&report_exception]);
   XCTAssertEqual(report_exception.unsignedIntValue, exception);
+
+  NSString* stderrContents = [rootObject_ stderrContents];
+  XCTAssertFalse([stderrContents containsString:@"allocator used in handler."]);
 }
 
 - (void)testEDO {
@@ -322,8 +325,6 @@
 }
 
 - (void)testCrashInHandlerReentrant {
-  app_.launchArguments = @[ @"--redirect-stderr-to-file" ];
-  [app_ launch];
   XCTAssertTrue(app_.state == XCUIApplicationStateRunningForeground);
   rootObject_ = [EDOClientService rootObjectWithPort:12345];
 
@@ -342,6 +343,26 @@
   NSString* stderrContents = [rootObject_ stderrContents];
   NSString* errmsg = @"Cannot DumpExceptionFromSignal without writer";
   XCTAssertTrue([stderrContents containsString:errmsg]);
+}
+
+- (void)testFailureWhenHandlerAllocates {
+  XCTAssertTrue(app_.state == XCUIApplicationStateRunningForeground);
+  rootObject_ = [EDOClientService rootObjectWithPort:12345];
+
+  [rootObject_ allocateWithForbiddenAllocators];
+
+  // Confirm the app is not running.
+  XCTAssertTrue([app_ waitForState:XCUIApplicationStateNotRunning timeout:15]);
+  XCTAssertTrue(app_.state == XCUIApplicationStateNotRunning);
+
+  [app_ launch];
+  XCTAssertTrue(app_.state == XCUIApplicationStateRunningForeground);
+  rootObject_ = [EDOClientService rootObjectWithPort:12345];
+
+  XCTAssertEqual([rootObject_ pendingReportCount], 0);
+
+  NSString* stderrContents = [rootObject_ stderrContents];
+  XCTAssertTrue([stderrContents containsString:@"allocator used in handler."]);
 }
 
 @end

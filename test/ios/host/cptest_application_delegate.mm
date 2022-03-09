@@ -42,6 +42,7 @@
 #include "test/file.h"
 #import "test/ios/host/cptest_crash_view_controller.h"
 #import "test/ios/host/cptest_shared_object.h"
+#import "test/ios/host/handler_forbidden_allocators.h"
 #include "util/file/filesystem.h"
 #include "util/thread/thread.h"
 
@@ -113,6 +114,7 @@ GetProcessSnapshotMinidumpFromSinglePending() {
 
 @interface CPTestApplicationDelegate ()
 - (void)processIntermediateDumps;
+@property(copy, nonatomic) NSString* last_stderr_output;
 @end
 
 @implementation CPTestApplicationDelegate {
@@ -135,12 +137,14 @@ GetProcessSnapshotMinidumpFromSinglePending() {
                    {"crashpad", "no"}};
   }
 
-  if ([arguments containsObject:@"--redirect-stderr-to-file"]) {
-    CHECK(freopen(GetStderrOutputFile().value().c_str(), "a", stderr) !=
-          nullptr);
-  } else {
-    crashpad::test::RemoveFileIfExists(GetStderrOutputFile());
-  }
+  NSString* path =
+      [NSString stringWithUTF8String:GetStderrOutputFile().value().c_str()];
+  self.last_stderr_output =
+      [[NSString alloc] initWithContentsOfFile:path
+                                      encoding:NSUTF8StringEncoding
+                                         error:NULL];
+  crashpad::test::RemoveFileIfExists(GetStderrOutputFile());
+  CHECK(freopen(GetStderrOutputFile().value().c_str(), "a", stderr) != nullptr);
 
   if (client_.StartCrashpadInProcessHandler(
           GetDatabaseDir(), "", annotations)) {
@@ -270,14 +274,17 @@ GetProcessSnapshotMinidumpFromSinglePending() {
 }
 
 - (void)crashKillAbort {
+  crashpad::test::ReplaceAllocatorsWithHandlerForbidden();
   kill(getpid(), SIGABRT);
 }
 
 - (void)crashTrap {
+  crashpad::test::ReplaceAllocatorsWithHandlerForbidden();
   __builtin_trap();
 }
 
 - (void)crashAbort {
+  crashpad::test::ReplaceAllocatorsWithHandlerForbidden();
   abort();
 }
 
@@ -439,12 +446,15 @@ class CrashThread : public crashpad::Thread {
   [self crashTrap];
 }
 
+- (void)allocateWithForbiddenAllocators {
+  crashpad::test::ReplaceAllocatorsWithHandlerForbidden();
+  (void)malloc(10);
+}
+
 - (NSString*)stderrContents {
-  NSString* path =
-      [NSString stringWithUTF8String:GetStderrOutputFile().value().c_str()];
-  return [[NSString alloc] initWithContentsOfFile:path
-                                         encoding:NSUTF8StringEncoding
-                                            error:NULL];
+  CPTestApplicationDelegate* delegate =
+      (CPTestApplicationDelegate*)UIApplication.sharedApplication.delegate;
+  return delegate.last_stderr_output;
 }
 
 @end

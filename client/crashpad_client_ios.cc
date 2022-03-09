@@ -153,6 +153,8 @@ class CrashHandler : public Thread,
     in_process_handler_.SetMachExceptionCallbackForTesting(callback);
   }
 
+  uint64_t GetThreadIdForTesting() { return Thread::GetThreadIdForTesting(); }
+
  private:
   CrashHandler() = default;
 
@@ -421,6 +423,12 @@ void CrashpadClient::SetMachExceptionCallbackForTesting(void (*callback)()) {
   CrashHandler* crash_handler = CrashHandler::Get();
   DCHECK(crash_handler);
   crash_handler->SetMachExceptionCallbackForTesting(callback);
+}
+
+uint64_t CrashpadClient::GetThreadIdForTesting() {
+  CrashHandler* crash_handler = CrashHandler::Get();
+  DCHECK(crash_handler);
+  return crash_handler->GetThreadIdForTesting();
 }
 
 }  // namespace crashpad
