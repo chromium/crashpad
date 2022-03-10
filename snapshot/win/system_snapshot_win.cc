@@ -158,11 +158,11 @@ void SystemSnapshotWin::Initialize(ProcessReaderWin* process_reader) {
   bool version_data_found = false;
   int os_version_build = 0;
   HKEY key;
-  if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-                   L"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion",
-                   0,
-                   KEY_QUERY_VALUE,
-                   &key) == ERROR_SUCCESS) {
+  if (RegOpenKeyExW(HKEY_LOCAL_MACHINE,
+                    L"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion",
+                    0,
+                    KEY_QUERY_VALUE,
+                    &key) == ERROR_SUCCESS) {
     ScopedRegistryKey scoped_key(key);
 
     // Read the four components of the version from the registry.
@@ -282,11 +282,11 @@ std::string SystemSnapshotWin::CPUVendor() const {
 #elif defined(ARCH_CPU_ARM64)
   HKEY key;
 
-  if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-                   L"HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
-                   0,
-                   KEY_QUERY_VALUE,
-                   &key) != ERROR_SUCCESS) {
+  if (RegOpenKeyExW(HKEY_LOCAL_MACHINE,
+                    L"HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
+                    0,
+                    KEY_QUERY_VALUE,
+                    &key) != ERROR_SUCCESS) {
     return std::string();
   }
 
