@@ -76,12 +76,12 @@ bool ReadRegistryDWORD(HKEY key, const wchar_t* name, int* out_value) {
   DWORD type;
   DWORD local_value;
   DWORD size = sizeof(local_value);
-  if (RegQueryValueEx(key,
-                      name,
-                      nullptr,
-                      &type,
-                      reinterpret_cast<BYTE*>(&local_value),
-                      &size) == ERROR_SUCCESS &&
+  if (RegQueryValueExW(key,
+                       name,
+                       nullptr,
+                       &type,
+                       reinterpret_cast<BYTE*>(&local_value),
+                       &size) == ERROR_SUCCESS &&
       type == REG_DWORD) {
     *out_value = static_cast<int>(local_value);
     return true;
