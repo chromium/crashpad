@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright 2020 The Crashpad Authors. All rights reserved.
 #
@@ -23,29 +23,20 @@ import shutil
 import subprocess
 import sys
 import tempfile
-
-try:
-    import configparser
-except ImportError:
-    import ConfigParser as configparser
-
-try:
-    import StringIO as io
-except ImportError:
-    import io
+import configparser
+import io
 
 SUPPORTED_TARGETS = ('iphoneos', 'iphonesimulator')
 SUPPORTED_CONFIGS = ('Debug', 'Release', 'Profile', 'Official', 'Coverage')
 
 
-class ConfigParserWithStringInterpolation(configparser.SafeConfigParser):
+class ConfigParserWithStringInterpolation(configparser.ConfigParser):
     '''A .ini file parser that supports strings and environment variables.'''
 
     ENV_VAR_PATTERN = re.compile(r'\$([A-Za-z0-9_]+)')
 
     def values(self, section):
-        return map(lambda kv: self._UnquoteString(self._ExpandEnvVar(kv[1])),
-                   configparser.ConfigParser.items(self, section))
+        return [self._UnquoteString(self._ExpandEnvVar(kv[1])) for kv in configparser.ConfigParser.items(self, section)]
 
     def getstring(self, section, option):
         return self._UnquoteString(self._ExpandEnvVar(self.get(section,
@@ -110,7 +101,7 @@ class GnGenerator(object):
             args.append(('target_cpu', target_cpu))
             args.append(
                 ('additional_target_cpus',
-                 [cpu for cpu in cpu_values.itervalues() if cpu != target_cpu]))
+                 [cpu for cpu in cpu_values.values() if cpu != target_cpu]))
         else:
             args.append(('target_cpu', cpu_values[build_arch]))
 

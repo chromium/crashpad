@@ -39,7 +39,7 @@ deps = {
       'e1e7b0ad8ee99a875b272c8e33e308472e897660',
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
-      '6e2f204b4ae135c40a6c4b3c3a01f48a86c5e886',
+      'f87a38442a9e7ba88d1c4f479e9167927eae84ed',
   'crashpad/third_party/libfuzzer/src':
       Var('chromium_git') + '/chromium/llvm-project/compiler-rt/lib/fuzzer.git@' +
       'fda403cf93ecb8792cb1d061564d89a6553ca020',
@@ -169,7 +169,7 @@ hooks = [
     'pattern': '.',
     'condition': 'run_setup_ios_gn and checkout_ios',
     'action': [
-        'python',
+        'python3',
         'crashpad/build/ios/setup_ios_gn.py'
     ],
   },
