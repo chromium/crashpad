@@ -18,12 +18,14 @@
 #include <mach-o/dyld.h>
 #include <mach-o/dyld_images.h>
 #include <mach-o/nlist.h>
+#include <objc/objc-exception.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
+#include <thread>
 #include <vector>
 
 #import "Service/Sources/EDOHostNamingService.h"
@@ -309,6 +311,27 @@ GetProcessSnapshotMinidumpFromSinglePending() {
                              reason:@"Intentionally throwing error."
                            userInfo:@{NSUnderlyingErrorKey : error}] raise];
   });
+}
+
+- (void)crashUnhandledNSException {
+  std::thread t([self]() {
+    @autoreleasepool {
+      @try {
+        NSError* error = [NSError errorWithDomain:@"com.crashpad.xcuitests"
+                                             code:200
+                                         userInfo:@{@"Error Object" : self}];
+
+        [[NSException exceptionWithName:NSInternalInconsistencyException
+                                 reason:@"Intentionally throwing error."
+                               userInfo:@{NSUnderlyingErrorKey : error}] raise];
+      } @catch (id reason_exception) {
+        // Intentionally use throw here to intentionally make a sinkhole that
+        // will be missed by ObjcPreprocessor.
+        objc_exception_throw(reason_exception);
+      }
+    }
+  });
+  t.join();
 }
 
 - (void)crashUnrecognizedSelectorAfterDelay {
