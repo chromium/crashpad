@@ -325,8 +325,10 @@ if (crashpad_is_in_chromium) {
         "-Wno-inconsistent-missing-override",
 
         # For googletest/googlemock/test/gmock-matchers_test.cc’s
-        # testing::googlemock_matchers_test::Unprintable::c_.
+        # testing::googlemock_matchers_test::Unprintable::c_ and deprecated
+        # std::iterator.
         "-Wno-unused-private-field",
+        "-Wno-deprecated-declarations",
       ]
     }
 
