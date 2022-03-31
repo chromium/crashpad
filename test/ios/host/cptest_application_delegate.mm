@@ -104,6 +104,17 @@ GetProcessSnapshotMinidumpFromSinglePending() {
   return process_snapshot;
 }
 
+UIWindow* GetAnyWindow() {
+#if defined(__IPHONE_15_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_15_0
+  if (@available(iOS 15.0, *)) {
+    UIWindowScene* scene = reinterpret_cast<UIWindowScene*>(
+        [UIApplication sharedApplication].connectedScenes.anyObject);
+    return scene.keyWindow;
+  }
+#endif
+  return [UIApplication sharedApplication].windows[0];
+}
+
 [[clang::optnone]] void recurse(int counter) {
   // Fill up the stack faster.
   int arr[1024];
@@ -355,7 +366,7 @@ GetProcessSnapshotMinidumpFromSinglePending() {
   // crash, so dispatch this out of the sinkhole.
   dispatch_async(dispatch_get_main_queue(), ^{
     UIView* unattachedView = [[UIView alloc] init];
-    UIWindow* window = [UIApplication sharedApplication].windows[0];
+    UIWindow* window = GetAnyWindow();
     [NSLayoutConstraint activateConstraints:@[
       [window.rootViewController.view.bottomAnchor
           constraintEqualToAnchor:unattachedView.bottomAnchor],
