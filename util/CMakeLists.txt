@@ -376,7 +376,7 @@ if(APPLE)
         list(APPEND input_files "${full_path}")
     endforeach()
 
-    find_package(PythonInterp 2.7 REQUIRED)
+    find_package(Python COMPONENTS Interpreter REQUIRED)
 
     set(output_dir "${CMAKE_CURRENT_BINARY_DIR}/util/mach")
     file(MAKE_DIRECTORY "${output_dir}")
@@ -428,7 +428,7 @@ if(APPLE)
             OUTPUT
             ${output_files}
             COMMAND
-            "${PYTHON_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/mach/mig.py" ${archs} ${sdk} ${includes} "${input}" ${output_files}
+            "${Python_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/mach/mig.py" ${archs} ${sdk} ${includes} "${input}" ${output_files}
             DEPENDS
             "${CMAKE_CURRENT_SOURCE_DIR}/mach/mig.py" "${input}"
         )
