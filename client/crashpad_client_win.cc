@@ -69,7 +69,18 @@ HANDLE g_non_crash_dump_done = INVALID_HANDLE_VALUE;
 CrashpadClient::FirstChanceHandlerWin first_chance_handler_ = nullptr;
 
 // Guards multiple simultaneous calls to DumpWithoutCrash(). This is leaked.
-base::Lock* g_non_crash_dump_lock;
+base::Lock* g_non_crash_dump_lock = nullptr;
+
+class CrashDumpAutoReleaser {
+ public:
+  ~CrashDumpAutoReleaser() {
+    if (g_non_crash_dump_lock) {
+      delete g_non_crash_dump_lock;
+      g_non_crash_dump_lock = nullptr;
+    }
+  }
+};
+static CrashDumpAutoReleaser gAutoReleaser;
 
 // Where we store a pointer to the context information when taking a non-crash
 // dump.
@@ -394,8 +405,7 @@ bool StartHandlerProcess(
   }
   for (const base::FilePath& attachment : data->attachments) {
     AppendCommandLineArgument(
-        FormatArgumentString("attachment", attachment.value()),
-        &command_line);
+        FormatArgumentString("attachment", attachment.value()), &command_line);
   }
 
   ScopedKernelHANDLE this_process(
