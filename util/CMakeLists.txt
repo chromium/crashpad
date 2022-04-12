@@ -225,7 +225,15 @@ if(APPLE)
             ios/scoped_background_task.mm
             ios/scoped_vm_read.cc
             ios/scoped_vm_read.h
-    )
+        )
+        # This specific file requires ARC support, while other parts do not
+        # build when ARC is enabled.
+        set_source_files_properties(
+            ios/scoped_background_task.mm
+            PROPERTIES
+            COMPILE_FLAGS
+            "-fobjc-arc"
+        )
     endif()
 endif()
 
