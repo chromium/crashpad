@@ -221,6 +221,8 @@ if(APPLE)
             ios/ios_system_data_collector.mm
             ios/raw_logging.cc
             ios/raw_logging.h
+            ios/scoped_background_task.h
+            ios/scoped_background_task.mm
             ios/scoped_vm_read.cc
             ios/scoped_vm_read.h
     )
@@ -303,6 +305,7 @@ if(WIN32)
         win/context_wrappers.h
         win/critical_section_with_debug_info.cc
         win/critical_section_with_debug_info.h
+        win/exception_codes.h
         win/exception_handler_server.cc
         win/exception_handler_server.h
         win/get_function.cc
