@@ -143,7 +143,7 @@ bool FillThreadContextAndSuspendCount(HANDLE thread_handle,
     DCHECK(suspension_state == ProcessSuspensionState::kRunning);
     thread->suspend_count = 0;
     DCHECK(!is_64_reading_32);
-    CaptureContext(&thread->context.native);
+    thread->context.InitializeFromCurrentThread();
   } else {
     DWORD previous_suspend_count = SuspendThread(thread_handle);
     if (previous_suspend_count == static_cast<DWORD>(-1)) {
@@ -162,25 +162,18 @@ bool FillThreadContextAndSuspendCount(HANDLE thread_handle,
           (suspension_state == ProcessSuspensionState::kSuspended ? 1 : 0);
     }
 
-    memset(&thread->context, 0, sizeof(thread->context));
 #if defined(ARCH_CPU_32_BITS)
     const bool is_native = true;
 #elif defined(ARCH_CPU_64_BITS)
     const bool is_native = !is_64_reading_32;
     if (is_64_reading_32) {
-      thread->context.wow64.ContextFlags = CONTEXT_ALL;
-      if (!Wow64GetThreadContext(thread_handle, &thread->context.wow64)) {
-        PLOG(ERROR) << "Wow64GetThreadContext";
+      if (!thread->context.InitializeWow64(thread_handle))
         return false;
-      }
     }
 #endif
     if (is_native) {
-      thread->context.native.ContextFlags = CONTEXT_ALL;
-      if (!GetThreadContext(thread_handle, &thread->context.native)) {
-        PLOG(ERROR) << "GetThreadContext";
+      if (!thread->context.InitializeNative(thread_handle))
         return false;
-      }
     }
 
     if (!ResumeThread(thread_handle)) {
@@ -194,6 +187,39 @@ bool FillThreadContextAndSuspendCount(HANDLE thread_handle,
 
 }  // namespace
 
+ProcessReaderWin::ThreadContext::ThreadContext()
+    : offset_(0), initialized_(false), data_() {}
+
+void ProcessReaderWin::ThreadContext::InitializeFromCurrentThread() {
+  data_.resize(sizeof(CONTEXT));
+  initialized_ = true;
+  CaptureContext(context<CONTEXT>());
+}
+
+bool ProcessReaderWin::ThreadContext::InitializeNative(HANDLE thread_handle) {
+  data_.resize(sizeof(CONTEXT));
+  initialized_ = true;
+  context<CONTEXT>()->ContextFlags = CONTEXT_ALL;
+  if (!GetThreadContext(thread_handle, context<CONTEXT>())) {
+    PLOG(ERROR) << "GetThreadContext";
+    return false;
+  }
+  return true;
+}
+
+#if defined(ARCH_CPU_64_BITS)
+bool ProcessReaderWin::ThreadContext::InitializeWow64(HANDLE thread_handle) {
+  data_.resize(sizeof(WOW64_CONTEXT));
+  initialized_ = true;
+  context<WOW64_CONTEXT>()->ContextFlags = CONTEXT_ALL;
+  if (!Wow64GetThreadContext(thread_handle, context<WOW64_CONTEXT>())) {
+    PLOG(ERROR) << "Wow64GetThreadContext";
+    return false;
+  }
+  return true;
+}
+#endif
+
 ProcessReaderWin::Thread::Thread()
     : context(),
       id(0),
@@ -203,8 +229,7 @@ ProcessReaderWin::Thread::Thread()
       stack_region_size(0),
       suspend_count(0),
       priority_class(0),
-      priority(0) {
-}
+      priority(0) {}
 
 ProcessReaderWin::ProcessReaderWin()
     : process_(INVALID_HANDLE_VALUE),

@@ -36,7 +36,7 @@ using Context32 = CONTEXT;
 using Context32 = WOW64_CONTEXT;
 #endif
 
-void NativeContextToCPUContext32(const Context32& context_record,
+void NativeContextToCPUContext32(const Context32* context_record,
                                  CPUContext* context,
                                  CPUContextUnion* context_union) {
   context->architecture = kCPUArchitectureX86;
@@ -46,7 +46,7 @@ void NativeContextToCPUContext32(const Context32& context_record,
 #endif  // ARCH_CPU_X86_FAMILY
 
 #if defined(ARCH_CPU_64_BITS)
-void NativeContextToCPUContext64(const CONTEXT& context_record,
+void NativeContextToCPUContext64(const CONTEXT* context_record,
                                  CPUContext* context,
                                  CPUContextUnion* context_union) {
 #if defined(ARCH_CPU_X86_64)
@@ -190,7 +190,7 @@ bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
     ProcessReaderWin* process_reader,
     WinVMAddress exception_pointers_address,
     DWORD exception_thread_id,
-    void (*native_to_cpu_context)(const ContextType& context_record,
+    void (*native_to_cpu_context)(const ContextType* context_record,
                                   CPUContext* context,
                                   CPUContextUnion* context_union)) {
   ExceptionPointersType exception_pointers;
@@ -232,10 +232,9 @@ bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
     for (const auto& thread : process_reader->Threads()) {
       if (thread.id == blame_thread_id) {
         thread_id_ = blame_thread_id;
-        native_to_cpu_context(
-            *reinterpret_cast<const ContextType*>(&thread.context),
-            &context_,
-            &context_union_);
+        native_to_cpu_context(thread.context.context<const ContextType>(),
+                              &context_,
+                              &context_union_);
         exception_address_ = context_.InstructionPointer();
         break;
       }
@@ -266,7 +265,7 @@ bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
       return false;
     }
 
-    native_to_cpu_context(context_record, &context_, &context_union_);
+    native_to_cpu_context(&context_record, &context_, &context_union_);
   }
 
   return true;

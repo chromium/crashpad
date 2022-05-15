@@ -67,21 +67,25 @@ bool ThreadSnapshotWin::Initialize(
 #if defined(ARCH_CPU_X86)
   context_.architecture = kCPUArchitectureX86;
   context_.x86 = &context_union_.x86;
-  InitializeX86Context(process_reader_thread.context.native, context_.x86);
+  InitializeX86Context(process_reader_thread.context.context<CONTEXT>(),
+                       context_.x86);
 #elif defined(ARCH_CPU_X86_64)
   if (process_reader->Is64Bit()) {
     context_.architecture = kCPUArchitectureX86_64;
     context_.x86_64 = &context_union_.x86_64;
-    InitializeX64Context(process_reader_thread.context.native, context_.x86_64);
+    InitializeX64Context(process_reader_thread.context.context<CONTEXT>(),
+                         context_.x86_64);
   } else {
     context_.architecture = kCPUArchitectureX86;
     context_.x86 = &context_union_.x86;
-    InitializeX86Context(process_reader_thread.context.wow64, context_.x86);
+    InitializeX86Context(process_reader_thread.context.context<WOW64_CONTEXT>(),
+                         context_.x86);
   }
 #elif defined(ARCH_CPU_ARM64)
   context_.architecture = kCPUArchitectureARM64;
   context_.arm64 = &context_union_.arm64;
-  InitializeARM64Context(process_reader_thread.context.native, context_.arm64);
+  InitializeARM64Context(process_reader_thread.context.context<CONTEXT>(),
+                         context_.arm64);
 #else
 #error Unsupported Windows Arch
 #endif  // ARCH_CPU_X86
