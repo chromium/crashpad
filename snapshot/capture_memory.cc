@@ -90,10 +90,7 @@ void CaptureMemory::PointedToByContext(const CPUContext& context,
     MaybeCaptureMemoryAround(delegate, context.x86_64->r14);
     MaybeCaptureMemoryAround(delegate, context.x86_64->r15);
     MaybeCaptureMemoryAround(delegate, context.x86_64->rip);
-    // Shadow stack region.
-    if (context.x86_64->xstate.enabled_features & XSTATE_MASK_CET_U) {
-      MaybeCaptureMemoryAround(delegate, context.x86_64->xstate.cet_u.ssp);
-    }
+    // Note: Shadow stack region is directly captured.
   } else {
     MaybeCaptureMemoryAround(delegate, context.x86->eax);
     MaybeCaptureMemoryAround(delegate, context.x86->ebx);

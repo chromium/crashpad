@@ -18,6 +18,8 @@
 #include <vector>
 
 #include "base/check_op.h"
+#include "base/memory/page_size.h"
+#include "base/numerics/safe_conversions.h"
 #include "snapshot/capture_memory.h"
 #include "snapshot/win/capture_memory_delegate_win.h"
 #include "snapshot/win/cpu_context_win.h"
@@ -28,6 +30,7 @@ namespace internal {
 
 namespace {
 #if defined(ARCH_CPU_X86_64)
+
 XSAVE_CET_U_FORMAT* LocateXStateCetU(CONTEXT* context) {
   // GetEnabledXStateFeatures needs Windows 7 SP1.
   static auto locate_xstate_feature = []() {
@@ -98,7 +101,7 @@ bool ThreadSnapshotWin::Initialize(
     // then this will not set any state in the context snapshot.
     if (IsXStateFeatureEnabled(XSTATE_MASK_CET_U)) {
       XSAVE_CET_U_FORMAT* cet_u = LocateXStateCetU(context);
-      if (cet_u) {
+      if (cet_u && cet_u->Ia32CetUMsr && cet_u->Ia32Pl3SspMsr) {
         InitializeX64XStateCet(context, cet_u, context_.x86_64);
       }
     }
@@ -116,6 +119,22 @@ bool ThreadSnapshotWin::Initialize(
 #else
 #error Unsupported Windows Arch
 #endif  // ARCH_CPU_X86
+
+#if defined(ARCH_CPU_X86_64)
+  // Unconditionally store page around ssp if it is present.
+  if (process_reader->Is64Bit() && context_.x86_64->xstate.cet_u.ssp) {
+    WinVMAddress page_size =
+        base::checked_cast<WinVMAddress>(base::GetPageSize());
+    WinVMAddress page_mask = ~(page_size - 1);
+    WinVMAddress ssp_base = context_.x86_64->xstate.cet_u.ssp & page_mask;
+    if (process_reader->GetProcessInfo().LoggingRangeIsFullyReadable(
+            CheckedRange<WinVMAddress, WinVMSize>(ssp_base, page_size))) {
+      auto region = std::make_unique<MemorySnapshotGeneric>();
+      region->Initialize(process_reader->Memory(), ssp_base, page_size);
+      pointed_to_memory_.push_back(std::move(region));
+    }
+  }
+#endif  // ARCH_CPU_X86_64
 
   CaptureMemoryDelegateWin capture_memory_delegate(
       process_reader,
