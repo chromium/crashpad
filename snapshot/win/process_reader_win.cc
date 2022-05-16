@@ -19,7 +19,9 @@
 
 #include <memory>
 
+#include "base/notreached.h"
 #include "base/numerics/safe_conversions.h"
+#include "snapshot/win/cpu_context_win.h"
 #include "util/misc/capture_context.h"
 #include "util/misc/time.h"
 #include "util/win/nt_internals.h"
@@ -163,18 +165,20 @@ bool FillThreadContextAndSuspendCount(HANDLE thread_handle,
     }
 
 #if defined(ARCH_CPU_32_BITS)
-    const bool is_native = true;
+    if (!thread->context.InitializeNative(thread_handle))
+      return false;
 #elif defined(ARCH_CPU_64_BITS)
-    const bool is_native = !is_64_reading_32;
     if (is_64_reading_32) {
       if (!thread->context.InitializeWow64(thread_handle))
         return false;
-    }
-#endif
-    if (is_native) {
+    } else if (IsXStateFeatureEnabled(XSTATE_MASK_CET_U)) {
+      if (!thread->context.InitializeXState(thread_handle, XSTATE_MASK_CET_U))
+        return false;
+    } else {
       if (!thread->context.InitializeNative(thread_handle))
         return false;
     }
+#endif
 
     if (!ResumeThread(thread_handle)) {
       PLOG(ERROR) << "ResumeThread";
@@ -219,6 +223,52 @@ bool ProcessReaderWin::ThreadContext::InitializeWow64(HANDLE thread_handle) {
   return true;
 }
 #endif
+
+#if defined(ARCH_CPU_64_BITS)
+bool ProcessReaderWin::ThreadContext::InitializeXState(
+    HANDLE thread_handle,
+    ULONG64 XStateCompactionMask) {
+  static auto initialize_context_2 = []() {
+    // InitializeContext2 needs Windows 10 build 20348.
+    HINSTANCE kernel32 = GetModuleHandle(L"Kernel32.dll");
+    return reinterpret_cast<decltype(InitializeContext2)*>(
+        GetProcAddress(kernel32, "InitializeContext2"));
+  }();
+  if (!initialize_context_2)
+    return false;
+  // We want CET_U xstate to get the ssp, only possible when supported.
+  PCONTEXT ret_context = nullptr;
+  DWORD context_size = 0;
+  if (!initialize_context_2(nullptr,
+                            CONTEXT_ALL | CONTEXT_XSTATE,
+                            &ret_context,
+                            &context_size,
+                            XStateCompactionMask) &&
+      GetLastError() != ERROR_INSUFFICIENT_BUFFER) {
+    PLOG(ERROR) << "InitializeContext2 - getting required size";
+    return false;
+  }
+  // NB: ret_context may not be data.begin().
+  data_.resize(context_size);
+  if (!initialize_context_2(data_.data(),
+                            CONTEXT_ALL | CONTEXT_XSTATE,
+                            &ret_context,
+                            &context_size,
+                            XStateCompactionMask)) {
+    PLOG(ERROR) << "InitializeContext2 - initializing";
+    return false;
+  }
+  offset_ = reinterpret_cast<unsigned char*>(ret_context) - data_.data();
+  initialized_ = true;
+
+  if (!GetThreadContext(thread_handle, ret_context)) {
+    PLOG(ERROR) << "GetThreadContext";
+    return false;
+  }
+
+  return true;
+}
+#endif  // defined(ARCH_CPU_64_BITS)
 
 ProcessReaderWin::Thread::Thread()
     : context(),

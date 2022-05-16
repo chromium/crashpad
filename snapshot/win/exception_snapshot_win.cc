@@ -52,7 +52,19 @@ void NativeContextToCPUContext64(const CONTEXT* context_record,
 #if defined(ARCH_CPU_X86_64)
   context->architecture = kCPUArchitectureX86_64;
   context->x86_64 = &context_union->x86_64;
+  // Note that the context here is not extended, even if the flags suggest so,
+  // as we only copied in sizeof(CONTEXT).
   InitializeX64Context(context_record, context->x86_64);
+  // TODO(1250098) plumb through ssp via message from crashed process. For now
+  // we zero this if CET is available in the capturing process as otherwise
+  // WinDBG will show the relevant thread's ssp for the exception which will
+  // likely be more confusing than showing a zero value.
+  if (IsXStateFeatureEnabled(XSTATE_MASK_CET_U)) {
+    XSAVE_CET_U_FORMAT cet_u_fake;
+    cet_u_fake.Ia32CetUMsr = 0;
+    cet_u_fake.Ia32Pl3SspMsr = 0;
+    InitializeX64XStateCet(context_record, &cet_u_fake, context->x86_64);
+  }
 #elif defined(ARCH_CPU_ARM64)
   context->architecture = kCPUArchitectureARM64;
   context->arm64 = &context_union->arm64;

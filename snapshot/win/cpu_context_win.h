@@ -44,6 +44,16 @@ void InitializeX86Context(const WOW64_CONTEXT* context, CPUContextX86* out);
 //! Only reads a max of sizeof(CONTEXT) so will not initialize extended values.
 void InitializeX64Context(const CONTEXT* context, CPUContextX86_64* out);
 
+//! \brief Initializes CET fields of a CPUContextX86_64 structure from
+//!     an xsave location if |context| flags support cet_u values.
+void InitializeX64XStateCet(const CONTEXT* context,
+                            XSAVE_CET_U_FORMAT* cet_u,
+                            CPUContextX86_64* out);
+
+//! \brief Wraps GetXStateEnabledFeatures(), returns true if the specified set
+//!     of flags are all supported.
+bool IsXStateFeatureEnabled(DWORD64 feature);
+
 #endif  // ARCH_CPU_X86_64
 
 #if defined(ARCH_CPU_ARM64) || DOXYGEN

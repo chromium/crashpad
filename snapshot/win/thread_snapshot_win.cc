@@ -26,6 +26,25 @@
 namespace crashpad {
 namespace internal {
 
+namespace {
+#if defined(ARCH_CPU_X86_64)
+XSAVE_CET_U_FORMAT* LocateXStateCetU(CONTEXT* context) {
+  // GetEnabledXStateFeatures needs Windows 7 SP1.
+  static auto locate_xstate_feature = []() {
+    HINSTANCE kernel32 = GetModuleHandle(L"Kernel32.dll");
+    return reinterpret_cast<decltype(LocateXStateFeature)*>(
+        GetProcAddress(kernel32, "LocateXStateFeature"));
+  }();
+  if (!locate_xstate_feature)
+    return nullptr;
+
+  DWORD cet_u_size = 0;
+  return reinterpret_cast<XSAVE_CET_U_FORMAT*>(
+      locate_xstate_feature(context, XSTATE_CET_U, &cet_u_size));
+}
+#endif  // defined(ARCH_CPU_X86_64)
+}  // namespace
+
 ThreadSnapshotWin::ThreadSnapshotWin()
     : ThreadSnapshot(),
       context_(),
@@ -73,8 +92,16 @@ bool ThreadSnapshotWin::Initialize(
   if (process_reader->Is64Bit()) {
     context_.architecture = kCPUArchitectureX86_64;
     context_.x86_64 = &context_union_.x86_64;
-    InitializeX64Context(process_reader_thread.context.context<CONTEXT>(),
-                         context_.x86_64);
+    CONTEXT* context = process_reader_thread.context.context<CONTEXT>();
+    InitializeX64Context(context, context_.x86_64);
+    // Capturing process must have CET enabled. If captured process does not,
+    // then this will not set any state in the context snapshot.
+    if (IsXStateFeatureEnabled(XSTATE_MASK_CET_U)) {
+      XSAVE_CET_U_FORMAT* cet_u = LocateXStateCetU(context);
+      if (cet_u) {
+        InitializeX64XStateCet(context, cet_u, context_.x86_64);
+      }
+    }
   } else {
     context_.architecture = kCPUArchitectureX86;
     context_.x86 = &context_union_.x86;

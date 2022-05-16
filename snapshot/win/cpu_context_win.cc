@@ -124,6 +124,19 @@ void CommonInitializeX86Context(const T* context, CPUContextX86* out) {
   }
 }
 
+#if defined(ARCH_CPU_X86_64)
+DWORD64 CallGetEnabledXStateFeatures() {
+  // GetEnabledXStateFeatures needs Windows 7 SP1.
+  HINSTANCE kernel32 = GetModuleHandle(L"Kernel32.dll");
+  decltype(GetEnabledXStateFeatures)* get_enabled_xstate_features =
+      reinterpret_cast<decltype(GetEnabledXStateFeatures)*>(
+          GetProcAddress(kernel32, "GetEnabledXStateFeatures"));
+  if (!get_enabled_xstate_features)
+    return 0;
+  return get_enabled_xstate_features();
+}
+#endif  // defined(ARCH_CPU_X64)
+
 }  // namespace
 
 #if defined(ARCH_CPU_X86)
@@ -196,6 +209,23 @@ void InitializeX64Context(const CONTEXT* context, CPUContextX86_64* out) {
                   "types must be equivalent");
     memcpy(&out->fxsave, &context->FltSave, sizeof(out->fxsave));
   }
+}
+
+void InitializeX64XStateCet(const CONTEXT* context,
+                            XSAVE_CET_U_FORMAT* cet_u,
+                            CPUContextX86_64* out) {
+  if (HasContextPart(context, CONTEXT_XSTATE)) {
+    if (cet_u) {
+      out->xstate.enabled_features |= XSTATE_MASK_CET_U;
+      out->xstate.cet_u.cetmsr = cet_u->Ia32CetUMsr;
+      out->xstate.cet_u.ssp = cet_u->Ia32Pl3SspMsr;
+    }
+  }
+}
+
+bool IsXStateFeatureEnabled(DWORD64 features) {
+  static DWORD64 flags = CallGetEnabledXStateFeatures();
+  return (flags & features) == features;
 }
 
 #elif defined(ARCH_CPU_ARM64)

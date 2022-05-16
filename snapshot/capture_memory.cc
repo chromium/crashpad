@@ -15,6 +15,10 @@
 #include "snapshot/capture_memory.h"
 
 #include <stdint.h>
+#include <windows.h>
+
+// dbghelp must be after windows.h.
+#include <dbghelp.h>
 
 #include <iterator>
 #include <limits>
@@ -86,6 +90,10 @@ void CaptureMemory::PointedToByContext(const CPUContext& context,
     MaybeCaptureMemoryAround(delegate, context.x86_64->r14);
     MaybeCaptureMemoryAround(delegate, context.x86_64->r15);
     MaybeCaptureMemoryAround(delegate, context.x86_64->rip);
+    // Shadow stack region.
+    if (context.x86_64->xstate.enabled_features & XSTATE_MASK_CET_U) {
+      MaybeCaptureMemoryAround(delegate, context.x86_64->xstate.cet_u.ssp);
+    }
   } else {
     MaybeCaptureMemoryAround(delegate, context.x86->eax);
     MaybeCaptureMemoryAround(delegate, context.x86->ebx);

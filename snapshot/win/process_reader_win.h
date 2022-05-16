@@ -54,6 +54,8 @@ class ProcessReaderWin {
     }
 #if defined(ARCH_CPU_64_BITS)
     bool InitializeWow64(HANDLE thread_handle);
+    // Initializes internal structures for extended compacted contexts.
+    bool InitializeXState(HANDLE thread_handle, ULONG64 XStateCompactionMask);
 #endif
     void InitializeFromCurrentThread();
     bool InitializeNative(HANDLE thread_handle);
