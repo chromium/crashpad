@@ -167,18 +167,22 @@ bool FillThreadContextAndSuspendCount(HANDLE thread_handle,
 #if defined(ARCH_CPU_32_BITS)
     if (!thread->context.InitializeNative(thread_handle))
       return false;
-#elif defined(ARCH_CPU_64_BITS)
+#endif  // ARCH_CPU_32_BITS
+
+#if defined(ARCH_CPU_64_BITS)
     if (is_64_reading_32) {
       if (!thread->context.InitializeWow64(thread_handle))
         return false;
+#if defined(ARCH_CPU_X86_64)
     } else if (IsXStateFeatureEnabled(XSTATE_MASK_CET_U)) {
       if (!thread->context.InitializeXState(thread_handle, XSTATE_MASK_CET_U))
         return false;
+#endif  // ARCH_CPU_X86_64
     } else {
       if (!thread->context.InitializeNative(thread_handle))
         return false;
     }
-#endif
+#endif  // ARCH_CPU_64_BITS
 
     if (!ResumeThread(thread_handle)) {
       PLOG(ERROR) << "ResumeThread";
@@ -224,7 +228,7 @@ bool ProcessReaderWin::ThreadContext::InitializeWow64(HANDLE thread_handle) {
 }
 #endif
 
-#if defined(ARCH_CPU_64_BITS)
+#if defined(ARCH_CPU_X86_64)
 bool ProcessReaderWin::ThreadContext::InitializeXState(
     HANDLE thread_handle,
     ULONG64 XStateCompactionMask) {
@@ -268,7 +272,7 @@ bool ProcessReaderWin::ThreadContext::InitializeXState(
 
   return true;
 }
-#endif  // defined(ARCH_CPU_64_BITS)
+#endif  // defined(ARCH_CPU_X86_64)
 
 ProcessReaderWin::Thread::Thread()
     : context(),
