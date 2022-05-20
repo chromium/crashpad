@@ -94,7 +94,7 @@ namespace crashpad {
 namespace {
 
 #if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || \
-    BUILDFLAG(IS_ANDROID)
+    BUILDFLAG(IS_ANDROID) || BUILDFLAG(IS_MAC)
 #define ATTACHMENTS_SUPPORTED 1
 #endif  // BUILDFLAG(IS_WIN) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) ||
         // BUILDFLAG(IS_ANDROID)
@@ -582,7 +582,7 @@ int HandlerMain(int argc,
     kOptionLastChar = 255,
     kOptionAnnotation,
 #if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || \
-    BUILDFLAG(IS_ANDROID)
+    BUILDFLAG(IS_ANDROID) || BUILDFLAG(IS_MAC)
     kOptionAttachment,
 #endif  // BUILDFLAG(IS_WIN) || BUILDFLAG(IS_LINUX)
     kOptionDatabase,
