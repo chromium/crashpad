@@ -28,6 +28,7 @@
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/mac/process_snapshot_mac.h"
 #include "util/file/file_writer.h"
+#include "util/file/file_helper.h"
 #include "util/mach/bootstrap.h"
 #include "util/mach/exc_client_variants.h"
 #include "util/mach/exception_behaviors.h"
@@ -46,10 +47,12 @@ CrashReportExceptionHandler::CrashReportExceptionHandler(
     CrashReportDatabase* database,
     CrashReportUploadThread* upload_thread,
     const std::map<std::string, std::string>* process_annotations,
+    const std::vector<base::FilePath>* attachments,
     const UserStreamDataSources* user_stream_data_sources)
     : database_(database),
       upload_thread_(upload_thread),
       process_annotations_(process_annotations),
+      attachments_(attachments),
       user_stream_data_sources_(user_stream_data_sources) {}
 
 CrashReportExceptionHandler::~CrashReportExceptionHandler() {
@@ -172,6 +175,25 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
       Metrics::ExceptionCaptureResult(
           Metrics::CaptureResult::kMinidumpWriteFailed);
       return KERN_FAILURE;
+    }
+
+    for (const auto& attachment : (*attachments_)) {
+      FileReader file_reader;
+      if (!file_reader.Open(attachment)) {
+        LOG(ERROR) << "attachment " << attachment.value().c_str()
+                   << " couldn't be opened, skipping";
+        continue;
+      }
+
+      base::FilePath filename = attachment.BaseName();
+      FileWriter* file_writer = new_report->AddAttachment(filename.value());
+      if (file_writer == nullptr) {
+        LOG(ERROR) << "attachment " << filename.value().c_str()
+                   << " couldn't be created, skipping";
+        continue;
+      }
+
+      CopyFileContent(&file_reader, file_writer);
     }
 
     UUID uuid;
