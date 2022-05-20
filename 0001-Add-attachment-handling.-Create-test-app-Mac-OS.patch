@@ -1,0 +1,487 @@
+From 24ac95462857f6456d671d8acead118965446911 Mon Sep 17 00:00:00 2001
+From: Andrew Ageev <andrew@iph.krasn.ru>
+Date: Fri, 20 May 2022 18:49:52 +0700
+Subject: [PATCH] Add attachment handling. Create test app -  Mac OS
+
+---
+ BUILD.gn                        |   5 +
+ patch_test/BUILD.gn             |  11 ++
+ patch_test/main.cpp             |  81 ++++++++++
+ patch_test/readme.md            |  11 ++
+ patch_test/test_crashpad_srv.py | 324 ++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 432 insertions(+)
+ create mode 100644 patch_test/BUILD.gn
+ create mode 100644 patch_test/main.cpp
+ create mode 100644 patch_test/readme.md
+ create mode 100644 patch_test/test_crashpad_srv.py
+
+diff --git a/BUILD.gn b/BUILD.gn
+index 61546be..85d283e 100644
+--- a/BUILD.gn
++++ b/BUILD.gn
+@@ -185,3 +185,8 @@ if (crashpad_is_ios) {
+     deps = [ "test/ios:all_tests" ]
+   }
+ }
++
++group ("patch_test")
++{
++  public_deps = ["patch_test:patch_test"]
++}
+\ No newline at end of file
+diff --git a/patch_test/BUILD.gn b/patch_test/BUILD.gn
+new file mode 100644
+index 0000000..5872d5c
+--- /dev/null
++++ b/patch_test/BUILD.gn
+@@ -0,0 +1,11 @@
++import("../build/crashpad_buildconfig.gni")
++executable("patch_test") {
++  sources = [
++    "main.cpp"
++  ]
++  deps = [
++    "../client:client",
++    "../client:common"
++  ]
++  include_dirs = ["../", "./", "../third_party/mini_chromium/mini_chromium/", "../out/Default/gen"]
++}
+\ No newline at end of file
+diff --git a/patch_test/main.cpp b/patch_test/main.cpp
+new file mode 100644
+index 0000000..c5f8428
+--- /dev/null
++++ b/patch_test/main.cpp
+@@ -0,0 +1,81 @@
++#include <iostream>
++#include <string>
++#include <memory>
++#include "client/crashpad_client.h"
++#include "client/crash_report_database.h"
++#include "client/settings.h"
++
++using namespace base;
++using namespace crashpad;
++
++#define MANU_PLATFORM_MAC
++#define BUGSPLAT_APPNAME "MANU"
++#define MANU_VERSION_NUMBER "1.0.2"
++#define MANU_BUILD_NUMBER "123"
++
++static crashpad::CrashpadClient *_client = nullptr;
++
++void start() {
++#if defined MANU_PLATFORM_MAC
++    std::string url("http://127.0.0.1:8181/");
++    //url = "https://";
++    //url += BUGSPLAT_DBNAME;
++    //url += ".bugsplat.com/post/bp/crash/postBP.php";
++    
++    std::map<std::string, std::string> annotations;
++    annotations["format"] = "minidump";        // Crashpad setting to save crash as a minidump
++    annotations["prod"].assign(BUGSPLAT_APPNAME);            // appName
++    annotations["ver"].assign(MANU_VERSION_NUMBER);    // appVersion
++    annotations["key"] = MANU_BUILD_NUMBER;            // Optional key field
++    // annotations["email"] = "smapleemail@gmail.com";    // Optional user email
++    // annotations["comments"] = "Sample comment";    // Optional crash description
++    
++    base::FilePath filePathToCrashReport("/Users/andrew/Documents/manu/improve_crashpad/crashpad/crashpad/out/reports/");
++    base::FilePath filePathToCrashHandler("/Users/andrew/Documents/manu/improve_crashpad/crashpad/crashpad/out/Default/crashpad_handler");
++    
++    // Tutorial
++    // https://help.backtrace.io/en/articles/2337714-crashpad-integration-guide
++    
++    std::vector<std::string> arguments;
++#if !defined DEBUG
++    /*
++     * REMOVE THIS FOR ACTUAL BUILD.
++     *
++     * To disable crashpad’s default limitation of
++     * 1 upload per hour, pass the --no-rate-limit
++     * argument to the handler
++     *
++     */
++    arguments.push_back("--no-rate-limit");
++#endif
++    
++    arguments.push_back("--attachment=/Users/andrew/Documents/manu/improve_crashpad/crashpad/crashpad/LICENSE");
++
++    std::unique_ptr<crashpad::CrashReportDatabase> database =
++        crashpad::CrashReportDatabase::Initialize(filePathToCrashReport);
++    
++    if (database == nullptr || database->GetSettings() == NULL) {
++        std::cout << "Dababase settings error\n";
++        return;
++    }
++
++    /* Enable automated uploads. */
++    database->GetSettings()->SetUploadsEnabled(true);
++    _client = new crashpad::CrashpadClient();
++    bool started = _client->StartHandler(filePathToCrashHandler, filePathToCrashReport, filePathToCrashReport, url, annotations, arguments, false, false);
++    if (!started) {
++        std::cout << "Crashpad starting error\n";
++        return;
++    }
++#else
++    pathToCrashHandler;
++    pathToCrashReport;
++#endif
++}
++int* test = nullptr;
++int main(int argc, const char** cmd) {
++  std::cout << "Hello World\n";
++  start();
++  *test = 2;
++  return 0;
++}
+diff --git a/patch_test/readme.md b/patch_test/readme.md
+new file mode 100644
+index 0000000..8e2aaf8
+--- /dev/null
++++ b/patch_test/readme.md
+@@ -0,0 +1,11 @@
++# patch_test
++
++That is simple test programm that ingegrate crashpad and perform crash.
++It is used to test how crashpad is working with our patches.
++For simplicity some paths inside main.cpp are hardcoded - change according to yours directory structure.
++
++# test_crashpad_srv.py
++That is simple http server able to accept uploads from crashpad.
++We use it as test server for patch_test
++It was taken from https://github.com/chromiumembedded/cef/blob/master/tools/crash_server.py and it was little bit modified to meet our needs.
++
+diff --git a/patch_test/test_crashpad_srv.py b/patch_test/test_crashpad_srv.py
+new file mode 100644
+index 0000000..c1c031d
+--- /dev/null
++++ b/patch_test/test_crashpad_srv.py
+@@ -0,0 +1,324 @@
++#!/usr/bin/env python
++# Copyright 2017 The Chromium Embedded Framework Authors. All rights reserved.
++# Use of this source code is governed by a BSD-style license that can be found
++# in the LICENSE file.
++"""
++This script implements a simple HTTP server for receiving crash report uploads
++from a Breakpad/Crashpad client (any CEF-based application). This script is
++intended for testing purposes only. An HTTPS server and a system such as Socorro
++(https://wiki.mozilla.org/Socorro) should be used when uploading crash reports
++from production applications.
++Usage of this script is as follows:
++1. Run this script from the command-line. The first argument is the server port
++   number and the second argument is the directory where uploaded report
++   information will be saved:
++   > python crash_server.py 8080 /path/to/dumps
++2. Create a "crash_reporter.cfg" file at the required platform-specific
++   location. On Windows and Linux this file must be placed next to the main
++   application executable. On macOS this file must be placed in the top-level
++   app bundle Resources directory (e.g. "<appname>.app/Contents/Resources"). At
++   a minimum it must contain a "ServerURL=http://localhost:8080" line under the
++   "[Config]" section (make sure the port number matches the value specified in
++   step 1). See comments in include/cef_crash_util.h for a complete
++   specification of this file.
++   Example file contents:
++   [Config]
++   ServerURL=http://localhost:8080
++   # Disable rate limiting so that all crashes are uploaded.
++   RateLimitEnabled=false
++   MaxUploadsPerDay=0
++   [CrashKeys]
++   # The cefclient sample application sets these values (see step 5 below).
++   testkey_small1=small
++   testkey_small2=small
++   testkey_medium1=medium
++   testkey_medium2=medium
++   testkey_large1=large
++   testkey_large2=large
++3. Load one of the following URLs in the CEF-based application to cause a crash:
++   Main (browser) process crash:   chrome://inducebrowsercrashforrealz
++   Renderer process crash:         chrome://crash
++   GPU process crash:              chrome://gpucrash
++4. When this script successfully receives a crash report upload you will see
++   console output like the following:
++   01/10/2017 12:31:23: Dump <id>
++   The "<id>" value is a 16 digit hexadecimal string that uniquely identifies
++   the dump. Crash dumps and metadata (product state, command-line flags, crash
++   keys, etc.) will be written to the "<id>.dmp" and "<id>.json" files
++   underneath the directory specified in step 1.
++   On Linux Breakpad uses the wget utility to upload crash dumps, so make sure
++   that utility is installed. If the crash is handled correctly then you should
++   see console output like the following when the client uploads a crash dump:
++   --2017-01-10 12:31:22--  http://localhost:8080/
++   Resolving localhost (localhost)... 127.0.0.1
++   Connecting to localhost (localhost)|127.0.0.1|:8080... connected.
++   HTTP request sent, awaiting response... 200 OK
++   Length: unspecified [text/html]
++   Saving to: '/dev/fd/3'
++   Crash dump id: <id>
++   On macOS when uploading a crash report to this script over HTTP you may
++   receive an error like the following:
++   "Transport security has blocked a cleartext HTTP (http://) resource load
++   since it is insecure. Temporary exceptions can be configured via your app's
++   Info.plist file."
++   You can work around this error by adding the following key to the Helper app
++   Info.plist file (e.g. "<appname>.app/Contents/Frameworks/
++   <appname> Helper.app/Contents/Info.plist"):
++   <key>NSAppTransportSecurity</key>
++   <dict>
++     <!--Allow all connections (for testing only!)-->
++     <key>NSAllowsArbitraryLoads</key>
++     <true/>
++   </dict>
++5. The cefclient sample application sets test crash key values in the browser
++   and renderer processes. To work properly these values must also be defined
++   in the "[CrashKeys]" section of "crash_reporter.cfg" as shown above.
++   In tests/cefclient/browser/client_browser.cc (browser process):
++   CefSetCrashKeyValue("testkey1", "value1_browser");
++   CefSetCrashKeyValue("testkey2", "value2_browser");
++   CefSetCrashKeyValue("testkey3", "value3_browser");
++   In tests/cefclient/renderer/client_renderer.cc (renderer process):
++   CefSetCrashKeyValue("testkey1", "value1_renderer");
++   CefSetCrashKeyValue("testkey2", "value2_renderer");
++   CefSetCrashKeyValue("testkey3", "value3_renderer");
++   When crashing the browser or renderer processes with cefclient you should
++   verify that the test crash key values are included in the metadata
++   ("<id>.json") file. Some values may be chunked as described in
++   include/cef_crash_util.h.
++"""
++
++from __future__ import absolute_import
++from __future__ import print_function
++import cgi
++import datetime
++import json
++import os
++import shutil
++import sys
++import uuid
++import zlib
++
++is_python2 = sys.version_info.major == 2
++
++if is_python2:
++  from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
++  from cStringIO import StringIO as BytesIO
++else:
++  from http.server import BaseHTTPRequestHandler, HTTPServer
++  from io import BytesIO, open
++
++
++def print_msg(msg):
++  """ Write |msg| to stdout and flush. """
++  timestr = datetime.datetime.now().strftime("%m/%d/%Y %H:%M:%S")
++  sys.stdout.write("%s: %s\n" % (timestr, msg))
++  sys.stdout.flush()
++
++
++# Key identifying the minidump file.
++minidump_key = 'upload_file_minidump'
++
++
++class CrashHTTPRequestHandler(BaseHTTPRequestHandler):
++
++  def __init__(self, dump_directory, *args):
++    self._dump_directory = dump_directory
++    BaseHTTPRequestHandler.__init__(self, *args)
++
++  def _send_default_response_headers(self):
++    """ Send default response headers. """
++    self.send_response(200)
++    self.send_header('Content-type', 'text/html')
++    self.end_headers()
++
++  def _parse_post_data(self, data):
++    """ Returns a cgi.FieldStorage object for this request or None if this is
++        not a POST request. """
++    if self.command != 'POST':
++      return None
++    return cgi.FieldStorage(
++        fp=BytesIO(data),
++        headers=self.headers,
++        environ={
++            'REQUEST_METHOD': 'POST',
++            'CONTENT_TYPE': self.headers['Content-Type'],
++        })
++
++  def _get_chunk_size(self):
++    # Read to the next "\r\n".
++    size_str = self.rfile.read(2)
++    while size_str[-2:] != b"\r\n":
++      size_str += self.rfile.read(1)
++    # Remove the trailing "\r\n".
++    size_str = size_str[:-2]
++    return int(size_str, 16)
++
++  def _get_chunk_data(self, chunk_size):
++    data = self.rfile.read(chunk_size)
++    assert len(data) == chunk_size
++    # Skip the trailing "\r\n".
++    self.rfile.read(2)
++    return data
++
++  def _unchunk_request(self, compressed):
++    """ Read a chunked request body. Optionally decompress the result. """
++    if compressed:
++      d = zlib.decompressobj(16 + zlib.MAX_WBITS)
++
++    # Chunked format is: <size>\r\n<bytes>\r\n<size>\r\n<bytes>\r\n0\r\n
++    unchunked = b""
++    while True:
++      chunk_size = self._get_chunk_size()
++      print('Chunk size 0x%x' % chunk_size)
++      if (chunk_size == 0):
++        break
++      chunk_data = self._get_chunk_data(chunk_size)
++      if compressed:
++        unchunked += d.decompress(chunk_data)
++      else:
++        unchunked += chunk_data
++
++    if compressed:
++      unchunked += d.flush()
++
++    return unchunked
++
++  def _create_new_dump_id(self):
++    """ Breakpad requires a 16 digit hexadecimal dump ID. """
++    return uuid.uuid4().hex.upper()[0:16]
++
++  def do_GET(self):
++    """ Default empty implementation for handling GET requests. """
++    self._send_default_response_headers()
++    self.wfile.write("<html><body><h1>GET!</h1></body></html>")
++
++  def do_HEAD(self):
++    """ Default empty implementation for handling HEAD requests. """
++    self._send_default_response_headers()
++
++  def do_POST(self):
++    """ Handle a multi-part POST request submitted by Breakpad/Crashpad. """
++    self._send_default_response_headers()
++
++    # Create a unique ID for the dump.
++    dump_id = self._create_new_dump_id()
++
++    # Return the unique ID to the caller.
++    self.wfile.write(dump_id.encode('utf-8'))
++
++    dmp_stream = None
++    metadata = {}
++
++    # Request body may be chunked and/or gzip compressed. For example:
++    #
++    # 3029 branch on Windows:
++    #   User-Agent: Crashpad/0.8.0
++    #   Host: localhost:8080
++    #   Connection: Keep-Alive
++    #   Transfer-Encoding: chunked
++    #   Content-Type: multipart/form-data; boundary=---MultipartBoundary-vp5j9HdSRYK8DvX2DhtpqEbMNjSN1wnL---
++    #   Content-Encoding: gzip
++    #
++    # 2987 branch on Windows:
++    #   User-Agent: Crashpad/0.8.0
++    #   Host: localhost:8080
++    #   Connection: Keep-Alive
++    #   Content-Type: multipart/form-data; boundary=---MultipartBoundary-qFhorGA40vDJ1fgmc2mjorL0fRfKOqup---
++    #   Content-Length: 609894
++    #
++    # 2883 branch on Linux:
++    #   User-Agent: Wget/1.15 (linux-gnu)
++    #   Host: localhost:8080
++    #   Accept: */*
++    #   Connection: Keep-Alive
++    #   Content-Type: multipart/form-data; boundary=--------------------------83572861f14cc736
++    #   Content-Length: 32237
++    #   Content-Encoding: gzip
++    print(self.headers)
++
++    chunked = 'Transfer-Encoding' in self.headers and self.headers['Transfer-Encoding'].lower(
++    ) == 'chunked'
++    compressed = 'Content-Encoding' in self.headers and self.headers['Content-Encoding'].lower(
++    ) == 'gzip'
++    if chunked:
++      request_body = self._unchunk_request(compressed)
++    else:
++      content_length = int(self.headers[
++          'Content-Length']) if 'Content-Length' in self.headers else 0
++      if content_length > 0:
++        request_body = self.rfile.read(content_length)
++      else:
++        request_body = self.rfile.read()
++      if compressed:
++        request_body = zlib.decompress(request_body, 16 + zlib.MAX_WBITS)
++
++    # Parse the multi-part request.
++    form_data = self._parse_post_data(request_body)
++    attachments = []
++    for key in form_data.keys():
++      if key == minidump_key and form_data[minidump_key].file:
++        dmp_stream = form_data[minidump_key].file
++      elif form_data[key].filename :
++        attachments += [{"fn": form_data[key].filename, "stream": form_data[key].file}]
++      else:
++        metadata[key] = form_data[key].value
++
++    if dmp_stream is None:
++      # Exit early if the request is invalid.
++      print_msg('Invalid dump %s' % dump_id)
++      return
++
++    print_msg('Dump %s' % dump_id)
++
++    # Write the minidump to file.
++    dump_file = os.path.join(self._dump_directory, dump_id + '.dmp')
++    with open(dump_file, 'wb') as fp:
++      shutil.copyfileobj(dmp_stream, fp)
++    # Write attachments
++    for a in attachments :
++      print("Attached file: " + a["fn"])
++      with open(os.path.join(self._dump_directory, dump_id +"_"+a["fn"]), 'wb') as fp:
++        shutil.copyfileobj(a["stream"], fp)
++
++    # Write the metadata to file.
++    meta_file = os.path.join(self._dump_directory, dump_id + '.json')
++    if is_python2:
++      with open(meta_file, 'w') as fp:
++        json.dump(
++            metadata,
++            fp,
++            ensure_ascii=False,
++            encoding='utf-8',
++            indent=2,
++            sort_keys=True)
++    else:
++      with open(meta_file, 'w', encoding='utf-8') as fp:
++        json.dump(metadata, fp, indent=2, sort_keys=True)
++
++
++def HandleRequestsUsing(dump_store):
++  return lambda *args: CrashHTTPRequestHandler(dump_directory, *args)
++
++
++def RunCrashServer(port, dump_directory):
++  """ Run the crash handler HTTP server. """
++  httpd = HTTPServer(('', port), HandleRequestsUsing(dump_directory))
++  print_msg('Starting httpd on port %d' % port)
++  httpd.serve_forever()
++
++
++# Program entry point.
++if __name__ == "__main__":
++  if len(sys.argv) != 3:
++    print('Usage: %s <port> <dump_directory>' % os.path.basename(sys.argv[0]))
++    sys.exit(1)
++
++  # Create the dump directory if necessary.
++  dump_directory = sys.argv[2]
++  if not os.path.exists(dump_directory):
++    os.makedirs(dump_directory)
++  if not os.path.isdir(dump_directory):
++    raise Exception('Directory does not exist: %s' % dump_directory)
++
++  RunCrashServer(int(sys.argv[1]), dump_directory)
++  
+\ No newline at end of file
+-- 
+2.10.1
+
