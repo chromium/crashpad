@@ -42,6 +42,15 @@
 //! \sa MINIDUMP_LOCATION_DESCRIPTOR
 typedef uint32_t RVA;
 
+//! \brief A 64-bit offset within a minidump file, relative to the start of its
+//!     MINIDUMP_HEADER.
+//!
+//! RVA stands for “relative virtual address”. Within a minidump file, RVAs are
+//! used as pointers to link structures together.
+//!
+//! \sa MINIDUMP_LOCATION_DESCRIPTOR64
+typedef uint64_t RVA64;
+
 //! \brief A pointer to a structure or union within a minidump file.
 struct __attribute__((packed, aligned(4))) MINIDUMP_LOCATION_DESCRIPTOR {
   //! \brief The size of the referenced structure or union, in bytes.
@@ -50,6 +59,16 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_LOCATION_DESCRIPTOR {
   //! \brief The relative virtual address of the structure or union within the
   //!     minidump file.
   RVA Rva;
+};
+
+//! \brief A 64-bit pointer to a structure or union within a minidump file.
+struct __attribute__((packed, aligned(4))) MINIDUMP_LOCATION_DESCRIPTOR64 {
+  //! \brief The size of the referenced structure or union, in bytes.
+  uint64_t DataSize;
+
+  //! \brief The 64-bit relative virtual address of the structure or union
+  //!     within the minidump file.
+  RVA64 Rva;
 };
 
 //! \brief A pointer to a snapshot of a region of memory contained within a
