@@ -101,6 +101,7 @@ MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_MEMORY_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_MODULE_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_UNLOADED_MODULE_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_THREAD_LIST);
+MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_THREAD_NAME_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_HANDLE_DATA_STREAM);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_MEMORY_INFO_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpModuleCrashpadInfoList);
@@ -168,7 +169,8 @@ const T* TMinidumpWritableAtLocationDescriptor(
 //! checking than the default implementation:
 //!  - With a MINIDUMP_HEADER template parameter, a template specialization
 //!    ensures that the structure’s magic number and version fields are correct.
-//!  - With a MINIDUMP_MEMORY_LIST, MINIDUMP_THREAD_LIST, MINIDUMP_MODULE_LIST,
+//!  - With a MINIDUMP_MEMORY_LIST, MINIDUMP_THREAD_LIST,
+//!    MINIDUMP_THREAD_NAME_LIST, MINIDUMP_MODULE_LIST,
 //!    MINIDUMP_MEMORY_INFO_LIST, MinidumpSimpleStringDictionary, or
 //!    MinidumpAnnotationList template parameter, template specializations
 //!    ensure that the size given by \a location matches the size expected of a
@@ -234,6 +236,12 @@ MinidumpWritableAtLocationDescriptor<MINIDUMP_UNLOADED_MODULE_LIST>(
 template <>
 const MINIDUMP_THREAD_LIST*
 MinidumpWritableAtLocationDescriptor<MINIDUMP_THREAD_LIST>(
+    const std::string& file_contents,
+    const MINIDUMP_LOCATION_DESCRIPTOR& location);
+
+template <>
+const MINIDUMP_THREAD_NAME_LIST*
+MinidumpWritableAtLocationDescriptor<MINIDUMP_THREAD_NAME_LIST>(
     const std::string& file_contents,
     const MINIDUMP_LOCATION_DESCRIPTOR& location);
 
