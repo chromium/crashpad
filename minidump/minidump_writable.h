@@ -70,8 +70,6 @@ class MinidumpWritable {
   // This is public instead of protected because objects of derived classes need
   // to be able to register their own pointers with distinct objects.
   void RegisterRVA(RVA* rva);
-
-  //! \brief 64-bit specialization of RegisterRVA.
   void RegisterRVA(RVA64* rva);
 
   //! \brief Registers a location descriptor as one that should point to the
@@ -91,8 +89,6 @@ class MinidumpWritable {
   // to be able to register their own pointers with distinct objects.
   void RegisterLocationDescriptor(
       MINIDUMP_LOCATION_DESCRIPTOR* location_descriptor);
-
-  //! \brief 64-bit specialization of RegisterLocationDescriptor.
   void RegisterLocationDescriptor(
       MINIDUMP_LOCATION_DESCRIPTOR64* location_descriptor64);
 

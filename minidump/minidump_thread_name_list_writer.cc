@@ -43,18 +43,6 @@ void MinidumpThreadNameWriter::SetThreadName(const std::string& name) {
   name_->SetUTF8(name);
 }
 
-bool MinidumpThreadNameWriter::Freeze() {
-  DCHECK_EQ(state(), kStateMutable);
-
-  if (!MinidumpWritable::Freeze()) {
-    return false;
-  }
-
-  name_->RegisterRVA(&thread_name_.RvaOfThreadName);
-
-  return true;
-}
-
 size_t MinidumpThreadNameWriter::SizeOfObject() {
   DCHECK_GE(state(), kStateFrozen);
 
@@ -73,6 +61,24 @@ std::vector<internal::MinidumpWritable*> MinidumpThreadNameWriter::Children() {
   children.emplace_back(name_.get());
 
   return children;
+}
+
+bool MinidumpThreadNameWriter::WillWriteAtOffsetImpl(FileOffset offset) {
+  DCHECK_EQ(state(), kStateFrozen);
+
+  // This cannot use RegisterRVA(&thread_name_.RvaOfThreadName), since
+  // &MINIDUMP_THREAD_NAME_LIST::RvaOfThreadName is not aligned on a pointer
+  // boundary, so it causes failures on 32-bit ARM.
+  //
+  // Instead, manually update the RVA64 to the current file offset since the
+  // child thread_name_ will write its contents at that offset.
+  decltype(thread_name_.RvaOfThreadName) local_rva_of_thread_name;
+  if (!AssignIfInRange(&local_rva_of_thread_name, offset)) {
+    LOG(ERROR) << "offset " << offset << " out of range";
+    return false;
+  }
+  thread_name_.RvaOfThreadName = local_rva_of_thread_name;
+  return MinidumpWritable::WillWriteAtOffsetImpl(offset);
 }
 
 bool MinidumpThreadNameWriter::WriteObject(FileWriterInterface* file_writer) {

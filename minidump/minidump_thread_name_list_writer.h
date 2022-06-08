@@ -61,9 +61,9 @@ class MinidumpThreadNameWriter final : public internal::MinidumpWritable {
 
  private:
   // MinidumpWritable:
-  bool Freeze() override;
   size_t SizeOfObject() override;
   std::vector<MinidumpWritable*> Children() override;
+  bool WillWriteAtOffsetImpl(FileOffset offset) override;
   bool WriteObject(FileWriterInterface* file_writer) override;
 
   MINIDUMP_THREAD_NAME thread_name_;
