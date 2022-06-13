@@ -25,6 +25,7 @@
 
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
+#include "build/build_config.h"
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 #include "test/scoped_set_thread_name.h"
