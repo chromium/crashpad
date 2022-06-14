@@ -145,7 +145,7 @@ class ProcessReaderChildThreadSuspendCount final : public WinMultiprocess {
 
   class SleepingThread : public Thread {
    public:
-    SleepingThread(const std::string& thread_name)
+    explicit SleepingThread(const std::string& thread_name)
         : done_(nullptr), thread_name_(thread_name) {}
 
     void SetHandle(Semaphore* done) {
@@ -222,9 +222,9 @@ class ProcessReaderChildThreadSuspendCount final : public WinMultiprocess {
     // Create three dummy threads so we can confirm we read successfully read
     // more than just the main thread.
     std::array<SleepingThread, kCreatedThreads> threads = {
-        "WinMultiprocessChild-1",
-        "WinMultiprocessChild-2",
-        "WinMultiprocessChild-3",
+        SleepingThread(std::string("WinMultiprocessChild-1")),
+        SleepingThread(std::string("WinMultiprocessChild-2")),
+        SleepingThread(std::string("WinMultiprocessChild-3")),
     };
     Semaphore done(0);
     for (auto& thread : threads)
