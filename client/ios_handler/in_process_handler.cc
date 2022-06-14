@@ -62,6 +62,9 @@ namespace internal {
 InProcessHandler::InProcessHandler() = default;
 
 InProcessHandler::~InProcessHandler() {
+  if (cached_writer_) {
+    cached_writer_->Close();
+  }
   UpdatePruneAndUploadThreads(false);
 }
 
@@ -111,8 +114,12 @@ bool InProcessHandler::Initialize(
     prune_thread_->Start();
 
   if (!is_app_extension) {
-    system_data_.SetActiveApplicationCallback(
-        [this](bool active) { UpdatePruneAndUploadThreads(active); });
+    system_data_.SetActiveApplicationCallback([this](bool active) {
+      dispatch_async(
+          dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            UpdatePruneAndUploadThreads(active);
+          });
+    });
   }
 
   base::FilePath cached_writer_path = NewLockedFilePath();
@@ -269,7 +276,14 @@ void InProcessHandler::StartProcessingPendingReports() {
     return;
 
   upload_thread_enabled_ = true;
-  UpdatePruneAndUploadThreads(true);
+
+  // This may be a no-op if IsApplicationActive is false, as it is not safe to
+  // start the upload thread when in the background (due to the potential for
+  // flocked files in shared containers).
+  // TODO(crbug.com/crashpad/400): Consider moving prune and upload thread to
+  // BackgroundTasks and/or NSURLSession. This might allow uploads to continue
+  // in the background.
+  UpdatePruneAndUploadThreads(system_data_.IsApplicationActive());
 }
 
 void InProcessHandler::UpdatePruneAndUploadThreads(bool active) {
@@ -299,6 +313,7 @@ void InProcessHandler::SaveSnapshot(
   if (database_status != CrashReportDatabase::kNoError) {
     Metrics::ExceptionCaptureResult(
         Metrics::CaptureResult::kPrepareNewCrashReportFailed);
+    return;
   }
   process_snapshot.SetReportID(new_report->ReportID());
 
@@ -313,6 +328,7 @@ void InProcessHandler::SaveSnapshot(
   if (!minidump.WriteEverything(new_report->Writer())) {
     Metrics::ExceptionCaptureResult(
         Metrics::CaptureResult::kMinidumpWriteFailed);
+    return;
   }
   UUID uuid;
   database_status =
@@ -320,6 +336,7 @@ void InProcessHandler::SaveSnapshot(
   if (database_status != CrashReportDatabase::kNoError) {
     Metrics::ExceptionCaptureResult(
         Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
+    return;
   }
 
   if (upload_thread_) {

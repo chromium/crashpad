@@ -811,6 +811,22 @@ void InProcessIntermediateDumpHandler::WriteThreadInfo(
       CRASHPAD_RAW_LOG_ERROR(kr, "thread_info::THREAD_BASIC_INFO");
     }
 
+    thread_extended_info extended_info;
+    count = THREAD_EXTENDED_INFO_COUNT;
+    kr = thread_info(thread,
+                     THREAD_EXTENDED_INFO,
+                     reinterpret_cast<thread_info_t>(&extended_info),
+                     &count);
+    if (kr == KERN_SUCCESS) {
+      WritePropertyBytes(
+          writer,
+          IntermediateDumpKey::kThreadName,
+          reinterpret_cast<const void*>(extended_info.pth_name),
+          strnlen(extended_info.pth_name, sizeof(extended_info.pth_name)));
+    } else {
+      CRASHPAD_RAW_LOG_ERROR(kr, "thread_info::THREAD_EXTENDED_INFO");
+    }
+
     thread_precedence_policy precedence;
     count = THREAD_PRECEDENCE_POLICY_COUNT;
     boolean_t get_default = FALSE;
@@ -963,10 +979,12 @@ void InProcessIntermediateDumpHandler::WriteModuleInfo(
       return;
     }
 
-    WriteProperty(writer,
-                  IntermediateDumpKey::kName,
-                  image->imageFilePath,
-                  strlen(image->imageFilePath));
+    if (image->imageFilePath) {
+      WriteProperty(writer,
+                    IntermediateDumpKey::kName,
+                    image->imageFilePath,
+                    strlen(image->imageFilePath));
+    }
     uint64_t address = FromPointerCast<uint64_t>(image->imageLoadAddress);
     WriteProperty(writer, IntermediateDumpKey::kAddress, &address);
     WriteProperty(
@@ -976,7 +994,12 @@ void InProcessIntermediateDumpHandler::WriteModuleInfo(
 
   {
     IOSIntermediateDumpWriter::ScopedArrayMap modules(writer);
-    WriteProperty(writer, IntermediateDumpKey::kName, image_infos->dyldPath);
+    if (image_infos->dyldPath) {
+      WriteProperty(writer,
+                    IntermediateDumpKey::kName,
+                    image_infos->dyldPath,
+                    strlen(image_infos->dyldPath));
+    }
     uint64_t address =
         FromPointerCast<uint64_t>(image_infos->dyldImageLoadAddress);
     WriteProperty(writer, IntermediateDumpKey::kAddress, &address);

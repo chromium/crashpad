@@ -25,6 +25,7 @@
 #include <unistd.h>
 #include <uuid/uuid.h>
 
+#include <array>
 #include <iterator>
 #include <tuple>
 
@@ -57,7 +58,7 @@ constexpr char kCompletedDirectory[] = "completed";
 
 constexpr char kSettings[] = "settings.dat";
 
-constexpr const char* kReportDirectories[] = {
+constexpr std::array<const char*, 3> kReportDirectories = {
     kWriteDirectory,
     kUploadPendingDirectory,
     kCompletedDirectory,
@@ -183,13 +184,14 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   //! \brief A private extension of the Report class that maintains bookkeeping
   //!    information of the database.
   struct UploadReportMac : public UploadReport {
+#if BUILDFLAG(IS_IOS)
+    //! \brief Obtain a background task assertion while a flock is in use.
+    //!     Ensure this is defined first so it is destroyed last.
+    internal::ScopedBackgroundTask ios_background_task{"UploadReportMac"};
+#endif  // BUILDFLAG(IS_IOS)
     //! \brief Stores the flock of the file for the duration of
     //!     GetReportForUploading() and RecordUploadAttempt().
     base::ScopedFD lock_fd;
-#if BUILDFLAG(IS_IOS)
-    //! \brief Obtain a background task assertion while a flock is in use.
-    internal::ScopedBackgroundTask ios_background_task{"UploadReportMac"};
-#endif  // BUILDFLAG(IS_IOS)
   };
 
   //! \brief Locates a crash report in the database by UUID.
@@ -260,20 +262,27 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   // Cleans any attachments that have no associated report in any state.
   void CleanOrphanedAttachments();
 
+  Settings& SettingsInternal() {
+    if (!settings_init_)
+      settings_.Initialize(base_dir_.Append(kSettings));
+    settings_init_ = true;
+    return settings_;
+  }
+
   base::FilePath base_dir_;
   Settings settings_;
+  bool settings_init_;
   bool xattr_new_names_;
   InitializationStateDcheck initialized_;
 };
-
 
 CrashReportDatabaseMac::CrashReportDatabaseMac(const base::FilePath& path)
     : CrashReportDatabase(),
       base_dir_(path),
       settings_(),
+      settings_init_(false),
       xattr_new_names_(false),
-      initialized_() {
-}
+      initialized_() {}
 
 CrashReportDatabaseMac::~CrashReportDatabaseMac() {}
 
@@ -290,17 +299,14 @@ bool CrashReportDatabaseMac::Initialize(bool may_create) {
   }
 
   // Create the three processing directories for the database.
-  for (size_t i = 0; i < std::size(kReportDirectories); ++i) {
-    if (!CreateOrEnsureDirectoryExists(base_dir_.Append(kReportDirectories[i])))
+  for (const auto& dir : kReportDirectories) {
+    if (!CreateOrEnsureDirectoryExists(base_dir_.Append(dir)))
       return false;
   }
 
   if (!CreateOrEnsureDirectoryExists(AttachmentsRootPath())) {
     return false;
   }
-
-  if (!settings_.Initialize(base_dir_.Append(kSettings)))
-    return false;
 
   // Do an xattr operation as the last step, to ensure the filesystem has
   // support for them. This xattr also serves as a marker for whether the
@@ -332,7 +338,7 @@ base::FilePath CrashReportDatabaseMac::DatabasePath() {
 
 Settings* CrashReportDatabaseMac::GetSettings() {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return &settings_;
+  return &SettingsInternal();
 }
 
 CrashReportDatabase::OperationStatus
@@ -525,7 +531,7 @@ CrashReportDatabaseMac::RecordUploadAttempt(UploadReport* report,
     return kDatabaseError;
   }
 
-  if (!settings_.SetLastUploadAttemptTime(now)) {
+  if (!SettingsInternal().SetLastUploadAttemptTime(now)) {
     return kDatabaseError;
   }
 
