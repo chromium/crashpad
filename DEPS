@@ -27,6 +27,10 @@ deps = {
   'buildtools':
       Var('chromium_git') + '/chromium/src/buildtools.git@' +
       '8b16338d17cd71b04a6ba28da7322ab6739892c2',
+  'buildtools/clang_format/script':
+      Var('chromium_git') +
+      '/external/github.com/llvm/llvm-project/clang/tools/clang-format.git@' +
+      'c912837e0d82b5ca4b6e790b573b3956d3744c1c',
   'crashpad/third_party/edo/edo': {
       'url': Var('chromium_git') + '/external/github.com/google/eDistantObject.git@' +
       '727e556705278598fce683522beedbb9946bfda0',
