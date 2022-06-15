@@ -643,7 +643,19 @@ bool ProcessSnapshotMinidump::InitializeThreadNames() {
       return false;
     }
 
-    thread_names_.emplace(minidump_thread_name.ThreadId, std::move(name));
+    // XXX sentry maintainers:
+    //    the upstream line
+    //
+    //    thread_names_.emplace(minidump_thread_name.ThreadId, std::move(name));
+    //
+    //    fails to compile on GCC (which is untested/-supported by the crashpad
+    //    maintainers). emplace() takes its parameters as rvalue-references
+    //    which is illegal when referencing a bitfield (or packed struct).
+    //
+    //    Creating an explicit copy by-passes the issue, trading for more
+    //    (typically two) instructions per thread-name.
+    uint32_t thread_id = minidump_thread_name.ThreadId;
+    thread_names_.emplace(thread_id, std::move(name));
   }
 
   return true;
