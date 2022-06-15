@@ -153,7 +153,7 @@ void DoStackWalk(ProcessReaderWin::Thread* thread,
   int machine_type = IMAGE_FILE_MACHINE_I386;
   LPVOID ctx = NULL;
 #if defined(ARCH_CPU_X86)
-  const CONTEXT* ctx_ = &thread->context.native;
+  const CONTEXT* ctx_ = thread->context.context<CONTEXT>();
   stack_frame.AddrPC.Offset = ctx_->Eip;
   stack_frame.AddrFrame.Offset = ctx_->Ebp;
   stack_frame.AddrStack.Offset = ctx_->Esp;
@@ -162,7 +162,7 @@ void DoStackWalk(ProcessReaderWin::Thread* thread,
   // if (!is_64_reading_32) {
   machine_type = IMAGE_FILE_MACHINE_AMD64;
 
-  const CONTEXT* ctx_ = &thread->context.native;
+  const CONTEXT* ctx_ = thread->context.context<CONTEXT>();
   stack_frame.AddrPC.Offset = ctx_->Rip;
   stack_frame.AddrFrame.Offset = ctx_->Rbp;
   stack_frame.AddrStack.Offset = ctx_->Rsp;
