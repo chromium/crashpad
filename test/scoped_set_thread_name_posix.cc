@@ -17,6 +17,7 @@
 #include <errno.h>
 #include <pthread.h>
 
+#include <ostream>
 #include <string>
 
 #include "base/check.h"
