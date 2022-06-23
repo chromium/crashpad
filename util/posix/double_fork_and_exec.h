@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_UTIL_POSIX_FORK_AND_SPAWN_H_
-#define CRASHPAD_UTIL_POSIX_FORK_AND_SPAWN_H_
+#ifndef CRASHPAD_UTIL_POSIX_DOUBLE_FORK_AND_EXEC_H_
+#define CRASHPAD_UTIL_POSIX_DOUBLE_FORK_AND_EXEC_H_
 
 #include <string>
 #include <vector>
@@ -23,7 +23,7 @@ namespace crashpad {
 //! \brief Executes a (grand-)child process.
 //!
 //! The grandchild process will be started through the
-//! `fork()`-and-`posix_spawn()` pattern. This allows the grandchild to fully
+//! double-`fork()`-and-`execv()` pattern. This allows the grandchild to fully
 //! disassociate from the parent. The grandchild will not be a member of the
 //! parent’s process group or session and will not have a controlling terminal,
 //! providing isolation from signals not intended for it. The grandchild’s
@@ -37,7 +37,7 @@ namespace crashpad {
 //! \param[in] argv The argument vector to start the grandchild process with.
 //!     `argv[0]` is used as the path to the executable.
 //! \param[in] envp A vector of environment variables of the form `var=value` to
-//!     be passed to `posix_spawn()`. If this value is `nullptr`, the current
+//!     be passed to `execve()`. If this value is `nullptr`, the current
 //!     environment is used.
 //! \param[in] preserve_fd A file descriptor to be inherited by the grandchild
 //!     process. This file descriptor is inherited in addition to the three file
@@ -45,12 +45,15 @@ namespace crashpad {
 //!     if no additional file descriptors are to be inherited.
 //! \param[in] use_path Whether to consult the `PATH` environment variable when
 //!     requested to start an executable at a non-absolute path. If `false`,
-//!     `posix_spawn()`, which does not consult `PATH`, will be used. If `true`,
-//!     `posix_spawnp()`, which does consult `PATH`, will be used.
+//!     `execv()`, which does not consult `PATH`, will be used. If `true`,
+//!     `execvp()`, which does consult `PATH`, will be used.
 //! \param[in] child_function If not `nullptr`, this function will be called in
-//!     the intermediate child process, prior to the `posix_spawn()`. Take note
+//!     the intermediate child process, prior to the second `fork()`. Take note
 //!     that this function will run in the context of a forked process, and must
 //!     be safe for that purpose.
+//!
+//! Setting both \a envp to a value other than `nullptr` and \a use_path to
+//! `true` is not currently supported.
 //!
 //! \return `true` on success, and `false` on failure with a message logged.
 //!     Only failures that occur in the parent process that indicate a definite
@@ -60,12 +63,12 @@ namespace crashpad {
 //!     terminating. The caller assumes the responsibility for detecting such
 //!     failures, for example, by observing a failure to perform a successful
 //!     handshake with the grandchild process.
-bool ForkAndSpawn(const std::vector<std::string>& argv,
-                  const std::vector<std::string>* envp,
-                  int preserve_fd,
-                  bool use_path,
-                  void (*child_function)());
+bool DoubleForkAndExec(const std::vector<std::string>& argv,
+                       const std::vector<std::string>* envp,
+                       int preserve_fd,
+                       bool use_path,
+                       void (*child_function)());
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_UTIL_POSIX_FORK_AND_SPAWN_H_
+#endif  // CRASHPAD_UTIL_POSIX_DOUBLE_FORK_AND_EXEC_H_
