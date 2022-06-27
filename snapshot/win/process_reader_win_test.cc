@@ -123,7 +123,9 @@ TEST(ProcessReaderWin, SelfOneThread) {
   ASSERT_GE(threads.size(), 1u);
 
   EXPECT_EQ(threads[0].id, GetCurrentThreadId());
-  EXPECT_EQ(threads[0].name, "SelfBasic");
+  if (ScopedSetThreadName::IsSupported()) {
+    EXPECT_EQ(threads[0].name, "SelfBasic");
+  }
   EXPECT_NE(ProgramCounterFromCONTEXT(threads[0].context.context<CONTEXT>()),
             nullptr);
   EXPECT_EQ(threads[0].suspend_count, 0u);
@@ -174,27 +176,30 @@ class ProcessReaderChildThreadSuspendCount final : public WinMultiprocess {
 
       const auto& threads = process_reader.Threads();
       ASSERT_GE(threads.size(), kCreatedThreads + 1);
-      EXPECT_EQ(threads[0].name, "WinMultiprocessChild-Main");
-
-      const std::set<std::string> expected_thread_names = {
-          "WinMultiprocessChild-1",
-          "WinMultiprocessChild-2",
-          "WinMultiprocessChild-3",
-      };
-      // Windows can create threads besides the ones created in
-      // WinMultiprocessChild(), so keep track of the (non-main) thread names
-      // and make sure all the expected names are present.
-      std::set<std::string> thread_names;
-      for (size_t i = 1; i < threads.size(); i++) {
-        if (!threads[i].name.empty()) {
-          thread_names.emplace(threads[i].name);
-        }
-      }
-
-      EXPECT_THAT(thread_names, IsSupersetOf(expected_thread_names));
 
       for (const auto& thread : threads) {
         EXPECT_EQ(thread.suspend_count, 0u);
+      }
+
+      if (ScopedSetThreadName::IsSupported()) {
+        EXPECT_EQ(threads[0].name, "WinMultiprocessChild-Main");
+
+        const std::set<std::string> expected_thread_names = {
+            "WinMultiprocessChild-1",
+            "WinMultiprocessChild-2",
+            "WinMultiprocessChild-3",
+        };
+        // Windows can create threads besides the ones created in
+        // WinMultiprocessChild(), so keep track of the (non-main) thread names
+        // and make sure all the expected names are present.
+        std::set<std::string> thread_names;
+        for (size_t i = 1; i < threads.size(); i++) {
+          if (!threads[i].name.empty()) {
+            thread_names.emplace(threads[i].name);
+          }
+        }
+
+        EXPECT_THAT(thread_names, IsSupersetOf(expected_thread_names));
       }
     }
 
