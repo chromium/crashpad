@@ -132,11 +132,11 @@ if(NOT WIN32)
         thread/thread_posix.cc
         posix/close_multiple.cc
         posix/close_multiple.h
-        posix/double_fork_and_exec.cc
-        posix/double_fork_and_exec.h
         posix/drop_privileges.cc
         posix/drop_privileges.h
         posix/process_info.h
+        posix/spawn_subprocess.cc
+        posix/spawn_subprocess.h
         posix/symbolic_constants_posix.cc
         posix/symbolic_constants_posix.h
     )

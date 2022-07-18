@@ -792,7 +792,7 @@ TEST(ProcessSnapshotMinidump, ThreadsWithNames) {
   for (uint32_t minidump_thread_index = 0;
        minidump_thread_index < kMinidumpThreadCount;
        ++minidump_thread_index) {
-    MINIDUMP_THREAD_NAME minidump_thread_name = {0};
+    MINIDUMP_THREAD_NAME minidump_thread_name = {0, 0};
     minidump_thread_name.ThreadId = kBaseThreadId + minidump_thread_index;
     minidump_thread_name.RvaOfThreadName =
         thread_name_rva64s[minidump_thread_index];
