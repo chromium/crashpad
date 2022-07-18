@@ -27,6 +27,10 @@ deps = {
   'buildtools':
       Var('chromium_git') + '/chromium/src/buildtools.git@' +
       '8b16338d17cd71b04a6ba28da7322ab6739892c2',
+  'buildtools/clang_format/script':
+      Var('chromium_git') +
+      '/external/github.com/llvm/llvm-project/clang/tools/clang-format.git@' +
+      'c912837e0d82b5ca4b6e790b573b3956d3744c1c',
   'crashpad/third_party/edo/edo': {
       'url': Var('chromium_git') + '/external/github.com/google/eDistantObject.git@' +
       '727e556705278598fce683522beedbb9946bfda0',
@@ -40,7 +44,7 @@ deps = {
       'e1e7b0ad8ee99a875b272c8e33e308472e897660',
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
-      '5654edb4225bcad13901155c819febb5748e502b',
+      '75dcb8dc417af77fdb9ec23c7b51cb1d57dfcee2',
   'crashpad/third_party/libfuzzer/src':
       Var('chromium_git') + '/chromium/llvm-project/compiler-rt/lib/fuzzer.git@' +
       'fda403cf93ecb8792cb1d061564d89a6553ca020',

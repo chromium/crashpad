@@ -32,9 +32,14 @@ class ScopedSetThreadName final {
 
   ~ScopedSetThreadName();
 
+#if BUILDFLAG(IS_WIN) || DOXYGEN
+  //! \brief Returns `true` if Windows supports setting and getting thread name.
+  static bool IsSupported();
+#endif
+
  private:
 #if BUILDFLAG(IS_WIN)
-  const std::wstring original_name_;
+  std::wstring original_name_;
 #else
   const std::string original_name_;
 #endif
