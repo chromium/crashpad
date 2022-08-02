@@ -115,6 +115,15 @@ if(MSVC)
         $<$<COMPILE_LANGUAGE:C,CXX>:/wd4577> # 'noexcept' used with no exception handling mode specified.
         $<$<COMPILE_LANGUAGE:C,CXX>:/wd4996> # 'X' was declared deprecated.
     )
+
+    # WER support is only available starting from Win10 build 10941
+    if(${CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION} VERSION_LESS 10.0.19041)
+        message(STATUS "WER support disabled. Needs target platform >= 10.0.19041 (actual: ${CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION})")
+    else()
+        SET(CRASHPAD_WER_ENABLED TRUE)
+        SET(CRASHPAD_WER_ENABLED TRUE PARENT_SCOPE)
+        message(STATUS "WER support enabled")
+    endif()
 elseif(MINGW)
     # redirect to wmain
     # FIXME: cmake 3.13 added target_link_options
