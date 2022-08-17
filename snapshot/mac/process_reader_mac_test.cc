@@ -826,9 +826,9 @@ TEST(ProcessReaderMac, SelfModules) {
         FromPointerCast<mach_vm_address_t>(_dyld_get_image_header(index)));
 
     bool expect_timestamp;
-    if (index == 0) {
-      // dyld didn’t load the main executable, so it couldn’t record its
-      // timestamp, and it is reported as 0.
+    if (index == 0 && MacOSVersionNumber() < 12'00'00) {
+      // Pre-dyld4, dyld didn’t set the main executable's timestamp, and it was 
+      // reported as 0.
       EXPECT_EQ(modules[index].timestamp, 0);
     } else if (IsMalformedCLKernelsModule(modules[index].reader->FileType(),
                                           modules[index].name,
@@ -918,13 +918,15 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
       EXPECT_EQ(modules[index].reader->Address(), expect_address);
 
       bool expect_timestamp;
-      if (index == 0 || index == modules.size() - 1) {
-        // dyld didn’t load the main executable or itself, so it couldn’t record
-        // these timestamps, and they are reported as 0.
-        EXPECT_EQ(modules[index].timestamp, 0);
-      } else if (IsMalformedCLKernelsModule(modules[index].reader->FileType(),
-                                            modules[index].name,
-                                            &expect_timestamp)) {
+      if ((index == 0 &&  MacOSVersionNumber() < 12'00'00) || index == modules.size() - 1) {
+          // Pre-dyld4, dyld didn’t set the main executable's timestamp, and it
+          // was reported as 0.
+          // The last module is dyld.
+          EXPECT_EQ(modules[index].timestamp, 0);
+        }
+      else if (IsMalformedCLKernelsModule(modules[index].reader->FileType(),
+                                          modules[index].name,
+                                          &expect_timestamp)) {
         // cl_kernels doesn’t exist as a file, but may still have a timestamp.
         if (!expect_timestamp) {
           EXPECT_EQ(modules[index].timestamp, 0);
