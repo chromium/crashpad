@@ -21,6 +21,7 @@
 #include <mach-o/dyld.h>
 #include <mach-o/dyld_images.h>
 #include <mach/mach.h>
+#include <pthread.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -166,7 +167,12 @@ TEST(ProcessReaderMac, SelfOneThread) {
 class TestThreadPool {
  public:
   struct ThreadExpectation {
-    mach_vm_address_t stack_address;
+    // The stack's base (highest) address.
+    mach_vm_address_t stack_base;
+
+    // The stack's maximum size.
+    mach_vm_size_t stack_size;
+
     int suspend_count;
     std::string thread_name;
   };
@@ -243,7 +249,8 @@ class TestThreadPool {
     CHECK_LT(thread_index, thread_infos_.size());
 
     const auto& thread_info = thread_infos_[thread_index];
-    expectation->stack_address = thread_info->stack_address;
+    expectation->stack_base = thread_info->stack_base;
+    expectation->stack_size = thread_info->stack_size;
     expectation->suspend_count = thread_info->suspend_count;
     expectation->thread_name = thread_info->thread_name;
 
@@ -254,7 +261,8 @@ class TestThreadPool {
   struct ThreadInfo {
     ThreadInfo(const std::string& thread_name)
         : pthread(nullptr),
-          stack_address(0),
+          stack_base(0),
+          stack_size(0),
           ready_semaphore(0),
           exit_semaphore(0),
           suspend_count(0),
@@ -265,9 +273,12 @@ class TestThreadPool {
     // The thread’s ID, set at the time the thread is created.
     pthread_t pthread;
 
-    // An address somewhere within the thread’s stack. The thread sets this in
+    // The base address of thread’s stack. The thread sets this in
     // its ThreadMain().
-    mach_vm_address_t stack_address;
+    mach_vm_address_t stack_base;
+
+    // The stack's maximum size. The thread sets this in its ThreadMain().
+    mach_vm_size_t stack_size;
 
     // The worker thread signals ready_semaphore to indicate that it’s done
     // setting up its ThreadInfo structure. The main thread waits on this
@@ -291,8 +302,10 @@ class TestThreadPool {
     ThreadInfo* thread_info = static_cast<ThreadInfo*>(argument);
     const ScopedSetThreadName scoped_set_thread_name(thread_info->thread_name);
 
-    thread_info->stack_address =
-        FromPointerCast<mach_vm_address_t>(&thread_info);
+    pthread_t thread = pthread_self();
+    thread_info->stack_base =
+        FromPointerCast<mach_vm_address_t>(pthread_get_stackaddr_np(thread));
+    thread_info->stack_size = pthread_get_stacksize_np(thread);
 
     thread_info->ready_semaphore.Signal();
     thread_info->exit_semaphore.Wait();
@@ -343,8 +356,15 @@ void ExpectSeveralThreads(ThreadMap* thread_map,
     }
 
     if (iterator != thread_map->end()) {
-      EXPECT_GE(iterator->second.stack_address, thread.stack_region_address);
-      EXPECT_LT(iterator->second.stack_address, thread_stack_region_end);
+      mach_vm_address_t expected_stack_region_end = iterator->second.stack_base;
+      if (thread_index > 0) {
+        // Non-main threads use the stack region to store thread data. See
+        // _pthread_allocate.
+        expected_stack_region_end += sizeof(_opaque_pthread_t);
+      }
+      EXPECT_LT(iterator->second.stack_base - iterator->second.stack_size,
+                thread.stack_region_address);
+      EXPECT_EQ(expected_stack_region_end, thread_stack_region_end);
 
       EXPECT_EQ(thread.suspend_count, iterator->second.suspend_count);
       EXPECT_EQ(thread.name, iterator->second.thread_name);
@@ -403,7 +423,10 @@ TEST(ProcessReaderMac, SelfSeveralThreads) {
   ThreadMap thread_map;
   const uint64_t self_thread_id = PthreadToThreadID(pthread_self());
   TestThreadPool::ThreadExpectation expectation;
-  expectation.stack_address = FromPointerCast<mach_vm_address_t>(&thread_map);
+  pthread_t thread = pthread_self();
+  expectation.stack_base =
+      FromPointerCast<mach_vm_address_t>(pthread_get_stackaddr_np(thread));
+  expectation.stack_size = pthread_get_stacksize_np(thread);
   expectation.suspend_count = 0;
   thread_map[self_thread_id] = expectation;
   for (size_t thread_index = 0; thread_index < kChildThreads; ++thread_index) {
@@ -482,9 +505,10 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
       CheckedReadFileExactly(read_handle, &thread_id, sizeof(thread_id));
 
       TestThreadPool::ThreadExpectation expectation;
-      CheckedReadFileExactly(read_handle,
-                             &expectation.stack_address,
-                             sizeof(expectation.stack_address));
+      CheckedReadFileExactly(
+          read_handle, &expectation.stack_base, sizeof(expectation.stack_base));
+      CheckedReadFileExactly(
+          read_handle, &expectation.stack_size, sizeof(expectation.stack_size));
       CheckedReadFileExactly(read_handle,
                              &expectation.suspend_count,
                              sizeof(expectation.suspend_count));
@@ -529,12 +553,16 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
     CheckedWriteFile(write_handle, &thread_id, sizeof(thread_id));
 
     TestThreadPool::ThreadExpectation expectation;
-    expectation.stack_address = FromPointerCast<mach_vm_address_t>(&thread_id);
+    pthread_t thread = pthread_self();
+    expectation.stack_base =
+        FromPointerCast<mach_vm_address_t>(pthread_get_stackaddr_np(thread));
+    expectation.stack_size = pthread_get_stacksize_np(thread);
     expectation.suspend_count = 0;
 
-    CheckedWriteFile(write_handle,
-                     &expectation.stack_address,
-                     sizeof(expectation.stack_address));
+    CheckedWriteFile(
+        write_handle, &expectation.stack_base, sizeof(expectation.stack_base));
+    CheckedWriteFile(
+        write_handle, &expectation.stack_size, sizeof(expectation.stack_size));
     CheckedWriteFile(write_handle,
                      &expectation.suspend_count,
                      sizeof(expectation.suspend_count));
@@ -553,8 +581,11 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
 
       CheckedWriteFile(write_handle, &thread_id, sizeof(thread_id));
       CheckedWriteFile(write_handle,
-                       &expectation.stack_address,
-                       sizeof(expectation.stack_address));
+                       &expectation.stack_base,
+                       sizeof(expectation.stack_base));
+      CheckedWriteFile(write_handle,
+                       &expectation.stack_size,
+                       sizeof(expectation.stack_size));
       CheckedWriteFile(write_handle,
                        &expectation.suspend_count,
                        sizeof(expectation.suspend_count));
