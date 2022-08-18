@@ -423,10 +423,9 @@ TEST(ProcessReaderMac, SelfSeveralThreads) {
   ThreadMap thread_map;
   const uint64_t self_thread_id = PthreadToThreadID(pthread_self());
   TestThreadPool::ThreadExpectation expectation;
-  pthread_t thread = pthread_self();
-  expectation.stack_base =
-      FromPointerCast<mach_vm_address_t>(pthread_get_stackaddr_np(thread));
-  expectation.stack_size = pthread_get_stacksize_np(thread);
+  expectation.stack_base = FromPointerCast<mach_vm_address_t>(
+      pthread_get_stackaddr_np(pthread_self()));
+  expectation.stack_size = pthread_get_stacksize_np(pthread_self());
   expectation.suspend_count = 0;
   thread_map[self_thread_id] = expectation;
   for (size_t thread_index = 0; thread_index < kChildThreads; ++thread_index) {
