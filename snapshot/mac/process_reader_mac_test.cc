@@ -948,15 +948,15 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
       EXPECT_EQ(modules[index].reader->Address(), expect_address);
 
       bool expect_timestamp;
-      if ((index == 0 &&  MacOSVersionNumber() < 12'00'00) || index == modules.size() - 1) {
-          // Pre-dyld4, dyld didn’t set the main executable's timestamp, and it
-          // was reported as 0.
-          // The last module is dyld.
-          EXPECT_EQ(modules[index].timestamp, 0);
-        }
-      else if (IsMalformedCLKernelsModule(modules[index].reader->FileType(),
-                                          modules[index].name,
-                                          &expect_timestamp)) {
+      if ((index == 0 && MacOSVersionNumber() < 12'00'00) ||
+          index == modules.size() - 1) {
+        // Pre-dyld4, dyld didn’t set the main executable's timestamp, and it
+        // was reported as 0.
+        // The last module is dyld.
+        EXPECT_EQ(modules[index].timestamp, 0);
+      } else if (IsMalformedCLKernelsModule(modules[index].reader->FileType(),
+                                            modules[index].name,
+                                            &expect_timestamp)) {
         // cl_kernels doesn’t exist as a file, but may still have a timestamp.
         if (!expect_timestamp) {
           EXPECT_EQ(modules[index].timestamp, 0);
