@@ -18,7 +18,7 @@
 #include "handler/win/wer/crashpad_wer.h"
 
 #include "util/misc/address_types.h"
-#include "util/win/registration_protocol_win.h"
+#include "util/win/registration_protocol_win_structs.h"
 
 #include <Windows.h>
 #include <werapi.h>
