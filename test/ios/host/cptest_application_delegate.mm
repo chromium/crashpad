@@ -164,7 +164,11 @@ UIWindow* GetAnyWindow() {
                    {"crashpad", "no"}};
   }
   if (client_.StartCrashpadInProcessHandler(
-          GetDatabaseDir(), "", annotations)) {
+          GetDatabaseDir(),
+          "",
+          annotations,
+          crashpad::CrashpadClient::
+              ProcessPendingReportsObservationCallback())) {
     client_.ProcessIntermediateDumps();
   }
 

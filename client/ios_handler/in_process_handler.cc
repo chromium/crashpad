@@ -71,7 +71,8 @@ InProcessHandler::~InProcessHandler() {
 bool InProcessHandler::Initialize(
     const base::FilePath& database,
     const std::string& url,
-    const std::map<std::string, std::string>& annotations) {
+    const std::map<std::string, std::string>& annotations,
+    ProcessPendingReportsObservationCallback callback) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
   annotations_ = annotations;
   database_ = CrashReportDatabase::Initialize(database);
@@ -92,7 +93,7 @@ bool InProcessHandler::Initialize(
     upload_thread_options.identify_client_via_url = true;
 
     upload_thread_.reset(new CrashReportUploadThread(
-        database_.get(), url, upload_thread_options));
+        database_.get(), url, upload_thread_options, callback));
   }
 
   if (!CreateDirectory(database))

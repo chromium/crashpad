@@ -1029,7 +1029,10 @@ int HandlerMain(int argc,
     upload_thread_options.watch_pending_reports = options.periodic_tasks;
 
     upload_thread.Reset(new CrashReportUploadThread(
-        database.get(), options.url, upload_thread_options));
+        database.get(),
+        options.url,
+        upload_thread_options,
+        CrashReportUploadThread::ProcessPendingReportsObservationCallback()));
     upload_thread.Get()->Start();
   }
 

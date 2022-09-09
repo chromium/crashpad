@@ -37,7 +37,10 @@ class CrashpadIOSClient : public PlatformTest {
 
   void SetUp() override {
     ASSERT_TRUE(client_.StartCrashpadInProcessHandler(
-        base::FilePath(database_dir.path()), "", {}));
+        base::FilePath(database_dir.path()),
+        "",
+        {},
+        CrashpadClient::ProcessPendingReportsObservationCallback()));
     database_ = CrashReportDatabase::Initialize(database_dir.path());
   }
 
