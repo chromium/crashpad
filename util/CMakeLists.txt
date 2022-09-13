@@ -337,6 +337,7 @@ if(WIN32)
         win/process_structs.h
         win/registration_protocol_win.cc
         win/registration_protocol_win.h
+        win/registration_protocol_win_structs.h
         win/safe_terminate_process.h
         win/scoped_handle.cc
         win/scoped_handle.h

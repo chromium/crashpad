@@ -1,4 +1,4 @@
-// Copyright 2018 The Crashpad Authors. All rights reserved.
+// Copyright 2018 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -462,6 +462,7 @@ bool CrashpadClient::StartHandler(
   if (!SpawnSubprocess(argv, nullptr, handler_sock.get(), false, nullptr)) {
     return false;
   }
+  handler_sock.reset();
 
   pid_t handler_pid = -1;
   if (!IsRegularFile(base::FilePath("/proc/sys/kernel/yama/ptrace_scope"))) {

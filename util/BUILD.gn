@@ -1,4 +1,4 @@
-# Copyright 2015 The Crashpad Authors. All rights reserved.
+# Copyright 2015 The Crashpad Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -165,7 +165,7 @@ if (crashpad_is_win) {
     sources = [
       "misc/address_types.h",
       "win/address_types.h",
-      "win/registration_protocol_win.h",
+      "win/registration_protocol_win_structs.h",
     ]
     public_deps = [ "../third_party/mini_chromium:build" ]
     public_configs = [ "..:crashpad_config" ]
@@ -505,6 +505,7 @@ crashpad_static_library("util") {
       "win/process_structs.h",
       "win/registration_protocol_win.cc",
       "win/registration_protocol_win.h",
+      "win/registration_protocol_win_structs.h",
       "win/safe_terminate_process.h",
       "win/scoped_handle.cc",
       "win/scoped_handle.h",
@@ -671,10 +672,6 @@ crashpad_static_library("net") {
     }
   } else if (crashpad_http_transport_impl == "libcurl") {
     sources += [ "net/http_transport_libcurl.cc" ]
-    if (crashpad_is_in_fuchsia) {
-      # Host Linux builds in Fuchsia don't have libcurl in a sysroot.
-      deps += [ "//third_party/curl:libcurl" ]
-    }
   }
 }
 
