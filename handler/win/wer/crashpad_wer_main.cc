@@ -1,4 +1,4 @@
-// Copyright 2022 The Crashpad Authors. All rights reserved.
+// Copyright 2022 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,14 +36,17 @@ HRESULT OutOfProcessExceptionEventCallback(
     PWSTR pwszEventName,
     PDWORD pchSize,
     PDWORD pdwSignatureCount) {
-  std::vector<DWORD> wanted_exceptions = {
+  DWORD wanted_exceptions[] = {
       0xC0000602,  // STATUS_FAIL_FAST_EXCEPTION
       0xC0000409,  // STATUS_STACK_BUFFER_OVERRUN
   };
   // Default to not-claiming as bailing out is easier.
   *pbOwnershipClaimed = FALSE;
-  bool result = crashpad::wer::ExceptionEvent(
-      wanted_exceptions, pContext, pExceptionInformation);
+  bool result =
+      crashpad::wer::ExceptionEvent(wanted_exceptions,
+                                    sizeof(wanted_exceptions) / sizeof(DWORD),
+                                    pContext,
+                                    pExceptionInformation);
 
   if (result) {
     *pbOwnershipClaimed = TRUE;
