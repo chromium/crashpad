@@ -27,6 +27,18 @@ namespace crashpad::wer {
 namespace {
 using crashpad::WerRegistration;
 
+// bIsFatal and dwReserved fields are not present in SDK < 19041.
+struct WER_RUNTIME_EXCEPTION_INFORMATION_19041 {
+  DWORD dwSize;
+  HANDLE hProcess;
+  HANDLE hThread;
+  EXCEPTION_RECORD exceptionRecord;
+  CONTEXT context;
+  PCWSTR pwszReportId;
+  BOOL bIsFatal;
+  DWORD dwReserved;
+};
+
 // We have our own version of this to avoid pulling in //base.
 class ScopedHandle {
  public:
@@ -69,8 +81,18 @@ bool ProcessException(DWORD* handled_exceptions,
   if (!pContext)
     return false;
 
-  if (!e_info->bIsFatal)
+  // Older OSes might provide a smaller structure than SDK 19041 defines.
+  if (e_info->dwSize <=
+      offsetof(WER_RUNTIME_EXCEPTION_INFORMATION_19041, bIsFatal)) {
     return false;
+  }
+
+  // If building with SDK < 19041 then the bIsFatal field isn't defined, so
+  // use our internal definition here.
+  if (!reinterpret_cast<const WER_RUNTIME_EXCEPTION_INFORMATION_19041*>(e_info)
+           ->bIsFatal) {
+    return false;
+  }
 
   // Only deal with exceptions that crashpad would not have handled.
   bool found = false;
