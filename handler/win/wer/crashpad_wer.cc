@@ -73,7 +73,7 @@ ScopedHandle DuplicateFromTarget(HANDLE target_process, HANDLE target_handle) {
   return ScopedHandle(hTmp);
 }
 
-bool ProcessException(DWORD* handled_exceptions,
+bool ProcessException(const DWORD* handled_exceptions,
                       size_t num_handled_exceptions,
                       const PVOID pContext,
                       const PWER_RUNTIME_EXCEPTION_INFORMATION e_info) {
@@ -193,7 +193,7 @@ bool ProcessException(DWORD* handled_exceptions,
 }  // namespace
 
 bool ExceptionEvent(
-    DWORD* handled_exceptions,
+    const DWORD* handled_exceptions,
     size_t num_handled_exceptions,
     const PVOID pContext,
     const PWER_RUNTIME_EXCEPTION_INFORMATION pExceptionInformation) {
