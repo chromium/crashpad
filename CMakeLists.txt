@@ -117,7 +117,7 @@ if(MSVC)
     )
 
     # WER support is only available starting from Win10 build 10941
-    if(${CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION} VERSION_LESS 10.0.19041)
+    if("${CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION}" VERSION_LESS 10.0.19041)
         message(STATUS "WER support disabled. Needs target platform >= 10.0.19041 (actual: ${CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION})")
     else()
         SET(CRASHPAD_WER_ENABLED TRUE)
