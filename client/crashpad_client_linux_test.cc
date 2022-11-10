@@ -213,6 +213,12 @@ void ValidateDump(const StartHandlerForSelfTestOptions& options,
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Winfinite-recursion"
+// Clang (masquerading as gcc) is too smart, and removes the recursion
+// otherwise. May need to change if either clang or another compiler becomes
+// smarter.
+#if defined(COMPILER_GCC)
+__attribute__((noinline))
+#endif
 int RecurseInfinitely(int* ptr) {
   int buf[1 << 20];
   return *ptr + RecurseInfinitely(buf);
