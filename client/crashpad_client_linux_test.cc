@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <sys/syscall.h>
 #include <sys/types.h>
+#include <sys/utsname.h>
 #include <unistd.h>
 
 #include "base/check_op.h"
@@ -69,6 +70,7 @@ enum class CrashType : uint32_t {
   kSimulated,
   kBuiltinTrap,
   kInfiniteRecursion,
+  kSegvWithTagBits,
 };
 
 struct StartHandlerForSelfTestOptions {
@@ -170,6 +172,10 @@ void ValidateExtraMemory(const StartHandlerForSelfTestOptions& options,
     }
   }
   EXPECT_EQ(pc_found, options.gather_indirectly_referenced_memory);
+
+  if (options.crash_type == CrashType::kSegvWithTagBits) {
+    EXPECT_EQ(exception->ExceptionAddress(), 0xefull << 56);
+  }
 }
 
 void ValidateDump(const StartHandlerForSelfTestOptions& options,
@@ -242,16 +248,28 @@ void DoCrash(const StartHandlerForSelfTestOptions& options,
   }
 
   switch (options.crash_type) {
-    case CrashType::kSimulated:
+    case CrashType::kSimulated: {
       CRASHPAD_SIMULATE_CRASH();
       break;
+    }
 
-    case CrashType::kBuiltinTrap:
+    case CrashType::kBuiltinTrap: {
       __builtin_trap();
+    }
 
-    case CrashType::kInfiniteRecursion:
+    case CrashType::kInfiniteRecursion: {
       int val = 42;
       exit(RecurseInfinitely(&val));
+    }
+
+    case CrashType::kSegvWithTagBits: {
+      volatile char* x = nullptr;
+#ifdef __aarch64__
+      x += 0xefull << 56;
+#endif  // __aarch64__
+      *x;
+      break;
+    }
   }
 }
 
@@ -416,6 +434,9 @@ class StartHandlerForSelfInChildTest : public MultiprocessExec {
           SetExpectedChildTermination(TerminationReason::kTerminationSignal,
                                       SIGSEGV);
           break;
+        case CrashType::kSegvWithTagBits:
+          SetExpectedChildTermination(TerminationReason::kTerminationSignal,
+                                      SIGSEGV);
       }
     }
   }
@@ -492,6 +513,27 @@ TEST_P(StartHandlerForSelfTest, StartHandlerInChild) {
     GTEST_SKIP();
   }
 #endif  // defined(ADDRESS_SANITIZER)
+
+  if (Options().crash_type == CrashType::kSegvWithTagBits) {
+#if !defined(ARCH_CPU_ARM64)
+    GTEST_SKIP() << "Testing for tag bits only exists on aarch64.";
+#endif  // !defined(ARCH_CPU_ARM64)
+
+    struct utsname uname_info;
+    ASSERT_EQ(uname(&uname_info), 0);
+    ASSERT_NE(uname_info.release, nullptr);
+
+    char* release = uname_info.release;
+    unsigned major = strtoul(release, &release, 10);
+    ASSERT_EQ(*release++, '.');
+    unsigned minor = strtoul(release, nullptr, 10);
+
+    if (major < 5 || (major == 5 && minor < 11)) {
+      GTEST_SKIP() << "Linux kernel v" << uname_info.release
+                   << " does not support SA_EXPOSE_TAGBITS";
+    }
+  }
+
   StartHandlerForSelfInChildTest test(Options());
   test.Run();
 }
@@ -506,7 +548,8 @@ INSTANTIATE_TEST_SUITE_P(
                      testing::Bool(),
                      testing::Values(CrashType::kSimulated,
                                      CrashType::kBuiltinTrap,
-                                     CrashType::kInfiniteRecursion)));
+                                     CrashType::kInfiniteRecursion,
+                                     CrashType::kSegvWithTagBits)));
 
 // Test state for starting the handler for another process.
 class StartHandlerForClientTest {
