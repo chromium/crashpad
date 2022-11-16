@@ -517,8 +517,7 @@ TEST_P(StartHandlerForSelfTest, StartHandlerInChild) {
   if (Options().crash_type == CrashType::kSegvWithTagBits) {
 #if !defined(ARCH_CPU_ARM64)
     GTEST_SKIP() << "Testing for tag bits only exists on aarch64.";
-#endif  // !defined(ARCH_CPU_ARM64)
-
+#else
     struct utsname uname_info;
     ASSERT_EQ(uname(&uname_info), 0);
     ASSERT_NE(uname_info.release, nullptr);
@@ -532,6 +531,7 @@ TEST_P(StartHandlerForSelfTest, StartHandlerInChild) {
       GTEST_SKIP() << "Linux kernel v" << uname_info.release
                    << " does not support SA_EXPOSE_TAGBITS";
     }
+#endif  // !defined(ARCH_CPU_ARM64)
   }
 
   StartHandlerForSelfInChildTest test(Options());
