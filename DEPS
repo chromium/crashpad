@@ -168,7 +168,7 @@ deps = {
         'version': Var('ninja_version'),
       }
     ],
-    'condition': 'host_os == "mac" and host_cpu == "amd64"',
+    'condition': 'host_os == "mac" and host_cpu == "x64"',
     'dep_type': 'cipd',
   },
   'crashpad/third_party/ninja/mac-arm64': {
