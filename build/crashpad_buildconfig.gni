@@ -49,7 +49,7 @@ _mini_chromium_source_root = "$mini_chromium_source_parent/mini_chromium"
 if (crashpad_is_external || crashpad_is_in_dart) {
   mini_chromium_import_root = "../../../$_mini_chromium_source_root"
 } else if (crashpad_is_in_fuchsia) {
-  mini_chromium_import_root = "//third_party/mini_chromium"
+  mini_chromium_import_root = "//third_party/mini_chromium/src"
 } else {
   mini_chromium_import_root = _mini_chromium_source_root
 }
