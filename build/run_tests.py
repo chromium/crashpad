@@ -312,7 +312,7 @@ def _RunOnAndroidTarget(binary_dir, test, android_device, extra_command_line):
         _adb_shell(['rm', '-rf', device_temp_dir])
 
 
-def _RunOnIOSTarget(binary_dir, test, is_xcuitest=False):
+def _RunOnIOSTarget(binary_dir, test, is_xcuitest=False, gtest_filter=None):
     """Runs the given iOS |test| app on iPhone 8 with the default OS version."""
 
     def xctest(binary_dir, test):
@@ -374,10 +374,13 @@ def _RunOnIOSTarget(binary_dir, test, is_xcuitest=False):
             else:
                 plistlib.dump(xctest(binary_dir, test), fp)
 
-        subprocess.check_call([
+        command = [
             'xcodebuild', 'test-without-building', '-xctestrun', xctestrun_path,
-            '-destination', 'platform=iOS Simulator,name=iPhone 8'
-        ])
+            '-destination', 'platform=iOS Simulator,name=iPhone 8',
+        ]
+        if gtest_filter:
+            command.append('-only-testing:' + test + '/' + gtest_filter)
+        subprocess.check_call(command)
 
 
 # This script is primarily used from the waterfall so that the list of tests
@@ -468,7 +471,8 @@ def main(args):
             elif is_ios:
                 _RunOnIOSTarget(args.binary_dir,
                                 test,
-                                is_xcuitest=test.startswith('ios'))
+                                is_xcuitest=test.startswith('ios'),
+                                gtest_filter=args.gtest_filter)
             else:
                 subprocess.check_call([os.path.join(args.binary_dir, test)] +
                                       extra_command_line)
