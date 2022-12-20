@@ -315,7 +315,7 @@ def _RunOnAndroidTarget(binary_dir, test, android_device, extra_command_line):
 def _RunOnIOSTarget(binary_dir, test, is_xcuitest=False, gtest_filter=None):
     """Runs the given iOS |test| app on iPhone 8 with the default OS version."""
 
-    def xctest(binary_dir, test):
+    def xctest(binary_dir, test, gtest_filter=None):
         """Returns a dict containing the xctestrun data needed to run an
         XCTest-based test app."""
         test_path = os.path.join(CRASHPAD_DIR, binary_dir)
@@ -332,6 +332,8 @@ def _RunOnIOSTarget(binary_dir, test, is_xcuitest=False, gtest_filter=None):
                 'XCInjectBundleInto': '__TESTHOST__/' + test,
             }
         }
+        if gtest_filter:
+            module_data['CommandLineArguments'] = ['--gtest_filter='+gtest_filter]
         return {test: module_data}
 
     def xcuitest(binary_dir, test):
@@ -368,18 +370,17 @@ def _RunOnIOSTarget(binary_dir, test, is_xcuitest=False, gtest_filter=None):
 
         xctestrun_path = f.name
         print(xctestrun_path)
-        with open(xctestrun_path, 'wb') as fp:
-            if is_xcuitest:
-                plistlib.dump(xcuitest(binary_dir, test), fp)
-            else:
-                plistlib.dump(xctest(binary_dir, test), fp)
-
         command = [
             'xcodebuild', 'test-without-building', '-xctestrun', xctestrun_path,
             '-destination', 'platform=iOS Simulator,name=iPhone 8',
         ]
-        if gtest_filter:
-            command.append('-only-testing:' + test + '/' + gtest_filter)
+        with open(xctestrun_path, 'wb') as fp:
+            if is_xcuitest:
+                plistlib.dump(xcuitest(binary_dir, test), fp)
+                if gtest_filter:
+                    command.append('-only-testing:' + test + '/' + gtest_filter)
+            else:
+                plistlib.dump(xctest(binary_dir, test, gtest_filter), fp)
         subprocess.check_call(command)
 
 
