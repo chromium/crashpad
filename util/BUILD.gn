@@ -562,7 +562,8 @@ crashpad_static_library("util") {
 
   # Include generated files starting with "util".
   if (crashpad_is_in_fuchsia) {
-    include_dirs = [ "$root_gen_dir/third_party/crashpad/src" ]
+    include_dirs =
+        [ "$root_gen_dir/" + rebase_path(fuchsia_crashpad_root, "//") ]
   } else {
     include_dirs = [ "$root_gen_dir/third_party/crashpad/crashpad" ]
   }
