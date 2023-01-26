@@ -135,6 +135,11 @@ elseif(MINGW)
     # redirect to wmain
     # FIXME: cmake 3.13 added target_link_options
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -municode")
+    if(CRASHPAD_WER_ENABLED)
+        message(STATUS "WER support enabled")
+    else()
+        message(STATUS "WER support disabled. Define CRASHPAD_WER_ENABLED = TRUE to enable.")
+    endif()
 endif()
 add_library(crashpad::interface ALIAS crashpad_interface)
 
