@@ -223,6 +223,15 @@ if(WIN32)
             "-Wno-unknown-attributes"
         )
     endif()
+
+    # Define NTDDI_VERSION >= NTDDI_WIN10_RS5 - so InitializeContext2 definition is always available in process_reader_win.cc
+    # NTDDI_WIN10_RS5 = 0x0A000006  /* ABRACADABRA_WIN10_RS5 */
+    set_property(
+        SOURCE "win/process_reader_win.cc"
+        APPEND
+        PROPERTY COMPILE_DEFINITIONS
+        WINVER=0x0A00 _WIN32_WINNT=0x0A00 NTDDI_VERSION=0x0A000006
+    )
 endif()
 
 if(APPLE AND NOT IOS AND CRASHPAD_ENABLE_STACKTRACE)
