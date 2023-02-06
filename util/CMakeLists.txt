@@ -246,9 +246,22 @@ endif()
 
 if(LINUX OR ANDROID)
     if (LINUX)
-        find_package(CURL REQUIRED)
-        target_include_directories(crashpad_util PRIVATE ${CURL_INCLUDE_DIRS})
-        target_link_libraries(crashpad_util PRIVATE ${CURL_LIBRARIES})
+        if(NOT CURL_FOUND) # Some other lib might bring libcurl already
+            find_package(CURL REQUIRED)
+        endif()
+
+        if(TARGET CURL::libcurl) # Only available in cmake 3.12+
+            target_link_libraries(crashpad_util PRIVATE CURL::libcurl)
+        else()
+            # Needed for cmake < 3.12 support (cmake 3.12 introduced the target CURL::libcurl)
+            target_include_directories(crashpad_util PRIVATE ${CURL_INCLUDE_DIR})
+            # The exported sentry target must not contain any path of the build machine, therefore use generator expressions
+            string(REPLACE ";" "$<SEMICOLON>" GENEX_CURL_LIBRARIES "${CURL_LIBRARIES}")
+            string(REPLACE ";" "$<SEMICOLON>" GENEX_CURL_COMPILE_DEFINITIONS "${CURL_COMPILE_DEFINITIONS}")
+            target_link_libraries(crashpad_util PRIVATE $<BUILD_INTERFACE:${GENEX_CURL_LIBRARIES}>)
+            target_compile_definitions(crashpad_util PRIVATE $<BUILD_INTERFACE:${GENEX_CURL_COMPILE_DEFINITIONS}>)
+        endif()
+
         SET(HTTP_TRANSPORT_IMPL net/http_transport_libcurl.cc)
     else()
         SET(HTTP_TRANSPORT_IMPL net/http_transport_socket.cc)
