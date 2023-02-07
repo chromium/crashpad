@@ -104,6 +104,7 @@ add_library(crashpad_util STATIC
     stream/zlib_output_stream.h
     string/split_string.cc
     string/split_string.h
+    synchronization/scoped_spin_guard.h
     synchronization/semaphore.h
     thread/stoppable.h
     thread/thread.cc
@@ -225,6 +226,8 @@ if(APPLE)
             ios/scoped_background_task.mm
             ios/scoped_vm_read.cc
             ios/scoped_vm_read.h
+            ios/scoped_vm_map.cc
+            ios/scoped_vm_map.h
         )
         # This specific file requires ARC support, while other parts do not
         # build when ARC is enabled.
