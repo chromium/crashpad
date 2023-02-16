@@ -316,8 +316,10 @@ class RingBufferAnnotationSnapshot final {
       base::StringPiece str(reinterpret_cast<const char*>(&bytes[0]),
                             bytes.size());
       if (!HexStringToInt(str, &next_value)) {
-        fprintf(
-            stderr, "Couldn't parse value: [%s]\n", str.as_string().c_str());
+        fprintf(stderr,
+                "Couldn't parse value: [%.*s]\n",
+                base::checked_cast<int>(bytes.size()),
+                bytes.data());
         abort();
       }
       if (value == std::numeric_limits<int>::max()) {
