@@ -25,14 +25,6 @@ if(CRASHPAD_ZLIB_SYSTEM)
     find_package(ZLIB REQUIRED)
 endif()
 
-
-if(LINUX OR ANDROID)
-    find_package(OpenSSL)
-    if(OPENSSL_FOUND)
-        set(CRASHPAD_USE_BORINGSSL ON)
-    endif()
-endif()
-
 if (NOT (ANDROID OR FUCHSIA))
     add_compile_definitions(CRASHPAD_FLOCK_ALWAYS_SUPPORTED=1)
 else()
