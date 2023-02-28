@@ -267,6 +267,10 @@ if(LINUX OR ANDROID)
 
         SET(HTTP_TRANSPORT_IMPL net/http_transport_libcurl.cc)
     else()
+        find_package(OpenSSL)
+        if(OPENSSL_FOUND)
+            set(CRASHPAD_USE_BORINGSSL ON)
+        endif()
         SET(HTTP_TRANSPORT_IMPL net/http_transport_socket.cc)
     endif()
     
