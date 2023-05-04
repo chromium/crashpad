@@ -289,6 +289,8 @@ if(LINUX OR ANDROID)
         linux/exception_information.h
         linux/memory_map.cc
         linux/memory_map.h
+        linux/pac_helper.cc
+        linux/pac_helper.h
         linux/proc_stat_reader.cc
         linux/proc_stat_reader.h
         linux/proc_task_reader.cc
