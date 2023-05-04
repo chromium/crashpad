@@ -19,14 +19,19 @@ if(CRASHPAD_BUILD_TOOLS)
         crashpad_client
         crashpad_snapshot
         crashpad_util
+        crashpad_getopt
         crashpad_tools
     )
-    crashpad_install_target(dump_minidump_annotations)
     if(MSVC)
         target_compile_options(dump_minidump_annotations PRIVATE
             $<$<COMPILE_LANGUAGE:C,CXX>:/wd4201> # nonstandard extension used : nameless struct/union
         )
+        target_compile_definitions(dump_minidump_annotations PRIVATE
+            WIN32_LEAN_AND_MEAN
+            NOMINMAX
+        )
     endif()
+    crashpad_install_target(dump_minidump_annotations)
 
     add_executable(crashpad_database_util
         crashpad_database_util.cc
@@ -37,6 +42,12 @@ if(CRASHPAD_BUILD_TOOLS)
         crashpad_getopt
         crashpad_tools
     )
+    if(MSVC)
+        target_compile_definitions(crashpad_database_util PRIVATE
+            WIN32_LEAN_AND_MEAN
+            NOMINMAX
+        )
+    endif()
     crashpad_install_target(crashpad_database_util)
 
     add_executable(crashpad_http_upload
@@ -50,6 +61,12 @@ if(CRASHPAD_BUILD_TOOLS)
         crashpad_zlib
         mini_chromium
     )
+    if(MSVC)
+        target_compile_definitions(crashpad_http_upload PRIVATE
+            WIN32_LEAN_AND_MEAN
+            NOMINMAX
+        )
+    endif()
     crashpad_install_target(crashpad_http_upload)
 
     add_executable(crashpad_generate_dump
@@ -62,6 +79,12 @@ if(CRASHPAD_BUILD_TOOLS)
         crashpad_tools
         mini_chromium
     )
+    if(MSVC)
+        target_compile_definitions(crashpad_generate_dump PRIVATE
+            WIN32_LEAN_AND_MEAN
+            NOMINMAX
+        )
+    endif()
     crashpad_install_target(crashpad_generate_dump)
 
     if(APPLE)
