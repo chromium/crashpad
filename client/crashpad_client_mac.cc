@@ -92,8 +92,7 @@ bool SetCrashExceptionPorts(exception_handler_t exception_handler) {
 class ScopedPthreadAttrDestroy {
  public:
   explicit ScopedPthreadAttrDestroy(pthread_attr_t* pthread_attr)
-      : pthread_attr_(pthread_attr) {
-  }
+      : pthread_attr_(pthread_attr) {}
 
   ScopedPthreadAttrDestroy(const ScopedPthreadAttrDestroy&) = delete;
   ScopedPthreadAttrDestroy& operator=(const ScopedPthreadAttrDestroy&) = delete;
@@ -127,6 +126,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
       const base::FilePath& database,
       const base::FilePath& metrics_dir,
       const std::string& url,
+      const std::string& http_proxy,
       const std::map<std::string, std::string>& annotations,
       const std::vector<std::string>& arguments,
       const std::vector<base::FilePath>& attachments,
@@ -167,6 +167,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
                      database,
                      metrics_dir,
                      url,
+                     http_proxy,
                      annotations,
                      arguments,
                      attachments,
@@ -177,8 +178,14 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
     }
 
     if (handler_restarter &&
-        handler_restarter->StartRestartThread(
-            handler, database, metrics_dir, url, annotations, arguments, attachments)) {
+        handler_restarter->StartRestartThread(handler,
+                                              database,
+                                              metrics_dir,
+                                              url,
+                                              http_proxy,
+                                              annotations,
+                                              arguments,
+                                              attachments)) {
       // The thread owns the object now.
       std::ignore = handler_restarter.release();
     }
@@ -211,6 +218,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
                 database_,
                 metrics_dir_,
                 url_,
+                http_proxy_,
                 annotations_,
                 arguments_,
                 attachments_,
@@ -232,8 +240,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
         arguments_(),
         attachments_(),
         notify_port_(NewMachPort(MACH_PORT_RIGHT_RECEIVE)),
-        last_start_time_(0) {
-  }
+        last_start_time_(0) {}
 
   //! \brief Starts a Crashpad handler.
   //!
@@ -258,6 +265,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
                           const base::FilePath& database,
                           const base::FilePath& metrics_dir,
                           const std::string& url,
+                          const std::string& http_proxy,
                           const std::map<std::string, std::string>& annotations,
                           const std::vector<std::string>& arguments,
                           const std::vector<base::FilePath>& attachments,
@@ -337,6 +345,9 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
     if (!url.empty()) {
       argv.push_back(FormatArgumentString("url", url));
     }
+    if (!http_proxy.empty()) {
+      argv.push_back(FormatArgumentString("http-proxy", http_proxy));
+    }
     for (const auto& kv : annotations) {
       argv.push_back(
           FormatArgumentString("annotation", kv.first + '=' + kv.second));
@@ -380,6 +391,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
                           const base::FilePath& database,
                           const base::FilePath& metrics_dir,
                           const std::string& url,
+                          const std::string& http_proxy,
                           const std::map<std::string, std::string>& annotations,
                           const std::vector<std::string>& arguments,
                           const std::vector<base::FilePath>& attachments) {
@@ -387,6 +399,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
     database_ = database;
     metrics_dir_ = metrics_dir;
     url_ = url;
+    http_proxy_ = http_proxy;
     annotations_ = annotations;
     arguments_ = arguments;
     attachments_ = attachments;
@@ -440,6 +453,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
   base::FilePath database_;
   base::FilePath metrics_dir_;
   std::string url_;
+  std::string http_proxy_;
   std::map<std::string, std::string> annotations_;
   std::vector<std::string> arguments_;
   std::vector<base::FilePath> attachments_;
@@ -449,17 +463,16 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
 
 }  // namespace
 
-CrashpadClient::CrashpadClient() : exception_port_(MACH_PORT_NULL) {
-}
+CrashpadClient::CrashpadClient() : exception_port_(MACH_PORT_NULL) {}
 
-CrashpadClient::~CrashpadClient() {
-}
+CrashpadClient::~CrashpadClient() {}
 
 bool CrashpadClient::StartHandler(
     const base::FilePath& handler,
     const base::FilePath& database,
     const base::FilePath& metrics_dir,
     const std::string& url,
+    const std::string& http_proxy,
     const std::map<std::string, std::string>& annotations,
     const std::vector<std::string>& arguments,
     bool restartable,
@@ -473,6 +486,7 @@ bool CrashpadClient::StartHandler(
       database,
       metrics_dir,
       url,
+      http_proxy,
       annotations,
       arguments,
       attachments,
@@ -538,8 +552,8 @@ base::mac::ScopedMachSendRight CrashpadClient::GetHandlerMachPort() const {
 
 // static
 void CrashpadClient::UseSystemDefaultHandler() {
-  base::mac::ScopedMachSendRight
-      system_crash_reporter_handler(SystemCrashReporterHandler());
+  base::mac::ScopedMachSendRight system_crash_reporter_handler(
+      SystemCrashReporterHandler());
 
   // Proceed even if SystemCrashReporterHandler() failed, setting MACH_PORT_NULL
   // to clear the current exception ports.

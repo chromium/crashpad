@@ -27,6 +27,7 @@
 #include "util/misc/implicit_cast.h"
 #include "util/misc/metrics.h"
 #include "util/net/http_body.h"
+#include "util/net/url.h"
 
 // An implementation of NSInputStream that reads from a
 // crashpad::HTTPBodyStream.
@@ -210,14 +211,14 @@ class HTTPTransportMac final : public HTTPTransport {
   bool ExecuteSynchronously(std::string* response_body) override;
 };
 
-HTTPTransportMac::HTTPTransportMac() : HTTPTransport() {
-}
+HTTPTransportMac::HTTPTransportMac() : HTTPTransport() {}
 
-HTTPTransportMac::~HTTPTransportMac() {
-}
+HTTPTransportMac::~HTTPTransportMac() {}
 
 bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
   DCHECK(body_stream());
+
+  __block bool sync_rv = false;
 
   @autoreleasepool {
     NSString* url_ns_string = base::SysUTF8ToNSString(url());
@@ -245,54 +246,77 @@ bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
             initWithBodyStream:body_stream()]);
     [request setHTTPBodyStream:input_stream.get()];
 
-    NSURLResponse* response = nil;
-    NSError* error = nil;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    // Deprecated in OS X 10.11. The suggested replacement, NSURLSession, is
-    // only available on 10.9 and later, and this needs to run on earlier
-    // releases.
-    NSData* body = [NSURLConnection sendSynchronousRequest:request
-                                         returningResponse:&response
-                                                     error:&error];
-#pragma clang diagnostic pop
+    NSURLSessionConfiguration* sessionConfig =
+        [NSURLSessionConfiguration ephemeralSessionConfiguration];
 
-    if (error) {
-      Metrics::CrashUploadErrorCode(error.code);
-      LOG(ERROR) << [[error localizedDescription] UTF8String] << " ("
-                 << [[error domain] UTF8String] << " " << [error code] << ")";
-      return false;
-    }
-    if (!response) {
-      LOG(ERROR) << "no response";
-      return false;
-    }
-    NSHTTPURLResponse* http_response =
-        base::mac::ObjCCast<NSHTTPURLResponse>(response);
-    if (!http_response) {
-      LOG(ERROR) << "no http_response";
-      return false;
-    }
-    NSInteger http_status = [http_response statusCode];
-    if (http_status < 200 || http_status > 203) {
-      LOG(ERROR) << base::StringPrintf("HTTP status %ld",
-                                       implicit_cast<long>(http_status));
-      return false;
+    if (!http_proxy().empty()) {
+      std::string scheme, host, port, rest_ignored;
+      CrackURL(http_proxy(), &scheme, &host, &port, &rest_ignored);
+      NSString* schemeNS = base::SysUTF8ToNSString(scheme);
+      NSString* hostNS = base::SysUTF8ToNSString(host);
+      NSNumber* proxy_port = @(std::stoi(port));
+
+      NSDictionary* proxyDict = @{
+        (__bridge id)kCFNetworkProxiesHTTPEnable : @YES,
+        (__bridge id)kCFNetworkProxiesHTTPPort : proxy_port,
+        (__bridge id)kCFNetworkProxiesHTTPProxy : hostNS,
+      };
+      sessionConfig.connectionProxyDictionary = proxyDict;
     }
 
-    if (response_body) {
-      response_body->assign(static_cast<const char*>([body bytes]),
-                            [body length]);
-    }
+    NSURLSession* session =
+        [NSURLSession sessionWithConfiguration:sessionConfig];
 
-    return true;
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    [[session dataTaskWithRequest:request
+                completionHandler:^(
+                    NSData* body, NSURLResponse* response, NSError* error) {
+                  if (error) {
+                    Metrics::CrashUploadErrorCode(error.code);
+                    LOG(ERROR) << [[error localizedDescription] UTF8String]
+                               << " (" << [[error domain] UTF8String] << " "
+                               << [error code] << ")";
+                    sync_rv = false;
+                    return;
+                  }
+                  if (!response) {
+                    LOG(ERROR) << "no response";
+                    sync_rv = false;
+                    return;
+                  }
+                  NSHTTPURLResponse* http_response =
+                      base::mac::ObjCCast<NSHTTPURLResponse>(response);
+                  if (!http_response) {
+                    LOG(ERROR) << "no http_response";
+                    sync_rv = false;
+                    return;
+                  }
+                  NSInteger http_status = [http_response statusCode];
+                  if (http_status < 200 || http_status > 203) {
+                    LOG(ERROR) << base::StringPrintf(
+                        "HTTP status %ld", implicit_cast<long>(http_status));
+                    sync_rv = false;
+                    return;
+                  }
+
+                  if (response_body) {
+                    response_body->assign(
+                        static_cast<const char*>([body bytes]), [body length]);
+                  }
+                  sync_rv = true;
+                  dispatch_semaphore_signal(semaphore);
+                }] resume];
+
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
   }
+
+  return sync_rv;
 }
 
 }  // namespace
 
 // static
-std::unique_ptr<HTTPTransport> HTTPTransport::Create() {
+std::unique_ptr<crashpad::HTTPTransport> crashpad::HTTPTransport::Create() {
   return std::unique_ptr<HTTPTransport>(new HTTPTransportMac());
 }
 

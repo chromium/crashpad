@@ -148,11 +148,28 @@ HTTPTransportWin::~HTTPTransportWin() {
 }
 
 bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
-  ScopedHINTERNET session(WinHttpOpen(base::UTF8ToWide(UserAgent()).c_str(),
+  // ensure the proxy starts with `http://`, otherwise ignore it
+  if (http_proxy().rfind("http://", 0) == 0) {
+    size_t next_slash_pos = http_proxy().find("/", 7)
+    std::string proxy = std::whttp_proxy().substr(7,  next_slash_pos != std::string::npos ? next_slash_pos : std::string::npos);
+    std::wstring proxy_wstr = std::wstring_convert<std::codecvt_utf8<wchar_t>>().from_bytes(proxy);
+    ScopedHINTERNET session(WinHttpOpen(base::UTF8ToWide(UserAgent()).c_str(), WINHTTP_ACCESS_TYPE_NAMED_PROXY,
+                      proxy_wstr, WINHTTP_NO_PROXY_BYPASS, 0));
+  } else {
+#if _WIN32_WINNT >= 0x0603
+    ScopedHINTERNET session(WinHttpOpen(base::UTF8ToWide(UserAgent()).c_str(),
+                                 WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY, WINHTTP_NO_PROXY_NAME,
+                                 WINHTTP_NO_PROXY_BYPASS, 0));
+#else
+    // On windows 8.0 or lower, WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY does
+    // not work on error we fallback to WINHTTP_ACCESS_TYPE_DEFAULT_PROXY
+      ScopedHINTERNET session(WinHttpOpen(base::UTF8ToWide(UserAgent()).c_str(),
                                       WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
                                       WINHTTP_NO_PROXY_NAME,
                                       WINHTTP_NO_PROXY_BYPASS,
                                       0));
+
+#endif
   if (!session.get()) {
     LOG(ERROR) << WinHttpMessage("WinHttpOpen");
     return false;
