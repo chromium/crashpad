@@ -23,6 +23,7 @@
 #include <winhttp.h>
 
 #include <iterator>
+#include <memory>
 
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
@@ -115,9 +116,7 @@ std::string WinHttpMessage(const char* extra) {
 }
 
 struct ScopedHINTERNETTraits {
-  static HINTERNET InvalidValue() {
-    return nullptr;
-  }
+  static HINTERNET InvalidValue() { return nullptr; }
   static void Free(HINTERNET handle) {
     if (handle) {
       if (!WinHttpCloseHandle(handle)) {
@@ -141,35 +140,46 @@ class HTTPTransportWin final : public HTTPTransport {
   bool ExecuteSynchronously(std::string* response_body) override;
 };
 
-HTTPTransportWin::HTTPTransportWin() : HTTPTransport() {
-}
+HTTPTransportWin::HTTPTransportWin() : HTTPTransport() {}
 
-HTTPTransportWin::~HTTPTransportWin() {
-}
+HTTPTransportWin::~HTTPTransportWin() {}
 
 bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
   // ensure the proxy starts with `http://`, otherwise ignore it
-  if (http_proxy().rfind("http://", 0) == 0) {
-    size_t next_slash_pos = http_proxy().find("/", 7)
-    std::string proxy = std::whttp_proxy().substr(7,  next_slash_pos != std::string::npos ? next_slash_pos : std::string::npos);
-    std::wstring proxy_wstr = std::wstring_convert<std::codecvt_utf8<wchar_t>>().from_bytes(proxy);
-    ScopedHINTERNET session(WinHttpOpen(base::UTF8ToWide(UserAgent()).c_str(), WINHTTP_ACCESS_TYPE_NAMED_PROXY,
-                      proxy_wstr, WINHTTP_NO_PROXY_BYPASS, 0));
+  const char proto[] = "http://";
+  ScopedHINTERNET session;
+  if (http_proxy().rfind(proto, 0) == 0) {
+    size_t proto_len = sizeof(proto) - 1;
+    size_t next_slash_pos = http_proxy().find('/', proto_len);
+    std::string proxy = http_proxy().substr(proto_len,
+                                            next_slash_pos != std::string::npos
+                                                ? next_slash_pos - proto_len
+                                                : std::string::npos);
+    session = ScopedHINTERNET(WinHttpOpen(base::UTF8ToWide(UserAgent()).c_str(),
+                                          WINHTTP_ACCESS_TYPE_NAMED_PROXY,
+                                          base::UTF8ToWide(proxy).c_str(),
+                                          WINHTTP_NO_PROXY_BYPASS,
+                                          0));
   } else {
 #if _WIN32_WINNT >= 0x0603
-    ScopedHINTERNET session(WinHttpOpen(base::UTF8ToWide(UserAgent()).c_str(),
-                                 WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY, WINHTTP_NO_PROXY_NAME,
-                                 WINHTTP_NO_PROXY_BYPASS, 0));
-#else
-    // On windows 8.0 or lower, WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY does
-    // not work on error we fallback to WINHTTP_ACCESS_TYPE_DEFAULT_PROXY
-      ScopedHINTERNET session(WinHttpOpen(base::UTF8ToWide(UserAgent()).c_str(),
+    session = ScopedHINTERNET(WinHttpOpen(base::UTF8ToWide(UserAgent()).c_str(),
+                                          WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY,
+                                          WINHTTP_NO_PROXY_NAME,
+                                          WINHTTP_NO_PROXY_BYPASS,
+                                          0));
+#endif
+    // On Windows 8.0 or lower, WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY does
+    // not work on error we fall back to WINHTTP_ACCESS_TYPE_DEFAULT_PROXY
+    if (!session.get()) {
+      session =
+          ScopedHINTERNET(WinHttpOpen(base::UTF8ToWide(UserAgent()).c_str(),
                                       WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
                                       WINHTTP_NO_PROXY_NAME,
                                       WINHTTP_NO_PROXY_BYPASS,
                                       0));
+    }
+  }
 
-#endif
   if (!session.get()) {
     LOG(ERROR) << WinHttpMessage("WinHttpOpen");
     return false;
@@ -192,8 +202,7 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
   url_components.dwExtraInfoLength = 1;
   std::wstring url_wide(base::UTF8ToWide(url()));
   // dwFlags = ICU_REJECT_USERPWD fails on XP.
-  if (!WinHttpCrackUrl(
-          url_wide.c_str(), 0, 0, &url_components)) {
+  if (!WinHttpCrackUrl(url_wide.c_str(), 0, 0, &url_components)) {
     LOG(ERROR) << WinHttpMessage("WinHttpCrackUrl");
     return false;
   }
@@ -429,7 +438,7 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
 
 // static
 std::unique_ptr<HTTPTransport> HTTPTransport::Create() {
-  return std::unique_ptr<HTTPTransportWin>(new HTTPTransportWin);
+  return std::make_unique<HTTPTransportWin>();
 }
 
 }  // namespace crashpad
