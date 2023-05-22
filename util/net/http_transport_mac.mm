@@ -372,10 +372,10 @@ bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
     [request setHTTPBodyStream:input_stream.get()];
 
     if (http_proxy().empty()) {
-      ExecuteNormalRequest(request, response_body);
+      return ExecuteNormalRequest(request, response_body);
     } else {
       std::string proxy = http_proxy() + "/";
-      ExecuteProxyRequest(request, proxy, response_body);
+      return ExecuteProxyRequest(request, proxy, response_body);
     }
   }
 }
