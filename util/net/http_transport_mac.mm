@@ -209,68 +209,90 @@ class HTTPTransportMac final : public HTTPTransport {
   ~HTTPTransportMac() override;
 
   bool ExecuteSynchronously(std::string* response_body) override;
+
+ private:
+  static bool ExecuteNormalRequest(NSMutableURLRequest* request,
+                                   std::string* response_body);
+  static bool ExecuteProxyRequest(NSMutableURLRequest* request,
+                                  const std::string& proxy,
+                                  std::string* response_body);
 };
 
 HTTPTransportMac::HTTPTransportMac() : HTTPTransport() {}
 
-HTTPTransportMac::~HTTPTransportMac() {}
+HTTPTransportMac::~HTTPTransportMac() = default;
 
-bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
-  DCHECK(body_stream());
-
-  __block bool sync_rv = false;
-
+bool HTTPTransportMac::ExecuteNormalRequest(NSMutableURLRequest* request,
+                                            std::string* response_body) {
   @autoreleasepool {
-    NSString* url_ns_string = base::SysUTF8ToNSString(url());
-    NSURL* url = [NSURL URLWithString:url_ns_string];
-    NSMutableURLRequest* request =
-        [NSMutableURLRequest requestWithURL:url
-                                cachePolicy:NSURLRequestUseProtocolCachePolicy
-                            timeoutInterval:timeout()];
-    [request setHTTPMethod:base::SysUTF8ToNSString(method())];
+    NSURLResponse* response = nil;
+    NSError* error = nil;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    // Deprecated in OS X 10.11. The suggested replacement, NSURLSession, is
+    // only available on 10.9 and later, and this needs to run on earlier
+    // releases.
+    NSData* body = [NSURLConnection sendSynchronousRequest:request
+                                         returningResponse:&response
+                                                     error:&error];
+#pragma clang diagnostic pop
 
-    // If left to its own devices, CFNetwork would build a user-agent string
-    // based on keys in the main bundle’s Info.plist, giving ugly results if
-    // there is no Info.plist. Provide a User-Agent string similar to the one
-    // that CFNetwork would use, but with appropriate values in place of the
-    // Info.plist-derived strings.
-    [request setValue:UserAgentString() forHTTPHeaderField:@"User-Agent"];
-
-    for (const auto& pair : headers()) {
-      [request setValue:base::SysUTF8ToNSString(pair.second)
-          forHTTPHeaderField:base::SysUTF8ToNSString(pair.first)];
+    if (error) {
+      Metrics::CrashUploadErrorCode(error.code);
+      LOG(ERROR) << [[error localizedDescription] UTF8String] << " ("
+                 << [[error domain] UTF8String] << " " << [error code] << ")";
+      return false;
+    }
+    if (!response) {
+      LOG(ERROR) << "no response";
+      return false;
+    }
+    auto http_response = base::mac::ObjCCast<NSHTTPURLResponse>(response);
+    if (!http_response) {
+      LOG(ERROR) << "no http_response";
+      return false;
+    }
+    NSInteger http_status = [http_response statusCode];
+    if (http_status < 200 || http_status > 203) {
+      LOG(ERROR) << base::StringPrintf("HTTP status %ld",
+                                       implicit_cast<long>(http_status));
+      return false;
     }
 
-    base::scoped_nsobject<NSInputStream> input_stream(
-        [[CrashpadHTTPBodyStreamTransport alloc]
-            initWithBodyStream:body_stream()]);
-    [request setHTTPBodyStream:input_stream.get()];
+    if (response_body) {
+      response_body->assign(static_cast<const char*>([body bytes]),
+                            [body length]);
+    }
 
+    return true;
+  }
+}
+
+bool HTTPTransportMac::ExecuteProxyRequest(NSMutableURLRequest* request,
+                                           const std::string& proxy,
+                                           std::string* response_body) {
+  __block bool sync_rv = false;
+  @autoreleasepool {
     NSURLSessionConfiguration* sessionConfig =
         [NSURLSessionConfiguration ephemeralSessionConfiguration];
 
-    if (!http_proxy().empty()) {
-      std::string proxy = http_proxy() + "/";
-      std::string scheme, host, port, rest_ignored;
-      CrackURL(proxy, &scheme, &host, &port, &rest_ignored);
-      NSString* schemeNS = base::SysUTF8ToNSString(scheme);
-      NSString* hostNS = base::SysUTF8ToNSString(host);
-      NSNumber* proxy_port = @(std::stoi(port));
+    std::string scheme, host, port, rest_ignored;
+    CrackURL(proxy, &scheme, &host, &port, &rest_ignored);
+    NSString* schemeNS = base::SysUTF8ToNSString(scheme);
+    NSString* hostNS = base::SysUTF8ToNSString(host);
+    NSNumber* proxy_port = @(std::stoi(port));
 
-      NSDictionary* proxyDict = @{
-        (__bridge id)kCFNetworkProxiesHTTPEnable : @YES,
-        (__bridge id)kCFNetworkProxiesHTTPPort : proxy_port,
-        (__bridge id)kCFNetworkProxiesHTTPProxy : hostNS,
-        (__bridge id)@"HTTPSEnable" : @YES,
-        (__bridge id)@"HTTPSPort" : proxy_port,
-        (__bridge id)@"HTTPSProxy" : hostNS,
-      };
-      sessionConfig.connectionProxyDictionary = proxyDict;
-    }
-
+    NSDictionary* proxyDict = @{
+      (__bridge id)kCFNetworkProxiesHTTPEnable : @YES,
+      (__bridge id)kCFNetworkProxiesHTTPPort : proxy_port,
+      (__bridge id)kCFNetworkProxiesHTTPProxy : hostNS,
+      (__bridge id) @"HTTPSEnable" : @YES,
+      (__bridge id) @"HTTPSPort" : proxy_port,
+      (__bridge id) @"HTTPSProxy" : hostNS,
+    };
+    sessionConfig.connectionProxyDictionary = proxyDict;
     NSURLSession* session =
         [NSURLSession sessionWithConfiguration:sessionConfig];
-
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     [[session dataTaskWithRequest:request
                 completionHandler:^(
@@ -317,8 +339,45 @@ bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
 
     dispatch_semaphore_wait(semaphore, (dispatch_time_t)(10 * NSEC_PER_SEC));
   }
-
   return sync_rv;
+}
+
+bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
+  DCHECK(body_stream());
+
+  @autoreleasepool {
+    NSString* url_ns_string = base::SysUTF8ToNSString(url());
+    NSURL* url = [NSURL URLWithString:url_ns_string];
+    NSMutableURLRequest* request =
+        [NSMutableURLRequest requestWithURL:url
+                                cachePolicy:NSURLRequestUseProtocolCachePolicy
+                            timeoutInterval:timeout()];
+    [request setHTTPMethod:base::SysUTF8ToNSString(method())];
+
+    // If left to its own devices, CFNetwork would build a user-agent string
+    // based on keys in the main bundle’s Info.plist, giving ugly results if
+    // there is no Info.plist. Provide a User-Agent string similar to the one
+    // that CFNetwork would use, but with appropriate values in place of the
+    // Info.plist-derived strings.
+    [request setValue:UserAgentString() forHTTPHeaderField:@"User-Agent"];
+
+    for (const auto& pair : headers()) {
+      [request setValue:base::SysUTF8ToNSString(pair.second)
+          forHTTPHeaderField:base::SysUTF8ToNSString(pair.first)];
+    }
+
+    base::scoped_nsobject<NSInputStream> input_stream(
+        [[CrashpadHTTPBodyStreamTransport alloc]
+            initWithBodyStream:body_stream()]);
+    [request setHTTPBodyStream:input_stream.get()];
+
+    if (http_proxy().empty()) {
+      ExecuteNormalRequest(request, response_body);
+    } else {
+      std::string proxy = http_proxy() + "/";
+      ExecuteProxyRequest(request, proxy, response_body);
+    }
+  }
 }
 
 }  // namespace
