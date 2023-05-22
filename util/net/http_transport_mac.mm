@@ -261,9 +261,9 @@ bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
         (__bridge id)kCFNetworkProxiesHTTPEnable : @YES,
         (__bridge id)kCFNetworkProxiesHTTPPort : proxy_port,
         (__bridge id)kCFNetworkProxiesHTTPProxy : hostNS,
-        (__bridge id)kCFNetworkProxiesHTTPSEnable : @YES,
-        (__bridge id)kCFNetworkProxiesHTTPSPort : proxy_port,
-        (__bridge id)kCFNetworkProxiesHTTPSProxy : hostNS,
+        (__bridge id)@"HTTPSEnable" : @YES,
+        (__bridge id)@"HTTPSPort" : proxy_port,
+        (__bridge id)@"HTTPSProxy" : hostNS,
       };
       sessionConfig.connectionProxyDictionary = proxyDict;
     }
