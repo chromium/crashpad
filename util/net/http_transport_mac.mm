@@ -250,8 +250,9 @@ bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
         [NSURLSessionConfiguration ephemeralSessionConfiguration];
 
     if (!http_proxy().empty()) {
+      std::string proxy = http_proxy() + "/";
       std::string scheme, host, port, rest_ignored;
-      CrackURL(http_proxy(), &scheme, &host, &port, &rest_ignored);
+      CrackURL(proxy, &scheme, &host, &port, &rest_ignored);
       NSString* schemeNS = base::SysUTF8ToNSString(scheme);
       NSString* hostNS = base::SysUTF8ToNSString(host);
       NSNumber* proxy_port = @(std::stoi(port));
@@ -260,6 +261,9 @@ bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
         (__bridge id)kCFNetworkProxiesHTTPEnable : @YES,
         (__bridge id)kCFNetworkProxiesHTTPPort : proxy_port,
         (__bridge id)kCFNetworkProxiesHTTPProxy : hostNS,
+        (__bridge id)kCFNetworkProxiesHTTPSEnable : @YES,
+        (__bridge id)kCFNetworkProxiesHTTPSPort : proxy_port,
+        (__bridge id)kCFNetworkProxiesHTTPSProxy : hostNS,
       };
       sessionConfig.connectionProxyDictionary = proxyDict;
     }
@@ -277,18 +281,21 @@ bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
                                << " (" << [[error domain] UTF8String] << " "
                                << [error code] << ")";
                     sync_rv = false;
+                    dispatch_semaphore_signal(semaphore);
                     return;
                   }
                   if (!response) {
                     LOG(ERROR) << "no response";
                     sync_rv = false;
+                    dispatch_semaphore_signal(semaphore);
                     return;
                   }
-                  NSHTTPURLResponse* http_response =
+                  auto http_response =
                       base::mac::ObjCCast<NSHTTPURLResponse>(response);
                   if (!http_response) {
                     LOG(ERROR) << "no http_response";
                     sync_rv = false;
+                    dispatch_semaphore_signal(semaphore);
                     return;
                   }
                   NSInteger http_status = [http_response statusCode];
@@ -296,6 +303,7 @@ bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
                     LOG(ERROR) << base::StringPrintf(
                         "HTTP status %ld", implicit_cast<long>(http_status));
                     sync_rv = false;
+                    dispatch_semaphore_signal(semaphore);
                     return;
                   }
 
@@ -307,7 +315,7 @@ bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
                   dispatch_semaphore_signal(semaphore);
                 }] resume];
 
-    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+    dispatch_semaphore_wait(semaphore, (dispatch_time_t)(10 * NSEC_PER_SEC));
   }
 
   return sync_rv;
