@@ -102,6 +102,9 @@ if(WIN32)
     )
 endif()
 if(MSVC)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /utf-8")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /utf-8")
+
     string(REGEX REPLACE "/[Ww][0123]" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
     string(REGEX REPLACE "/[Ww][0123]" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
     target_compile_options(crashpad_interface INTERFACE
