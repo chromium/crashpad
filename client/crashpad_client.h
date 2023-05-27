@@ -124,6 +124,7 @@ class CrashpadClient {
                     const base::FilePath& database,
                     const base::FilePath& metrics_dir,
                     const std::string& url,
+                    const std::string& http_proxy,
                     const std::map<std::string, std::string>& annotations,
                     const std::vector<std::string>& arguments,
                     bool restartable,
@@ -363,6 +364,8 @@ class CrashpadClient {
   //!     path as its `--metrics-dir` argument.
   //! \param[in] url The URL of an upload server. The handler will be started
   //!     with this URL as its `--url` argument.
+  //! \param[in] http_proxy The URL of an HTTP proxy. The handler will be started
+  //!     with this URL as its `--http-proxy` argument.
   //! \param[in] annotations Process annotations to set in each crash report.
   //!     The handler will be started with an `--annotation` argument for each
   //!     element in this map.
@@ -377,6 +380,7 @@ class CrashpadClient {
       const base::FilePath& database,
       const base::FilePath& metrics_dir,
       const std::string& url,
+      const std::string& http_proxy,
       const std::map<std::string, std::string>& annotations,
       const std::vector<std::string>& arguments,
       const std::vector<base::FilePath>& attachments = {});
@@ -394,6 +398,8 @@ class CrashpadClient {
   //!     path as its `--metrics-dir` argument.
   //! \param[in] url The URL of an upload server. The handler will be started
   //!     with this URL as its `--url` argument.
+  //! \param[in] http_proxy The URL of an HTTP proxy. The handler will be started
+  //!     with this URL as its `--http-proxy` argument.
   //! \param[in] annotations Process annotations to set in each crash report.
   //!     The handler will be started with an `--annotation` argument for each
   //!     element in this map.
@@ -410,6 +416,7 @@ class CrashpadClient {
       const base::FilePath& database,
       const base::FilePath& metrics_dir,
       const std::string& url,
+      const std::string& http_proxy,
       const std::map<std::string, std::string>& annotations,
       const std::vector<std::string>& arguments,
       int socket);

@@ -443,6 +443,7 @@ bool CrashpadClient::StartHandler(
     const base::FilePath& database,
     const base::FilePath& metrics_dir,
     const std::string& url,
+    const std::string& http_proxy,
     const std::map<std::string, std::string>& annotations,
     const std::vector<std::string>& arguments,
     bool restartable,
@@ -457,7 +458,7 @@ bool CrashpadClient::StartHandler(
   }
 
   std::vector<std::string> argv = BuildHandlerArgvStrings(
-      handler, database, metrics_dir, url, annotations, arguments, attachments);
+      handler, database, metrics_dir, url, http_proxy, annotations, arguments, attachments);
 
   argv.push_back(FormatArgumentInt("initial-client-fd", handler_sock.get()));
   argv.push_back("--shared-client-connection");
@@ -676,11 +677,12 @@ bool CrashpadClient::StartHandlerAtCrash(
     const base::FilePath& database,
     const base::FilePath& metrics_dir,
     const std::string& url,
+    const std::string& http_proxy,
     const std::map<std::string, std::string>& annotations,
     const std::vector<std::string>& arguments,
     const std::vector<base::FilePath>& attachments) {
   std::vector<std::string> argv = BuildHandlerArgvStrings(
-      handler, database, metrics_dir, url, annotations, arguments, attachments);
+      handler, database, metrics_dir, url, http_proxy, annotations, arguments, attachments);
 
   auto signal_handler = LaunchAtCrashHandler::Get();
   return signal_handler->Initialize(&argv, nullptr, &unhandled_signals_);
@@ -692,11 +694,12 @@ bool CrashpadClient::StartHandlerForClient(
     const base::FilePath& database,
     const base::FilePath& metrics_dir,
     const std::string& url,
+    const std::string& http_proxy,
     const std::map<std::string, std::string>& annotations,
     const std::vector<std::string>& arguments,
     int socket) {
   std::vector<std::string> argv = BuildHandlerArgvStrings(
-      handler, database, metrics_dir, url, annotations, arguments);
+      handler, database, metrics_dir, url, http_proxy, annotations, arguments);
 
   argv.push_back(FormatArgumentInt("initial-client-fd", socket));
 

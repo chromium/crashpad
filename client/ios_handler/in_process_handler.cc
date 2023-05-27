@@ -92,7 +92,7 @@ bool InProcessHandler::Initialize(
     upload_thread_options.identify_client_via_url = true;
 
     upload_thread_.reset(new CrashReportUploadThread(
-        database_.get(), url, upload_thread_options, callback));
+        database_.get(), url, "", upload_thread_options, callback));
   }
 
   if (!CreateDirectory(database))

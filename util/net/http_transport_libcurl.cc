@@ -456,6 +456,9 @@ bool HTTPTransportLibcurl::ExecuteSynchronously(std::string* response_body) {
   TRY_CURL_EASY_SETOPT(curl.get(), CURLOPT_READDATA, this);
   TRY_CURL_EASY_SETOPT(curl.get(), CURLOPT_WRITEFUNCTION, WriteResponseBody);
   TRY_CURL_EASY_SETOPT(curl.get(), CURLOPT_WRITEDATA, response_body);
+  if (!http_proxy().empty()) {
+    TRY_CURL_EASY_SETOPT(curl.get(), CURLOPT_PROXY, http_proxy().c_str());
+  }
 
 #undef TRY_CURL_EASY_SETOPT
 #undef TRY_CURL_SLIST_APPEND
