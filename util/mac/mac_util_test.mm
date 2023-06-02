@@ -65,10 +65,9 @@ TEST(MacUtil, MacOSVersionComponents) {
   int minor;
   int bugfix;
   std::string build;
-  bool server;
   std::string version_string;
-  ASSERT_TRUE(MacOSVersionComponents(
-      &major, &minor, &bugfix, &build, &server, &version_string));
+  ASSERT_TRUE(
+      MacOSVersionComponents(&major, &minor, &bugfix, &build, &version_string));
 
   EXPECT_GE(major, 10);
   EXPECT_LE(major, 99);
@@ -116,10 +115,9 @@ TEST(MacUtil, MacOSVersionNumber) {
   int minor;
   int bugfix;
   std::string build;
-  bool server;
   std::string version_string;
-  ASSERT_TRUE(MacOSVersionComponents(
-      &major, &minor, &bugfix, &build, &server, &version_string));
+  ASSERT_TRUE(
+      MacOSVersionComponents(&major, &minor, &bugfix, &build, &version_string));
 
   EXPECT_EQ(macos_version_number,
             major * 1'00'00 + minor * 1'00 +
