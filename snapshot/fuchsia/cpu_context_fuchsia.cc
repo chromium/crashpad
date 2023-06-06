@@ -21,8 +21,9 @@ namespace internal {
 
 #if defined(ARCH_CPU_X86_64)
 
-void InitializeCPUContextX86_64_NoFloatingPoint(
+void InitializeCPUContextX86_64(
     const zx_thread_state_general_regs_t& thread_context,
+    const zx_thread_state_fp_regs_t& float_context,
     CPUContextX86_64* context) {
   memset(context, 0, sizeof(*context));
   context->rax = thread_context.rax;
@@ -43,6 +44,19 @@ void InitializeCPUContextX86_64_NoFloatingPoint(
   context->r15 = thread_context.r15;
   context->rip = thread_context.rip;
   context->rflags = thread_context.rflags;
+
+  context->fxsave.fcw = float_context.fcw;
+  context->fxsave.fsw = float_context.fsw;
+  context->fxsave.ftw = float_context.ftw;
+  context->fxsave.fop = float_context.fop;
+  context->fxsave.fpu_ip_64 = float_context.fip;
+  context->fxsave.fpu_dp_64 = float_context.fdp;
+
+  for (size_t i = 0; i < std::size(float_context.st); ++i) {
+    memcpy(&context->fxsave.st_mm[i],
+           &float_context.st[i],
+           sizeof(float_context.st[i]));
+  }
 }
 
 #elif defined(ARCH_CPU_ARM64)

@@ -70,9 +70,9 @@ bool ExceptionSnapshotFuchsia::Initialize(
 #if defined(ARCH_CPU_X86_64)
   context_.architecture = kCPUArchitectureX86_64;
   context_.x86_64 = &context_arch_;
-  // TODO(fxbug.dev/5496): Add float context once saved in |t|.
-  InitializeCPUContextX86_64_NoFloatingPoint(t->general_registers,
-                                             context_.x86_64);
+  // TODO(fxbug.dev/5496): Add vector context.
+  InitializeCPUContextX86_64(
+      t->general_registers, t->fp_registers, context_.x86_64);
 #elif defined(ARCH_CPU_ARM64)
   context_.architecture = kCPUArchitectureARM64;
   context_.arm64 = &context_arch_;

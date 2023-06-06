@@ -346,6 +346,16 @@ void ProcessReaderFuchsia::InitializeThreads() {
         }
       }
 
+      zx_thread_state_fp_regs_t fp_regs;
+      status = thread_handles[i].read_state(
+          ZX_THREAD_STATE_FP_REGS, &fp_regs, sizeof(fp_regs));
+      if (status != ZX_OK) {
+        ZX_LOG(WARNING, status)
+            << "zx_thread_read_state(ZX_THREAD_STATE_FP_REGS)";
+      } else {
+        thread.fp_registers = fp_regs;
+      }
+
       zx_thread_state_vector_regs_t vector_regs;
       status = thread_handles[i].read_state(
           ZX_THREAD_STATE_VECTOR_REGS, &vector_regs, sizeof(vector_regs));
