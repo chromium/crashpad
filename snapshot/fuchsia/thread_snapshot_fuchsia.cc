@@ -48,6 +48,11 @@ bool ThreadSnapshotFuchsia::Initialize(
   context_.arm64 = &context_arch_;
   InitializeCPUContextARM64(
       thread.general_registers, thread.vector_registers, context_.arm64);
+#elif defined(ARCH_CPU_RISCV64)
+  context_.architecture = kCPUArchitectureRISCV64;
+  context_.riscv64 = &context_arch_;
+  InitializeCPUContextRISCV64(
+      thread.general_registers, thread.fp_registers, context_.riscv64);
 #else
 #error Port.
 #endif

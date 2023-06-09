@@ -57,6 +57,21 @@ void InitializeCPUContextARM64(
 
 #endif  // ARCH_CPU_ARM64 || DOXYGEN
 
+#if defined(ARCH_CPU_RISCV64) || DOXYGEN
+
+//! \brief Initializes a CPUContextRISCV64 structure from native context
+//!     structures on Fuchsia.
+//!
+//! \param[in] thread_context The native thread context.
+//! \param[in] float_context The native floating point context.
+//! \param[out] context The CPUContextRISCV64 structure to initialize.
+void InitializeCPUContextRISCV64(
+    const zx_thread_state_general_regs_t& thread_context,
+    const zx_thread_state_fp_regs_t& float_context,
+    CPUContextRISCV64* context);
+
+#endif  // ARCH_CPU_RISCV64 || DOXYGEN
+
 }  // namespace internal
 }  // namespace crashpad
 

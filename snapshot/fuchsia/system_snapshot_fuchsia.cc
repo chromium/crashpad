@@ -45,6 +45,8 @@ void SystemSnapshotFuchsia::Initialize(const timeval* snapshot_time) {
   static constexpr const char kArch[] = "x86_64";
 #elif defined(ARCH_CPU_ARM64)
   static constexpr const char kArch[] = "aarch64";
+#elif defined(ARCH_CPU_RISCV64)
+  static constexpr const char kArch[] = "riscv64";
 #else
   static constexpr const char kArch[] = "unknown";
 #endif
@@ -61,6 +63,8 @@ CPUArchitecture SystemSnapshotFuchsia::GetCPUArchitecture() const {
   return kCPUArchitectureX86_64;
 #elif defined(ARCH_CPU_ARM64)
   return kCPUArchitectureARM64;
+#elif defined(ARCH_CPU_RISCV64)
+  return kCPUArchitectureRISCV64;
 #else
 #error Port
 #endif

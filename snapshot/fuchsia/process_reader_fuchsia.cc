@@ -40,7 +40,7 @@ void GetStackRegions(
   uint64_t sp;
 #if defined(ARCH_CPU_X86_64)
   sp = regs.rsp;
-#elif defined(ARCH_CPU_ARM64)
+#elif defined(ARCH_CPU_ARM64) || defined(ARCH_CPU_RISCV64)
   sp = regs.sp;
 #else
 #error Port
