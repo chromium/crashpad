@@ -41,7 +41,7 @@ crashpad_executable("dump_minidump_annotations") {
   }
 }
 
-if (!crashpad_is_ios) {
+if (!crashpad_is_ios && !crashpad_is_fuchsia) {
   crashpad_executable("crashpad_database_util") {
     sources = [ "crashpad_database_util.cc" ]
 
