@@ -234,7 +234,7 @@ void ProcessReaderFuchsia::InitializeModules() {
     // Crashpad needs to use the same module name at run time for symbol
     // resolution to work properly.
     //
-    // TODO(fuchsia/DX-1234): once Crashpad switches to elf-search, the
+    // TODO: https://fxbug.dev/6057 - once Crashpad switches to elf-search, the
     // following overwrites won't be necessary as only shared libraries will
     // have a soname at runtime, just like at build time.
     //
@@ -265,7 +265,6 @@ void ProcessReaderFuchsia::InitializeModules() {
     if (dsoname.empty()) {
       // This value must be kept in sync with what is used at build time to
       // index symbols for executables and loadable modules.
-      // See fuchsia/DX-1193 for more details.
       module.name = "<_>";
       module.type = ModuleSnapshot::kModuleTypeExecutable;
     } else {

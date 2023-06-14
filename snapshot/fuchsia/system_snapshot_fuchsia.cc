@@ -75,7 +75,7 @@ uint32_t SystemSnapshotFuchsia::CPURevision() const {
 #if defined(ARCH_CPU_X86_64)
   return cpuid_.Revision();
 #else
-  // TODO(fuchsia/DX-712): Read actual revision.
+  // TODO: https://fxbug.dev/5561 - Read actual revision.
   return 0;
 #endif
 }
@@ -90,7 +90,7 @@ std::string SystemSnapshotFuchsia::CPUVendor() const {
 #if defined(ARCH_CPU_X86_64)
   return cpuid_.Vendor();
 #else
-  // TODO(fuchsia/DX-712): Read actual vendor.
+  // TODO: https://fxbug.dev/5561 - Read actual vendor.
   return std::string();
 #endif
 }
@@ -193,7 +193,7 @@ bool SystemSnapshotFuchsia::NXEnabled() const {
 #if defined(ARCH_CPU_X86_64)
   return cpuid_.NXEnabled();
 #else
-  // TODO(fuchsia/DX-712): Read actual NX bit value.
+  // TODO: https://fxbug.dev/5561 - Read actual NX bit value.
   return false;
 #endif
 }
