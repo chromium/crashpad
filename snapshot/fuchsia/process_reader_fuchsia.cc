@@ -345,6 +345,8 @@ void ProcessReaderFuchsia::InitializeThreads() {
         }
       }
 
+// Floating point registers are in the vector context for ARM.
+#if !defined(ARCH_CPU_ARM64)
       zx_thread_state_fp_regs_t fp_regs;
       status = thread_handles[i].read_state(
           ZX_THREAD_STATE_FP_REGS, &fp_regs, sizeof(fp_regs));
@@ -354,6 +356,7 @@ void ProcessReaderFuchsia::InitializeThreads() {
       } else {
         thread.fp_registers = fp_regs;
       }
+#endif
 
       zx_thread_state_vector_regs_t vector_regs;
       status = thread_handles[i].read_state(
