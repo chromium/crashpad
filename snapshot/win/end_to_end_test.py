@@ -542,7 +542,8 @@ def main(args):
             Run7zDumpTest(cdb_path, z7_dump_path)
 
         # __fastfail() & CFG crash caught by WerRuntimeExceptionHelperModule.
-        if (Win32_20H1()):
+        # TODO(crashpad:458) These are not working when launched from python.
+        if (False and Win32_20H1()):
             cfg_path = GetDumpFromFastFailProgram(args[0], pipe_name, "cf")
             if not cfg_path:
                 return 1
