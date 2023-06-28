@@ -116,10 +116,15 @@ deps = {
     'condition': 'checkout_fuchsia and host_os == "linux"',
     'dep_type': 'cipd'
   },
+  'crashpad/third_party/fuchsia-gn-sdk': {
+    'url': Var('chromium_git') + '/chromium/src/third_party/fuchsia-gn-sdk.git@' +
+           '0d6902558d92fe3d49ba9a8f638ddea829be595b',
+    'condition': 'checkout_fuchsia',
+  },
   'crashpad/third_party/fuchsia/sdk/mac-amd64': {
     'packages': [
       {
-        'package': 'fuchsia/sdk/gn/mac-amd64',
+        'package': 'fuchsia/sdk/core/mac-amd64',
         'version': 'latest'
       },
     ],
@@ -129,7 +134,7 @@ deps = {
   'crashpad/third_party/fuchsia/sdk/linux-amd64': {
     'packages': [
       {
-        'package': 'fuchsia/sdk/gn/linux-amd64',
+        'package': 'fuchsia/sdk/core/linux-amd64',
         'version': 'latest'
       },
     ],
@@ -247,6 +252,15 @@ hooks = [
     'condition': 'checkout_linux and pull_linux_clang',
     'action': [
       'crashpad/build/install_linux_sysroot.py',
+    ],
+  },
+  {
+    'name': 'Generate Fuchsia Build Definitions',
+    'pattern': '.',
+    'condition': 'checkout_fuchsia',
+    'action': [
+      'python3',
+      'crashpad/build/fuchsia/gen_build_defs.py'
     ],
   },
   {
