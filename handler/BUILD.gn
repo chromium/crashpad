@@ -100,7 +100,7 @@ static_library("common") {
     "minidump_to_upload_parameters.cc",
     "minidump_to_upload_parameters.h",
   ]
-  if (crashpad_is_mac || crashpad_is_ios) {
+  if (crashpad_is_apple) {
     sources += [
       "mac/file_limit_annotation.cc",
       "mac/file_limit_annotation.h",
