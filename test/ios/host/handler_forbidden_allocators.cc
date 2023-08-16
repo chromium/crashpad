@@ -19,7 +19,7 @@
 #include <pthread.h>
 #include <limits>
 
-#include "base/mac/mach_logging.h"
+#include "base/apple/mach_logging.h"
 #include "client/crashpad_client.h"
 #include "util/ios/raw_logging.h"
 
