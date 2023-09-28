@@ -23,7 +23,6 @@
 #include "base/strings/sys_string_conversions.h"
 #include "build/build_config.h"
 #include "package.h"
-#include "util/file/file_io.h"
 #include "util/misc/implicit_cast.h"
 #include "util/misc/metrics.h"
 #include "util/net/http_body.h"
@@ -248,8 +247,7 @@ bool HTTPTransportMac::ExecuteNormalRequest(NSMutableURLRequest* request,
       LOG(ERROR) << "no response";
       return false;
     }
-    NSHTTPURLResponse* http_response =
-        base::apple::ObjCCast<NSHTTPURLResponse>(response);
+    auto http_response = base::apple::ObjCCast<NSHTTPURLResponse>(response);
     if (!http_response) {
       LOG(ERROR) << "no http_response";
       return false;
@@ -315,7 +313,7 @@ bool HTTPTransportMac::ExecuteProxyRequest(NSMutableURLRequest* request,
                     return;
                   }
                   auto http_response =
-                      base::mac::ObjCCast<NSHTTPURLResponse>(response);
+                      base::apple::ObjCCast<NSHTTPURLResponse>(response);
                   if (!http_response) {
                     LOG(ERROR) << "no http_response";
                     sync_rv = false;
@@ -369,7 +367,7 @@ bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
     }
 
     NSInputStream* input_stream = [[CrashpadHTTPBodyStreamTransport alloc]
-            initWithBodyStream:body_stream()];
+        initWithBodyStream:body_stream()];
     [request setHTTPBodyStream:input_stream];
 
     if (http_proxy().empty()) {
