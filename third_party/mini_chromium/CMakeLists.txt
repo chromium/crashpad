@@ -50,6 +50,8 @@ mc_append_sources(
     rand_util.h
     scoped_clear_last_error.h
     scoped_generic.h
+    strings/pattern.cc
+    strings/pattern.h
     strings/string_number_conversions.cc
     strings/string_number_conversions.h
     strings/string_piece.h
@@ -85,21 +87,20 @@ endif()
 if(APPLE AND NOT IOS)
     mc_append_sources(
         mac/close_nocancel.cc
-        mac/foundation_util.h
-        mac/foundation_util.mm
-        mac/mach_logging.cc
-        mac/mach_logging.h
-        mac/scoped_cftyperef.h
         mac/scoped_ioobject.h
         mac/scoped_launch_data.h
-        mac/scoped_mach_port.cc
-        mac/scoped_mach_port.h
-        mac/scoped_mach_vm.cc
-        mac/scoped_mach_vm.h
-        mac/scoped_nsautorelease_pool.h
-        mac/scoped_nsautorelease_pool.mm
-        mac/scoped_nsobject.h
-        mac/scoped_typeref.h
+	    apple/bridging.h
+        apple/foundation_util.h
+        apple/foundation_util.mm
+        apple/mach_logging.cc
+        apple/mach_logging.h
+        apple/scoped_cftyperef.h
+        apple/scoped_mach_port.cc
+        apple/scoped_mach_port.h
+        apple/scoped_mach_vm.cc
+        apple/scoped_mach_vm.h
+        apple/scoped_nsautorelease_pool.h
+        apple/scoped_nsautorelease_pool.mm
         strings/sys_string_conversions_mac.mm
     )
 elseif(IOS)
