@@ -203,6 +203,15 @@ LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
   return EXCEPTION_CONTINUE_SEARCH;
 }
 
+LONG WINAPI HandleHeapCorruption(EXCEPTION_POINTERS* exception_pointers) {
+  if (exception_pointers->ExceptionRecord->ExceptionCode ==
+      STATUS_HEAP_CORRUPTION) {
+    return UnhandledExceptionHandler(exception_pointers);
+  }
+
+  return EXCEPTION_CONTINUE_SEARCH;
+}
+
 void HandleAbortSignal(int signum) {
   DCHECK_EQ(signum, SIGABRT);
 
@@ -602,6 +611,16 @@ void CommonInProcessInitialization() {
 
 void RegisterHandlers() {
   SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
+
+  // Windows swallows heap corruption failures but we can intercept them with
+  // a vectored exception handler.
+#if defined(ADDRESS_SANITIZER)
+  // Let ASAN have first go.
+  bool go_first = false;
+#else
+  bool go_first = true;
+#endif
+  AddVectoredExceptionHandler(go_first, HandleHeapCorruption);
 
   // The Windows CRT's signal.h lists:
   // - SIGINT
