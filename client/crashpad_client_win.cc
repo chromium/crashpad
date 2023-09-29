@@ -63,7 +63,7 @@ HANDLE g_signal_exception = INVALID_HANDLE_VALUE;
 // Where we store the exception information that the crash handler reads.
 ExceptionInformation g_crash_exception_information;
 
-CrashpadClient::FirstChanceHandlerWin first_chance_handler_ = nullptr;
+CrashpadClient::FirstChanceHandler first_chance_handler_ = nullptr;
 
 // Guards multiple simultaneous calls to DumpWithoutCrash() in the client.
 base::Lock* g_non_crash_dump_lock = nullptr;
@@ -1148,7 +1148,7 @@ bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
 
 // static
 void CrashpadClient::SetFirstChanceExceptionHandler(
-    FirstChanceHandlerWin handler) {
+    FirstChanceHandler handler) {
   first_chance_handler_ = handler;
 }
 
