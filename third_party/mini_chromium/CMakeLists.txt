@@ -182,7 +182,11 @@ target_link_libraries(mini_chromium
 if(WIN32)
     target_link_libraries(mini_chromium PRIVATE advapi32 kernel32)
     if(MSVC)
-        target_compile_options(mini_chromium PRIVATE "/wd4201" "/wd4996")
+        target_compile_options(mini_chromium PRIVATE
+            $<$<COMPILE_LANGUAGE:C,CXX>:/wd4201> # nonstandard extension used : nameless struct/union.
+            $<$<COMPILE_LANGUAGE:C,CXX>:/wd4244> # conversion from '__int64' to 'int32_t', possible loss of data.
+            $<$<COMPILE_LANGUAGE:C,CXX>:/wd4996> # 'X' was declared deprecated.
+        )
         target_compile_definitions(mini_chromium PRIVATE
             NOMINMAX
             UNICODE
