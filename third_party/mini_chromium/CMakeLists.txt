@@ -105,19 +105,20 @@ if(APPLE AND NOT IOS)
     )
 elseif(IOS)
     mc_append_sources(
-        mac/foundation_util.h
-        mac/foundation_util.mm
-        mac/mach_logging.cc
-        mac/mach_logging.h
-        mac/scoped_cftyperef.h
-        mac/scoped_mach_port.cc
-        mac/scoped_mach_port.h
-        mac/scoped_mach_vm.cc
-        mac/scoped_mach_vm.h
-        mac/scoped_nsautorelease_pool.h
-        mac/scoped_nsautorelease_pool.mm
-        mac/scoped_nsobject.h
-        mac/scoped_typeref.h
+        apple/bridging.h
+        apple/foundation_util.h
+        apple/foundation_util.mm
+        apple/mach_logging.cc
+        apple/mach_logging.h
+        apple/scoped_cftyperef.h
+        apple/scoped_mach_port.cc
+        apple/scoped_mach_port.h
+        apple/scoped_mach_vm.cc
+        apple/scoped_mach_vm.h
+        apple/scoped_nsautorelease_pool.h
+        apple/scoped_nsautorelease_pool.mm
+        apple/scoped_nsobject.h
+        apple/scoped_typeref.h
         strings/sys_string_conversions_mac.mm
     )
 endif()
