@@ -117,7 +117,6 @@ elseif(IOS)
         apple/scoped_mach_vm.h
         apple/scoped_nsautorelease_pool.h
         apple/scoped_nsautorelease_pool.mm
-        apple/scoped_nsobject.h
         apple/scoped_typeref.h
         strings/sys_string_conversions_mac.mm
     )
