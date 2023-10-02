@@ -17,13 +17,12 @@
 #import <Foundation/Foundation.h>
 #include <sys/utsname.h>
 
-#include "base/mac/foundation_util.h"
-#import "base/mac/scoped_nsobject.h"
+#include "base/apple/bridging.h"
+#include "base/apple/foundation_util.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/sys_string_conversions.h"
 #include "build/build_config.h"
 #include "package.h"
-#include "util/file/file_io.h"
 #include "util/misc/implicit_cast.h"
 #include "util/misc/metrics.h"
 #include "util/net/http_body.h"
@@ -34,7 +33,7 @@
 @interface CrashpadHTTPBodyStreamTransport : NSInputStream {
  @private
   NSStreamStatus _streamStatus;
-  id<NSStreamDelegate> _delegate;
+  id<NSStreamDelegate> __strong _delegate;
   crashpad::HTTPBodyStream* _bodyStream;  // weak
 }
 - (instancetype)initWithBodyStream:(crashpad::HTTPBodyStream*)bodyStream;
@@ -154,13 +153,14 @@ NSString* UserAgentString() {
 
   // Expected to be CFNetwork.
   NSBundle* nsurl_bundle = [NSBundle bundleForClass:[NSURLRequest class]];
-  NSString* bundle_name = base::mac::ObjCCast<NSString>([nsurl_bundle
-      objectForInfoDictionaryKey:base::mac::CFToNSCast(kCFBundleNameKey)]);
+  NSString* bundle_name = base::apple::ObjCCast<NSString>([nsurl_bundle
+      objectForInfoDictionaryKey:base::apple::CFToNSPtrCast(kCFBundleNameKey)]);
   if (bundle_name) {
     user_agent = AppendEscapedFormat(user_agent, @" %@", bundle_name);
 
-    NSString* bundle_version = base::mac::ObjCCast<NSString>([nsurl_bundle
-        objectForInfoDictionaryKey:base::mac::CFToNSCast(kCFBundleVersionKey)]);
+    NSString* bundle_version = base::apple::ObjCCast<NSString>(
+        [nsurl_bundle objectForInfoDictionaryKey:base::apple::CFToNSPtrCast(
+                                                     kCFBundleVersionKey)]);
     if (bundle_version) {
       user_agent = AppendEscapedFormat(user_agent, @"/%@", bundle_version);
     }
@@ -247,7 +247,7 @@ bool HTTPTransportMac::ExecuteNormalRequest(NSMutableURLRequest* request,
       LOG(ERROR) << "no response";
       return false;
     }
-    auto http_response = base::mac::ObjCCast<NSHTTPURLResponse>(response);
+    auto http_response = base::apple::ObjCCast<NSHTTPURLResponse>(response);
     if (!http_response) {
       LOG(ERROR) << "no http_response";
       return false;
@@ -286,9 +286,9 @@ bool HTTPTransportMac::ExecuteProxyRequest(NSMutableURLRequest* request,
       (__bridge id)kCFNetworkProxiesHTTPEnable : @YES,
       (__bridge id)kCFNetworkProxiesHTTPPort : proxy_port,
       (__bridge id)kCFNetworkProxiesHTTPProxy : hostNS,
-      (__bridge id) @"HTTPSEnable" : @YES,
-      (__bridge id) @"HTTPSPort" : proxy_port,
-      (__bridge id) @"HTTPSProxy" : hostNS,
+      @"HTTPSEnable" : @YES,
+      @"HTTPSPort" : proxy_port,
+      @"HTTPSProxy" : hostNS,
     };
     sessionConfig.connectionProxyDictionary = proxyDict;
     NSURLSession* session =
@@ -313,7 +313,7 @@ bool HTTPTransportMac::ExecuteProxyRequest(NSMutableURLRequest* request,
                     return;
                   }
                   auto http_response =
-                      base::mac::ObjCCast<NSHTTPURLResponse>(response);
+                      base::apple::ObjCCast<NSHTTPURLResponse>(response);
                   if (!http_response) {
                     LOG(ERROR) << "no http_response";
                     sync_rv = false;
@@ -366,10 +366,9 @@ bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
           forHTTPHeaderField:base::SysUTF8ToNSString(pair.first)];
     }
 
-    base::scoped_nsobject<NSInputStream> input_stream(
-        [[CrashpadHTTPBodyStreamTransport alloc]
-            initWithBodyStream:body_stream()]);
-    [request setHTTPBodyStream:input_stream.get()];
+    NSInputStream* input_stream = [[CrashpadHTTPBodyStreamTransport alloc]
+        initWithBodyStream:body_stream()];
+    [request setHTTPBodyStream:input_stream];
 
     if (http_proxy().empty()) {
       return ExecuteNormalRequest(request, response_body);
@@ -383,7 +382,7 @@ bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
 }  // namespace
 
 // static
-std::unique_ptr<crashpad::HTTPTransport> crashpad::HTTPTransport::Create() {
+std::unique_ptr<HTTPTransport> HTTPTransport::Create() {
   return std::unique_ptr<HTTPTransport>(new HTTPTransportMac());
 }
 

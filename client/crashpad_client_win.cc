@@ -63,7 +63,7 @@ HANDLE g_signal_exception = INVALID_HANDLE_VALUE;
 // Where we store the exception information that the crash handler reads.
 ExceptionInformation g_crash_exception_information;
 
-CrashpadClient::FirstChanceHandlerWin first_chance_handler_ = nullptr;
+CrashpadClient::FirstChanceHandler first_chance_handler_ = nullptr;
 
 // Guards multiple simultaneous calls to DumpWithoutCrash() in the client.
 base::Lock* g_non_crash_dump_lock = nullptr;
@@ -199,6 +199,15 @@ LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
   LOG(ERROR) << "crash server did not respond, self-terminating";
 
   SafeTerminateProcess(GetCurrentProcess(), kTerminationCodeCrashNoDump);
+
+  return EXCEPTION_CONTINUE_SEARCH;
+}
+
+LONG WINAPI HandleHeapCorruption(EXCEPTION_POINTERS* exception_pointers) {
+  if (exception_pointers->ExceptionRecord->ExceptionCode ==
+      STATUS_HEAP_CORRUPTION) {
+    return UnhandledExceptionHandler(exception_pointers);
+  }
 
   return EXCEPTION_CONTINUE_SEARCH;
 }
@@ -602,6 +611,16 @@ void CommonInProcessInitialization() {
 
 void RegisterHandlers() {
   SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
+
+  // Windows swallows heap corruption failures but we can intercept them with
+  // a vectored exception handler.
+#if defined(ADDRESS_SANITIZER)
+  // Let ASAN have first go.
+  bool go_first = false;
+#else
+  bool go_first = true;
+#endif
+  AddVectoredExceptionHandler(go_first, HandleHeapCorruption);
 
   // The Windows CRT's signal.h lists:
   // - SIGINT
@@ -1129,7 +1148,7 @@ bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
 
 // static
 void CrashpadClient::SetFirstChanceExceptionHandler(
-    FirstChanceHandlerWin handler) {
+    FirstChanceHandler handler) {
   first_chance_handler_ = handler;
 }
 
