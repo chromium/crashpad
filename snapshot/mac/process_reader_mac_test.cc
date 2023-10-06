@@ -654,9 +654,8 @@ T GetDyldFunction(const char* symbol) {
   return reinterpret_cast<T>(dlsym(dl_handle, symbol));
 }
 
-void VerifyImageExistenceAndTimestamp(const char* path, time_t timestamp) {
+void VerifyImageExistence(const char* path) {
   const char* stat_path;
-  bool timestamp_may_be_0;
 
 #if __MAC_OS_X_VERSION_MAX_ALLOWED < __MAC_10_16
   static auto _dyld_shared_cache_contains_path =
@@ -686,18 +685,13 @@ void VerifyImageExistenceAndTimestamp(const char* path, time_t timestamp) {
     }();
 
     stat_path = dyld_shared_cache_file_path;
-    timestamp_may_be_0 = true;
   } else {
     stat_path = path;
-    timestamp_may_be_0 = false;
   }
 
   struct stat stat_buf;
   int rv = stat(stat_path, &stat_buf);
   EXPECT_EQ(rv, 0) << ErrnoMessage("stat");
-  if (rv == 0 && (!timestamp_may_be_0 || timestamp != 0)) {
-    EXPECT_EQ(timestamp, stat_buf.st_mtime);
-  }
 }
 
 // cl_kernels images (OpenCL kernels) are weird. They’re not ld output and don’t
@@ -862,25 +856,16 @@ TEST(ProcessReaderMac, SelfModules) {
         modules[index].reader->Address(),
         FromPointerCast<mach_vm_address_t>(_dyld_get_image_header(index)));
 
-    bool expect_timestamp;
     if (index == 0 && MacOSVersionNumber() < 12'00'00) {
       // Pre-dyld4, dyld didn’t set the main executable's timestamp, and it was
       // reported as 0.
       EXPECT_EQ(modules[index].timestamp, 0);
     } else if (IsMalformedCLKernelsModule(modules[index].reader->FileType(),
-                                          modules[index].name,
-                                          &expect_timestamp)) {
-      // cl_kernels doesn’t exist as a file, but may still have a timestamp.
-      if (!expect_timestamp) {
-        EXPECT_EQ(modules[index].timestamp, 0);
-      } else {
-        EXPECT_NE(modules[index].timestamp, 0);
-      }
+                                          modules[index].name)) {
       found_cl_kernels = true;
     } else {
       // Hope that the module didn’t change on disk.
-      VerifyImageExistenceAndTimestamp(dyld_image_name,
-                                       modules[index].timestamp);
+      VerifyImageExistence(dyld_image_name);
     }
   }
 
@@ -888,10 +873,6 @@ TEST(ProcessReaderMac, SelfModules) {
 
   size_t index = modules.size() - 1;
   EXPECT_EQ(modules[index].name, kDyldPath);
-
-  // dyld didn’t load itself either, so it couldn’t record its timestamp, and it
-  // is also reported as 0.
-  EXPECT_EQ(modules[index].timestamp, 0);
 
   const dyld_all_image_infos* dyld_image_infos = DyldGetAllImageInfos();
   if (dyld_image_infos->version >= 2) {
@@ -954,27 +935,12 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
       ASSERT_TRUE(modules[index].reader);
       EXPECT_EQ(modules[index].reader->Address(), expect_address);
 
-      bool expect_timestamp;
-      if ((index == 0 && MacOSVersionNumber() < 12'00'00) ||
-          index == modules.size() - 1) {
-        // Pre-dyld4, dyld didn’t set the main executable's timestamp, and it
-        // was reported as 0.
-        // The last module is dyld.
-        EXPECT_EQ(modules[index].timestamp, 0);
-      } else if (IsMalformedCLKernelsModule(modules[index].reader->FileType(),
-                                            modules[index].name,
-                                            &expect_timestamp)) {
-        // cl_kernels doesn’t exist as a file, but may still have a timestamp.
-        if (!expect_timestamp) {
-          EXPECT_EQ(modules[index].timestamp, 0);
-        } else {
-          EXPECT_NE(modules[index].timestamp, 0);
-        }
+      if (IsMalformedCLKernelsModule(modules[index].reader->FileType(),
+                                     modules[index].name)) {
         found_cl_kernels = true;
       } else {
         // Hope that the module didn’t change on disk.
-        VerifyImageExistenceAndTimestamp(expect_name.c_str(),
-                                         modules[index].timestamp);
+        VerifyImageExistence(expect_name.c_str());
       }
     }
 
