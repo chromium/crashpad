@@ -56,9 +56,9 @@ bool IsMalformedCLKernelsModule(uint32_t mach_o_file_type,
              0, strlen(kCvmsObjectPathPrefix), kCvmsObjectPathPrefix) == 0 &&
          (__MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_14 ||
           MacOSVersionNumber() >= 10'14'00);
-#endif  // ARCH_CPU_X86_FAMILY
-
+#else
   return false;
+#endif  // ARCH_CPU_X86_FAMILY
 }
 
 MachOImageSegmentReader::MachOImageSegmentReader()

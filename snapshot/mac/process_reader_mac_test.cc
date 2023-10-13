@@ -28,6 +28,7 @@
 
 #include <iterator>
 #include <map>
+#include <unordered_set>
 #include <utility>
 
 #include "base/apple/mach_logging.h"
@@ -53,6 +54,15 @@
 namespace crashpad {
 namespace test {
 namespace {
+
+using ModulePathAndAddress = std::pair<std::string, mach_vm_address_t>;
+struct PathAndAddressHash {
+  std::size_t operator()(const ModulePathAndAddress& pair) const {
+    return std::hash<std::string>()(pair.first) ^
+           std::hash<mach_vm_address_t>()(pair.second);
+  }
+};
+using ModuleSet = std::unordered_set<ModulePathAndAddress, PathAndAddressHash>;
 
 constexpr char kDyldPath[] = "/usr/lib/dyld";
 
@@ -833,54 +843,57 @@ TEST(ProcessReaderMac, SelfModules) {
   ASSERT_TRUE(process_reader.Initialize(mach_task_self()));
 
   uint32_t dyld_image_count = _dyld_image_count();
-  const std::vector<ProcessReaderMac::Module>& modules =
-      process_reader.Modules();
 
-  // There needs to be at least an entry for the main executable, for a dylib,
-  // and for dyld.
-  ASSERT_GE(modules.size(), 3u);
-
-  // dyld_image_count doesn’t include an entry for dyld itself, but |modules|
-  // does.
-  ASSERT_EQ(modules.size(), dyld_image_count + 1);
-
-  bool found_cl_kernels = false;
-  for (uint32_t index = 0; index < dyld_image_count; ++index) {
-    SCOPED_TRACE(base::StringPrintf(
-        "index %u, name %s", index, modules[index].name.c_str()));
-
-    const char* dyld_image_name = _dyld_get_image_name(index);
-    EXPECT_EQ(modules[index].name, dyld_image_name);
-    ASSERT_TRUE(modules[index].reader);
-    EXPECT_EQ(
-        modules[index].reader->Address(),
-        FromPointerCast<mach_vm_address_t>(_dyld_get_image_header(index)));
-
-    if (index == 0 && MacOSVersionNumber() < 12'00'00) {
-      // Pre-dyld4, dyld didn’t set the main executable's timestamp, and it was
-      // reported as 0.
-      EXPECT_EQ(modules[index].timestamp, 0);
-    } else if (IsMalformedCLKernelsModule(modules[index].reader->FileType(),
-                                          modules[index].name)) {
-      found_cl_kernels = true;
+  std::set<std::string> cl_kernel_names;
+  auto modules = process_reader.Modules();
+  ModuleSet actual_modules;
+  for (size_t i = 0; i < modules.size(); ++i) {
+    auto& module = modules[i];
+    ASSERT_TRUE(module.reader);
+    if (i == modules.size() - 1) {
+      EXPECT_EQ(module.name, kDyldPath);
+      const dyld_all_image_infos* dyld_image_infos = DyldGetAllImageInfos();
+      if (dyld_image_infos->version >= 2) {
+        EXPECT_EQ(module.reader->Address(),
+                  FromPointerCast<mach_vm_address_t>(
+                      dyld_image_infos->dyldImageLoadAddress));
+      }
+      // Don't include dyld, since dyld image APIs will not have an entry for
+      // dyld itself.
+      continue;
+    }
+    // Ensure executable is first, and that there's only one.
+    uint32_t file_type = module.reader->FileType();
+    if (i == 0) {
+      EXPECT_EQ(file_type, static_cast<uint32_t>(MH_EXECUTE));
     } else {
-      // Hope that the module didn’t change on disk.
+      EXPECT_NE(file_type, static_cast<uint32_t>(MH_EXECUTE));
+    }
+    if (IsMalformedCLKernelsModule(module.reader->FileType(), module.name)) {
+      cl_kernel_names.insert(module.name);
+    }
+    actual_modules.insert(
+        std::make_pair(module.name, module.reader->Address()));
+  }
+  EXPECT_EQ(cl_kernel_names.size() > 0,
+            ExpectCLKernels() && ensure_cl_kernels.success());
+
+  // There needs to be at least an entry for the main executable and a dylib.
+  ASSERT_GE(actual_modules.size(), 2u);
+  ASSERT_EQ(actual_modules.size(), dyld_image_count);
+
+  ModuleSet expect_modules;
+  for (uint32_t index = 0; index < dyld_image_count; ++index) {
+    const char* dyld_image_name = _dyld_get_image_name(index);
+    mach_vm_address_t dyld_image_address =
+        FromPointerCast<mach_vm_address_t>(_dyld_get_image_header(index));
+    expect_modules.insert(
+        std::make_pair(std::string(dyld_image_name), dyld_image_address));
+    if (cl_kernel_names.find(dyld_image_name) == cl_kernel_names.end()) {
       VerifyImageExistence(dyld_image_name);
     }
   }
-
-  EXPECT_EQ(found_cl_kernels, ExpectCLKernels() && ensure_cl_kernels.success());
-
-  size_t index = modules.size() - 1;
-  EXPECT_EQ(modules[index].name, kDyldPath);
-
-  const dyld_all_image_infos* dyld_image_infos = DyldGetAllImageInfos();
-  if (dyld_image_infos->version >= 2) {
-    ASSERT_TRUE(modules[index].reader);
-    EXPECT_EQ(modules[index].reader->Address(),
-              FromPointerCast<mach_vm_address_t>(
-                  dyld_image_infos->dyldImageLoadAddress));
-  }
+  EXPECT_EQ(actual_modules, expect_modules);
 }
 
 class ProcessReaderModulesChild final : public MachMultiprocess {
@@ -899,27 +912,45 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
   void MachMultiprocessParent() override {
     ProcessReaderMac process_reader;
     ASSERT_TRUE(process_reader.Initialize(ChildTask()));
-
     const std::vector<ProcessReaderMac::Module>& modules =
         process_reader.Modules();
 
+    ModuleSet actual_modules;
+    std::set<std::string> cl_kernel_names;
+    for (size_t i = 0; i < modules.size(); ++i) {
+      auto& module = modules[i];
+      ASSERT_TRUE(module.reader);
+      uint32_t file_type = module.reader->FileType();
+      if (i == 0) {
+        EXPECT_EQ(file_type, static_cast<uint32_t>(MH_EXECUTE));
+      } else if (i == modules.size() - 1) {
+        EXPECT_EQ(file_type, static_cast<uint32_t>(MH_DYLINKER));
+
+      } else {
+        EXPECT_NE(file_type, static_cast<uint32_t>(MH_EXECUTE));
+        EXPECT_NE(file_type, static_cast<uint32_t>(MH_DYLINKER));
+      }
+      if (IsMalformedCLKernelsModule(module.reader->FileType(), module.name)) {
+        cl_kernel_names.insert(module.name);
+      }
+      actual_modules.insert(
+          std::make_pair(module.name, module.reader->Address()));
+    }
+
     // There needs to be at least an entry for the main executable, for a dylib,
     // and for dyld.
-    ASSERT_GE(modules.size(), 3u);
+    ASSERT_GE(actual_modules.size(), 3u);
 
     FileHandle read_handle = ReadPipeHandle();
 
-    uint32_t expect_modules;
+    uint32_t expect_modules_size;
     CheckedReadFileExactly(
-        read_handle, &expect_modules, sizeof(expect_modules));
+        read_handle, &expect_modules_size, sizeof(expect_modules_size));
 
-    ASSERT_EQ(modules.size(), expect_modules);
+    ASSERT_EQ(actual_modules.size(), expect_modules_size);
+    ModuleSet expect_modules;
 
-    bool found_cl_kernels = false;
-    for (size_t index = 0; index < modules.size(); ++index) {
-      SCOPED_TRACE(base::StringPrintf(
-          "index %zu, name %s", index, modules[index].name.c_str()));
-
+    for (size_t index = 0; index < expect_modules_size; ++index) {
       uint32_t expect_name_length;
       CheckedReadFileExactly(
           read_handle, &expect_name_length, sizeof(expect_name_length));
@@ -927,25 +958,18 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
       // The NUL terminator is not read.
       std::string expect_name(expect_name_length, '\0');
       CheckedReadFileExactly(read_handle, &expect_name[0], expect_name_length);
-      EXPECT_EQ(modules[index].name, expect_name);
 
       mach_vm_address_t expect_address;
       CheckedReadFileExactly(
           read_handle, &expect_address, sizeof(expect_address));
-      ASSERT_TRUE(modules[index].reader);
-      EXPECT_EQ(modules[index].reader->Address(), expect_address);
-
-      if (IsMalformedCLKernelsModule(modules[index].reader->FileType(),
-                                     modules[index].name)) {
-        found_cl_kernels = true;
-      } else {
-        // Hope that the module didn’t change on disk.
+      expect_modules.insert(std::make_pair(expect_name, expect_address));
+      if (cl_kernel_names.find(expect_name) == cl_kernel_names.end()) {
         VerifyImageExistence(expect_name.c_str());
       }
     }
-
-    EXPECT_EQ(found_cl_kernels,
+    EXPECT_EQ(cl_kernel_names.size() > 0,
               ExpectCLKernels() && ensure_cl_kernels_success_);
+    EXPECT_EQ(expect_modules, actual_modules);
   }
 
   void MachMultiprocessChild() override {
