@@ -187,6 +187,7 @@ LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
   return EXCEPTION_CONTINUE_SEARCH;
 }
 
+#if !defined(ADDRESS_SANITIZER)
 LONG WINAPI HandleHeapCorruption(EXCEPTION_POINTERS* exception_pointers) {
   if (exception_pointers->ExceptionRecord->ExceptionCode ==
       STATUS_HEAP_CORRUPTION) {
@@ -195,6 +196,7 @@ LONG WINAPI HandleHeapCorruption(EXCEPTION_POINTERS* exception_pointers) {
 
   return EXCEPTION_CONTINUE_SEARCH;
 }
+#endif
 
 void HandleAbortSignal(int signum) {
   DCHECK_EQ(signum, SIGABRT);
