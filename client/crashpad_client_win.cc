@@ -25,6 +25,7 @@
 #include <memory>
 
 #include "base/atomicops.h"
+#include "base/check_op.h"
 #include "base/logging.h"
 #include "base/scoped_generic.h"
 #include "base/strings/stringprintf.h"
