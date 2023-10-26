@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "base/files/file_path.h"
+#include "client/crash_report_database.h"
 #include "gtest/gtest.h"
 #include "test/test_paths.h"
 #include "test/scoped_temp_dir.h"
@@ -29,11 +30,10 @@ namespace crashpad {
 namespace test {
 namespace {
 
-void StartAndUseHandler(const base::FilePath& temp_dir) {
+void StartAndUseHandler(CrashpadClient& client, const base::FilePath& temp_dir) {
   base::FilePath handler_path = TestPaths::Executable().DirName().Append(
       FILE_PATH_LITERAL("crashpad_handler.com"));
 
-  CrashpadClient client;
   ASSERT_TRUE(client.StartHandler(handler_path,
                                   temp_dir,
                                   base::FilePath(),
@@ -43,6 +43,11 @@ void StartAndUseHandler(const base::FilePath& temp_dir) {
                                   true,
                                   true));
   ASSERT_TRUE(client.WaitForHandlerStart(INFINITE));
+}
+
+void StartAndUseHandler(const base::FilePath& temp_dir) {
+  CrashpadClient client;
+  StartAndUseHandler(client, temp_dir);
 }
 
 class StartWithInvalidHandles final : public WinMultiprocessWithTempDir {
@@ -191,6 +196,120 @@ class HandlerLaunchFailureDumpWithoutCrash : public WinMultiprocess {
 TEST(CrashpadClient, HandlerLaunchFailureDumpWithoutCrash) {
   WinMultiprocess::Run<HandlerLaunchFailureDumpWithoutCrash>();
 }
+
+class NoDumpExpected : public WinMultiprocessWithTempDir {
+ private:
+  void WinMultiprocessParentAfterChild(HANDLE child) override {
+    // Make sure no dump was generated.
+    std::unique_ptr<CrashReportDatabase> database(
+        CrashReportDatabase::Initialize(GetTempDirPath()));
+    ASSERT_TRUE(database);
+
+    std::vector<CrashReportDatabase::Report> reports;
+    ASSERT_EQ(database->GetPendingReports(&reports),
+              CrashReportDatabase::kNoError);
+    ASSERT_EQ(reports.size(), 0u);
+  }
+};
+
+// Crashing the process under test does not result in a crashed status as an
+// exit code in debug builds, so we only verify this behavior in release
+// builds.
+#if defined(NDEBUG)
+class CrashWithDisabledGlobalHooks final : public NoDumpExpected {
+ public:
+  CrashWithDisabledGlobalHooks() : NoDumpExpected() {}
+  ~CrashWithDisabledGlobalHooks() {}
+
+ private:
+  void WinMultiprocessParent() override {
+    SetExpectedChildExitCode(STATUS_ACCESS_VIOLATION);
+  }
+
+  void WinMultiprocessChild() override {
+    CrashpadClient client;
+    client.DisableGlobalHooks();
+    StartAndUseHandler(client, GetTempDirPath());
+    int* bad = nullptr;
+    *bad = 1;
+  }
+};
+
+TEST(CrashpadClient, CrashWithDisabledGlobalHooks) {
+  WinMultiprocessWithTempDir::Run<CrashWithDisabledGlobalHooks>();
+}
+#endif  // defined(NDEBUG)
+
+class DumpAndCrashWithDisabledGlobalHooks final
+    : public WinMultiprocessWithTempDir {
+ public:
+  DumpAndCrashWithDisabledGlobalHooks() : WinMultiprocessWithTempDir() {}
+  ~DumpAndCrashWithDisabledGlobalHooks() {}
+
+ private:
+  static constexpr DWORD kExpectedExitCode = 0x1CEB00DA;
+
+  void WinMultiprocessParent() override {
+    SetExpectedChildExitCode(kExpectedExitCode);
+  }
+
+  void WinMultiprocessChild() override {
+    CrashpadClient client;
+    client.DisableGlobalHooks();
+    StartAndUseHandler(client, GetTempDirPath());
+    EXCEPTION_RECORD exception_record = {kExpectedExitCode,
+                                         EXCEPTION_NONCONTINUABLE};
+    CONTEXT context;
+    CaptureContext(&context);
+    EXCEPTION_POINTERS exception_pointers = {&exception_record, &context};
+    CrashpadClient::DumpAndCrash(&exception_pointers);
+  }
+
+  void WinMultiprocessParentAfterChild(HANDLE child) override {
+    // Make sure the dump was generated.
+    std::unique_ptr<CrashReportDatabase> database(
+        CrashReportDatabase::Initialize(GetTempDirPath()));
+    ASSERT_TRUE(database);
+
+    std::vector<CrashReportDatabase::Report> reports;
+    ASSERT_EQ(database->GetPendingReports(&reports),
+              CrashReportDatabase::kNoError);
+    ASSERT_EQ(reports.size(), 1u);
+
+    // Delegate the cleanup to the superclass.
+    WinMultiprocessWithTempDir::WinMultiprocessParentAfterChild(child);
+  }
+};
+
+TEST(CrashpadClient, DumpAndCrashWithDisabledGlobalHooks) {
+  WinMultiprocessWithTempDir::Run<DumpAndCrashWithDisabledGlobalHooks>();
+}
+
+#if !defined(ADDRESS_SANITIZER)
+class HeapCorruptionWithDisabledGlobalHooks final : public NoDumpExpected {
+ public:
+  HeapCorruptionWithDisabledGlobalHooks() : NoDumpExpected() {}
+  ~HeapCorruptionWithDisabledGlobalHooks() {}
+
+ private:
+  void WinMultiprocessParent() override {
+    SetExpectedChildExitCode(STATUS_HEAP_CORRUPTION);
+  }
+
+  void WinMultiprocessChild() override {
+    CrashpadClient client;
+    client.DisableGlobalHooks();
+    StartAndUseHandler(client, GetTempDirPath());
+    int* bad = reinterpret_cast<int*>(1);
+    delete bad;
+  }
+};
+
+TEST(CrashpadClient, HeapCorruptionWithDisabledGlobalHooks) {
+  WinMultiprocessWithTempDir::Run<HeapCorruptionWithDisabledGlobalHooks>();
+}
+
+#endif  // !defined(ADDRESS_SANITIZER)
 
 }  // namespace
 }  // namespace test
