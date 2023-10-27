@@ -246,6 +246,14 @@ class Annotation {
 
   std::atomic<Annotation*>& link_node() { return link_node_; }
 
+  Annotation* GetLinkNode(std::memory_order order = std::memory_order_seq_cst) {
+    return link_node_.load(order);
+  }
+  const Annotation* GetLinkNode(
+      std::memory_order order = std::memory_order_seq_cst) const {
+    return link_node_.load(order);
+  }
+
  private:
   //! \brief Linked list next-node pointer. Accessed only by \sa AnnotationList.
   //!
