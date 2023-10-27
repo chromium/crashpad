@@ -486,21 +486,6 @@ class CrashpadClient {
 #endif  // BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_ANDROID) ||
         // BUILDFLAG(IS_CHROMEOS) || DOXYGEN
 
-#if BUILDFLAG(IS_WIN) || DOXYGEN
-  //! \brief Configures this client to not install any process-global hooks,
-  //!     such as an unhandled exception filter or vectored exception handler.
-  //!
-  //! This may be useful if this client is being used in the context of an
-  //! extension library, which only wants to capture crashes in its own code,
-  //! via catch blocks, and not all crashes in the host process.
-  //!
-  //! This method must be called before calling StartHandler(),
-  //! SetHandlerSocket(), or other methods that install global hooks.
-  void DisableGlobalHooks() {
-    disable_global_hooks_ = true;
-  }
-#endif  // BUILDFLAG(IS_WIN) || DOXYGEN
-
 #if BUILDFLAG(IS_IOS) || DOXYGEN
   //! \brief Observation callback invoked each time this object finishes
   //!     processing and attempting to upload on-disk crash reports (whether or
@@ -833,7 +818,6 @@ class CrashpadClient {
   std::wstring ipc_pipe_;
   ScopedKernelHANDLE handler_start_thread_;
   ScopedVectoredExceptionRegistration vectored_handler_;
-  bool disable_global_hooks_;
 #elif BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_ANDROID)
   std::set<int> unhandled_signals_;
 #endif  // BUILDFLAG(IS_APPLE)

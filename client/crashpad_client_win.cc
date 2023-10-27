@@ -592,8 +592,7 @@ void CommonInProcessInitialization() {
 }  // namespace
 
 CrashpadClient::CrashpadClient()
-    : ipc_pipe_(), handler_start_thread_(), vectored_handler_(),
-      disable_global_hooks_(false) {}
+    : ipc_pipe_(), handler_start_thread_(), vectored_handler_() {}
 
 CrashpadClient::~CrashpadClient() {}
 
@@ -668,10 +667,6 @@ bool CrashpadClient::StartHandler(
 }
 
 void CrashpadClient::RegisterHandlers() {
-  if (disable_global_hooks_) {
-    return;
-  }
-
   SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
 
   // Windows swallows heap corruption failures but we can intercept them with
