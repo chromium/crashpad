@@ -323,9 +323,11 @@ class StringAnnotation : public Annotation {
   void Set(base::StringPiece string) {
     Annotation::ValueSizeType size =
         std::min(MaxSize, base::saturated_cast<ValueSizeType>(string.size()));
-    memcpy(value_, string.data(), size);
+    string = string.substr(0, size);
+    std::copy(string.begin(), string.end(), value_);
     // Check for no embedded `NUL` characters.
-    DCHECK(!memchr(value_, '\0', size)) << "embedded NUL";
+    DCHECK(string.find('\0', /*pos=*/0) == base::StringPiece::npos)
+        << "embedded NUL";
     SetSize(size);
   }
 
