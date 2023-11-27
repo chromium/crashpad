@@ -50,7 +50,11 @@ function(crashpad_install_dev)
 endfunction()
 
 if(WIN32)
-    enable_language(ASM_MASM)
+    if(CMAKE_SYSTEM_PROCESSOR MATCHES ARM64)
+        enable_language(ASM_MARMASM)
+    else()
+        enable_language(ASM_MASM)
+    endif()
 
     if(MINGW)
         find_program(JWASM_FOUND jwasm)
