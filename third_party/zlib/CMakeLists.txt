@@ -27,11 +27,9 @@ else()
         zlib/inflate.h
         zlib/inftrees.c
         zlib/inftrees.h
-        zlib/names.h
         zlib/trees.c
         zlib/trees.h
         zlib/uncompr.c
-        zlib/x86.h
         zlib/zconf.h
         zlib/zlib.h
         zlib/zutil.c
@@ -47,8 +45,6 @@ else()
     if(archs MATCHES "(x86_64)|(x86)|(i[3-7]86)|(AMD64)")
         target_sources(crashpad_zlib PRIVATE
             zlib/crc_folding.c
-            zlib/fill_window_sse.c
-            zlib/x86.c
         )
 
         if(NOT MSVC)
