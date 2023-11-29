@@ -385,7 +385,7 @@ if(WIN32)
         win/traits.h
         win/xp_compat.h
     )
-    if(${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm")
+    if(${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm|ARM64")
         target_sources(crashpad_util PRIVATE
             misc/capture_context_win_arm64.asm
         )
