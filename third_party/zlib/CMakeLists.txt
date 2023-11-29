@@ -50,8 +50,6 @@ else()
         if(NOT MSVC)
             target_compile_options(crashpad_zlib PRIVATE -msse4.2 -mpclmul)
         endif()
-    else()
-        target_sources(crashpad_zlib PRIVATE zlib/simd_stub.c)
     endif()
     target_compile_definitions(crashpad_zlib PUBLIC
         CRASHPAD_ZLIB_SOURCE_EMBEDDED
