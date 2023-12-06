@@ -174,9 +174,12 @@ void DoStackWalk(ProcessReaderWin::Thread* thread,
   //   ctx = (LPVOID)ctx_;
   // }
 
-// TODO: we dont support this right away, maybe in the future
-// #elif defined(ARCH_CPU_ARM64)
-//  machine_type = IMAGE_FILE_MACHINE_ARM64;
+#elif defined(ARCH_CPU_ARM64)
+  machine_type = IMAGE_FILE_MACHINE_ARM64;
+  ctx = *thread->context.context<CONTEXT>();
+  stack_frame.AddrPC.Offset = ctx.Pc;
+  stack_frame.AddrFrame.Offset = ctx.Fp;
+  stack_frame.AddrStack.Offset = ctx.Sp;
 #else
 #error Unsupported Windows Arch
 #endif  // ARCH_CPU_X86
