@@ -616,7 +616,8 @@ void InProcessIntermediateDumpHandler::WriteProcessInfo(
 // static
 void InProcessIntermediateDumpHandler::WriteSystemInfo(
     IOSIntermediateDumpWriter* writer,
-    const IOSSystemDataCollector& system_data) {
+    const IOSSystemDataCollector& system_data,
+    uint64_t report_time_nanos) {
   IOSIntermediateDumpWriter::ScopedMap system_map(
       writer, IntermediateDumpKey::kSystemInfo);
 
@@ -702,6 +703,11 @@ void InProcessIntermediateDumpHandler::WriteSystemInfo(
   } else {
     CRASHPAD_RAW_LOG("host_statistics");
   }
+
+  uint64_t crashpad_uptime_nanos =
+      report_time_nanos - system_data.InitializationTime();
+  WriteProperty(
+      writer, IntermediateDumpKey::kCrashpadUptime, &crashpad_uptime_nanos);
 }
 
 // static
