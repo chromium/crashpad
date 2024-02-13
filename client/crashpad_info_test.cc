@@ -67,6 +67,17 @@ class CrashpadInfoTest : public testing::Test {
     ASSERT_EQ(nullptr, GetNext(current));
   }
 
+  void TearDown() override {
+    // Free the list. The list lives until process exit in production, but must
+    // be freed in tests as multiple tests run in the same process.
+    auto current = GetCurrentHead();
+    while (current) {
+      auto next = GetNext(current);
+      delete current;
+      current = next;
+    }
+  }
+
   internal::UserDataMinidumpStreamListEntry* AddStream(uint32_t stream_type,
                                                        const char* data) {
     return reinterpret_cast<internal::UserDataMinidumpStreamListEntry*>(
