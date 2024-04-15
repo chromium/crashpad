@@ -129,6 +129,7 @@ class ClientData {
         non_crash_dump_completed_event_(
             std::move(non_crash_dump_completed_event)),
         process_(std::move(process)),
+        process_promoted_(false),
         crash_exception_information_address_(
             crash_exception_information_address),
         non_crash_exception_information_address_(
@@ -171,6 +172,29 @@ class ClientData {
     return debug_critical_section_address_;
   }
   HANDLE process() const { return process_.get(); }
+
+  // Promotes the process handle to full access if it hasn't already been done.
+  HANDLE process_promoted()
+  {
+    if (!process_promoted_)
+    {
+      // Duplicate restricted process handle for a full memory access handle.
+      HANDLE hAllAccessHandle = nullptr;
+      if (DuplicateHandle(GetCurrentProcess(),
+                           process_.get(),
+                           GetCurrentProcess(),
+                           &hAllAccessHandle,
+                           kXPProcessAllAccess,
+                           FALSE,
+                           0))
+      {
+        ScopedKernelHANDLE ScopedAllAccessHandle(hAllAccessHandle);
+        process_.swap(ScopedAllAccessHandle);
+        process_promoted_ = true;
+      }
+    }
+    return process_.get();
+  }
 
  private:
   void RegisterThreadPoolWaits(
@@ -232,6 +256,7 @@ class ClientData {
   ScopedKernelHANDLE non_crash_dump_requested_event_;
   ScopedKernelHANDLE non_crash_dump_completed_event_;
   ScopedKernelHANDLE process_;
+  bool process_promoted_;
   WinVMAddress crash_exception_information_address_;
   WinVMAddress non_crash_exception_information_address_;
   WinVMAddress debug_critical_section_address_;
@@ -459,14 +484,14 @@ bool ExceptionHandlerServer::ServiceClientConnection(
   // the process, but the client will be able to, so we make a second attempt
   // having impersonated the client.
   HANDLE client_process = OpenProcess(
-      kXPProcessAllAccess, false, message.registration.client_process_id);
+      kXPProcessLimitedAccess, false, message.registration.client_process_id);
   if (!client_process) {
     if (!ImpersonateNamedPipeClient(service_context.pipe())) {
       PLOG(ERROR) << "ImpersonateNamedPipeClient";
       return false;
     }
     client_process = OpenProcess(
-        kXPProcessAllAccess, false, message.registration.client_process_id);
+        kXPProcessLimitedAccess, false, message.registration.client_process_id);
     PCHECK(RevertToSelf());
     if (!client_process) {
       LOG(ERROR) << "failed to open " << message.registration.client_process_id;
@@ -543,11 +568,11 @@ void __stdcall ExceptionHandlerServer::OnCrashDumpEvent(void* ctx, BOOLEAN) {
 
   // Capture the exception.
   unsigned int exit_code = client->delegate()->ExceptionHandlerServerException(
-      client->process(),
+      client->process_promoted(),
       client->crash_exception_information_address(),
       client->debug_critical_section_address());
 
-  SafeTerminateProcess(client->process(), exit_code);
+  SafeTerminateProcess(client->process_promoted(), exit_code);
 }
 
 // static
@@ -558,7 +583,7 @@ void __stdcall ExceptionHandlerServer::OnNonCrashDumpEvent(void* ctx, BOOLEAN) {
 
   // Capture the exception.
   client->delegate()->ExceptionHandlerServerException(
-      client->process(),
+      client->process_promoted(),
       client->non_crash_exception_information_address(),
       client->debug_critical_section_address());
 

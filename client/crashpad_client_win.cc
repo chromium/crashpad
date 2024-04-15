@@ -438,7 +438,7 @@ bool StartHandlerProcess(
   }
 
   ScopedKernelHANDLE this_process(
-      OpenProcess(kXPProcessAllAccess, true, GetCurrentProcessId()));
+      OpenProcess(kXPProcessLimitedAccess, true, GetCurrentProcessId()));
   if (!this_process.is_valid()) {
     PLOG(ERROR) << "OpenProcess";
     return false;
