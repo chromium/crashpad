@@ -41,7 +41,9 @@
 namespace crashpad {
 
 static_assert(sizeof(UUID) == 16, "UUID must be 16 bytes");
-static_assert(std::is_pod<UUID>::value, "UUID must be POD");
+static_assert(std::is_standard_layout<UUID>::value,
+              "UUID must be a standard-layout type");
+static_assert(std::is_trivial<UUID>::value, "UUID must be a trivial type");
 
 bool UUID::operator==(const UUID& that) const {
   return memcmp(this, &that, sizeof(*this)) == 0;
