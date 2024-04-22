@@ -18,6 +18,7 @@
 #include <string>
 
 #include "base/immediate_crash.h"
+#include "base/scoped_clear_last_error.h"
 #include "base/strings/stringprintf.h"
 
 namespace {
@@ -73,6 +74,9 @@ NtstatusLogMessage::~NtstatusLogMessage() {
 }
 
 void NtstatusLogMessage::AppendError() {
+  // Don't let actions from this method affect the system error after returning.
+  base::ScopedClearLastError scoped_clear_last_error;
+
   stream() << ": " << FormatNtstatus(ntstatus_)
            << base::StringPrintf(" (0x%08lx)", ntstatus_);
 }
