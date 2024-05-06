@@ -20,6 +20,7 @@
 #include "base/immediate_crash.h"
 #include "base/scoped_clear_last_error.h"
 #include "base/strings/stringprintf.h"
+#include "build/build_config.h"
 
 namespace {
 
