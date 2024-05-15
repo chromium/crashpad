@@ -247,7 +247,7 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
                                           struct_name* generic) {              \
     auto specific = base::HeapArray<T>::Uninit(count);                         \
     if (!T::ReadArrayInto(                                                     \
-        process_reader, address, specific.size(), specific.data())) {          \
+            process_reader, address, specific.size(), specific.data())) {      \
       return false;                                                            \
     }                                                                          \
     for (size_t index = 0; index < count; ++index) {                           \
