@@ -92,7 +92,7 @@ class ScopedSpinGuard final {
       SleepNanoseconds(kSpinGuardSleepTimeNanos);
     }
 
-    NOTREACHED();
+    NOTREACHED_IN_MIGRATION();
   }
 
   ~ScopedSpinGuard() {
