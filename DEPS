@@ -29,7 +29,7 @@ vars = {
 deps = {
   'buildtools':
       Var('chromium_git') + '/chromium/src/buildtools.git@' +
-      '8919328651a559f8a974641d40fe712062cc6718',
+      'efa920ce144e4dc1c1841e73179cd7e23b9f0d5e',
   'buildtools/clang_format/script':
       Var('chromium_git') +
       '/external/github.com/llvm/llvm-project/clang/tools/clang-format.git@' +
@@ -208,47 +208,6 @@ deps = {
 }
 
 hooks = [
-  {
-    'name': 'clang_format_mac',
-    'pattern': '.',
-    'condition': 'host_os == "mac"',
-    'action': [
-      'download_from_google_storage',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-clang-format',
-      '--sha1_file',
-      'buildtools/mac/clang-format.{host_cpu}.sha1',
-      '--output',
-      'buildtools/mac/clang-format',
-    ],
-  },
-  {
-    'name': 'clang_format_linux',
-    'pattern': '.',
-    'condition': 'host_os == "linux"',
-    'action': [
-      'download_from_google_storage',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-clang-format',
-      '--sha1_file',
-      'buildtools/linux64/clang-format.sha1',
-    ],
-  },
-  {
-    'name': 'clang_format_win',
-    'pattern': '.',
-    'condition': 'host_os == "win"',
-    'action': [
-      'download_from_google_storage',
-      '--no_resume',
-      '--no_auth',
-      '--bucket=chromium-clang-format',
-      '--sha1_file',
-      'buildtools/win/clang-format.exe.sha1',
-    ],
-  },
   {
     # If using a local clang ("pull_linux_clang" above), also pull down a
     # sysroot.
