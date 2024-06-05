@@ -47,7 +47,7 @@ deps = {
       '9719c1e1e676814c456b55f5f070eabad6709d31',
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
-      '5856e1ea610f6d1b47ee2e9c905498a05a1634e8',
+      'bd56f6933f2fa021a44766ced638a18f477ef1c1',
   'crashpad/third_party/libfuzzer/src':
       Var('chromium_git') + '/chromium/llvm-project/compiler-rt/lib/fuzzer.git@' +
       'fda403cf93ecb8792cb1d061564d89a6553ca020',
@@ -86,6 +86,16 @@ deps = {
     'dep_type': 'cipd',
     'condition': 'host_os == "win"',
   },
+  'crashpad/build/fuchsia': {
+     'packages': [
+       {
+        'package': 'chromium/fuchsia/test-scripts',
+        'version': 'latest',
+       }
+     ],
+     'condition': 'checkout_fuchsia',
+     'dep_type': 'cipd',
+  },
   'crashpad/third_party/linux/clang/linux-amd64': {
     'packages': [
       {
@@ -117,9 +127,14 @@ deps = {
     'dep_type': 'cipd'
   },
   'crashpad/third_party/fuchsia-gn-sdk': {
-    'url': Var('chromium_git') + '/chromium/src/third_party/fuchsia-gn-sdk.git@' +
-           '0d6902558d92fe3d49ba9a8f638ddea829be595b',
+    'packages': [
+      {
+        'package': 'chromium/fuchsia/gn-sdk',
+        'version': 'latest'
+      },
+    ],
     'condition': 'checkout_fuchsia',
+    'dep_type': 'cipd'
   },
   'crashpad/third_party/fuchsia/sdk/linux-amd64': {
     'packages': [
@@ -245,11 +260,24 @@ hooks = [
     ],
   },
   {
+    # Avoid introducing unnecessary PRESUBMIT.py file from build/fuchsia.
+    # Never fail and ignore the error if the file does not exist.
+    'name': 'Remove the PRESUBMIT.py from build/fuchsia',
+    'pattern': '.',
+    'condition': 'checkout_fuchsia',
+    'action': [
+      'rm',
+      '-f',
+      'crashpad/build/fuchsia/PRESUBMIT.py',
+    ],
+  },
+  {
     'name': 'Generate Fuchsia Build Definitions',
     'pattern': '.',
     'condition': 'checkout_fuchsia',
     'action': [
       'python3',
+      'crashpad/build/fuchsia_envs.py',
       'crashpad/build/fuchsia/gen_build_defs.py'
     ],
   },
