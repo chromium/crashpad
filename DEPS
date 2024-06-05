@@ -140,7 +140,10 @@ deps = {
     'packages': [
       {
         'package': 'fuchsia/sdk/core/linux-amd64',
-        'version': 'latest'
+        # TODO: make this latest after fixing
+        # "`__Fuchsia_API_level__` must be set to a non-zero value. For Clang,
+        # use `-ffuchsia-api-level`." warning.
+        'version': 'git_revision:d3d0c14f2fd20ada2295330547340c226e61630c',
       },
     ],
     'condition': 'checkout_fuchsia and host_os == "linux"',
