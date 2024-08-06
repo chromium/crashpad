@@ -16,9 +16,9 @@
 
 import argparse
 import os
-import pipes
 import posixpath
 import re
+import shlex
 import subprocess
 import sys
 import tempfile
@@ -185,9 +185,9 @@ def _RunOnAndroidTarget(binary_dir, test, android_device, extra_command_line):
         script_commands = []
         for k, v in env.items():
             script_commands.append('export %s=%s' %
-                                   (pipes.quote(k), pipes.quote(v)))
+                                   (shlex.quote(k), shlex.quote(v)))
         script_commands.extend([
-            ' '.join(pipes.quote(x) for x in command_args), 'status=${?}',
+            ' '.join(shlex.quote(x) for x in command_args), 'status=${?}',
             'echo "status=${status}"', 'exit ${status}'
         ])
         adb_command.append('; '.join(script_commands))
@@ -333,7 +333,9 @@ def _RunOnIOSTarget(binary_dir, test, is_xcuitest=False, gtest_filter=None):
             }
         }
         if gtest_filter:
-            module_data['CommandLineArguments'] = ['--gtest_filter='+gtest_filter]
+            module_data['CommandLineArguments'] = [
+                '--gtest_filter=' + gtest_filter
+            ]
         return {test: module_data}
 
     def xcuitest(binary_dir, test):
@@ -372,8 +374,12 @@ def _RunOnIOSTarget(binary_dir, test, is_xcuitest=False, gtest_filter=None):
         xctestrun_path = f.name + ".xctestrun"
         print(xctestrun_path)
         command = [
-            'xcodebuild', 'test-without-building', '-xctestrun', xctestrun_path,
-            '-destination', 'platform=iOS Simulator,OS=17.4,name=iPhone 15',
+            'xcodebuild',
+            'test-without-building',
+            '-xctestrun',
+            xctestrun_path,
+            '-destination',
+            'platform=iOS Simulator,OS=17.4,name=iPhone 15',
         ]
         with open(xctestrun_path, 'wb') as fp:
             if is_xcuitest:
