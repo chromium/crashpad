@@ -1005,7 +1005,7 @@ TEST_F(CrashReportDatabaseTest, InitializeFromLargerFileRetainsClientId) {
   FileWriter settings_writer;
   ASSERT_TRUE(settings_writer.Open(
       settings_path, FileWriteMode::kReuseOrFail, FilePermissions::kOwnerOnly));
-  ASSERT_NE(settings_writer.Seek(0, SEEK_END), 0u);
+  ASSERT_NE(settings_writer.Seek(0, SEEK_END), 0);
   constexpr uint64_t extra_garbage = 0xBADF00D;
   ASSERT_TRUE(settings_writer.Write(&extra_garbage, sizeof(extra_garbage)));
   settings_writer.Close();
