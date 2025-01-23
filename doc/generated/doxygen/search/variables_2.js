@@ -1,15 +1,18 @@
 var searchData=
 [
-  ['base_3223',['base',['../structcrashpad_1_1TSimpleAddressRangeBag_1_1Entry.html#a9517f0a7dce7c266a6fc34a22a389b72',1,'crashpad::TSimpleAddressRangeBag::Entry::base()'],['../structcrashpad_1_1PtraceBroker_1_1Request.html#a839198f6879d08e96bac2b85661ba664',1,'crashpad::PtraceBroker::Request::base()']]],
-  ['base_5faddress_3224',['base_address',['../structcrashpad_1_1internal_1_1UserDataMinidumpStreamListEntry.html#adff7d5348d3834baecaeb8954204959d',1,'crashpad::internal::UserDataMinidumpStreamListEntry']]],
-  ['baseaddress_3225',['BaseAddress',['../structMINIDUMP__MEMORY__INFO.html#aec6438bf8c20fe45e8b31c679b6e06a6',1,'MINIDUMP_MEMORY_INFO']]],
-  ['baseofimage_3226',['BaseOfImage',['../structMINIDUMP__MODULE.html#af4b4a246ebfa54e57e4c953fb0c3dd31',1,'MINIDUMP_MODULE::BaseOfImage()'],['../structMINIDUMP__UNLOADED__MODULE.html#a57d74355789f2f6e363aafb60c53c6f4',1,'MINIDUMP_UNLOADED_MODULE::BaseOfImage()']]],
-  ['bcr_3227',['bcr',['../structcrashpad_1_1MinidumpContextARM64.html#a09cda5ba9ffc233287cfd7b3b2aafc5f',1,'crashpad::MinidumpContextARM64']]],
-  ['behavior_3228',['behavior',['../structcrashpad_1_1ExceptionPorts_1_1ExceptionHandler.html#afe1cc47a696cc12532e27f7e442c0364',1,'crashpad::ExceptionPorts::ExceptionHandler']]],
-  ['bias_3229',['Bias',['../structTIME__ZONE__INFORMATION.html#acf8f3a23cd1cabc4cdcf3c5c4b527b71',1,'TIME_ZONE_INFORMATION']]],
-  ['binding_3230',['binding',['../structcrashpad_1_1ElfSymbolTableReader_1_1SymbolInformation.html#a0b5471dd66a2a1aa3a3a87d5ce8b5623',1,'crashpad::ElfSymbolTableReader::SymbolInformation']]],
-  ['buffer_3231',['Buffer',['../structMINIDUMP__STRING.html#af94c17c544656672a9cca277c4bcf7c4',1,'MINIDUMP_STRING::Buffer()'],['../structcrashpad_1_1MinidumpUTF8String.html#a61f284e63d9bc6cf975acfb035efda12',1,'crashpad::MinidumpUTF8String::Buffer()']]],
-  ['build_5fid_3232',['build_id',['../structcrashpad_1_1CodeViewRecordBuildID.html#aef5009c2ba5901bbd45b04c23a4029b9',1,'crashpad::CodeViewRecordBuildID']]],
-  ['buildnumber_3233',['BuildNumber',['../structMINIDUMP__SYSTEM__INFO.html#a2d417f17d4a3c2d5616268288bf47521',1,'MINIDUMP_SYSTEM_INFO']]],
-  ['buildstring_3234',['BuildString',['../structMINIDUMP__MISC__INFO__4.html#a22ccb40896084aced8a3c780a927456f',1,'MINIDUMP_MISC_INFO_4']]]
+  ['checksum_0',['CheckSum',['../structMINIDUMP__HEADER.html#a007f6608822bbef3d289f0cb125c1d9a',1,'MINIDUMP_HEADER::CheckSum'],['../structMINIDUMP__MODULE.html#a9e034dc1c99bf014191f44c90ebe7bd4',1,'MINIDUMP_MODULE::CheckSum'],['../structMINIDUMP__UNLOADED__MODULE.html#a3bcd1d1a409227a8d88c3892043b32b2',1,'MINIDUMP_UNLOADED_MODULE::CheckSum']]],
+  ['children_1',['children',['../structcrashpad_1_1MinidumpRVAList.html#a4f9dfed4283a44b46c6a77902c1bb5c1',1,'crashpad::MinidumpRVAList']]],
+  ['client_5fid_2',['client_id',['../structcrashpad_1_1MinidumpCrashpadInfo.html#ad83ed0b5dd10f4ddaf138caf96861b97',1,'crashpad::MinidumpCrashpadInfo']]],
+  ['client_5finfo_3',['client_info',['../structcrashpad_1_1ExceptionHandlerProtocol_1_1ClientToServerMessage.html#a575fd2b4083248a229e443074b0cb483',1,'crashpad::ExceptionHandlerProtocol::ClientToServerMessage']]],
+  ['client_5fprocess_5fid_4',['client_process_id',['../structcrashpad_1_1RegistrationRequest.html#ae3604e826a93327a3572654432797f21',1,'crashpad::RegistrationRequest']]],
+  ['context_5faddress_5',['context_address',['../structcrashpad_1_1ExceptionInformation.html#a5f7a27486547443fcd37bccc43dd1e7a',1,'crashpad::ExceptionInformation']]],
+  ['contextsize_6',['ContextSize',['../structXSTATE__CONFIG__FEATURE__MSC__INFO.html#ad99cdcfc9bdda141c5570e1fb28c423b',1,'XSTATE_CONFIG_FEATURE_MSC_INFO']]],
+  ['count_7',['count',['../structcrashpad_1_1MinidumpRVAList.html#a5ef79f60f1e81800a00cc2b7c2e4243e',1,'crashpad::MinidumpRVAList::count'],['../structcrashpad_1_1MinidumpSimpleStringDictionary.html#aadf82c0a32523172d3ef4755331aa580',1,'crashpad::MinidumpSimpleStringDictionary::count'],['../structcrashpad_1_1MinidumpAnnotationList.html#a140e207c080b66503daa82a98f6c9c50',1,'crashpad::MinidumpAnnotationList::count'],['../structcrashpad_1_1MinidumpModuleCrashpadInfoList.html#aa68aba45add215f1e1aff874201baaae',1,'crashpad::MinidumpModuleCrashpadInfoList::count']]],
+  ['cpu_8',['Cpu',['../structMINIDUMP__SYSTEM__INFO.html#ad5e99c9f3240a6ffae813b3e7b3ddd29',1,'MINIDUMP_SYSTEM_INFO']]],
+  ['crash_5fexception_5finformation_9',['crash_exception_information',['../structcrashpad_1_1RegistrationRequest.html#a3366228626d095d8a4b0000fa04c05fb',1,'crashpad::RegistrationRequest']]],
+  ['crashpad_5fhandler_5fbehavior_10',['crashpad_handler_behavior',['../structcrashpad_1_1CrashpadInfoClientOptions.html#a1bb1434593a93634c9f352145e002d41',1,'crashpad::CrashpadInfoClientOptions']]],
+  ['creation_5ftime_11',['creation_time',['../structcrashpad_1_1CrashReportDatabase_1_1Report.html#a8011cd1a4b4fcd84ecbc21e5c5fd80b8',1,'crashpad::CrashReportDatabase::Report']]],
+  ['critical_5fsection_5faddress_12',['critical_section_address',['../structcrashpad_1_1RegistrationRequest.html#a72b1c9a78b88b019f699ee8e8793e80c',1,'crashpad::RegistrationRequest']]],
+  ['csdversionrva_13',['CSDVersionRva',['../structMINIDUMP__SYSTEM__INFO.html#a36f5669d9d4f8dc7d5d3ab0132d60943',1,'MINIDUMP_SYSTEM_INFO']]],
+  ['cvrecord_14',['CvRecord',['../structMINIDUMP__MODULE.html#acd07e35faf066880eeabea8a91aa887a',1,'MINIDUMP_MODULE']]]
 ];
