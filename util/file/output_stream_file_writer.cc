@@ -1,4 +1,4 @@
-// Copyright 2020 The Crashpad Authors. All rights reserved.
+// Copyright 2020 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #include "util/file/output_stream_file_writer.h"
 
 #include "base/logging.h"
+#include "base/notreached.h"
 #include "util/stream/output_stream_interface.h"
 
 namespace crashpad {
@@ -56,7 +57,6 @@ bool OutputStreamFileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
 
 FileOffset OutputStreamFileWriter::Seek(FileOffset offset, int whence) {
   NOTREACHED();
-  return -1;
 }
 
 bool OutputStreamFileWriter::Flush() {

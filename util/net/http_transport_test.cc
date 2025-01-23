@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@
 
 #include "base/files/file_path.h"
 #include "base/format_macros.h"
-#include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
@@ -42,9 +41,9 @@ namespace crashpad {
 namespace test {
 namespace {
 
-#if defined(OS_WIN)
-std::string ToUTF8IfWin(const base::string16& x) {
-  return base::UTF16ToUTF8(x);
+#if BUILDFLAG(IS_WIN)
+std::string ToUTF8IfWin(const std::wstring& x) {
+  return base::WideToUTF8(x);
 }
 #else
 std::string ToUTF8IfWin(const std::string& x) {
@@ -71,7 +70,7 @@ class HTTPTransportTestFixture : public MultiprocessExec {
         scheme_and_host_() {
     base::FilePath server_path = TestPaths::Executable().DirName().Append(
         FILE_PATH_LITERAL("http_transport_test_server")
-#if defined(OS_WIN)
+#if BUILDFLAG(IS_WIN)
             FILE_PATH_LITERAL(".exe")
 #endif
     );
@@ -99,7 +98,8 @@ class HTTPTransportTestFixture : public MultiprocessExec {
  private:
   void MultiprocessParent() override {
     // Use Logging*File() instead of Checked*File() so that the test can fail
-    // gracefully with a gtest assertion if the child does not execute properly.
+    // gracefully with a Google Test assertion if the child does not execute
+    // properly.
 
     // The child will write the HTTP server port number as a packed unsigned
     // short to stdout.
@@ -361,7 +361,7 @@ TEST_P(HTTPTransport, Upload33k_LengthUnknown) {
 }
 
 // This should be on for Fuchsia, but DX-382. Debug and re-enabled.
-#if defined(CRASHPAD_USE_BORINGSSL) && !defined(OS_FUCHSIA)
+#if defined(CRASHPAD_USE_BORINGSSL) && !BUILDFLAG(IS_FUCHSIA)
 // The test server requires BoringSSL or OpenSSL, so https in tests can only be
 // enabled where that's readily available. Additionally on Linux, the bots fail
 // lacking libcrypto.so.1.1, so disabled there for now. On Mac, they could also

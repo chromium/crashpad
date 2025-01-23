@@ -1,4 +1,4 @@
-// Copyright 2018 The Crashpad Authors. All rights reserved.
+// Copyright 2018 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@
 #include <memory>
 #include <vector>
 
-#include "base/macros.h"
 #include "build/build_config.h"
 #include "snapshot/elf/elf_image_reader.h"
 #include "snapshot/fuchsia/memory_map_fuchsia.h"
@@ -77,6 +76,10 @@ class ProcessReaderFuchsia {
     //!     returned by `zx_thread_read_state()`.
     zx_thread_state_general_regs_t general_registers = {};
 
+    //! \brief The raw architecture-specific `zx_thread_state_fp_regs_t` as
+    //!     returned by `zx_thread_read_state()`.
+    zx_thread_state_fp_regs_t fp_registers = {};
+
     //! \brief The raw architecture-specific `zx_thread_state_vector_regs_t` as
     //!     returned by `zx_thread_read_state()`.
     zx_thread_state_vector_regs_t vector_registers = {};
@@ -88,6 +91,10 @@ class ProcessReaderFuchsia {
   };
 
   ProcessReaderFuchsia();
+
+  ProcessReaderFuchsia(const ProcessReaderFuchsia&) = delete;
+  ProcessReaderFuchsia& operator=(const ProcessReaderFuchsia&) = delete;
+
   ~ProcessReaderFuchsia();
 
   //! \brief Initializes this object. This method must be called before any
@@ -138,8 +145,6 @@ class ProcessReaderFuchsia {
   bool initialized_threads_ = false;
   bool initialized_memory_map_ = false;
   InitializationStateDcheck initialized_;
-
-  DISALLOW_COPY_AND_ASSIGN(ProcessReaderFuchsia);
 };
 
 }  // namespace crashpad

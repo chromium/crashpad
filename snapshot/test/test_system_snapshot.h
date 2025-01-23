@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@
 
 #include <string>
 
-#include "base/macros.h"
 #include "snapshot/system_snapshot.h"
 
 namespace crashpad {
@@ -30,6 +29,10 @@ namespace test {
 class TestSystemSnapshot final : public SystemSnapshot {
  public:
   TestSystemSnapshot();
+
+  TestSystemSnapshot(const TestSystemSnapshot&) = delete;
+  TestSystemSnapshot& operator=(const TestSystemSnapshot&) = delete;
+
   ~TestSystemSnapshot() override;
 
   void SetCPUArchitecture(CPUArchitecture cpu_architecture) {
@@ -87,6 +90,8 @@ class TestSystemSnapshot final : public SystemSnapshot {
     time_zone_daylight_name_ = daylight_name;
   }
 
+  void SetAddressMask(uint64_t mask) { address_mask_ = mask; }
+
   // SystemSnapshot:
 
   CPUArchitecture GetCPUArchitecture() const override;
@@ -111,6 +116,7 @@ class TestSystemSnapshot final : public SystemSnapshot {
                 int* daylight_offset_seconds,
                 std::string* standard_name,
                 std::string* daylight_name) const override;
+  uint64_t AddressMask() const override;
 
  private:
   CPUArchitecture cpu_architecture_;
@@ -131,6 +137,7 @@ class TestSystemSnapshot final : public SystemSnapshot {
   int os_version_bugfix_;
   std::string os_version_build_;
   std::string os_version_full_;
+  uint64_t address_mask_;
   bool nx_enabled_;
   std::string machine_description_;
   DaylightSavingTimeStatus time_zone_dst_status_;
@@ -138,8 +145,6 @@ class TestSystemSnapshot final : public SystemSnapshot {
   int time_zone_daylight_offset_seconds_;
   std::string time_zone_standard_name_;
   std::string time_zone_daylight_name_;
-
-  DISALLOW_COPY_AND_ASSIGN(TestSystemSnapshot);
 };
 
 }  // namespace test

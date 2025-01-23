@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@
 
 #include <string>
 
-#include "base/macros.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_writable.h"
@@ -49,7 +48,7 @@ namespace test {
 //!
 //! \return If the size of \a location is agrees with \a expected_size, and if
 //!     \a location is within the range of \a file_contents, returns a pointer
-//!     into \a file_contents at offset \a rva. Otherwise, raises a gtest
+//!     into \a file_contents at offset \a rva. Otherwise, raises a Google Test
 //!     assertion failure and returns `nullptr`.
 //!
 //! Do not call this function. Use the typed version,
@@ -57,6 +56,17 @@ namespace test {
 const void* MinidumpWritableAtLocationDescriptorInternal(
     const std::string& file_contents,
     const MINIDUMP_LOCATION_DESCRIPTOR& location,
+    size_t expected_size,
+    bool allow_oversized_data);
+
+//! \brief 64-bit specialization of
+//! MinidumpWritableAtLocationDescriptorInternal.
+//!
+//! Do not call this function. Use the typed version,
+//! MinidumpWritableAtLocationDescriptor<>(), or another type-specific function.
+const void* MinidumpWritableAtLocationDescriptorInternal(
+    const std::string& file_contents,
+    const MINIDUMP_LOCATION_DESCRIPTOR64& location,
     size_t expected_size,
     bool allow_oversized_data);
 
@@ -91,6 +101,7 @@ MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_MEMORY_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_MODULE_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_UNLOADED_MODULE_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_THREAD_LIST);
+MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_THREAD_NAME_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_HANDLE_DATA_STREAM);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_MEMORY_INFO_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpModuleCrashpadInfoList);
@@ -135,6 +146,22 @@ const T* TMinidumpWritableAtLocationDescriptor(
           MinidumpWritableTraits<T>::kAllowOversizedData));
 }
 
+//! \brief 64-bit specialization of TMinidumpWritableAtLocationDescriptor.
+//!
+//! Do not call this function directly. Use
+//! MinidumpWritableAtLocationDescriptor<>() instead.
+template <typename T>
+const T* TMinidumpWritableAtLocationDescriptor(
+    const std::string& file_contents,
+    const MINIDUMP_LOCATION_DESCRIPTOR64& location) {
+  return reinterpret_cast<const T*>(
+      MinidumpWritableAtLocationDescriptorInternal(
+          file_contents,
+          location,
+          sizeof(T),
+          MinidumpWritableTraits<T>::kAllowOversizedData));
+}
+
 //! \brief Returns a typed minidump object located within a minidump file’s
 //!     contents, where the offset and size of the object are known.
 //!
@@ -142,7 +169,8 @@ const T* TMinidumpWritableAtLocationDescriptor(
 //! checking than the default implementation:
 //!  - With a MINIDUMP_HEADER template parameter, a template specialization
 //!    ensures that the structure’s magic number and version fields are correct.
-//!  - With a MINIDUMP_MEMORY_LIST, MINIDUMP_THREAD_LIST, MINIDUMP_MODULE_LIST,
+//!  - With a MINIDUMP_MEMORY_LIST, MINIDUMP_THREAD_LIST,
+//!    MINIDUMP_THREAD_NAME_LIST, MINIDUMP_MODULE_LIST,
 //!    MINIDUMP_MEMORY_INFO_LIST, MinidumpSimpleStringDictionary, or
 //!    MinidumpAnnotationList template parameter, template specializations
 //!    ensure that the size given by \a location matches the size expected of a
@@ -159,13 +187,21 @@ const T* TMinidumpWritableAtLocationDescriptor(
 //! \return If the size of \a location is at least as big as the size of the
 //!     requested object, and if \a location is within the range of \a
 //!     file_contents, returns a pointer into \a file_contents at offset \a rva.
-//!     Otherwise, raises a gtest assertion failure and returns `nullptr`.
+//!     Otherwise, raises a Google Test assertion failure and returns `nullptr`.
 //!
 //! \sa MinidumpWritableAtRVA()
 template <typename T>
 const T* MinidumpWritableAtLocationDescriptor(
     const std::string& file_contents,
     const MINIDUMP_LOCATION_DESCRIPTOR& location) {
+  return TMinidumpWritableAtLocationDescriptor<T>(file_contents, location);
+}
+
+//! \brief 64-bit specialization of MinidumpWritableAtLocationDescriptor.
+template <typename T>
+const T* MinidumpWritableAtLocationDescriptor(
+    const std::string& file_contents,
+    const MINIDUMP_LOCATION_DESCRIPTOR64& location) {
   return TMinidumpWritableAtLocationDescriptor<T>(file_contents, location);
 }
 
@@ -200,6 +236,12 @@ MinidumpWritableAtLocationDescriptor<MINIDUMP_UNLOADED_MODULE_LIST>(
 template <>
 const MINIDUMP_THREAD_LIST*
 MinidumpWritableAtLocationDescriptor<MINIDUMP_THREAD_LIST>(
+    const std::string& file_contents,
+    const MINIDUMP_LOCATION_DESCRIPTOR& location);
+
+template <>
+const MINIDUMP_THREAD_NAME_LIST*
+MinidumpWritableAtLocationDescriptor<MINIDUMP_THREAD_NAME_LIST>(
     const std::string& file_contents,
     const MINIDUMP_LOCATION_DESCRIPTOR& location);
 
@@ -259,13 +301,22 @@ MinidumpWritableAtLocationDescriptor<MinidumpAnnotationList>(
 //!
 //! \return If \a rva plus the size of an object of type \a T is within the
 //!     range of \a file_contents, returns a pointer into \a file_contents at
-//!     offset \a rva. Otherwise, raises a gtest assertion failure and returns
-//!     `nullptr`.
+//!     offset \a rva. Otherwise, raises a Google Test assertion failure and
+//!     returns `nullptr`.
 //!
 //! \sa MinidumpWritableAtLocationDescriptor<>()
 template <typename T>
 const T* MinidumpWritableAtRVA(const std::string& file_contents, RVA rva) {
   MINIDUMP_LOCATION_DESCRIPTOR location;
+  location.DataSize = sizeof(T);
+  location.Rva = rva;
+  return MinidumpWritableAtLocationDescriptor<T>(file_contents, location);
+}
+
+//! \brief 64-bit specialization of MinidumpWritableAtRVA.
+template <typename T>
+const T* MinidumpWritableAtRVA(const std::string& file_contents, RVA64 rva) {
+  MINIDUMP_LOCATION_DESCRIPTOR64 location;
   location.DataSize = sizeof(T);
   location.Rva = rva;
   return MinidumpWritableAtLocationDescriptor<T>(file_contents, location);
@@ -277,6 +328,10 @@ class TestUInt32MinidumpWritable final : public internal::MinidumpWritable {
   //! \brief Constructs the object to write a `uint32_t` with value \a value.
   explicit TestUInt32MinidumpWritable(uint32_t value);
 
+  TestUInt32MinidumpWritable(const TestUInt32MinidumpWritable&) = delete;
+  TestUInt32MinidumpWritable& operator=(const TestUInt32MinidumpWritable&) =
+      delete;
+
   ~TestUInt32MinidumpWritable() override;
 
  protected:
@@ -286,8 +341,6 @@ class TestUInt32MinidumpWritable final : public internal::MinidumpWritable {
 
  private:
   uint32_t value_;
-
-  DISALLOW_COPY_AND_ASSIGN(TestUInt32MinidumpWritable);
 };
 
 }  // namespace test

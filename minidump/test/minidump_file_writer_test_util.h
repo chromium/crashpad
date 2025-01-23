@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,17 +33,17 @@ namespace test {
 //! \param[in] file_contents The contents of the minidump file.
 //! \param[out] directory The MINIDUMP_DIRECTORY referenced by the
 //!     MINIDUMP_HEADER. If the MINIDUMP_HEADER does not reference a
-//!     MINIDUMP_DIRECTORY, `nullptr` without raising a gtest assertion. If the
-//!     referenced MINIDUMP_DIRECTORY is not valid, `nullptr` with a gtest
-//!     assertion raised. On failure, `nullptr`.
+//!     MINIDUMP_DIRECTORY, `nullptr` without raising a Google Test assertion.
+//!     If the referenced MINIDUMP_DIRECTORY is not valid, `nullptr` with a
+//!     Google Test assertion raised. On failure, `nullptr`.
 //!
 //! \return On success, the MINIDUMP_HEADER at the beginning of the minidump
-//!     file. On failure, raises a gtest assertion and returns `nullptr`.
+//!     file. On failure, raises a Google Test assertion and returns `nullptr`.
 const MINIDUMP_HEADER* MinidumpHeaderAtStart(
     const std::string& file_contents,
     const MINIDUMP_DIRECTORY** directory);
 
-//! \brief Verifies, via gtest assertions, that a MINIDUMP_HEADER contains
+//! \brief Verifies, via Google Test assertions, that a MINIDUMP_HEADER contains
 //!     expected values.
 //!
 //! All fields in the MINIDUMP_HEADER will be evaluated except for the Signature

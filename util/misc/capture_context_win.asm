@@ -1,4 +1,4 @@
-; Copyright 2015 The Crashpad Authors. All rights reserved.
+; Copyright 2015 The Crashpad Authors
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -24,10 +24,6 @@ ifdef _M_IX86
 .xmm
 .model flat
 endif
-
-offsetof macro structure, field
-  exitm <structure.&field>
-endm
 
 ; The CONTEXT structure definitions that follow are based on those in <winnt.h>.
 ; Field names are prefixed (as in c_Rax) to avoid colliding with the predefined
@@ -481,8 +477,7 @@ CAPTURECONTEXT_SYMBOL proc frame
   cld
   lea rdi, [rcx.CONTEXT].c_FltSave
   xor rax, rax
-  mov rcx, (sizeof(CONTEXT) - offsetof(CONTEXT, c_FltSave)) / \
-           sizeof(qword)  ; 122
+  mov rcx, (sizeof(CONTEXT) - CONTEXT.c_FltSave) / sizeof(qword)  ; 122
   rep stosq
   mov rcx, rbx
 

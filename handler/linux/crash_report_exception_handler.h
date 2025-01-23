@@ -1,4 +1,4 @@
-// Copyright 2018 The Crashpad Authors. All rights reserved.
+// Copyright 2018 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 #include <map>
 #include <string>
 
-#include "base/macros.h"
 #include "client/crash_report_database.h"
 #include "handler/crash_report_upload_thread.h"
 #include "handler/linux/exception_handler_server.h"
@@ -53,6 +52,8 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
   //!     To interoperate with Breakpad servers, the recommended practice is to
   //!     specify values for the `"prod"` and `"ver"` keys as process
   //!     annotations.
+  //! \param[in] attachments A vector of file paths that should be captured with
+  //!     each report at the time of the crash.
   //! \param[in] write_minidump_to_database Whether the minidump shall be
   //!     written to database.
   //! \param[in] write_minidump_to_log Whether the minidump shall be written to
@@ -65,9 +66,14 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
       CrashReportDatabase* database,
       CrashReportUploadThread* upload_thread,
       const std::map<std::string, std::string>* process_annotations,
+      const std::vector<base::FilePath>* attachments,
       bool write_minidump_to_database,
       bool write_minidump_to_log,
       const UserStreamDataSources* user_stream_data_sources);
+
+  CrashReportExceptionHandler(const CrashReportExceptionHandler&) = delete;
+  CrashReportExceptionHandler& operator=(const CrashReportExceptionHandler&) =
+      delete;
 
   ~CrashReportExceptionHandler() override;
 
@@ -106,11 +112,10 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
   CrashReportDatabase* database_;  // weak
   CrashReportUploadThread* upload_thread_;  // weak
   const std::map<std::string, std::string>* process_annotations_;  // weak
+  const std::vector<base::FilePath>* attachments_;  // weak
   bool write_minidump_to_database_;
   bool write_minidump_to_log_;
   const UserStreamDataSources* user_stream_data_sources_;  // weak
-
-  DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);
 };
 
 }  // namespace crashpad

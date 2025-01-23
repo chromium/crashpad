@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 #include <string>
 
 #include "build/build_config.h"
+#include "gmock/gmock.h"
 #include "gtest/gtest.h"
 #include "snapshot/mac/process_reader_mac.h"
 #include "test/errors.h"
@@ -42,6 +43,9 @@ class SystemSnapshotMacTest : public testing::Test {
         system_snapshot_() {
   }
 
+  SystemSnapshotMacTest(const SystemSnapshotMacTest&) = delete;
+  SystemSnapshotMacTest& operator=(const SystemSnapshotMacTest&) = delete;
+
   const internal::SystemSnapshotMac& system_snapshot() const {
     return system_snapshot_;
   }
@@ -58,8 +62,6 @@ class SystemSnapshotMacTest : public testing::Test {
   ProcessReaderMac process_reader_;
   timeval snapshot_time_;
   internal::SystemSnapshotMac system_snapshot_;
-
-  DISALLOW_COPY_AND_ASSIGN(SystemSnapshotMacTest);
 };
 
 TEST_F(SystemSnapshotMacTest, GetCPUArchitecture) {
@@ -69,6 +71,8 @@ TEST_F(SystemSnapshotMacTest, GetCPUArchitecture) {
   EXPECT_EQ(cpu_architecture, kCPUArchitectureX86);
 #elif defined(ARCH_CPU_X86_64)
   EXPECT_EQ(cpu_architecture, kCPUArchitectureX86_64);
+#elif defined(ARCH_CPU_ARM64)
+  EXPECT_EQ(cpu_architecture, kCPUArchitectureARM64);
 #else
 #error port to your architecture
 #endif
@@ -87,6 +91,8 @@ TEST_F(SystemSnapshotMacTest, CPUVendor) {
   if (cpu_vendor != "GenuineIntel" && cpu_vendor != "AuthenticAMD") {
     FAIL() << "cpu_vendor " << cpu_vendor;
   }
+#elif defined(ARCH_CPU_ARM64)
+  EXPECT_THAT(cpu_vendor, testing::StartsWith("Apple "));
 #else
 #error port to your architecture
 #endif
@@ -113,8 +119,10 @@ TEST_F(SystemSnapshotMacTest, OSVersion) {
   std::string build;
   system_snapshot().OSVersion(&major, &minor, &bugfix, &build);
 
-  EXPECT_EQ(major, 10);
-  EXPECT_EQ(minor, MacOSXMinorVersion());
+  const int macos_version_number = MacOSVersionNumber();
+  EXPECT_EQ(major * 1'00'00 + minor * 1'00 +
+                (macos_version_number >= 10'13'04 ? bugfix : 0),
+            macos_version_number);
   EXPECT_FALSE(build.empty());
 }
 

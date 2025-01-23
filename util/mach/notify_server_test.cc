@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 
 #include <stddef.h>
 
+#include "base/apple/scoped_mach_port.h"
 #include "base/compiler_specific.h"
-#include "base/mac/scoped_mach_port.h"
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 #include "test/mac/mach_errors.h"
@@ -46,7 +46,7 @@ using testing::WithArg;
 //! \param[in] receive_right The receive right to add a send right to.
 //!
 //! \return The send right, which will have the same name as the receive right.
-//!     On failure, `MACH_PORT_NULL` with a gtest failure added.
+//!     On failure, `MACH_PORT_NULL` with a Google Test failure added.
 mach_port_t SendRightFromReceiveRight(mach_port_t receive_right) {
   kern_return_t kr = mach_port_insert_right(
       mach_task_self(), receive_right, receive_right, MACH_MSG_TYPE_MAKE_SEND);
@@ -63,7 +63,7 @@ mach_port_t SendRightFromReceiveRight(mach_port_t receive_right) {
 //!
 //! \param[in] receive_right The receive right to make a send-once right from.
 //!
-//! \return The send-once right. On failure, `MACH_PORT_NULL` with a gtest
+//! \return The send-once right. On failure, `MACH_PORT_NULL` with a Google Test
 //!     failure added.
 mach_port_t SendOnceRightFromReceiveRight(mach_port_t receive_right) {
   mach_port_t send_once_right;
@@ -89,9 +89,9 @@ mach_port_t SendOnceRightFromReceiveRight(mach_port_t receive_right) {
 //!
 //! This function exists to adapt `mach_port_deallocate()` to a function that
 //! accepts a single argument and has no return value. It can be used with the
-//! testing::Invoke() gmock action.
+//! testing::Invoke() Google Mock action.
 //!
-//! On failure, a gtest failure will be added.
+//! On failure, a Google Test failure will be added.
 void MachPortDeallocate(mach_port_t port) {
   kern_return_t kr = mach_port_deallocate(mach_task_self(), port);
   EXPECT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "mach_port_deallocate");
@@ -103,7 +103,7 @@ void MachPortDeallocate(mach_port_t port) {
 //! \param[in] right The right to check for.
 //!
 //! \return `true` if \a port has \a right, `false` otherwise. On faliure,
-//!     `false` with a gtest failure added.
+//!     `false` with a Google Test failure added.
 bool IsRight(mach_port_t port, mach_port_type_t right) {
   mach_port_type_t type;
   kern_return_t kr = mach_port_type(mach_task_self(), port, &type);
@@ -118,12 +118,12 @@ bool IsRight(mach_port_t port, mach_port_type_t right) {
 //! \brief Determines whether a receive right is held for a Mach port.
 //!
 //! This is a special single-argument form of IsRight() for ease of use in a
-//! gmock matcher.
+//! Google Mock matcher.
 //!
 //! \param[in] port The port to check for a receive right.
 //!
 //! \return `true` if a receive right is held, `false` otherwise. On faliure,
-//!     `false` with a gtest failure added.
+//!     `false` with a Google Test failure added.
 bool IsReceiveRight(mach_port_t port) {
   return IsRight(port, MACH_PORT_TYPE_RECEIVE);
 }
@@ -134,7 +134,7 @@ bool IsReceiveRight(mach_port_t port) {
 //! \param[in] right The port right to return the user reference count for.
 //!
 //! \return The user reference count for the specified port and right. On
-//!     failure, `-1` with a gtest failure added.
+//!     failure, `-1` with a Google Test failure added.
 mach_port_urefs_t RightRefCount(mach_port_t port, mach_port_right_t right) {
   mach_port_urefs_t refs;
   kern_return_t kr = mach_port_get_refs(mach_task_self(), port, right, &refs);
@@ -149,13 +149,13 @@ mach_port_urefs_t RightRefCount(mach_port_t port, mach_port_right_t right) {
 //! \brief Returns the user reference count for a port’s dead-name rights.
 //!
 //! This is a special single-argument form of RightRefCount() for ease of use in
-//! a gmock matcher.
+//! a Google Mock matcher.
 //!
 //! \param[in] port The port whose dead-name user reference count should be
 //!     returned.
 //!
 //! \return The user reference count for the port’s dead-name rights. On
-//!     failure, `-1` with a gtest failure added.
+//!     failure, `-1` with a Google Test failure added.
 mach_port_urefs_t DeadNameRightRefCount(mach_port_t port) {
   return RightRefCount(port, MACH_PORT_RIGHT_DEAD_NAME);
 }
@@ -163,32 +163,44 @@ mach_port_urefs_t DeadNameRightRefCount(mach_port_t port) {
 class NotifyServerTestBase : public testing::Test,
                              public NotifyServer::Interface {
  public:
+  NotifyServerTestBase(const NotifyServerTestBase&) = delete;
+  NotifyServerTestBase& operator=(const NotifyServerTestBase&) = delete;
+
   // NotifyServer::Interface:
 
-  MOCK_METHOD3(DoMachNotifyPortDeleted,
-               kern_return_t(notify_port_t notify,
-                             mach_port_name_t name,
-                             const mach_msg_trailer_t* trailer));
+  MOCK_METHOD(kern_return_t,
+              DoMachNotifyPortDeleted,
+              (notify_port_t notify,
+               mach_port_name_t name,
+               const mach_msg_trailer_t* trailer),
+              (override));
 
-  MOCK_METHOD4(DoMachNotifyPortDestroyed,
-               kern_return_t(notify_port_t notify,
-                             mach_port_t rights,
-                             const mach_msg_trailer_t* trailer,
-                             bool* destroy_request));
+  MOCK_METHOD(kern_return_t,
+              DoMachNotifyPortDestroyed,
+              (notify_port_t notify,
+               mach_port_t rights,
+               const mach_msg_trailer_t* trailer,
+               bool* destroy_request),
+              (override));
 
-  MOCK_METHOD3(DoMachNotifyNoSenders,
-               kern_return_t(notify_port_t notify,
-                             mach_port_mscount_t mscount,
-                             const mach_msg_trailer_t* trailer));
+  MOCK_METHOD(kern_return_t,
+              DoMachNotifyNoSenders,
+              (notify_port_t notify,
+               mach_port_mscount_t mscount,
+               const mach_msg_trailer_t* trailer),
+              (override));
 
-  MOCK_METHOD2(DoMachNotifySendOnce,
-               kern_return_t(notify_port_t notify,
-                             const mach_msg_trailer_t* trailer));
+  MOCK_METHOD(kern_return_t,
+              DoMachNotifySendOnce,
+              (notify_port_t notify, const mach_msg_trailer_t* trailer),
+              (override));
 
-  MOCK_METHOD3(DoMachNotifyDeadName,
-               kern_return_t(notify_port_t notify,
-                             mach_port_name_t name,
-                             const mach_msg_trailer_t* trailer));
+  MOCK_METHOD(kern_return_t,
+              DoMachNotifyDeadName,
+              (notify_port_t notify,
+               mach_port_name_t name,
+               const mach_msg_trailer_t* trailer),
+              (override));
 
  protected:
   NotifyServerTestBase() : testing::Test(), NotifyServer::Interface() {}
@@ -202,7 +214,8 @@ class NotifyServerTestBase : public testing::Test,
   //! send-once right made from ServerPort(). Any previous send right for the
   //! notification will be deallocated.
   //!
-  //! \return `true` on success, `false` on failure with a gtest failure added.
+  //! \return `true` on success, `false` on failure with a Google Test failure
+  //!     added.
   bool RequestMachPortNotification(mach_port_t name,
                                    mach_msg_id_t variant,
                                    mach_port_mscount_t sync) {
@@ -221,7 +234,7 @@ class NotifyServerTestBase : public testing::Test,
       return false;
     }
 
-    base::mac::ScopedMachSendRight previous_owner(previous);
+    base::apple::ScopedMachSendRight previous_owner(previous);
     EXPECT_EQ(previous, kMachPortNull);
 
     return true;
@@ -231,12 +244,12 @@ class NotifyServerTestBase : public testing::Test,
   //!
   //! The server will listen on ServerPort() in persistent nonblocking mode, and
   //! dispatch received messages to the appropriate NotifyServer::Interface
-  //! method. gmock expectations check that the proper method, if any, is called
-  //! exactly once, and that no undesired methods are called.
+  //! method. Google Mock expectations check that the proper method, if any, is
+  //! called exactly once, and that no undesired methods are called.
   //!
   //! MachMessageServer::Run() is expected to return `MACH_RCV_TIMED_OUT`,
   //! because it runs in persistent nonblocking mode. If it returns anything
-  //! else, a gtest assertion is added.
+  //! else, a Google Test assertion is added.
   void RunServer() {
     NotifyServer notify_server(this);
     mach_msg_return_t mr =
@@ -257,7 +270,7 @@ class NotifyServerTestBase : public testing::Test,
   //!
   //! \return The server port receive right, creating it if one has not yet been
   //!     established for the current test. On failure, returns `MACH_PORT_NULL`
-  //!     with a gtest failure added.
+  //!     with a Google Test failure added.
   mach_port_t ServerPort() {
     if (!server_port_.is_valid()) {
       server_port_.reset(NewMachPort(MACH_PORT_RIGHT_RECEIVE));
@@ -268,14 +281,10 @@ class NotifyServerTestBase : public testing::Test,
   }
 
   // testing::Test:
-  void TearDown() override {
-    server_port_.reset();
-  }
+  void TearDown() override { server_port_.reset(); }
 
  private:
-  base::mac::ScopedMachReceiveRight server_port_;
-
-  DISALLOW_COPY_AND_ASSIGN(NotifyServerTestBase);
+  base::apple::ScopedMachReceiveRight server_port_;
 };
 
 using NotifyServerTest = StrictMock<NotifyServerTestBase>;
@@ -310,11 +319,11 @@ TEST_F(NotifyServerTest, NoNotification) {
 // When a send-once right with a dead-name notification request is deallocated,
 // a port-deleted notification should be generated.
 TEST_F(NotifyServerTest, MachNotifyPortDeleted) {
-  base::mac::ScopedMachReceiveRight receive_right(
+  base::apple::ScopedMachReceiveRight receive_right(
       NewMachPort(MACH_PORT_RIGHT_RECEIVE));
   ASSERT_TRUE(receive_right.is_valid());
 
-  base::mac::ScopedMachSendRight send_once_right(
+  base::apple::ScopedMachSendRight send_once_right(
       SendOnceRightFromReceiveRight(receive_right.get()));
   ASSERT_TRUE(send_once_right.is_valid());
 
@@ -337,7 +346,7 @@ TEST_F(NotifyServerTest, MachNotifyPortDeleted) {
 // When a receive right with a port-destroyed notification request is destroyed,
 // a port-destroyed notification should be generated.
 TEST_F(NotifyServerTest, MachNotifyPortDestroyed) {
-  base::mac::ScopedMachReceiveRight receive_right(
+  base::apple::ScopedMachReceiveRight receive_right(
       NewMachPort(MACH_PORT_RIGHT_RECEIVE));
   ASSERT_TRUE(receive_right.is_valid());
 
@@ -361,7 +370,7 @@ TEST_F(NotifyServerTest, MachNotifyPortDestroyed) {
 // When a receive right with a port-destroyed notification request is not
 // destroyed, no port-destroyed notification should be generated.
 TEST_F(NotifyServerTest, MachNotifyPortDestroyed_NoNotification) {
-  base::mac::ScopedMachReceiveRight receive_right(
+  base::apple::ScopedMachReceiveRight receive_right(
       NewMachPort(MACH_PORT_RIGHT_RECEIVE));
   ASSERT_TRUE(receive_right.is_valid());
 
@@ -374,7 +383,7 @@ TEST_F(NotifyServerTest, MachNotifyPortDestroyed_NoNotification) {
 // When a no-senders notification request is registered for a receive right with
 // no senders, a no-senders notification should be generated.
 TEST_F(NotifyServerTest, MachNotifyNoSenders_NoSendRight) {
-  base::mac::ScopedMachReceiveRight receive_right(
+  base::apple::ScopedMachReceiveRight receive_right(
       NewMachPort(MACH_PORT_RIGHT_RECEIVE));
   ASSERT_TRUE(receive_right.is_valid());
 
@@ -394,11 +403,11 @@ TEST_F(NotifyServerTest, MachNotifyNoSenders_NoSendRight) {
 // notification request is deallocated, a no-senders notification should be
 // generated.
 TEST_F(NotifyServerTest, MachNotifyNoSenders_SendRightDeallocated) {
-  base::mac::ScopedMachReceiveRight receive_right(
+  base::apple::ScopedMachReceiveRight receive_right(
       NewMachPort(MACH_PORT_RIGHT_RECEIVE));
   ASSERT_TRUE(receive_right.is_valid());
 
-  base::mac::ScopedMachSendRight send_right(
+  base::apple::ScopedMachSendRight send_right(
       SendRightFromReceiveRight(receive_right.get()));
   ASSERT_TRUE(send_right.is_valid());
 
@@ -419,15 +428,15 @@ TEST_F(NotifyServerTest, MachNotifyNoSenders_SendRightDeallocated) {
 // When the a receive right with a no-senders notification request never loses
 // all senders, no no-senders notification should be generated.
 TEST_F(NotifyServerTest, MachNotifyNoSenders_NoNotification) {
-  base::mac::ScopedMachReceiveRight receive_right(
+  base::apple::ScopedMachReceiveRight receive_right(
       NewMachPort(MACH_PORT_RIGHT_RECEIVE));
   ASSERT_TRUE(receive_right.is_valid());
 
-  base::mac::ScopedMachSendRight send_right_0(
+  base::apple::ScopedMachSendRight send_right_0(
       SendRightFromReceiveRight(receive_right.get()));
   ASSERT_TRUE(send_right_0.is_valid());
 
-  base::mac::ScopedMachSendRight send_right_1(
+  base::apple::ScopedMachSendRight send_right_1(
       SendRightFromReceiveRight(receive_right.get()));
   ASSERT_TRUE(send_right_1.is_valid());
 
@@ -445,7 +454,7 @@ TEST_F(NotifyServerTest, MachNotifyNoSenders_NoNotification) {
 // When a send-once right is deallocated without being used, a send-once
 // notification notification should be sent via the send-once right.
 TEST_F(NotifyServerTest, MachNotifySendOnce_ExplicitDeallocation) {
-  base::mac::ScopedMachSendRight send_once_right(
+  base::apple::ScopedMachSendRight send_once_right(
       SendOnceRightFromReceiveRight(ServerPort()));
   ASSERT_TRUE(send_once_right.is_valid());
 
@@ -464,7 +473,7 @@ TEST_F(NotifyServerTest, MachNotifySendOnce_ExplicitDeallocation) {
 // the send-once right is destroyed, and a send-once notification should appear
 // on the reply port.
 TEST_F(NotifyServerTest, MachNotifySendOnce_ImplicitDeallocation) {
-  base::mac::ScopedMachReceiveRight receive_right(
+  base::apple::ScopedMachReceiveRight receive_right(
       NewMachPort(MACH_PORT_RIGHT_RECEIVE));
   ASSERT_TRUE(receive_right.is_valid());
 
@@ -498,11 +507,11 @@ TEST_F(NotifyServerTest, MachNotifySendOnce_ImplicitDeallocation) {
 // notification request is destroyed, a dead-name notification should be
 // generated.
 TEST_F(NotifyServerTest, MachNotifyDeadName) {
-  base::mac::ScopedMachReceiveRight receive_right(
+  base::apple::ScopedMachReceiveRight receive_right(
       NewMachPort(MACH_PORT_RIGHT_RECEIVE));
   ASSERT_TRUE(receive_right.is_valid());
 
-  base::mac::ScopedMachSendRight send_once_right(
+  base::apple::ScopedMachSendRight send_once_right(
       SendOnceRightFromReceiveRight(receive_right.get()));
   ASSERT_TRUE(send_once_right.is_valid());
 
@@ -519,7 +528,7 @@ TEST_F(NotifyServerTest, MachNotifyDeadName) {
                                          ResultOf(DeadNameRightRefCount, 2)),
                                    ResultOf(AuditPIDFromMachMessageTrailer, 0)))
       .WillOnce(
-           DoAll(WithArg<1>(Invoke(MachPortDeallocate)), Return(MIG_NO_REPLY)))
+          DoAll(WithArg<1>(Invoke(MachPortDeallocate)), Return(MIG_NO_REPLY)))
       .RetiresOnSaturation();
 
   receive_right.reset();
@@ -537,11 +546,11 @@ TEST_F(NotifyServerTest, MachNotifyDeadName) {
 // notification request is not destroyed, no dead-name notification should be
 // generated.
 TEST_F(NotifyServerTest, MachNotifyDeadName_NoNotification) {
-  base::mac::ScopedMachReceiveRight receive_right(
+  base::apple::ScopedMachReceiveRight receive_right(
       NewMachPort(MACH_PORT_RIGHT_RECEIVE));
   ASSERT_TRUE(receive_right.is_valid());
 
-  base::mac::ScopedMachSendRight send_once_right(
+  base::apple::ScopedMachSendRight send_once_right(
       SendOnceRightFromReceiveRight(receive_right.get()));
   ASSERT_TRUE(send_once_right.is_valid());
 

@@ -1,4 +1,4 @@
-// Copyright 2015 The Crashpad Authors. All rights reserved.
+// Copyright 2015 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,13 +14,14 @@
 
 #include "snapshot/win/exception_snapshot_win.h"
 
+#include <windows.h>
+
 #include <string>
 
 #include "base/files/file_path.h"
-#include "base/strings/string16.h"
 #include "base/strings/utf_string_conversions.h"
-#include "client/crashpad_client.h"
 #include "gtest/gtest.h"
+#include "snapshot/win/exception_snapshot_win.h"
 #include "snapshot/win/process_snapshot_win.h"
 #include "test/errors.h"
 #include "test/test_paths.h"
@@ -43,6 +44,10 @@ class RunServerThread : public Thread {
   RunServerThread(ExceptionHandlerServer* server,
                   ExceptionHandlerServer::Delegate* delegate)
       : server_(server), delegate_(delegate) {}
+
+  RunServerThread(const RunServerThread&) = delete;
+  RunServerThread& operator=(const RunServerThread&) = delete;
+
   ~RunServerThread() override {}
 
  private:
@@ -51,8 +56,6 @@ class RunServerThread : public Thread {
 
   ExceptionHandlerServer* server_;
   ExceptionHandlerServer::Delegate* delegate_;
-
-  DISALLOW_COPY_AND_ASSIGN(RunServerThread);
 };
 
 // During destruction, ensures that the server is stopped and the background
@@ -61,6 +64,11 @@ class ScopedStopServerAndJoinThread {
  public:
   ScopedStopServerAndJoinThread(ExceptionHandlerServer* server, Thread* thread)
       : server_(server), thread_(thread) {}
+
+  ScopedStopServerAndJoinThread(const ScopedStopServerAndJoinThread&) = delete;
+  ScopedStopServerAndJoinThread& operator=(
+      const ScopedStopServerAndJoinThread&) = delete;
+
   ~ScopedStopServerAndJoinThread() {
     server_->Stop();
     thread_->Join();
@@ -69,7 +77,6 @@ class ScopedStopServerAndJoinThread {
  private:
   ExceptionHandlerServer* server_;
   Thread* thread_;
-  DISALLOW_COPY_AND_ASSIGN(ScopedStopServerAndJoinThread);
 };
 
 class CrashingDelegate : public ExceptionHandlerServer::Delegate {
@@ -78,6 +85,10 @@ class CrashingDelegate : public ExceptionHandlerServer::Delegate {
       : server_ready_(server_ready),
         completed_test_event_(completed_test_event),
         break_near_(0) {}
+
+  CrashingDelegate(const CrashingDelegate&) = delete;
+  CrashingDelegate& operator=(const CrashingDelegate&) = delete;
+
   ~CrashingDelegate() {}
 
   void set_break_near(WinVMAddress break_near) { break_near_ = break_near; }
@@ -121,8 +132,6 @@ class CrashingDelegate : public ExceptionHandlerServer::Delegate {
   HANDLE server_ready_;  // weak
   HANDLE completed_test_event_;  // weak
   WinVMAddress break_near_;
-
-  DISALLOW_COPY_AND_ASSIGN(CrashingDelegate);
 };
 
 void TestCrashingChild(TestPaths::Architecture architecture) {
@@ -193,6 +202,10 @@ class SimulateDelegate : public ExceptionHandlerServer::Delegate {
       : server_ready_(server_ready),
         completed_test_event_(completed_test_event),
         dump_near_(0) {}
+
+  SimulateDelegate(const SimulateDelegate&) = delete;
+  SimulateDelegate& operator=(const SimulateDelegate&) = delete;
+
   ~SimulateDelegate() {}
 
   void set_dump_near(WinVMAddress dump_near) { dump_near_ = dump_near; }
@@ -241,8 +254,6 @@ class SimulateDelegate : public ExceptionHandlerServer::Delegate {
   HANDLE server_ready_;  // weak
   HANDLE completed_test_event_;  // weak
   WinVMAddress dump_near_;
-
-  DISALLOW_COPY_AND_ASSIGN(SimulateDelegate);
 };
 
 void TestDumpWithoutCrashingChild(TestPaths::Architecture architecture) {
@@ -306,6 +317,48 @@ TEST(SimulateCrash, ChildDumpWithoutCrashingWOW64) {
   TestDumpWithoutCrashingChild(TestPaths::Architecture::k32Bit);
 }
 #endif  // ARCH_CPU_64_BITS
+
+TEST(ExceptionSnapshot, TooManyExceptionParameters) {
+  ProcessReaderWin process_reader;
+  ASSERT_TRUE(process_reader.Initialize(GetCurrentProcess(),
+                                        ProcessSuspensionState::kRunning));
+
+  // Construct a fake exception record and CPU context.
+  auto exception_record = std::make_unique<EXCEPTION_RECORD>();
+  exception_record->ExceptionCode = STATUS_FATAL_APP_EXIT;
+  exception_record->ExceptionFlags = EXCEPTION_NONCONTINUABLE;
+  exception_record->ExceptionAddress = reinterpret_cast<PVOID>(0xFA15E);
+  // One more than is permitted in the struct.
+  exception_record->NumberParameters = EXCEPTION_MAXIMUM_PARAMETERS + 1;
+  for (int i = 0; i < EXCEPTION_MAXIMUM_PARAMETERS; ++i) {
+    exception_record->ExceptionInformation[i] = 1000 + i;
+  }
+
+  auto cpu_context = std::make_unique<internal::CPUContextUnion>();
+
+  auto exception_pointers = std::make_unique<EXCEPTION_POINTERS>();
+  exception_pointers->ExceptionRecord =
+      reinterpret_cast<PEXCEPTION_RECORD>(exception_record.get());
+  exception_pointers->ContextRecord =
+      reinterpret_cast<PCONTEXT>(cpu_context.get());
+
+  internal::ExceptionSnapshotWin snapshot;
+  ASSERT_TRUE(snapshot.Initialize(
+      &process_reader,
+      GetCurrentThreadId(),
+      reinterpret_cast<WinVMAddress>(exception_pointers.get()),
+      nullptr));
+
+  EXPECT_EQ(STATUS_FATAL_APP_EXIT, snapshot.Exception());
+  EXPECT_EQ(static_cast<uint32_t>(EXCEPTION_NONCONTINUABLE),
+            snapshot.ExceptionInfo());
+  EXPECT_EQ(0xFA15Eu, snapshot.ExceptionAddress());
+  EXPECT_EQ(static_cast<size_t>(EXCEPTION_MAXIMUM_PARAMETERS),
+            snapshot.Codes().size());
+  for (size_t i = 0; i < EXCEPTION_MAXIMUM_PARAMETERS; ++i) {
+    EXPECT_EQ(1000 + i, snapshot.Codes()[i]);
+  }
+}
 
 }  // namespace
 }  // namespace test

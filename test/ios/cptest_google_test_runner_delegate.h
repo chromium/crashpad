@@ -1,4 +1,4 @@
-// Copyright 2020 The Crashpad Authors. All rights reserved.
+// Copyright 2020 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,12 +17,12 @@
 
 @protocol CPTestGoogleTestRunnerDelegate
 
-// Returns YES if this delegate supports running GoogleTests via a call to
+// Returns YES if this delegate supports running Google Test tests via a call to
 // |runGoogleTests|.
 @property(nonatomic, readonly, assign)
     BOOL supportsRunningGoogleTestsWithXCTest;
 
-// Runs GoogleTests and returns the final exit code.
+// Runs Google Test tests and returns the final exit code.
 - (int)runGoogleTests;
 
 @end

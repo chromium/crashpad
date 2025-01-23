@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ namespace test {
 //!     file_contents.
 //!
 //! \return On success, the MinidumpRVAList at the beginning of the file. On
-//!     failure, raises a gtest assertion and returns `nullptr`.
+//!     failure, raises a Google Test assertion and returns `nullptr`.
 const MinidumpRVAList* MinidumpRVAListAtStart(const std::string& file_contents,
                                               size_t count);
 

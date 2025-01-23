@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,12 +18,12 @@
 #include <stdint.h>
 
 #include <string>
+#include <string_view>
 
-#include "base/strings/string16.h"
 #include "base/strings/string_piece.h"
 #include "build/build_config.h"
 
-#if defined(OS_WIN)
+#if BUILDFLAG(IS_WIN)
 #include <rpc.h>
 #endif
 
@@ -40,6 +40,7 @@ namespace crashpad {
 struct UUID {
   bool operator==(const UUID& that) const;
   bool operator!=(const UUID& that) const { return !operator==(that); }
+  bool operator<(const UUID& that) const;
 
   //! \brief Initializes the %UUID to zero.
   void InitializeToZero();
@@ -63,7 +64,9 @@ struct UUID {
   //!     been initialized with the data. `false` if the string could not be
   //!     parsed, with the object state untouched.
   bool InitializeFromString(const base::StringPiece& string);
-  bool InitializeFromString(const base::StringPiece16& string);
+#if BUILDFLAG(IS_WIN) || DOXYGEN
+  bool InitializeFromString(const std::wstring_view& string);
+#endif  // BUILDFLAG(IS_WIN)
 
   //! \brief Initializes the %UUID using a standard system facility to generate
   //!     the value.
@@ -72,22 +75,22 @@ struct UUID {
   //!     with a message logged.
   bool InitializeWithNew();
 
-#if defined(OS_WIN) || DOXYGEN
+#if BUILDFLAG(IS_WIN) || DOXYGEN
   //! \brief Initializes the %UUID from a system `UUID` or `GUID` structure.
   //!
   //! \param[in] system_uuid A system `UUID` or `GUID` structure.
   void InitializeFromSystemUUID(const ::UUID* system_uuid);
-#endif  // OS_WIN
+#endif  // BUILDFLAG(IS_WIN)
 
   //! \brief Formats the %UUID per RFC 4122 §3.
   //!
   //! \return A string of the form `"00112233-4455-6677-8899-aabbccddeeff"`.
   std::string ToString() const;
 
-#if defined(OS_WIN) || DOXYGEN
-  //! \brief The same as ToString, but returned as a string16.
-  base::string16 ToString16() const;
-#endif  // OS_WIN
+#if BUILDFLAG(IS_WIN) || DOXYGEN
+  //! \brief The same as ToString, but returned as a wstring.
+  std::wstring ToWString() const;
+#endif  // BUILDFLAG(IS_WIN)
 
   // These fields are laid out according to RFC 4122 §4.1.2.
   uint32_t data_1;

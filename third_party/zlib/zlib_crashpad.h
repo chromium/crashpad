@@ -1,4 +1,4 @@
-// Copyright 2017 The Crashpad Authors. All rights reserved.
+// Copyright 2017 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,8 +19,9 @@
 // available at any other location in the source tree. It will #include the
 // proper <zlib.h> depending on how the build has been configured.
 
-#if defined(CRASHPAD_ZLIB_SOURCE_SYSTEM) || \
-    defined(CRASHPAD_ZLIB_SOURCE_EXTERNAL)
+#if defined(CRASHPAD_ZLIB_SOURCE_SYSTEM) ||   \
+    defined(CRASHPAD_ZLIB_SOURCE_EXTERNAL) || \
+    defined(CRASHPAD_ZLIB_SOURCE_EXTERNAL_WITH_EMBEDDED_BUILD)
 #include <zlib.h>
 #elif defined(CRASHPAD_ZLIB_SOURCE_EMBEDDED)
 #include "third_party/zlib/zlib/zlib.h"

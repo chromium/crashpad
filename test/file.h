@@ -1,4 +1,4 @@
-// Copyright 2015 The Crashpad Authors. All rights reserved.
+// Copyright 2015 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,8 +27,14 @@ namespace test {
 //!
 //! \return `true` if \a path exists. `false` if it does not exist. If an error
 //!     other than “file not found” occurs when searching for \a path, returns
-//!     `false` with a gtest failure added.
+//!     `false` with a Google Test failure added.
 bool FileExists(const base::FilePath& path);
+
+//! \brief Removes a file if it exists, logging a message on failure.
+//!
+//! \param[in] path The path to the file to remove.
+//! \return `true` on success. `false` on failure with a message logged.
+bool RemoveFileIfExists(const base::FilePath& path);
 
 //! \brief Determines the size of a file.
 //!
@@ -36,7 +42,7 @@ bool FileExists(const base::FilePath& path);
 //!
 //! \return The size of the file at \a path. If the file does not exist, or an
 //!     error occurs when attempting to determine its size, returns `-1` with a
-//!     gtest failure added.
+//!     Google Test failure added.
 FileOffset FileSize(const base::FilePath& path);
 
 }  // namespace test

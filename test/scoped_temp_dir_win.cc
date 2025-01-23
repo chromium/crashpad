@@ -1,4 +1,4 @@
-// Copyright 2015 The Crashpad Authors. All rights reserved.
+// Copyright 2015 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,14 +14,17 @@
 
 #include "test/scoped_temp_dir.h"
 
+#include <wchar.h>
 #include <windows.h>
 
-#include "base/logging.h"
-#include "base/strings/string16.h"
+#include <string>
+
+#include "base/check.h"
+#include "base/notreached.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
-#include "util/misc/random_string.h"
 #include "gtest/gtest.h"
+#include "util/misc/random_string.h"
 
 namespace crashpad {
 namespace test {
@@ -33,7 +36,7 @@ base::FilePath GenerateCandidateName() {
   DWORD path_len = GetTempPath(MAX_PATH, temp_path);
   PCHECK(path_len != 0) << "GetTempPath";
   base::FilePath system_temp_dir(temp_path);
-  base::string16 new_dir_name = base::UTF8ToUTF16(base::StringPrintf(
+  std::wstring new_dir_name = base::UTF8ToWide(base::StringPrintf(
       "crashpad.test.%lu.%s", GetCurrentProcessId(), RandomString().c_str()));
   return system_temp_dir.Append(new_dir_name);
 }
@@ -54,7 +57,7 @@ void ScopedTempDir::Rename() {
     }
   }
 
-  CHECK(false) << "Couldn't move to a new unique temp dir";
+  NOTREACHED() << "Couldn't move to a new unique temp dir";
 }
 
 // static
@@ -68,8 +71,7 @@ base::FilePath ScopedTempDir::CreateTemporaryDirectory() {
       return path_to_create;
   }
 
-  CHECK(false) << "Couldn't create a new unique temp dir";
-  return base::FilePath();
+  NOTREACHED() << "Couldn't create a new unique temp dir";
 }
 
 }  // namespace test

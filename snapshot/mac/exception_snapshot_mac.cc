@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -187,6 +187,18 @@ bool ExceptionSnapshotMac::Initialize(ProcessReaderMac* process_reader,
        exception_code_0_ == (VM_PROT_READ | VM_PROT_EXECUTE))) {
     code_1_is_exception_address = false;
   }
+#elif defined(ARCH_CPU_ARM64)
+  context_.architecture = kCPUArchitectureARM64;
+  context_.arm64 = &context_union_.arm64;
+  InitializeCPUContextARM64(context_.arm64,
+                            flavor,
+                            state,
+                            state_count,
+                            &thread->thread_context,
+                            &thread->float_context,
+                            &thread->debug_context);
+#else
+#error Port to your architecture
 #endif
 
   if (code_1_is_exception_address) {

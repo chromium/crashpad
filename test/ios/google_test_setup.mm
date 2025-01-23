@@ -1,4 +1,4 @@
-// Copyright 2019 The Crashpad Authors. All rights reserved.
+// Copyright 2019 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,13 +16,9 @@
 
 #import <UIKit/UIKit.h>
 
-#include "base/logging.h"
+#include "base/check.h"
 #include "gtest/gtest.h"
 #include "test/ios/cptest_google_test_runner_delegate.h"
-
-#if !defined(__has_feature) || !__has_feature(objc_arc)
-#error "This file requires ARC support."
-#endif
 
 @interface UIApplication (Testing)
 - (void)_terminateWithStatus:(int)status;
@@ -30,8 +26,8 @@
 
 namespace {
 
-// The iOS watchdog timer will kill an app that doesn't spin the main event
-// loop often enough. This uses a Gtest TestEventListener to spin the current
+// The iOS watchdog timer will kill an app that doesn't spin the main event loop
+// often enough. This uses a Google Test TestEventListener to spin the current
 // loop after each test finishes. However, if any individual test takes too
 // long, it is still possible that the app will get killed.
 class IOSRunLoopListener : public testing::EmptyTestEventListener {

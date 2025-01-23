@@ -1,4 +1,4 @@
-// Copyright 2017 The Crashpad Authors. All rights reserved.
+// Copyright 2017 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 #include <tlhelp32.h>
 
+#include "base/logging.h"
 #include "test/errors.h"
 #include "util/process/process_id.h"
 #include "util/win/process_info.h"

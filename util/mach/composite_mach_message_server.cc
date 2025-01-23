@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,9 +15,10 @@
 #include "util/mach/composite_mach_message_server.h"
 
 #include <algorithm>
+#include <ostream>
 #include <utility>
 
-#include "base/logging.h"
+#include "base/check_op.h"
 #include "util/mach/mach_message.h"
 
 namespace crashpad {

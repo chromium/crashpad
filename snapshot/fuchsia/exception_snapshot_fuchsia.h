@@ -1,4 +1,4 @@
-// Copyright 2018 The Crashpad Authors. All rights reserved.
+// Copyright 2018 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,6 +35,10 @@ namespace internal {
 class ExceptionSnapshotFuchsia final : public ExceptionSnapshot {
  public:
   ExceptionSnapshotFuchsia();
+
+  ExceptionSnapshotFuchsia(const ExceptionSnapshotFuchsia&) = delete;
+  ExceptionSnapshotFuchsia& operator=(const ExceptionSnapshotFuchsia&) = delete;
+
   ~ExceptionSnapshotFuchsia() override;
 
   //! \brief Initializes the object.
@@ -44,7 +48,10 @@ class ExceptionSnapshotFuchsia final : public ExceptionSnapshot {
   //! \param[in] thread_id The koid of the thread that sustained the exception.
   //! \param[in] exception_report The `zx_exception_report_t` retrieved from the
   //!     thread in the exception state, corresponding to \a thread_id.
-  void Initialize(ProcessReaderFuchsia* process_reader,
+  //!
+  //! \return `true` if the exception data was initialized, `false` otherwise
+  //!     with an error logged.
+  bool Initialize(ProcessReaderFuchsia* process_reader,
                   zx_koid_t thread_id,
                   const zx_exception_report_t& exception_report);
 
@@ -62,6 +69,8 @@ class ExceptionSnapshotFuchsia final : public ExceptionSnapshot {
   CPUContextX86_64 context_arch_;
 #elif defined(ARCH_CPU_ARM64)
   CPUContextARM64 context_arch_;
+#elif defined(ARCH_CPU_RISCV64)
+  CPUContextRISCV64 context_arch_;
 #endif
   CPUContext context_;
   std::vector<uint64_t> codes_;
@@ -70,8 +79,6 @@ class ExceptionSnapshotFuchsia final : public ExceptionSnapshot {
   uint32_t exception_;
   uint32_t exception_info_;
   InitializationStateDcheck initialized_;
-
-  DISALLOW_COPY_AND_ASSIGN(ExceptionSnapshotFuchsia);
 };
 
 }  // namespace internal

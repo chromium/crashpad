@@ -1,4 +1,4 @@
-// Copyright 2015 The Crashpad Authors. All rights reserved.
+// Copyright 2015 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 #include <stdint.h>
 
-#include "base/logging.h"
 #include "base/strings/utf_string_conversions.h"
 #include "minidump/minidump_extensions.h"
 
@@ -25,10 +24,10 @@ namespace internal {
 
 namespace {
 
-template<typename StringType>
+template<typename StringType, typename RVAType>
 bool ReadMinidumpString(FileReaderInterface* file_reader,
-                            RVA rva,
-                            StringType* string) {
+                        RVAType rva,
+                        StringType* string) {
   if (rva == 0) {
     string->clear();
     return true;
@@ -60,16 +59,42 @@ bool ReadMinidumpUTF8String(FileReaderInterface* file_reader,
   return ReadMinidumpString(file_reader, rva, string);
 }
 
+bool ReadMinidumpUTF8String(FileReaderInterface* file_reader,
+                            RVA64 rva,
+                            std::string* string) {
+  return ReadMinidumpString(file_reader, rva, string);
+}
+
 bool ReadMinidumpUTF16String(FileReaderInterface* file_reader,
-                            RVA rva,
-                            base::string16* string) {
+                             RVA rva,
+                             std::u16string* string) {
+  return ReadMinidumpString(file_reader, rva, string);
+}
+
+bool ReadMinidumpUTF16String(FileReaderInterface* file_reader,
+                             RVA64 rva,
+                             std::u16string* string) {
   return ReadMinidumpString(file_reader, rva, string);
 }
 
 bool ReadMinidumpUTF16String(FileReaderInterface* file_reader,
                             RVA rva,
                             std::string* string) {
-  base::string16 string_raw;
+  std::u16string string_raw;
+
+  if (!ReadMinidumpString(file_reader, rva, &string_raw)) {
+    return false;
+  }
+
+  base::UTF16ToUTF8(string_raw.data(), string_raw.size(), string);
+
+  return true;
+}
+
+bool ReadMinidumpUTF16String(FileReaderInterface* file_reader,
+                             RVA64 rva,
+                             std::string* string) {
+  std::u16string string_raw;
 
   if (!ReadMinidumpString(file_reader, rva, &string_raw)) {
     return false;

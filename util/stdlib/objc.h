@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,10 +15,10 @@
 #ifndef CRASHPAD_UTIL_STDLIB_OBJC_H_
 #define CRASHPAD_UTIL_STDLIB_OBJC_H_
 
-#include <AvailabilityMacros.h>
+#include <Availability.h>
 #include <objc/objc.h>
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_8
+#if __MAC_OS_X_VERSION_MAX_ALLOWED < __MAC_10_8
 
 // In order for the @NO and @YES literals to work, NO and YES must be defined as
 // __objc_no and __objc_yes. See

@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,12 +38,20 @@ void TestMinidumpMemoryWriter::SetShouldFailRead(bool should_fail) {
 void ExpectMinidumpMemoryDescriptor(
     const MINIDUMP_MEMORY_DESCRIPTOR* expected,
     const MINIDUMP_MEMORY_DESCRIPTOR* observed) {
-  EXPECT_EQ(observed->StartOfMemoryRange, expected->StartOfMemoryRange);
-  EXPECT_EQ(observed->Memory.DataSize, expected->Memory.DataSize);
-  if (expected->Memory.Rva != 0) {
+  MINIDUMP_MEMORY_DESCRIPTOR expected_descriptor;
+  MINIDUMP_MEMORY_DESCRIPTOR observed_descriptor;
+
+  memcpy(&expected_descriptor, expected, sizeof(expected_descriptor));
+  memcpy(&observed_descriptor, observed, sizeof(observed_descriptor));
+
+  EXPECT_EQ(observed_descriptor.StartOfMemoryRange,
+            expected_descriptor.StartOfMemoryRange);
+  EXPECT_EQ(observed_descriptor.Memory.DataSize,
+            expected_descriptor.Memory.DataSize);
+  if (expected_descriptor.Memory.Rva != 0) {
     constexpr uint32_t kMemoryAlignment = 16;
-    EXPECT_EQ(observed->Memory.Rva,
-              (expected->Memory.Rva + kMemoryAlignment - 1) &
+    EXPECT_EQ(observed_descriptor.Memory.Rva,
+              (expected_descriptor.Memory.Rva + kMemoryAlignment - 1) &
                   ~(kMemoryAlignment - 1));
   }
 }

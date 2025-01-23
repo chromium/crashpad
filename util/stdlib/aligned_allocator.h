@@ -1,4 +1,4 @@
-// Copyright 2015 The Crashpad Authors. All rights reserved.
+// Copyright 2015 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -69,7 +69,7 @@ struct AlignedAllocator {
   pointer address(reference x) const noexcept { return &x; }
   const_pointer address(const_reference x) const noexcept { return &x; }
 
-  pointer allocate(size_type n, std::allocator<void>::const_pointer hint = 0) {
+  pointer allocate(size_type n, const void* hint = 0) {
     return reinterpret_cast<pointer>(
         AlignedAllocate(Alignment, sizeof(value_type) * n));
   }

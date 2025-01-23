@@ -1,4 +1,4 @@
-// Copyright 2015 The Crashpad Authors. All rights reserved.
+// Copyright 2015 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 #include "minidump/minidump_memory_info_writer.h"
 
-#include "base/logging.h"
+#include "base/check_op.h"
 #include "snapshot/memory_map_region_snapshot.h"
 #include "util/file/file_writer.h"
 

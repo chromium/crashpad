@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@
 #include <vector>
 
 #include "base/files/file_path.h"
-#include "base/macros.h"
 #include "build/build_config.h"
 #include "test/multiprocess.h"
 #include "test/process_type.h"
@@ -89,6 +88,9 @@ class MultiprocessExec : public Multiprocess {
  public:
   MultiprocessExec();
 
+  MultiprocessExec(const MultiprocessExec&) = delete;
+  MultiprocessExec& operator=(const MultiprocessExec&) = delete;
+
   //! \brief Sets the command to `exec()` in the child.
   //!
   //! This method must be called before the test can be Run().
@@ -111,8 +113,8 @@ class MultiprocessExec : public Multiprocess {
   //!
   //! This uses the same launch mechanism as SetChildCommand(), but coordinates
   //! with test/gtest_main.cc to allow for simple registration of a child
-  //! processes' entry point via the helper macro, rather than needing to
-  //! create a separate build target.
+  //! processes' entry point via the helper macro, rather than needing to create
+  //! a separate build target.
   //!
   //! \param[in] function_name The name of the function as passed to
   //!     CRASHPAD_CHILD_TEST_MAIN().
@@ -139,13 +141,11 @@ class MultiprocessExec : public Multiprocess {
 
   base::FilePath command_;
   std::vector<std::string> arguments_;
-#if defined(OS_POSIX)
+#if BUILDFLAG(IS_POSIX)
   std::vector<const char*> argv_;
-#elif defined(OS_WIN)
+#elif BUILDFLAG(IS_WIN)
   std::wstring command_line_;
-#endif  // OS_POSIX
-
-  DISALLOW_COPY_AND_ASSIGN(MultiprocessExec);
+#endif  // BUILDFLAG(IS_POSIX)
 };
 
 }  // namespace test

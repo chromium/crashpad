@@ -1,4 +1,4 @@
-// Copyright 2017 The Crashpad Authors. All rights reserved.
+// Copyright 2017 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,11 @@
 #include <set>
 
 #include "base/logging.h"
+#include "build/build_config.h"
+
+#if BUILDFLAG(IS_ANDROID)
+#include <android/api-level.h>
+#endif
 
 namespace crashpad {
 
@@ -136,6 +141,17 @@ bool DebugRendezvous::InitializeSpecific(const ProcessMemoryRange& memory,
     }
     modules_.push_back(entry);
   }
+
+#if BUILDFLAG(IS_ANDROID)
+  // Android P (API 28) mistakenly places the vdso in the first entry in the
+  // link map.
+  const int android_runtime_api = android_get_device_api_level();
+  if (android_runtime_api == 28 && executable_.name == "[vdso]") {
+    LinkEntry executable = modules_[0];
+    modules_[0] = executable_;
+    executable_ = executable;
+  }
+#endif  // BUILDFLAG(IS_ANDROID)
 
   return true;
 }

@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
 #include "test/multiprocess_exec.h"
 
 #include "base/logging.h"
-#include "base/macros.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
@@ -30,12 +29,16 @@ class TestMultiprocessExec final : public MultiprocessExec {
  public:
   TestMultiprocessExec() : MultiprocessExec() {}
 
+  TestMultiprocessExec(const TestMultiprocessExec&) = delete;
+  TestMultiprocessExec& operator=(const TestMultiprocessExec&) = delete;
+
   ~TestMultiprocessExec() {}
 
  private:
   void MultiprocessParent() override {
     // Use Logging*File() instead of Checked*File() so that the test can fail
-    // gracefully with a gtest assertion if the child does not execute properly.
+    // gracefully with a Google Test assertion if the child does not execute
+    // properly.
 
     char c = 'z';
     ASSERT_TRUE(LoggingWriteFile(WritePipeHandle(), &c, 1));
@@ -43,8 +46,6 @@ class TestMultiprocessExec final : public MultiprocessExec {
     ASSERT_TRUE(LoggingReadFileExactly(ReadPipeHandle(), &c, 1));
     EXPECT_EQ(c, 'Z');
   }
-
-  DISALLOW_COPY_AND_ASSIGN(TestMultiprocessExec);
 };
 
 TEST(MultiprocessExec, MultiprocessExec) {
@@ -81,12 +82,15 @@ CRASHPAD_CHILD_TEST_MAIN(SimpleMultiprocessReturnsNonZero) {
 class TestMultiprocessExecEmpty final : public MultiprocessExec {
  public:
   TestMultiprocessExecEmpty() = default;
+
+  TestMultiprocessExecEmpty(const TestMultiprocessExecEmpty&) = delete;
+  TestMultiprocessExecEmpty& operator=(const TestMultiprocessExecEmpty&) =
+      delete;
+
   ~TestMultiprocessExecEmpty() = default;
 
  private:
   void MultiprocessParent() override {}
-
-  DISALLOW_COPY_AND_ASSIGN(TestMultiprocessExecEmpty);
 };
 
 TEST(MultiprocessExec, MultiprocessExecSimpleChildReturnsNonZero) {
@@ -97,7 +101,7 @@ TEST(MultiprocessExec, MultiprocessExecSimpleChildReturnsNonZero) {
   exec.Run();
 }
 
-#if !defined(OS_WIN)
+#if !BUILDFLAG(IS_WIN)
 
 CRASHPAD_CHILD_TEST_MAIN(BuiltinTrapChild) {
   __builtin_trap();
@@ -111,12 +115,14 @@ class TestBuiltinTrapTermination final : public MultiprocessExec {
     SetExpectedChildTerminationBuiltinTrap();
   }
 
+  TestBuiltinTrapTermination(const TestBuiltinTrapTermination&) = delete;
+  TestBuiltinTrapTermination& operator=(const TestBuiltinTrapTermination&) =
+      delete;
+
   ~TestBuiltinTrapTermination() = default;
 
  private:
   void MultiprocessParent() override {}
-
-  DISALLOW_COPY_AND_ASSIGN(TestBuiltinTrapTermination);
 };
 
 TEST(MultiprocessExec, BuiltinTrapTermination) {
@@ -124,7 +130,7 @@ TEST(MultiprocessExec, BuiltinTrapTermination) {
   test.Run();
 }
 
-#endif  // !OS_WIN
+#endif  // !BUILDFLAG(IS_WIN)
 
 }  // namespace
 }  // namespace test

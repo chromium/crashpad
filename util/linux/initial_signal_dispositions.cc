@@ -1,4 +1,4 @@
-// Copyright 2020 The Crashpad Authors. All rights reserved.
+// Copyright 2020 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,9 +20,10 @@
 #include "base/logging.h"
 #include "build/build_config.h"
 
+namespace crashpad {
+
 #if __ANDROID_API__ <= 23
 
-namespace crashpad {
 namespace {
 bool LoggingSignal(int signum, sighandler_t handler) {
   sighandler_t previous = signal(signum, handler);

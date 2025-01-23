@@ -1,4 +1,4 @@
-// Copyright 2017 The Crashpad Authors. All rights reserved.
+// Copyright 2017 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -93,9 +93,9 @@ struct MatchCV {
 };
 
 #if defined(COMPILER_MSVC) && _MSC_VER < 1910
-// gtest under MSVS 2015 (MSC 19.0) doesn’t handle EXPECT_EQ(a, b) when a or b
-// is a pointer to a volatile type, because it can’t figure out how to print
-// them.
+// Google Test under MSVS 2015 (MSC 19.0) doesn’t handle EXPECT_EQ(a, b) when a
+// or b is a pointer to a volatile type, because it can’t figure out how to
+// print them.
 template <typename T>
 typename std::remove_volatile<typename std::remove_pointer<T>::type>::type*
 MaybeRemoveVolatile(const T& value) {

@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,10 +14,10 @@
 
 #include "minidump/minidump_exception_writer.h"
 
+#include <iterator>
 #include <string>
 #include <utility>
 
-#include "base/stl_util.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_context.h"
 #include "minidump/minidump_context_writer.h"
@@ -61,7 +61,7 @@ void GetExceptionStream(const std::string& file_contents,
 }
 
 // The MINIDUMP_EXCEPTION_STREAMs |expected| and |observed| are compared against
-// each other using gtest assertions. The context will be recovered from
+// each other using Google Test assertions. The context will be recovered from
 // |file_contents| and stored in |context|.
 void ExpectExceptionStream(const MINIDUMP_EXCEPTION_STREAM* expected,
                            const MINIDUMP_EXCEPTION_STREAM* observed,
@@ -69,22 +69,27 @@ void ExpectExceptionStream(const MINIDUMP_EXCEPTION_STREAM* expected,
                            const MinidumpContextX86** context) {
   EXPECT_EQ(observed->ThreadId, expected->ThreadId);
   EXPECT_EQ(observed->__alignment, 0u);
-  EXPECT_EQ(observed->ExceptionRecord.ExceptionCode,
-            expected->ExceptionRecord.ExceptionCode);
-  EXPECT_EQ(observed->ExceptionRecord.ExceptionFlags,
-            expected->ExceptionRecord.ExceptionFlags);
-  EXPECT_EQ(observed->ExceptionRecord.ExceptionRecord,
-            expected->ExceptionRecord.ExceptionRecord);
-  EXPECT_EQ(observed->ExceptionRecord.ExceptionAddress,
-            expected->ExceptionRecord.ExceptionAddress);
-  EXPECT_EQ(observed->ExceptionRecord.NumberParameters,
-            expected->ExceptionRecord.NumberParameters);
+
+  // Copy the ExceptionRecords so that their uint64_t members can be accessed
+  // with the proper alignment.
+  const MINIDUMP_EXCEPTION observed_exception = observed->ExceptionRecord;
+  const MINIDUMP_EXCEPTION expected_exception = expected->ExceptionRecord;
+
+  EXPECT_EQ(observed_exception.ExceptionCode, expected_exception.ExceptionCode);
+  EXPECT_EQ(observed_exception.ExceptionFlags,
+            expected_exception.ExceptionFlags);
+  EXPECT_EQ(observed_exception.ExceptionRecord,
+            expected_exception.ExceptionRecord);
+  EXPECT_EQ(observed_exception.ExceptionAddress,
+            expected_exception.ExceptionAddress);
+  EXPECT_EQ(observed_exception.NumberParameters,
+            expected_exception.NumberParameters);
   EXPECT_EQ(observed->ExceptionRecord.__unusedAlignment, 0u);
   for (size_t index = 0;
-       index < base::size(observed->ExceptionRecord.ExceptionInformation);
+       index < std::size(observed_exception.ExceptionInformation);
        ++index) {
-    EXPECT_EQ(observed->ExceptionRecord.ExceptionInformation[index],
-              expected->ExceptionRecord.ExceptionInformation[index]);
+    EXPECT_EQ(observed_exception.ExceptionInformation[index],
+              expected_exception.ExceptionInformation[index]);
   }
   *context = MinidumpWritableAtLocationDescriptor<MinidumpContextX86>(
       file_contents, observed->ThreadContext);
@@ -230,7 +235,10 @@ TEST(MinidumpExceptionWriter, InitializeFromSnapshot) {
   thread_id_map[kThreadID] = expect_exception.ThreadId;
 
   auto exception_writer = std::make_unique<MinidumpExceptionWriter>();
-  exception_writer->InitializeFromSnapshot(&exception_snapshot, thread_id_map);
+  exception_writer->InitializeFromSnapshot(
+      &exception_snapshot,
+      thread_id_map,
+      /*allow_missing_thread_id_from_map=*/false);
 
   MinidumpFileWriter minidump_file_writer;
   ASSERT_TRUE(minidump_file_writer.AddStream(std::move(exception_writer)));

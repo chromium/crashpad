@@ -1,4 +1,4 @@
-// Copyright 2017 The Crashpad Authors. All rights reserved.
+// Copyright 2017 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ void StartAndCrashWithExtendedHandler(const base::FilePath& temp_dir) {
                                   false,
                                   false));
 
-  // It appears that the GoogleTest fixture will catch and handle exceptions
+  // It appears that the Google Test fixture will catch and handle exceptions
   // from here. Hence the fabricated crash in favor of raising an exception.
   EXCEPTION_RECORD exception_record = {kExpectedExitCode,
                                        EXCEPTION_NONCONTINUABLE};

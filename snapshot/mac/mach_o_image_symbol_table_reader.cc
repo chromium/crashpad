@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 #include <memory>
 #include <utility>
 
+#include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "util/mac/checked_mach_address_range.h"
 #include "util/process/process_memory_mac.h"
@@ -51,6 +52,11 @@ class MachOImageSymbolTableReaderInitializer {
                              linkedit_segment->Size());
     DCHECK(linkedit_range_.IsValid());
   }
+
+  MachOImageSymbolTableReaderInitializer(
+      const MachOImageSymbolTableReaderInitializer&) = delete;
+  MachOImageSymbolTableReaderInitializer& operator=(
+      const MachOImageSymbolTableReaderInitializer&) = delete;
 
   ~MachOImageSymbolTableReaderInitializer() {}
 
@@ -245,8 +251,6 @@ class MachOImageSymbolTableReaderInitializer {
   CheckedMachAddressRange linkedit_range_;
   ProcessReaderMac* process_reader_;  // weak
   const MachOImageSegmentReader* linkedit_segment_;  // weak
-
-  DISALLOW_COPY_AND_ASSIGN(MachOImageSymbolTableReaderInitializer);
 };
 
 }  // namespace internal

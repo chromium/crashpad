@@ -1,4 +1,4 @@
-// Copyright 2017 The Crashpad Authors. All rights reserved.
+// Copyright 2017 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@
 #include <lib/zx/process.h>
 #include <zircon/processargs.h>
 
+#include "base/check_op.h"
 #include "base/fuchsia/fuchsia_logging.h"
 #include "base/logging.h"
-#include "base/strings/stringprintf.h"
 #include "client/client_argv_handling.h"
 
 namespace crashpad {
@@ -39,7 +39,9 @@ bool CrashpadClient::StartHandler(
     const std::map<std::string, std::string>& annotations,
     const std::vector<std::string>& arguments,
     bool restartable,
-    bool asynchronous_start) {
+    bool asynchronous_start,
+    const std::vector<base::FilePath>& attachments) {
+  DCHECK(attachments.empty()); // Attachments are not implemented on Fuchsia yet.
   DCHECK_EQ(restartable, false);  // Not used on Fuchsia.
   DCHECK_EQ(asynchronous_start, false);  // Not used on Fuchsia.
 

@@ -1,4 +1,4 @@
-// Copyright 2017 The Crashpad Authors. All rights reserved.
+// Copyright 2017 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,12 +20,12 @@
 
 #include <vector>
 
-#include "base/macros.h"
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/exception_snapshot.h"
 #include "snapshot/linux/process_reader_linux.h"
 #include "snapshot/memory_snapshot.h"
+#include "snapshot/memory_snapshot_generic.h"
 #include "util/linux/address_types.h"
 #include "util/misc/initialization_state_dcheck.h"
 
@@ -37,6 +37,10 @@ namespace internal {
 class ExceptionSnapshotLinux final : public ExceptionSnapshot {
  public:
   ExceptionSnapshotLinux();
+
+  ExceptionSnapshotLinux(const ExceptionSnapshotLinux&) = delete;
+  ExceptionSnapshotLinux& operator=(const ExceptionSnapshotLinux&) = delete;
+
   ~ExceptionSnapshotLinux() override;
 
   //! \brief Initializes the object.
@@ -49,13 +53,17 @@ class ExceptionSnapshotLinux final : public ExceptionSnapshot {
   //! \param[in] context_address The address in the target process' address
   //!     space of the ucontext_t passed to the signal handler.
   //! \param[in] thread_id The thread ID of the thread that received the signal.
+  //! \param[inout] gather_indirectly_referenced_memory_cap The remaining budget
+  //!     for indirectly referenced memory, honored on entry and updated on
+  //!     return.
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
   bool Initialize(ProcessReaderLinux* process_reader,
                   LinuxVMAddress siginfo_address,
                   LinuxVMAddress context_address,
-                  pid_t thread_id);
+                  pid_t thread_id,
+                  uint32_t* gather_indirectly_referenced_memory_cap);
 
   // ExceptionSnapshot:
 
@@ -84,17 +92,18 @@ class ExceptionSnapshotLinux final : public ExceptionSnapshot {
 #elif defined(ARCH_CPU_MIPS_FAMILY)
     CPUContextMIPS mipsel;
     CPUContextMIPS64 mips64;
+#elif defined(ARCH_CPU_RISCV64)
+    CPUContextRISCV64 riscv64;
 #endif
   } context_union_;
   CPUContext context_;
   std::vector<uint64_t> codes_;
+  std::vector<std::unique_ptr<internal::MemorySnapshotGeneric>> extra_memory_;
   uint64_t thread_id_;
   uint64_t exception_address_;
   uint32_t signal_number_;
   uint32_t signal_code_;
   InitializationStateDcheck initialized_;
-
-  DISALLOW_COPY_AND_ASSIGN(ExceptionSnapshotLinux);
 };
 
 }  // namespace internal

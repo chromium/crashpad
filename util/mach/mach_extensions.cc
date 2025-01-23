@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,10 +15,9 @@
 #include "util/mach/mach_extensions.h"
 
 #include <Availability.h>
-#include <AvailabilityMacros.h>
 #include <pthread.h>
 
-#include "base/mac/mach_logging.h"
+#include "base/apple/mach_logging.h"
 #include "build/build_config.h"
 #include "util/mac/mac_util.h"
 
@@ -45,13 +44,13 @@ exception_mask_t ExcMaskAll() {
   // 10.9.4 xnu-2422.110.17/osfmk/mach/ipc_host.c and
   // xnu-2422.110.17/osfmk/mach/ipc_tt.c.
 
-#if defined(OS_IOS) && __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
+#if BUILDFLAG(IS_IOS) && __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
 // iOS 7 ≅ OS X 10.9.
 #error This code was not ported to iOS versions older than 7
 #endif
 
-#if !defined(OS_IOS) && MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_9
-  const int mac_os_x_minor_version = MacOSXMinorVersion();
+#if BUILDFLAG(IS_MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_9
+  const int macos_version_number = MacOSVersionNumber();
 #endif
 
   // See 10.6.8 xnu-1504.15.3/osfmk/mach/exception_types.h. 10.7 uses the same
@@ -67,8 +66,8 @@ exception_mask_t ExcMaskAll() {
       EXC_MASK_MACH_SYSCALL |
       EXC_MASK_RPC_ALERT |
       EXC_MASK_MACHINE;
-#if !defined(OS_IOS) && MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_8
-  if (mac_os_x_minor_version < 8) {
+#if BUILDFLAG(IS_MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_8
+  if (macos_version_number < 10'08'00) {
     return kExcMaskAll_10_6;
   }
 #endif
@@ -77,8 +76,8 @@ exception_mask_t ExcMaskAll() {
   // xnu-2050.48.11/osfmk/mach/exception_types.h.
   constexpr exception_mask_t kExcMaskAll_10_8 =
       kExcMaskAll_10_6 | EXC_MASK_RESOURCE;
-#if !defined(OS_IOS) && MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_9
-  if (mac_os_x_minor_version < 9) {
+#if BUILDFLAG(IS_MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_9
+  if (macos_version_number < 10'09'00) {
     return kExcMaskAll_10_8;
   }
 #endif
@@ -92,13 +91,13 @@ exception_mask_t ExcMaskAll() {
 
 exception_mask_t ExcMaskValid() {
   const exception_mask_t kExcMaskValid_10_6 = ExcMaskAll() | EXC_MASK_CRASH;
-#if defined(OS_IOS) && __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0
+#if BUILDFLAG(IS_IOS) && __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0
 // iOS 9 ≅ OS X 10.11.
 #error This code was not ported to iOS versions older than 9
 #endif
 
-#if !defined(OS_IOS) && MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_11
-  if (MacOSXMinorVersion() < 11) {
+#if BUILDFLAG(IS_MAC) && __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_11
+  if (MacOSVersionNumber() < 10'11'00) {
     return kExcMaskValid_10_6;
   }
 #endif

@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,12 +24,12 @@ namespace test {
 
 // These functions format messages in a similar way to the PLOG and PCHECK
 // family of logging macros in base/logging.h. They exist to interoperate with
-// gtest assertions, which don’t interoperate with logging but can be streamed
-// to.
+// Google Test assertions, which don’t interoperate with logging but can be
+// streamed to.
 //
 // Where non-test code could do:
 //   PCHECK(rv == 0) << "close";
-// gtest-based test code can do:
+// Google Test-based test code can do:
 //   EXPECT_EQ(rv, 0) << ErrnoMessage("close");
 
 //! \brief Formats an error message using an `errno` value.
@@ -67,7 +67,7 @@ std::string ErrnoMessage(int err, const std::string& base = std::string());
 //!     a colon.
 std::string ErrnoMessage(const std::string& base = std::string());
 
-#if defined(OS_WIN) || DOXYGEN
+#if BUILDFLAG(IS_WIN) || DOXYGEN
 //! \brief Formats an error message using `GetLastError()`.
 //!
 //! The returned string will combine the \a base string, if supplied, with a

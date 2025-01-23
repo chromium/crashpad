@@ -1,4 +1,4 @@
-// Copyright 2018 The Crashpad Authors. All rights reserved.
+// Copyright 2018 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 #include "test/scoped_guarded_page.h"
 
-#include "base/process/process_metrics.h"
+#include "base/memory/page_size.h"
 #include "gtest/gtest.h"
 #include "test/gtest_death.h"
 
@@ -23,7 +23,7 @@ namespace test {
 namespace {
 
 TEST(ScopedGuardedPage, BasicFunctionality) {
-  ::testing::FLAGS_gtest_death_test_style = "threadsafe";
+  GTEST_FLAG_SET(death_test_style, "threadsafe");
 
   ScopedGuardedPage page;
   char* address = (char*)page.Pointer();

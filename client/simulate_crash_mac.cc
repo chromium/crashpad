@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,11 +17,12 @@
 #include <string.h>
 #include <sys/types.h>
 
+#include <iterator>
+
+#include "base/apple/mach_logging.h"
+#include "base/apple/scoped_mach_port.h"
+#include "base/check_op.h"
 #include "base/logging.h"
-#include "base/mac/mach_logging.h"
-#include "base/mac/scoped_mach_port.h"
-#include "base/stl_util.h"
-#include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "util/mach/exc_client_variants.h"
 #include "util/mach/exception_behaviors.h"
@@ -94,6 +95,15 @@ bool DeliverException(thread_t thread,
       state_count = cpu_context.tsh.count;
       break;
 #endif
+#elif defined(ARCH_CPU_ARM64)
+    case ARM_UNIFIED_THREAD_STATE:
+      state = reinterpret_cast<ConstThreadState>(&cpu_context);
+      state_count = ARM_UNIFIED_THREAD_STATE_COUNT;
+      break;
+    case ARM_THREAD_STATE64:
+      state = reinterpret_cast<ConstThreadState>(&cpu_context.ts_64);
+      state_count = cpu_context.ash.count;
+      break;
 #else
 #error Port to your CPU architecture
 #endif
@@ -186,12 +196,19 @@ void SimulateCrash(const NativeCPUContext& cpu_context) {
             implicit_cast<thread_state_flavor_t>(x86_THREAD_STATE64));
   DCHECK_EQ(implicit_cast<mach_msg_type_number_t>(cpu_context.tsh.count),
             x86_THREAD_STATE64_COUNT);
+#elif defined(ARCH_CPU_ARM64)
+  DCHECK_EQ(implicit_cast<thread_state_flavor_t>(cpu_context.ash.flavor),
+            implicit_cast<thread_state_flavor_t>(ARM_THREAD_STATE64));
+  DCHECK_EQ(implicit_cast<mach_msg_type_number_t>(cpu_context.ash.count),
+            ARM_THREAD_STATE64_COUNT);
+#else
+#error Port to your CPU architecture
 #endif
 
-  base::mac::ScopedMachSendRight thread(mach_thread_self());
+  base::apple::ScopedMachSendRight thread(mach_thread_self());
   exception_type_t exception = kMachExceptionSimulated;
   mach_exception_data_type_t codes[] = {0, 0};
-  mach_msg_type_number_t code_count = base::size(codes);
+  mach_msg_type_number_t code_count = std::size(codes);
 
   // Look up the handler for EXC_CRASH exceptions in the same way that the
   // kernel would: try a thread handler, then a task handler, and finally a host
@@ -213,7 +230,7 @@ void SimulateCrash(const NativeCPUContext& cpu_context) {
   bool success = false;
 
   for (size_t target_type_index = 0;
-       !success && target_type_index < base::size(kTargetTypes);
+       !success && target_type_index < std::size(kTargetTypes);
        ++target_type_index) {
     ExceptionPorts::ExceptionHandlerVector handlers;
     ExceptionPorts exception_ports(kTargetTypes[target_type_index],

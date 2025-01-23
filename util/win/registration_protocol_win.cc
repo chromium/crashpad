@@ -1,4 +1,4 @@
-// Copyright 2015 The Crashpad Authors. All rights reserved.
+// Copyright 2015 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,8 +19,10 @@
 #include <sddl.h>
 #include <stddef.h>
 
+#include <iterator>
+
+#include "base/check.h"
 #include "base/logging.h"
-#include "base/stl_util.h"
 #include "util/win/exception_handler_server.h"
 #include "util/win/loader_lock.h"
 #include "util/win/scoped_handle.h"
@@ -30,8 +32,7 @@ namespace crashpad {
 
 namespace {
 
-void* GetSecurityDescriptorWithUser(const base::char16* sddl_string,
-                                    size_t* size) {
+void* GetSecurityDescriptorWithUser(const wchar_t* sddl_string, size_t* size) {
   if (size)
     *size = 0;
 
@@ -71,7 +72,7 @@ void* GetSecurityDescriptorWithUser(const base::char16* sddl_string,
 
 }  // namespace
 
-bool SendToCrashHandlerServer(const base::string16& pipe_name,
+bool SendToCrashHandlerServer(const std::wstring& pipe_name,
                               const ClientToServerMessage& message,
                               ServerToClientMessage* response) {
   // Retry CreateFile() in a loop. If the handler isn’t actively waiting in
@@ -210,8 +211,7 @@ const void* GetFallbackSecurityDescriptorForNamedPipeInstance(size_t* size) {
               ACL_REVISION,  // AclRevision.
               0,  // Sbz1.
               sizeof(kSecDescBlob.sacl),  // AclSize.
-              static_cast<WORD>(
-                  base::size(kSecDescBlob.sacl.ace)),  // AceCount.
+              static_cast<WORD>(std::size(kSecDescBlob.sacl.ace)),  // AceCount.
               0,  // Sbz2.
           },
 
@@ -232,8 +232,8 @@ const void* GetFallbackSecurityDescriptorForNamedPipeInstance(size_t* size) {
                   {
                       SID_REVISION,  // Revision.
                                      // SubAuthorityCount.
-                      static_cast<BYTE>(base::size(
-                          kSecDescBlob.sacl.ace[0].sid.SubAuthority)),
+                      static_cast<BYTE>(
+                          std::size(kSecDescBlob.sacl.ace[0].sid.SubAuthority)),
                       // IdentifierAuthority.
                       {SECURITY_MANDATORY_LABEL_AUTHORITY},
                       {SECURITY_MANDATORY_UNTRUSTED_RID},  // SubAuthority.

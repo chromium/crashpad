@@ -1,4 +1,4 @@
-// Copyright 2017 The Crashpad Authors. All rights reserved.
+// Copyright 2017 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,6 +18,10 @@
 #include <stdint.h>
 
 #include <string>
+
+#include "build/build_config.h"
+
+#if defined(ARCH_CPU_X86_FAMILY)
 
 namespace crashpad {
 namespace internal {
@@ -64,5 +68,7 @@ class CpuidReader {
 
 }  // namespace internal
 }  // namespace crashpad
+
+#endif  // ARCH_CPU_X86_FAMILY
 
 #endif  // CRASHPAD_SNAPSHOT_X86_CPUID_READER_H_

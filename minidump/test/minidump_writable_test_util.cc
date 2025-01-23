@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,10 +18,10 @@
 
 #include <string>
 
-#include "base/strings/string16.h"
 #include "gtest/gtest.h"
 #include "util/file/file_writer.h"
 #include "util/misc/implicit_cast.h"
+#include "util/numeric/in_range_cast.h"
 
 namespace crashpad {
 namespace test {
@@ -35,30 +35,31 @@ namespace {
 //! \param[in] rva The offset within the minidump file of the desired object.
 //!
 //! \return If \a rva is within the range of \a file_contents, returns a pointer
-//!     into \a file_contents at offset \a rva. Otherwise, raises a gtest
+//!     into \a file_contents at offset \a rva. Otherwise, raises a Google Test
 //!     assertion failure and returns `nullptr`.
 //!
 //! Do not call this function. Use the typed version, MinidumpWritableAtRVA<>(),
 //! or another type-specific function.
+template <typename RVAType>
 const void* MinidumpWritableAtRVAInternal(const std::string& file_contents,
-                                          RVA rva) {
-  if (rva >= file_contents.size()) {
-    EXPECT_LT(rva, file_contents.size());
+                                          RVAType rva) {
+  const auto rva_offset = crashpad::InRangeCast(rva, file_contents.size());
+  if (rva_offset >= file_contents.size()) {
+    EXPECT_LT(rva_offset, file_contents.size());
     return nullptr;
   }
 
-  return &file_contents[rva];
+  return &file_contents[rva_offset];
 }
 
-}  // namespace
-
-const void* MinidumpWritableAtLocationDescriptorInternal(
+template <typename RVAType, typename MinidumpLocationDescriptorType>
+const void* TMinidumpWritableAtLocationDescriptorInternal(
     const std::string& file_contents,
-    const MINIDUMP_LOCATION_DESCRIPTOR& location,
+    const MinidumpLocationDescriptorType& location,
     size_t expected_size,
     bool allow_oversized_data) {
   if (location.DataSize == 0) {
-    EXPECT_EQ(location.Rva, 0u);
+    EXPECT_EQ(location.Rva, RVAType(0));
     return nullptr;
   }
 
@@ -72,15 +73,40 @@ const void* MinidumpWritableAtLocationDescriptorInternal(
     return nullptr;
   }
 
-  RVA end = location.Rva + location.DataSize;
+  RVAType end = location.Rva + location.DataSize;
   if (end > file_contents.size()) {
     EXPECT_LE(end, file_contents.size());
     return nullptr;
   }
 
-  const void* rv = MinidumpWritableAtRVAInternal(file_contents, location.Rva);
+  const void* rv =
+      MinidumpWritableAtRVAInternal<RVAType>(file_contents, location.Rva);
 
   return rv;
+}
+
+}  // namespace
+
+const void* MinidumpWritableAtLocationDescriptorInternal(
+    const std::string& file_contents,
+    const MINIDUMP_LOCATION_DESCRIPTOR& location,
+    size_t expected_size,
+    bool allow_oversized_data) {
+  return TMinidumpWritableAtLocationDescriptorInternal<
+      RVA,
+      MINIDUMP_LOCATION_DESCRIPTOR>(
+      file_contents, location, expected_size, allow_oversized_data);
+}
+
+const void* MinidumpWritableAtLocationDescriptorInternal(
+    const std::string& file_contents,
+    const MINIDUMP_LOCATION_DESCRIPTOR64& location,
+    size_t expected_size,
+    bool allow_oversized_data) {
+  return TMinidumpWritableAtLocationDescriptorInternal<
+      RVA64,
+      MINIDUMP_LOCATION_DESCRIPTOR64>(
+      file_contents, location, expected_size, allow_oversized_data);
 }
 
 template <>
@@ -112,16 +138,15 @@ const IMAGE_DEBUG_MISC* MinidumpWritableAtLocationDescriptor<IMAGE_DEBUG_MISC>(
       return nullptr;
     }
   } else if (misc->Unicode == 1) {
-    if (misc->Length % sizeof(base::char16) != 0) {
-      EXPECT_EQ(misc->Length % sizeof(base::char16), 0u);
+    if (misc->Length % sizeof(char16_t) != 0) {
+      EXPECT_EQ(misc->Length % sizeof(char16_t), 0u);
       return nullptr;
     }
 
-    size_t string_length = (misc->Length - offsetof(IMAGE_DEBUG_MISC, Data)) /
-                               sizeof(base::char16) -
-                           1;
-    const base::char16* data16 =
-        reinterpret_cast<const base::char16*>(misc->Data);
+    size_t string_length =
+        (misc->Length - offsetof(IMAGE_DEBUG_MISC, Data)) / sizeof(char16_t) -
+        1;
+    const char16_t* data16 = reinterpret_cast<const char16_t*>(misc->Data);
     if (data16[string_length] != '\0') {
       EXPECT_EQ(data16[string_length], '\0');
       return nullptr;
@@ -188,6 +213,14 @@ struct MinidumpThreadListTraits {
   enum : size_t { kElementSize = sizeof(MINIDUMP_THREAD) };
   static size_t ElementCount(const ListType* list) {
     return list->NumberOfThreads;
+  }
+};
+
+struct MinidumpThreadNameListTraits {
+  using ListType = MINIDUMP_THREAD_NAME_LIST;
+  enum : size_t { kElementSize = sizeof(MINIDUMP_THREAD_NAME) };
+  static size_t ElementCount(const ListType* list) {
+    return list->NumberOfThreadNames;
   }
 };
 
@@ -281,6 +314,15 @@ MinidumpWritableAtLocationDescriptor<MINIDUMP_THREAD_LIST>(
     const std::string& file_contents,
     const MINIDUMP_LOCATION_DESCRIPTOR& location) {
   return MinidumpListAtLocationDescriptor<MinidumpThreadListTraits>(
+      file_contents, location);
+}
+
+template <>
+const MINIDUMP_THREAD_NAME_LIST*
+MinidumpWritableAtLocationDescriptor<MINIDUMP_THREAD_NAME_LIST>(
+    const std::string& file_contents,
+    const MINIDUMP_LOCATION_DESCRIPTOR& location) {
+  return MinidumpListAtLocationDescriptor<MinidumpThreadNameListTraits>(
       file_contents, location);
 }
 

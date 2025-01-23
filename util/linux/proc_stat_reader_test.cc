@@ -1,4 +1,4 @@
-// Copyright 2017 The Crashpad Authors. All rights reserved.
+// Copyright 2017 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 #include <time.h>
 #include <unistd.h>
 
-#include "base/logging.h"
 #include "gtest/gtest.h"
 #include "test/linux/fake_ptrace_connection.h"
 #include "util/misc/time.h"

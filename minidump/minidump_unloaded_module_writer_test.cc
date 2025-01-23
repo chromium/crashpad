@@ -1,4 +1,4 @@
-// Copyright 2016 The Crashpad Authors. All rights reserved.
+// Copyright 2016 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,9 +35,9 @@ void ExpectUnloadedModule(const MINIDUMP_UNLOADED_MODULE* expected,
   EXPECT_EQ(observed->CheckSum, expected->CheckSum);
   EXPECT_EQ(observed->TimeDateStamp, expected->TimeDateStamp);
   EXPECT_NE(observed->ModuleNameRva, 0u);
-  base::string16 observed_module_name_utf16 =
+  std::u16string observed_module_name_utf16 =
       MinidumpStringAtRVAAsString(file_contents, observed->ModuleNameRva);
-  base::string16 expected_module_name_utf16 =
+  std::u16string expected_module_name_utf16 =
       base::UTF8ToUTF16(expected_module_name);
   EXPECT_EQ(observed_module_name_utf16, expected_module_name_utf16);
 }

@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,14 +21,24 @@ namespace crashpad {
 
 //! \brief Returns the version of the running operating system.
 //!
-//! \return The minor version of the operating system, such as `12` for macOS
-//!     10.12.1.
+//! \return The version of the operating system, such as `10'15'06` for macOS
+//!     10.15.6.
+//!
+//! The format of the return value matches what is used by the <Availability.h>
+//! `__MAC_OS_X_VERSION_MIN_REQUIRED`, `__MAC_OS_X_VERSION_MAX_ALLOWED`, and
+//! per-version `__MAC_*` macros, for versions since OS X 10.10.
+//!
+//! On macOS 10.13.4 and later, this function will return the major, minor, and
+//! bugfix components combined into a single number. On older OS versions, only
+//! the major and minor components will be returned, and the bugfix component
+//! will always be reported as 0. By contrast, MacOSVersionComponents() always
+//! returns the bugfix component.
 //!
 //! \note This is similar to the base::mac::IsOS*() family of functions, but
 //!     is provided for situations where the caller needs to obtain version
 //!     information beyond what is provided by Chromium’s base, or for when the
 //!     caller needs the actual minor version value.
-int MacOSXMinorVersion();
+int MacOSVersionNumber();
 
 //! \brief Returns the version of the running operating system.
 //!
@@ -42,8 +52,6 @@ int MacOSXMinorVersion();
 //!     for macOS 10.12.1.
 //! \param[out] build The operating system’s build string, such as `"16B2657"`
 //!     for macOS 10.12.1.
-//! \param[out] server `true` for a macOS Server installation, `false` otherwise
-//!     (for a desktop/laptop, client, or workstation system).
 //! \param[out] version_string A string representing the full operating system
 //!     version, such as `"macOS 10.12.1 (16B2657)"`.
 //!
@@ -51,19 +59,18 @@ int MacOSXMinorVersion();
 //!     A failure is considered to have occurred if any element could not be
 //!     determined. When this happens, their values will be untouched, but other
 //!     values that could be determined will still be set properly.
-bool MacOSXVersion(int* major,
-                   int* minor,
-                   int* bugfix,
-                   std::string* build,
-                   bool* server,
-                   std::string* version_string);
+bool MacOSVersionComponents(int* major,
+                            int* minor,
+                            int* bugfix,
+                            std::string* build,
+                            std::string* version_string);
 
 //! \brief Returns the model name and board ID of the running system.
 //!
-//! \param[out] model The system’s model name. A mid-2012 15" MacBook Pro would
+//! \param[out] model The system’s model name. A mid-2012 15\" MacBook Pro would
 //!     report “MacBookPro10,1”.
-//! \param[out] board_id The system’s board ID. A mid-2012 15" MacBook Pro would
-//!     report “Mac-C3EC7CD22292981F”.
+//! \param[out] board_id The system’s board ID. A mid-2012 15\" MacBook Pro
+//!     would report “Mac-C3EC7CD22292981F”.
 //!
 //! If a value cannot be determined, its string is cleared.
 void MacModelAndBoard(std::string* model, std::string* board_id);

@@ -1,4 +1,4 @@
-// Copyright 2018 The Crashpad Authors. All rights reserved.
+// Copyright 2018 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 
 #include <windows.h>
 
-#include "base/macros.h"
 #include "minidump/minidump_extensions.h"
 #include "snapshot/system_snapshot.h"
 #include "util/file/file_reader.h"
@@ -30,6 +29,10 @@ namespace internal {
 class SystemSnapshotMinidump : public SystemSnapshot {
  public:
   SystemSnapshotMinidump();
+
+  SystemSnapshotMinidump(const SystemSnapshotMinidump&) = delete;
+  SystemSnapshotMinidump& operator=(const SystemSnapshotMinidump&) = delete;
+
   ~SystemSnapshotMinidump() override;
 
   //! \brief Initializes the object.
@@ -71,14 +74,13 @@ class SystemSnapshotMinidump : public SystemSnapshot {
                 int* daylight_offset_seconds,
                 std::string* standard_name,
                 std::string* daylight_name) const override;
+  uint64_t AddressMask() const override;
 
  private:
   MINIDUMP_SYSTEM_INFO minidump_system_info_;
   std::string minidump_build_name_;
   std::string full_version_;
   InitializationStateDcheck initialized_;
-
-  DISALLOW_COPY_AND_ASSIGN(SystemSnapshotMinidump);
 };
 
 }  // namespace internal

@@ -1,4 +1,4 @@
-# Copyright 2018 The Chromium Authors. All rights reserved.
+# Copyright 2018 The Chromium Authors
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
@@ -7,9 +7,7 @@ import("../../build/crashpad_buildconfig.gni")
 if (crashpad_is_in_chromium) {
   group("edo") {
     testonly = true
-    public_deps = [
-      "//ios/third_party/edo",
-    ]
+    public_deps = [ "//ios/third_party/edo" ]
   }
 } else {
   config("config") {
@@ -99,8 +97,12 @@ if (crashpad_is_in_chromium) {
       "edo/Service/Sources/EDOParameter.m",
       "edo/Service/Sources/EDOProtocolObject.h",
       "edo/Service/Sources/EDOProtocolObject.m",
+      "edo/Service/Sources/EDORemoteException.h",
+      "edo/Service/Sources/EDORemoteException.m",
       "edo/Service/Sources/EDORemoteVariable.h",
       "edo/Service/Sources/EDORemoteVariable.m",
+      "edo/Service/Sources/EDORuntimeUtils.h",
+      "edo/Service/Sources/EDORuntimeUtils.m",
       "edo/Service/Sources/EDOServiceError.h",
       "edo/Service/Sources/EDOServiceError.m",
       "edo/Service/Sources/EDOServiceException.h",
@@ -122,6 +124,8 @@ if (crashpad_is_in_chromium) {
       "edo/Service/Sources/NSKeyedArchiver+EDOAdditions.m",
       "edo/Service/Sources/NSKeyedUnarchiver+EDOAdditions.h",
       "edo/Service/Sources/NSKeyedUnarchiver+EDOAdditions.m",
+      "edo/Service/Sources/NSObject+EDOBlockedType.h",
+      "edo/Service/Sources/NSObject+EDOBlockedType.m",
       "edo/Service/Sources/NSObject+EDOParameter.h",
       "edo/Service/Sources/NSObject+EDOParameter.m",
       "edo/Service/Sources/NSObject+EDOValue.h",
@@ -135,8 +139,6 @@ if (crashpad_is_in_chromium) {
     ]
 
     public_configs = [ ":config" ]
-    deps = [
-      "../../build:ios_enable_arc",
-    ]
+    deps = [ "../../build:apple_enable_arc" ]
   }
 }

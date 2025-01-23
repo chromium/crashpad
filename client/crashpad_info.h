@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,20 +17,23 @@
 
 #include <stdint.h>
 
-#include "base/macros.h"
 #include "build/build_config.h"
 #include "client/annotation_list.h"
 #include "client/simple_address_range_bag.h"
 #include "client/simple_string_dictionary.h"
 #include "util/misc/tri_state.h"
 
-#if defined(OS_WIN)
+#if BUILDFLAG(IS_WIN)
 #include <windows.h>
-#endif  // OS_WIN
+#endif  // BUILDFLAG(IS_WIN)
 
 namespace crashpad {
 
 namespace internal {
+
+#if BUILDFLAG(IS_IOS)
+class InProcessIntermediateDumpHandler;
+#endif
 
 //! \brief A linked list of blocks representing custom streams in the minidump,
 //!     with addresses (and size) stored as uint64_t to simplify reading from
@@ -53,6 +56,8 @@ struct UserDataMinidumpStreamListEntry {
 
 }  // namespace internal
 
+using UserDataMinidumpStreamHandle = internal::UserDataMinidumpStreamListEntry;
+
 //! \brief A structure that can be used by a Crashpad-enabled program to
 //!     provide information to the Crashpad crash handler.
 //!
@@ -66,6 +71,9 @@ struct CrashpadInfo {
   static CrashpadInfo* GetCrashpadInfo();
 
   CrashpadInfo();
+
+  CrashpadInfo(const CrashpadInfo&) = delete;
+  CrashpadInfo& operator=(const CrashpadInfo&) = delete;
 
   //! \brief Sets the bag of extra memory ranges to be included in the snapshot.
   //!
@@ -215,13 +223,54 @@ struct CrashpadInfo {
   //!     which is `0xffff`.
   //! \param[in] data The base pointer of the stream data.
   //! \param[in] size The size of the stream data.
-  void AddUserDataMinidumpStream(uint32_t stream_type,
-                                 const void* data,
-                                 size_t size);
+  //! \return A handle to the added stream, for use in calling
+  //!     UpdateUserDataMinidumpStream() if needed.
+  UserDataMinidumpStreamHandle* AddUserDataMinidumpStream(uint32_t stream_type,
+                                                          const void* data,
+                                                          size_t size);
+
+  //! \brief Replaces the given stream with an updated stream.
+  //!
+  //! Creates a new memory block referencing the given \a data and \a size with
+  //! type \a stream_type. The memory referred to be \a data and \a size is
+  //! owned by the caller and must remain valid while it is in effect for the
+  //! CrashpadInfo object.
+  //!
+  //! Frees \a stream_to_update and returns a new handle to the updated stream.
+  //!
+  //! \param[in] stream_to_update A handle to the stream to be updated, received
+  //!     from either AddUserDataMinidumpStream() or previous calls to this
+  //!     function.
+  //! \param[in] stream_type The stream type identifier to use. This should be
+  //!     normally be larger than `MINIDUMP_STREAM_TYPE::LastReservedStream`
+  //!     which is `0xffff`.
+  //! \param[in] data The base pointer of the stream data.
+  //! \param[in] size The size of the stream data.
+  //! \return A handle to the new memory block that references the updated data,
+  //!     for use in calling this method again if needed.
+  UserDataMinidumpStreamHandle* UpdateUserDataMinidumpStream(
+      UserDataMinidumpStreamHandle* stream_to_update,
+      uint32_t stream_type,
+      const void* data,
+      size_t size);
+
+  internal::UserDataMinidumpStreamListEntry*
+  GetUserDataMinidumpStreamHeadForTesting() {
+    return user_data_minidump_stream_head_;
+  }
 
   enum : uint32_t {
     kSignature = 'CPad',
   };
+
+ protected:
+#if BUILDFLAG(IS_IOS)
+  friend class internal::InProcessIntermediateDumpHandler;
+#endif
+
+  uint32_t signature() const { return signature_; }
+  uint32_t version() const { return version_; }
+  uint32_t size() const { return size_; }
 
  private:
   // The compiler won’t necessarily see anyone using these fields, but it
@@ -257,8 +306,6 @@ struct CrashpadInfo {
 #if defined(__clang__)
 #pragma clang diagnostic pop
 #endif
-
-  DISALLOW_COPY_AND_ASSIGN(CrashpadInfo);
 };
 
 }  // namespace crashpad

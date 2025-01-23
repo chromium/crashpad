@@ -1,4 +1,4 @@
-// Copyright 2018 The Crashpad Authors. All rights reserved.
+// Copyright 2018 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 
 #include <string.h>
 
+#include "util/linux/pac_helper.h"
+
 namespace crashpad {
 namespace internal {
 
@@ -31,6 +33,9 @@ class MemorySanitizer : public MemorySnapshot::Delegate {
         ranges_(ranges),
         address_(address),
         is_64_bit_(is_64_bit) {}
+
+  MemorySanitizer(const MemorySanitizer&) = delete;
+  MemorySanitizer& operator=(const MemorySanitizer&) = delete;
 
   ~MemorySanitizer() = default;
 
@@ -59,8 +64,9 @@ class MemorySanitizer : public MemorySnapshot::Delegate {
     auto words =
         reinterpret_cast<Pointer*>(static_cast<char*>(data) + aligned_offset);
     for (size_t index = 0; index < word_count; ++index) {
-      if (words[index] > MemorySnapshotSanitized::kSmallWordMax &&
-          !ranges_->Contains(words[index])) {
+      auto word = StripPACBits(words[index]);
+      if (word > MemorySnapshotSanitized::kSmallWordMax &&
+          !ranges_->Contains(word)) {
         words[index] = defaced;
       }
     }
@@ -77,8 +83,6 @@ class MemorySanitizer : public MemorySnapshot::Delegate {
   RangeSet* ranges_;
   VMAddress address_;
   bool is_64_bit_;
-
-  DISALLOW_COPY_AND_ASSIGN(MemorySanitizer);
 };
 
 }  // namespace

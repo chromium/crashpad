@@ -1,4 +1,4 @@
-# Copyright 2015 The Crashpad Authors. All rights reserved.
+# Copyright 2015 The Crashpad Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,19 +22,34 @@ source_set("tool_support") {
 
   public_configs = [ "..:crashpad_config" ]
 
-  deps = [ "../third_party/mini_chromium:base" ]
+  deps = [ "$mini_chromium_source_parent:base" ]
 }
 
-if (!crashpad_is_ios) {
+crashpad_executable("dump_minidump_annotations") {
+  sources = [ "dump_minidump_annotations.cc" ]
+
+  deps = [
+    ":tool_support",
+    "../client",
+    "../snapshot",
+    "../util",
+  ]
+
+  if (crashpad_is_win) {
+    cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
+  }
+}
+
+if (!crashpad_is_ios && !crashpad_is_fuchsia) {
   crashpad_executable("crashpad_database_util") {
     sources = [ "crashpad_database_util.cc" ]
 
     deps = [
       ":tool_support",
+      "$mini_chromium_source_parent:base",
       "../build:default_exe_manifest_win",
       "../client",
       "../compat",
-      "../third_party/mini_chromium:base",
       "../util",
     ]
   }
@@ -44,10 +59,11 @@ if (!crashpad_is_ios) {
 
     deps = [
       ":tool_support",
+      "$mini_chromium_source_parent:base",
       "../build:default_exe_manifest_win",
       "../compat",
-      "../third_party/mini_chromium:base",
       "../util",
+      "../util:net",
     ]
   }
 }
@@ -56,8 +72,8 @@ crashpad_executable("base94_encoder") {
   sources = [ "base94_encoder.cc" ]
   deps = [
     ":tool_support",
+    "$mini_chromium_source_parent:base",
     "../build:default_exe_manifest_win",
-    "../third_party/mini_chromium:base",
     "../util",
   ]
 }
@@ -68,11 +84,11 @@ if (!crashpad_is_fuchsia && !crashpad_is_ios) {
 
     deps = [
       ":tool_support",
+      "$mini_chromium_source_parent:base",
       "../build:default_exe_manifest_win",
       "../compat",
       "../minidump",
       "../snapshot",
-      "../third_party/mini_chromium:base",
       "../util",
     ]
 
@@ -102,9 +118,9 @@ if (crashpad_is_mac || crashpad_is_fuchsia) {
 
     deps = [
       ":tool_support",
+      "$mini_chromium_source_parent:base",
       "../client",
       "../compat",
-      "../third_party/mini_chromium:base",
       "../util",
     ]
   }
@@ -116,8 +132,8 @@ if (crashpad_is_mac) {
 
     deps = [
       ":tool_support",
+      "$mini_chromium_source_parent:base",
       "../compat",
-      "../third_party/mini_chromium:base",
       "../util",
     ]
   }
@@ -137,8 +153,8 @@ if (crashpad_is_mac) {
 
     deps = [
       ":tool_support",
+      "$mini_chromium_source_parent:base",
       "../compat",
-      "../third_party/mini_chromium:base",
       "../util",
     ]
   }
@@ -146,15 +162,16 @@ if (crashpad_is_mac) {
   crashpad_executable("on_demand_service_tool") {
     sources = [ "mac/on_demand_service_tool.mm" ]
 
-    libs = [
+    frameworks = [
       "CoreFoundation.framework",
       "Foundation.framework",
     ]
 
     deps = [
       ":tool_support",
+      "$mini_chromium_source_parent:base",
+      "../build:apple_enable_arc",
       "../compat",
-      "../third_party/mini_chromium:base",
       "../util",
     ]
   }

@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,25 +14,29 @@
 
 #include "minidump/minidump_misc_info_writer.h"
 
+#include <iterator>
 #include <limits>
 
+#include "base/check_op.h"
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
-#include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
+#include "minidump/minidump_context_writer.h"
 #include "minidump/minidump_writer_util.h"
 #include "package.h"
+#include "snapshot/cpu_context.h"
 #include "snapshot/process_snapshot.h"
 #include "snapshot/system_snapshot.h"
+#include "snapshot/thread_snapshot.h"
 #include "util/file/file_writer.h"
 #include "util/numeric/in_range_cast.h"
 #include "util/numeric/safe_assignment.h"
 
-#if defined(OS_MACOSX)
-#include <AvailabilityMacros.h>
-#elif defined(OS_ANDROID)
+#if BUILDFLAG(IS_MAC)
+#include <Availability.h>
+#elif BUILDFLAG(IS_ANDROID)
 #include <android/api-level.h>
 #endif
 
@@ -66,27 +70,70 @@ std::string BuildString(const SystemSnapshot* system_snapshot) {
   return machine_description;
 }
 
-#if defined(OS_MACOSX)
-// Converts the value of the MAC_OS_VERSION_MIN_REQUIRED or
-// MAC_OS_X_VERSION_MAX_ALLOWED macro from <AvailabilityMacros.h> to a number
-// identifying the minor macOS version that it represents. For example, with an
-// argument of MAC_OS_X_VERSION_10_6, this function will return 6.
-int AvailabilityVersionToMacOSXMinorVersion(int availability) {
-  // Through MAC_OS_X_VERSION_10_9, the minor version is the tens digit.
-  if (availability >= 1000 && availability <= 1099) {
-    return (availability / 10) % 10;
-  }
+#if BUILDFLAG(IS_MAC)
+// Converts the value of the __MAC_OS_X_VERSION_MIN_REQUIRED or
+// __MAC_OS_X_VERSION_MAX_ALLOWED macro from <Availability.h> to a number
+// identifying the macOS version that it represents, in the same format used by
+// MacOSVersionNumber(). For example, with an argument of __MAC_10_15, this
+// function will return 10'15'00, which is incidentally the same as __MAC_10_15.
+// With an argument of __MAC_10_9, this function will return 10'09'00, different
+// from __MAC_10_9, which is 10'9'0.
+int AvailabilityVersionToMacOSVersionNumber(int availability) {
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_10
+  DCHECK_GE(availability, 10'0'0);
 
-  // After MAC_OS_X_VERSION_10_9, the older format was insufficient to represent
-  // versions. Since then, the minor version is the thousands and hundreds
-  // digits.
-  if (availability >= 100000 && availability <= 109999) {
-    return (availability / 100) % 100;
+  // Until __MAC_10_10, the format is major * 1'0'0 + minor * 1'0 + bugfix.
+  if (availability >= 10'0'0 && availability <= 10'9'9) {
+    int minor = (availability / 1'0) % 1'0;
+    int bugfix = availability % 1'0;
+    return 10'00'00 + minor * 1'00 + bugfix;
   }
-
-  return 0;
-}
 #endif
+
+  // Since __MAC_10_10, the format is major * 1'00'00 + minor * 1'00 + bugfix.
+  DCHECK_GE(availability, 10'10'00);
+  DCHECK_LE(availability, 99'99'99);
+
+  return availability;
+}
+#endif  // BUILDFLAG(IS_MAC)
+
+bool MaybeSetXStateData(const ProcessSnapshot* process_snapshot,
+                        XSTATE_CONFIG_FEATURE_MSC_INFO* xstate) {
+  // Cannot set xstate data if there are no threads.
+  auto threads = process_snapshot->Threads();
+  if (threads.size() == 0)
+    return false;
+
+  // All threads should be the same as we request contexts in the same way.
+  auto context = threads.at(0)->Context();
+
+  // Only support AMD64.
+  if (context->architecture != kCPUArchitectureX86_64)
+    return false;
+
+  // If no extended features, then we will just write the standard context.
+  if (context->x86_64->xstate.enabled_features == 0)
+    return false;
+
+  xstate->SizeOfInfo = sizeof(*xstate);
+  // Needs to match the size of the context we'll write or the dump is invalid,
+  // so ask the first thread how large it will be.
+  auto context_writer = MinidumpContextWriter::CreateFromSnapshot(context);
+  xstate->ContextSize =
+      static_cast<uint32_t>(context_writer->FreezeAndGetSizeOfObject());
+  // Note: This isn't the same as xstateenabledfeatures!
+  xstate->EnabledFeatures =
+      context->x86_64->xstate.enabled_features | XSTATE_COMPACTION_ENABLE_MASK;
+
+  // Note: if other XSAVE entries are to be supported they will be in order,
+  // and may have different offsets depending on what is saved.
+  if (context->x86_64->xstate.enabled_features & XSTATE_MASK_CET_U) {
+    xstate->Features[XSTATE_CET_U].Offset = kXSaveAreaFirstOffset;
+    xstate->Features[XSTATE_CET_U].Size = sizeof(MinidumpAMD64XSaveFormatCetU);
+  }
+  return true;
+}
 
 }  // namespace
 
@@ -100,15 +147,17 @@ std::string MinidumpMiscInfoDebugBuildString() {
   // Caution: the minidump file format only has room for 39 UTF-16 code units
   // plus a UTF-16 NUL terminator. Don’t let strings get longer than this, or
   // they will be truncated and a message will be logged.
-#if defined(OS_MACOSX)
+#if BUILDFLAG(IS_MAC)
   static constexpr char kOS[] = "mac";
-#elif defined(OS_ANDROID)
+#elif BUILDFLAG(IS_IOS)
+  static constexpr char kOS[] = "ios";
+#elif BUILDFLAG(IS_ANDROID)
   static constexpr char kOS[] = "android";
-#elif defined(OS_LINUX)
+#elif BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
   static constexpr char kOS[] = "linux";
-#elif defined(OS_WIN)
+#elif BUILDFLAG(IS_WIN)
   static constexpr char kOS[] = "win";
-#elif defined(OS_FUCHSIA)
+#elif BUILDFLAG(IS_FUCHSIA)
   static constexpr char kOS[] = "fuchsia";
 #else
 #error define kOS for this operating system
@@ -126,6 +175,8 @@ std::string MinidumpMiscInfoDebugBuildString() {
   static constexpr char kCPU[] = "mips";
 #elif defined(ARCH_CPU_MIPS64EL)
   static constexpr char kCPU[] = "mips64";
+#elif defined(ARCH_CPU_RISCV64)
+  static constexpr char kCPU[] = "riscv64";
 #else
 #error define kCPU for this CPU
 #endif
@@ -136,12 +187,12 @@ std::string MinidumpMiscInfoDebugBuildString() {
                                                       PACKAGE_VERSION,
                                                       kOS);
 
-#if defined(OS_MACOSX)
+#if BUILDFLAG(IS_MAC)
   debug_build_string += base::StringPrintf(
       ",%d,%d",
-      AvailabilityVersionToMacOSXMinorVersion(MAC_OS_X_VERSION_MIN_REQUIRED),
-      AvailabilityVersionToMacOSXMinorVersion(MAC_OS_X_VERSION_MAX_ALLOWED));
-#elif defined(OS_ANDROID)
+      AvailabilityVersionToMacOSVersionNumber(__MAC_OS_X_VERSION_MIN_REQUIRED),
+      AvailabilityVersionToMacOSVersionNumber(__MAC_OS_X_VERSION_MAX_ALLOWED));
+#elif BUILDFLAG(IS_ANDROID)
   debug_build_string += base::StringPrintf(",%d", __ANDROID_API__);
 #endif
 
@@ -226,6 +277,11 @@ void MinidumpMiscInfoWriter::InitializeFromSnapshot(
 
   SetBuildString(BuildString(system_snapshot),
                  internal::MinidumpMiscInfoDebugBuildString());
+
+  XSTATE_CONFIG_FEATURE_MSC_INFO xstate{};
+  if (MaybeSetXStateData(process_snapshot, &xstate)) {
+    SetXStateData(xstate);
+  }
 }
 
 void MinidumpMiscInfoWriter::SetProcessID(uint32_t process_id) {
@@ -301,16 +357,16 @@ void MinidumpMiscInfoWriter::SetTimeZone(uint32_t time_zone_id,
   misc_info_.TimeZone.Bias = bias;
 
   internal::MinidumpWriterUtil::AssignUTF8ToUTF16(
-      misc_info_.TimeZone.StandardName,
-      base::size(misc_info_.TimeZone.StandardName),
+      AsU16CStr(misc_info_.TimeZone.StandardName),
+      std::size(misc_info_.TimeZone.StandardName),
       standard_name);
 
   misc_info_.TimeZone.StandardDate = standard_date;
   misc_info_.TimeZone.StandardBias = standard_bias;
 
   internal::MinidumpWriterUtil::AssignUTF8ToUTF16(
-      misc_info_.TimeZone.DaylightName,
-      base::size(misc_info_.TimeZone.DaylightName),
+      AsU16CStr(misc_info_.TimeZone.DaylightName),
+      std::size(misc_info_.TimeZone.DaylightName),
       daylight_name);
 
   misc_info_.TimeZone.DaylightDate = daylight_date;
@@ -327,10 +383,12 @@ void MinidumpMiscInfoWriter::SetBuildString(
   misc_info_.Flags1 |= MINIDUMP_MISC4_BUILDSTRING;
 
   internal::MinidumpWriterUtil::AssignUTF8ToUTF16(
-      misc_info_.BuildString, base::size(misc_info_.BuildString), build_string);
+      AsU16CStr(misc_info_.BuildString),
+      std::size(misc_info_.BuildString),
+      build_string);
   internal::MinidumpWriterUtil::AssignUTF8ToUTF16(
-      misc_info_.DbgBldStr,
-      base::size(misc_info_.DbgBldStr),
+      AsU16CStr(misc_info_.DbgBldStr),
+      std::size(misc_info_.DbgBldStr),
       debug_build_string);
 }
 
@@ -340,6 +398,10 @@ void MinidumpMiscInfoWriter::SetXStateData(
 
   misc_info_.XStateData = xstate_data;
   has_xstate_data_ = true;
+}
+
+bool MinidumpMiscInfoWriter::HasXStateData() const {
+  return has_xstate_data_;
 }
 
 void MinidumpMiscInfoWriter::SetProcessCookie(uint32_t process_cookie) {

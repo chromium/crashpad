@@ -1,4 +1,4 @@
-// Copyright 2018 The Crashpad Authors. All rights reserved.
+// Copyright 2018 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,7 +35,8 @@ std::vector<std::string> BuildHandlerArgvStrings(
     const base::FilePath& metrics_dir,
     const std::string& url,
     const std::map<std::string, std::string>& annotations,
-    const std::vector<std::string>& arguments);
+    const std::vector<std::string>& arguments,
+    const std::vector<base::FilePath>& attachments = {});
 
 //! \brief Flattens a string vector into a const char* vector suitable for use
 //!     in an exec() call.

@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,12 +14,13 @@
 
 #include "util/net/http_multipart_builder.h"
 
+#include <string.h>
 #include <sys/types.h>
 
 #include <utility>
 #include <vector>
 
-#include "base/logging.h"
+#include "base/check.h"
 #include "base/rand_util.h"
 #include "base/strings/stringprintf.h"
 #include "util/net/http_body.h"

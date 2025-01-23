@@ -1,4 +1,4 @@
-// Copyright 2015 The Crashpad Authors. All rights reserved.
+// Copyright 2015 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,10 @@
 
 #include <errno.h>
 
-#include "base/logging.h"
+#include <ostream>
+
+#include "base/check.h"
+#include "build/build_config.h"
 
 namespace crashpad {
 
@@ -32,6 +35,15 @@ void Thread::Join() {
   PCHECK(errno == 0) << "pthread_join";
   platform_thread_ = 0;
 }
+
+#if BUILDFLAG(IS_APPLE)
+uint64_t Thread::GetThreadIdForTesting() {
+  uint64_t thread_self;
+  errno = pthread_threadid_np(pthread_self(), &thread_self);
+  PCHECK(errno == 0) << "pthread_threadid_np";
+  return thread_self;
+}
+#endif  // BUILDFLAG(IS_APPLE)
 
 // static
 void* Thread::ThreadEntryThunk(void* argument) {

@@ -1,4 +1,4 @@
-# Copyright 2018 The Crashpad Authors. All rights reserved.
+# Copyright 2018 The Crashpad Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@ import("../../build/crashpad_buildconfig.gni")
 if (crashpad_is_in_fuchsia) {
   group("fuchsia") {
     public_deps = [
-      "//zircon/public/lib/fdio",
-      "//zircon/public/lib/zx",
+      "//sdk/lib/fdio",
+      "//zircon/system/ulib/zx",
     ]
   }
 } else if (crashpad_is_in_chromium) {

@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@
 #include <vector>
 
 #include "base/files/file_path.h"
-#include "base/macros.h"
 #include "client/annotation.h"
 #include "client/annotation_list.h"
 #include "client/crashpad_info.h"
@@ -112,9 +111,7 @@ class TestMachOImageAnnotationsReader final
         break;
 
       case kCrashModuleInitialization:
-        // This crash is triggered by __builtin_trap(), which shows up as
-        // SIGILL.
-        SetExpectedChildTermination(kTerminationSignal, SIGILL);
+        SetExpectedChildTerminationBuiltinTrap();
         break;
 
       case kCrashDyld:
@@ -124,10 +121,16 @@ class TestMachOImageAnnotationsReader final
         // _dyld_fatal_error. This changed in 10.12 to use
         // abort_with_payload(), which appears as SIGABRT to a waiting parent.
         SetExpectedChildTermination(
-            kTerminationSignal, MacOSXMinorVersion() < 12 ? SIGTRAP : SIGABRT);
+            kTerminationSignal,
+            MacOSVersionNumber() < 10'12'00 ? SIGTRAP : SIGABRT);
         break;
     }
   }
+
+  TestMachOImageAnnotationsReader(const TestMachOImageAnnotationsReader&) =
+      delete;
+  TestMachOImageAnnotationsReader& operator=(
+      const TestMachOImageAnnotationsReader&) = delete;
 
   ~TestMachOImageAnnotationsReader() {}
 
@@ -186,8 +189,8 @@ class TestMachOImageAnnotationsReader final
       // Mac OS X 10.6 doesn’t have support for CrashReporter annotations
       // (CrashReporterClient.h), so don’t look for any special annotations in
       // that version.
-      int mac_os_x_minor_version = MacOSXMinorVersion();
-      if (mac_os_x_minor_version > 7) {
+      const int macos_version_number = MacOSVersionNumber();
+      if (macos_version_number > 10'07'00) {
         EXPECT_GE(all_annotations_vector.size(), 1u);
 
         std::string expected_annotation;
@@ -204,7 +207,7 @@ class TestMachOImageAnnotationsReader final
             // exec() occurred. See 10.9.5 Libc-997.90.3/sys/_libc_fork_child.c
             // _libc_fork_child().
             expected_annotation =
-                mac_os_x_minor_version <= 8
+                macos_version_number <= 10'08'00
                     ? "abort() called"
                     : "crashed on child side of fork pre-exec";
             break;
@@ -212,13 +215,21 @@ class TestMachOImageAnnotationsReader final
           case kCrashModuleInitialization:
             // This message is set by dyld-353.2.1/src/ImageLoaderMachO.cpp
             // ImageLoaderMachO::doInitialization().
-            expected_annotation = ModuleWithCrashyInitializer().value();
+            // dyld4 no longer sets this, so instead check for fork() without
+            // exec() like above.
+            expected_annotation =
+                macos_version_number < 12'00'00
+                    ? ModuleWithCrashyInitializer().value()
+                    : "crashed on child side of fork pre-exec";
             break;
 
           case kCrashDyld:
             // This is independent of dyld’s error_string, which is tested
-            // below.
-            expected_annotation = "dyld: launch, loading dependent libraries";
+            // below. dyld4 no longer sets this.
+            expected_annotation =
+                macos_version_number < 12'00'00
+                    ? "dyld: launch, loading dependent libraries"
+                    : "";
             break;
 
           default:
@@ -243,22 +254,24 @@ class TestMachOImageAnnotationsReader final
 
       // dyld exposes its error_string at least as far back as Mac OS X 10.4.
       if (test_type_ == kCrashDyld) {
-        static constexpr char kExpectedAnnotation[] =
-            "could not load inserted library";
-        size_t expected_annotation_length = strlen(kExpectedAnnotation);
+        std::string couldnt_load_annotation =
+            macos_version_number < 12'00'00
+                ? "could not load inserted library"
+                // dyld4 no longer writes an annotation for the primary error
+                // See https://crbug.com/1334418/#c26
+                : "tried: '/var/empty/NoDirectory/NoLibrary' (no such file)";
         bool found = false;
         for (const std::string& annotation : all_annotations_vector) {
-          // Look for the expectation as a leading substring, because the actual
-          // string will contain the library’s pathname and, on OS X 10.9 and
-          // later, a reason.
-          if (annotation.substr(0, expected_annotation_length) ==
-                  kExpectedAnnotation) {
+          // Look for the expectation as a substring, because the actual
+          // string will contain the library’s pathname and a reason, or on
+          // macOS 12, only the reason.
+          if (annotation.find(couldnt_load_annotation) != std::string::npos) {
             found = true;
             break;
           }
         }
 
-        EXPECT_TRUE(found) << kExpectedAnnotation;
+        EXPECT_TRUE(found) << couldnt_load_annotation;
       }
     }
 
@@ -399,7 +412,6 @@ class TestMachOImageAnnotationsReader final
 
       case kCrashAbort: {
         abort();
-        break;
       }
 
       case kCrashModuleInitialization: {
@@ -412,7 +424,6 @@ class TestMachOImageAnnotationsReader final
         // the FAIL() will fail the test.
         ASSERT_NE(dl_handle, nullptr) << dlerror();
         FAIL();
-        break;
       }
 
       case kCrashDyld: {
@@ -445,8 +456,6 @@ class TestMachOImageAnnotationsReader final
   }
 
   TestType test_type_;
-
-  DISALLOW_COPY_AND_ASSIGN(TestMachOImageAnnotationsReader);
 };
 
 TEST(MachOImageAnnotationsReader, DontCrash) {
@@ -461,13 +470,7 @@ TEST(MachOImageAnnotationsReader, CrashAbort) {
   test_mach_o_image_annotations_reader.Run();
 }
 
-#if defined(ADDRESS_SANITIZER)
-// https://crbug.com/844396
-#define MAYBE_CrashModuleInitialization DISABLED_CrashModuleInitialization
-#else
-#define MAYBE_CrashModuleInitialization CrashModuleInitialization
-#endif
-TEST(MachOImageAnnotationsReader, MAYBE_CrashModuleInitialization) {
+TEST(MachOImageAnnotationsReader, CrashModuleInitialization) {
   TestMachOImageAnnotationsReader test_mach_o_image_annotations_reader(
       TestMachOImageAnnotationsReader::kCrashModuleInitialization);
   test_mach_o_image_annotations_reader.Run();

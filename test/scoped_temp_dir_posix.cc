@@ -1,4 +1,4 @@
-// Copyright 2015 The Crashpad Authors. All rights reserved.
+// Copyright 2015 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,9 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "base/logging.h"
+#include <string>
+
+#include "base/check.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
@@ -40,7 +42,7 @@ base::FilePath ScopedTempDir::CreateTemporaryDirectory() {
   if (tmpdir && tmpdir[0] != '\0') {
     dir.assign(tmpdir);
   } else {
-#if defined(OS_ANDROID)
+#if BUILDFLAG(IS_ANDROID)
     dir.assign("/data/local/tmp");
 #else
     dir.assign("/tmp");

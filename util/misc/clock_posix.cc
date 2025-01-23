@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,9 @@
 
 #include <time.h>
 
-#include "base/logging.h"
+#include <ostream>
+
+#include "base/check.h"
 #include "base/posix/eintr_wrapper.h"
 #include "build/build_config.h"
 
@@ -28,7 +30,7 @@ constexpr uint64_t kNanosecondsPerSecond = 1E9;
 
 namespace crashpad {
 
-#if !defined(OS_MACOSX)
+#if !BUILDFLAG(IS_APPLE)
 
 uint64_t ClockMonotonicNanoseconds() {
   timespec now;

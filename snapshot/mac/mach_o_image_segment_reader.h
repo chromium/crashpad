@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@
 #include <string>
 #include <vector>
 
-#include "base/macros.h"
 #include "snapshot/mac/process_types.h"
 #include "util/misc/initialization_state_dcheck.h"
 
@@ -46,23 +45,19 @@ namespace crashpad {
 //! information stored in `MH_OBJECT` images, although `cl_kernels` images claim
 //! to be `MH_BUNDLE`.
 //!
+//! These `cl_kernels` modules have only been observed on x86, not on arm64.
+//! This function always returns `false` on arm64.
+//!
 //! This function is exposed for testing purposes only.
 //!
 //! \param[in] mach_o_file_type The Mach-O type of the module being examined.
 //! \param[in] module_name The pathname that `dyld` reported having loaded the
 //!     module from.
-//! \param[out] has_timestamp Optional, may be `nullptr`. If provided, and the
-//!     module is a maformed `cl_kernels` module, this will be set to `true` if
-//!     the module was loaded from the filesystem (as is the case when loaded
-//!     from the CVMS directory) and is expected to have a timestamp, and
-//!     `false` otherwise. Note that even when loaded from the filesystem, these
-//!     modules are unlinked from the filesystem after loading.
 //!
 //! \return `true` if the module appears to be a malformed `cl_kernels` module
 //!     based on the provided information, `false` otherwise.
 bool IsMalformedCLKernelsModule(uint32_t mach_o_file_type,
-                                const std::string& module_name,
-                                bool* has_timestamp);
+                                const std::string& module_name);
 
 //! \brief A reader for `LC_SEGMENT` or `LC_SEGMENT_64` load commands in Mach-O
 //!     images mapped into another process.
@@ -75,6 +70,10 @@ bool IsMalformedCLKernelsModule(uint32_t mach_o_file_type,
 class MachOImageSegmentReader {
  public:
   MachOImageSegmentReader();
+
+  MachOImageSegmentReader(const MachOImageSegmentReader&) = delete;
+  MachOImageSegmentReader& operator=(const MachOImageSegmentReader&) = delete;
+
   ~MachOImageSegmentReader();
 
   //! \brief Reads the segment load command from another process.
@@ -288,8 +287,6 @@ class MachOImageSegmentReader {
 
   InitializationStateDcheck initialized_;
   InitializationStateDcheck initialized_slide_;
-
-  DISALLOW_COPY_AND_ASSIGN(MachOImageSegmentReader);
 };
 
 }  // namespace crashpad

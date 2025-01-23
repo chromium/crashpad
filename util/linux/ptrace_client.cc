@@ -1,4 +1,4 @@
-// Copyright 2017 The Crashpad Authors. All rights reserved.
+// Copyright 2017 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,11 +16,13 @@
 
 #include <errno.h>
 #include <stdio.h>
+#include <string.h>
 
+#include <iterator>
 #include <string>
 
+#include "base/check_op.h"
 #include "base/logging.h"
-#include "base/stl_util.h"
 #include "base/strings/string_number_conversions.h"
 #include "util/file/file_io.h"
 #include "util/linux/ptrace_broker.h"
@@ -142,7 +144,7 @@ PtraceClient::~PtraceClient() {
   }
 }
 
-bool PtraceClient::Initialize(int sock, pid_t pid, bool try_direct_memory) {
+bool PtraceClient::Initialize(int sock, pid_t pid) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
   sock_ = sock;
   pid_ = pid;
@@ -164,16 +166,6 @@ bool PtraceClient::Initialize(int sock, pid_t pid, bool try_direct_memory) {
     return false;
   }
   is_64_bit_ = is_64_bit == ExceptionHandlerProtocol::kBoolTrue;
-
-  if (try_direct_memory) {
-    auto direct_mem = std::make_unique<ProcessMemoryLinux>();
-    if (direct_mem->Initialize(pid)) {
-      memory_.reset(direct_mem.release());
-    }
-  }
-  if (!memory_) {
-    memory_ = std::make_unique<BrokeredMemory>(this);
-  }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
@@ -257,8 +249,11 @@ bool PtraceClient::ReadFileContents(const base::FilePath& path,
   return true;
 }
 
-ProcessMemory* PtraceClient::Memory() {
+ProcessMemoryLinux* PtraceClient::Memory() {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  if (!memory_) {
+    memory_ = std::make_unique<ProcessMemoryLinux>(this);
+  }
   return memory_.get();
 }
 
@@ -271,7 +266,7 @@ bool PtraceClient::Threads(std::vector<pid_t>* threads) {
   threads->push_back(pid_);
 
   char path[32];
-  snprintf(path, base::size(path), "/proc/%d/task", pid_);
+  snprintf(path, std::size(path), "/proc/%d/task", pid_);
 
   PtraceBroker::Request request = {};
   request.type = PtraceBroker::Request::kTypeListDirectory;
@@ -307,20 +302,7 @@ bool PtraceClient::Threads(std::vector<pid_t>* threads) {
   return true;
 }
 
-PtraceClient::BrokeredMemory::BrokeredMemory(PtraceClient* client)
-    : ProcessMemory(), client_(client) {}
-
-PtraceClient::BrokeredMemory::~BrokeredMemory() = default;
-
-ssize_t PtraceClient::BrokeredMemory::ReadUpTo(VMAddress address,
-                                               size_t size,
-                                               void* buffer) const {
-  return client_->ReadUpTo(address, size, buffer);
-}
-
-ssize_t PtraceClient::ReadUpTo(VMAddress address,
-                               size_t size,
-                               void* buffer) const {
+ssize_t PtraceClient::ReadUpTo(VMAddress address, size_t size, void* buffer) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   char* buffer_c = reinterpret_cast<char*>(buffer);
 
@@ -348,6 +330,11 @@ ssize_t PtraceClient::ReadUpTo(VMAddress address,
 
     if (bytes_read == 0) {
       return total_read;
+    }
+
+    if (static_cast<size_t>(bytes_read) > size) {
+      LOG(ERROR) << "invalid size " << bytes_read;
+      return -1;
     }
 
     if (!LoggingReadFileExactly(sock_, buffer_c, bytes_read)) {

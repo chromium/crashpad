@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 #include "snapshot/mac/thread_snapshot_mac.h"
 
-#include "base/logging.h"
+#include "base/check_op.h"
 #include "snapshot/mac/cpu_context_mac.h"
 #include "snapshot/mac/process_reader_mac.h"
 
@@ -26,13 +26,13 @@ ThreadSnapshotMac::ThreadSnapshotMac()
       context_union_(),
       context_(),
       stack_(),
+      thread_name_(),
       thread_id_(0),
       thread_specific_data_address_(0),
       thread_(MACH_PORT_NULL),
       suspend_count_(0),
       priority_(0),
-      initialized_() {
-}
+      initialized_() {}
 
 ThreadSnapshotMac::~ThreadSnapshotMac() {
 }
@@ -44,6 +44,7 @@ bool ThreadSnapshotMac::Initialize(
 
   thread_ = process_reader_thread.port;
   thread_id_ = process_reader_thread.id;
+  thread_name_ = process_reader_thread.name;
   suspend_count_ = process_reader_thread.suspend_count;
   priority_ = process_reader_thread.priority;
   thread_specific_data_address_ =
@@ -75,6 +76,18 @@ bool ThreadSnapshotMac::Initialize(
                             &process_reader_thread.float_context.f32,
                             &process_reader_thread.debug_context.d32);
   }
+#elif defined(ARCH_CPU_ARM64)
+  context_.architecture = kCPUArchitectureARM64;
+  context_.arm64 = &context_union_.arm64;
+  InitializeCPUContextARM64(context_.arm64,
+                            THREAD_STATE_NONE,
+                            nullptr,
+                            0,
+                            &process_reader_thread.thread_context,
+                            &process_reader_thread.float_context,
+                            &process_reader_thread.debug_context);
+#else
+#error Port to your CPU architecture
 #endif
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
@@ -94,6 +107,11 @@ const MemorySnapshot* ThreadSnapshotMac::Stack() const {
 uint64_t ThreadSnapshotMac::ThreadID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return thread_id_;
+}
+
+std::string ThreadSnapshotMac::ThreadName() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return thread_name_;
 }
 
 int ThreadSnapshotMac::SuspendCount() const {

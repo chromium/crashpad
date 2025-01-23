@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,15 +14,15 @@
 
 #include "test/mac/mach_multiprocess.h"
 
-#include <AvailabilityMacros.h>
+#include <Availability.h>
 #include <bsm/libbsm.h>
 
 #include <memory>
 #include <string>
+#include <tuple>
 
+#include "base/apple/scoped_mach_port.h"
 #include "base/auto_reset.h"
-#include "base/logging.h"
-#include "base/mac/scoped_mach_port.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
 #include "test/mac/mach_errors.h"
@@ -64,9 +64,9 @@ struct MachMultiprocessInfo {
   }
 
   std::string service_name;
-  base::mac::ScopedMachReceiveRight local_port;
-  base::mac::ScopedMachSendRight remote_port;
-  base::mac::ScopedMachSendRight child_task;  // valid only in parent
+  base::apple::ScopedMachReceiveRight local_port;
+  base::apple::ScopedMachSendRight remote_port;
+  base::apple::ScopedMachSendRight child_task;  // valid only in parent
 };
 
 }  // namespace internal
@@ -151,7 +151,7 @@ void MachMultiprocess::MultiprocessParent() {
   // and other processes will be able to look it up and send messages to it,
   // these checks disambiguate genuine failures later on in the test from those
   // that would occur if an errant process sends a message to this service.
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_8
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_8
   uid_t audit_auid;
   uid_t audit_euid;
   gid_t audit_egid;
@@ -212,7 +212,7 @@ void MachMultiprocess::MultiprocessChild() {
   ScopedForbidReturn forbid_return;
 
   // local_port is not valid in the forked child process.
-  ignore_result(info_->local_port.release());
+  std::ignore = info_->local_port.release();
 
   info_->local_port.reset(NewMachPort(MACH_PORT_RIGHT_RECEIVE));
   ASSERT_NE(info_->local_port, kMachPortNull);

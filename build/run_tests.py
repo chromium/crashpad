@@ -1,7 +1,6 @@
-#!/usr/bin/env python
-# coding: utf-8
+#!/usr/bin/env python3
 
-# Copyright 2014 The Crashpad Authors. All rights reserved.
+# Copyright 2014 The Crashpad Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,13 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from __future__ import print_function
-
 import argparse
 import os
-import pipes
 import posixpath
 import re
+import shlex
 import subprocess
 import sys
 import tempfile
@@ -40,7 +37,7 @@ def _FindGNFromBinaryDir(binary_dir):
 
     build_ninja = os.path.join(binary_dir, 'build.ninja')
     if os.path.isfile(build_ninja):
-        with open(build_ninja, 'rb') as f:
+        with open(build_ninja, 'r') as f:
             # Look for the always-generated regeneration rule of the form:
             #
             # rule gn
@@ -78,10 +75,11 @@ def _BinaryDirTargetOS(binary_dir):
         ],
                                  shell=IS_WINDOWS_HOST,
                                  stdout=subprocess.PIPE,
-                                 stderr=open(os.devnull))
+                                 stderr=open(os.devnull),
+                                 text=True)
         value = popen.communicate()[0]
         if popen.returncode == 0:
-            match = re.match('target_os = "(.*)"$', value.decode('utf-8'))
+            match = re.match('target_os = "(.*)"$', value)
             if match:
                 return match.group(1)
 
@@ -187,22 +185,23 @@ def _RunOnAndroidTarget(binary_dir, test, android_device, extra_command_line):
         script_commands = []
         for k, v in env.items():
             script_commands.append('export %s=%s' %
-                                   (pipes.quote(k), pipes.quote(v)))
+                                   (shlex.quote(k), shlex.quote(v)))
         script_commands.extend([
-            ' '.join(pipes.quote(x) for x in command_args), 'status=${?}',
+            ' '.join(shlex.quote(x) for x in command_args), 'status=${?}',
             'echo "status=${status}"', 'exit ${status}'
         ])
         adb_command.append('; '.join(script_commands))
         child = subprocess.Popen(adb_command,
                                  shell=IS_WINDOWS_HOST,
                                  stdin=open(os.devnull),
-                                 stdout=subprocess.PIPE)
+                                 stdout=subprocess.PIPE,
+                                 text=True)
 
         FINAL_LINE_RE = re.compile('status=(\d+)$')
         final_line = None
         while True:
             # Use readline so that the test output appears “live” when running.
-            data = child.stdout.readline().decode('utf-8')
+            data = child.stdout.readline()
             if data == '':
                 break
             if final_line is not None:
@@ -289,11 +288,11 @@ def _RunOnAndroidTarget(binary_dir, test, android_device, extra_command_line):
         # environment.
         #
         # Because the test will not run with its standard output attached to a
-        # pseudo-terminal device, gtest will not normally enable colored output,
-        # so mimic gtest’s own logic for deciding whether to enable color by
-        # checking this script’s own standard output connection. The whitelist
-        # of TERM values comes from gtest googletest/src/gtest.cc
-        # testing::internal::ShouldUseColor().
+        # pseudo-terminal device, Google Test will not normally enable colored
+        # output, so mimic Google Test’s own logic for deciding whether to
+        # enable color by checking this script’s own standard output connection.
+        # The list of TERM values comes from Google Test’s
+        # googletest/src/gtest.cc testing::internal::ShouldUseColor().
         env = {'CRASHPAD_TEST_DATA_ROOT': device_temp_dir}
         gtest_color = os.environ.get('GTEST_COLOR')
         if gtest_color in ('auto', None):
@@ -313,148 +312,10 @@ def _RunOnAndroidTarget(binary_dir, test, android_device, extra_command_line):
         _adb_shell(['rm', '-rf', device_temp_dir])
 
 
-def _GetFuchsiaSDKRoot():
-    arch = 'mac-amd64' if sys.platform == 'darwin' else 'linux-amd64'
-    return os.path.join(CRASHPAD_DIR, 'third_party', 'fuchsia', 'sdk', arch)
+def _RunOnIOSTarget(binary_dir, test, is_xcuitest=False, gtest_filter=None):
+    """Runs the given iOS |test| app on a simulator with the default OS version."""
 
-
-def _GenerateFuchsiaRuntimeDepsFiles(binary_dir, tests):
-    """Ensures a <binary_dir>/<test>.runtime_deps file exists for each test."""
-    targets_file = os.path.join(binary_dir, 'targets.txt')
-    with open(targets_file, 'wb') as f:
-        f.write('//:' + '\n//:'.join(tests) + '\n')
-    gn_path = _FindGNFromBinaryDir(binary_dir)
-    subprocess.check_call([
-        gn_path, '--root=' + CRASHPAD_DIR, 'gen', binary_dir,
-        '--runtime-deps-list-file=' + targets_file
-    ])
-
-    # Run again so that --runtime-deps-list-file isn't in the regen rule. See
-    # https://crbug.com/814816.
-    subprocess.check_call(
-        [gn_path, '--root=' + CRASHPAD_DIR, 'gen', binary_dir])
-
-
-def _HandleOutputFromFuchsiaLogListener(process, done_message):
-    """Pass through the output from |process| (which should be an instance of
-    Fuchsia's loglistener) until a special termination |done_message| is
-    encountered.
-
-    Also attempts to determine if any tests failed by inspecting the log output,
-    and returns False if there were failures.
-    """
-    success = True
-    while True:
-        line = process.stdout.readline().rstrip()
-        if 'FAILED TEST' in line:
-            success = False
-        elif done_message in line and 'echo ' not in line:
-            break
-        print(line)
-    return success
-
-
-def _RunOnFuchsiaTarget(binary_dir, test, device_name, extra_command_line):
-    """Runs the given Fuchsia |test| executable on the given |device_name|. The
-    device must already be booted.
-
-    Copies the executable and its runtime dependencies as specified by GN to the
-    target in /tmp using `netcp`, runs the binary on the target, and logs output
-    back to stdout on this machine via `loglistener`.
-    """
-    sdk_root = _GetFuchsiaSDKRoot()
-
-    # Run loglistener and filter the output to know when the test is done.
-    loglistener_process = subprocess.Popen(
-        [os.path.join(sdk_root, 'tools', 'loglistener'), device_name],
-        stdout=subprocess.PIPE,
-        stdin=open(os.devnull),
-        stderr=open(os.devnull))
-
-    runtime_deps_file = os.path.join(binary_dir, test + '.runtime_deps')
-    with open(runtime_deps_file, 'rb') as f:
-        runtime_deps = f.read().splitlines()
-
-    def netruncmd(*args):
-        """Runs a list of commands on the target device. Each command is escaped
-        by using pipes.quote(), and then each command is chained by shell ';'.
-        """
-        netruncmd_path = os.path.join(sdk_root, 'tools', 'netruncmd')
-        final_args = ' ; '.join(
-            ' '.join(pipes.quote(x) for x in command) for command in args)
-        subprocess.check_call([netruncmd_path, device_name, final_args])
-
-    try:
-        unique_id = uuid.uuid4().hex
-        test_root = '/tmp/%s_%s' % (test, unique_id)
-        tmp_root = test_root + '/tmp'
-        staging_root = test_root + '/pkg'
-
-        # Make a staging directory tree on the target.
-        directories_to_create = [
-            tmp_root,
-            '%s/bin' % staging_root,
-            '%s/assets' % staging_root
-        ]
-        netruncmd(['mkdir', '-p'] + directories_to_create)
-
-        def netcp(local_path):
-            """Uses `netcp` to copy a file or directory to the device. Files
-            located inside the build dir are stored to /pkg/bin, otherwise to
-            /pkg/assets. .so files are stored somewhere completely different,
-            into /boot/lib (!). This is because the loader service does not yet
-            correctly handle the namespace in which the caller is being run, and
-            so can only load .so files from a couple hardcoded locations, the
-            only writable one of which is /boot/lib, so we copy all .so files
-            there. This bug is filed upstream as ZX-1619.
-            """
-            in_binary_dir = local_path.startswith(binary_dir + '/')
-            if in_binary_dir:
-                if local_path.endswith('.so'):
-                    target_path = os.path.join('/boot/lib',
-                                               local_path[len(binary_dir) + 1:])
-                else:
-                    target_path = os.path.join(staging_root, 'bin',
-                                               local_path[len(binary_dir) + 1:])
-            else:
-                relative_path = os.path.relpath(local_path, CRASHPAD_DIR)
-                target_path = os.path.join(staging_root, 'assets',
-                                           relative_path)
-            netcp_path = os.path.join(sdk_root, 'tools', 'netcp')
-            subprocess.check_call(
-                [netcp_path, local_path, device_name + ':' + target_path],
-                stderr=open(os.devnull))
-
-        # Copy runtime deps into the staging tree.
-        for dep in runtime_deps:
-            local_path = os.path.normpath(os.path.join(binary_dir, dep))
-            if os.path.isdir(local_path):
-                for root, dirs, files in os.walk(local_path):
-                    for f in files:
-                        netcp(os.path.join(root, f))
-            else:
-                netcp(local_path)
-
-        done_message = 'TERMINATED: ' + unique_id
-        namespace_command = [
-            'namespace', '/pkg=' + staging_root, '/tmp=' + tmp_root,
-            '/svc=/svc', '--replace-child-argv0=/pkg/bin/' + test, '--',
-            staging_root + '/bin/' + test
-        ] + extra_command_line
-        netruncmd(namespace_command, ['echo', done_message])
-
-        success = _HandleOutputFromFuchsiaLogListener(loglistener_process,
-                                                      done_message)
-        if not success:
-            raise subprocess.CalledProcessError(1, test)
-    finally:
-        netruncmd(['rm', '-rf', test_root])
-
-
-def _RunOnIOSTarget(binary_dir, test, is_xcuitest=False):
-    """Runs the given iOS |test| app on iPhone 8 with the default OS version."""
-
-    def xctest(binary_dir, test):
+    def xctest(binary_dir, test, gtest_filter=None):
         """Returns a dict containing the xctestrun data needed to run an
         XCTest-based test app."""
         test_path = os.path.join(CRASHPAD_DIR, binary_dir)
@@ -471,6 +332,10 @@ def _RunOnIOSTarget(binary_dir, test, is_xcuitest=False):
                 'XCInjectBundleInto': '__TESTHOST__/' + test,
             }
         }
+        if gtest_filter:
+            module_data['CommandLineArguments'] = [
+                '--gtest_filter=' + gtest_filter
+            ]
         return {test: module_data}
 
     def xcuitest(binary_dir, test):
@@ -484,6 +349,7 @@ def _RunOnIOSTarget(binary_dir, test, is_xcuitest=False):
         target_app_path = os.path.join(test_path, test + '.app')
         module_data = {
             'IsUITestBundle': True,
+            'SystemAttachmentLifetime': 'deleteOnSuccess',
             'IsXCTRunnerHostedTestBundle': True,
             'TestBundlePath': bundle_path,
             'TestHostPath': runner_path,
@@ -505,17 +371,24 @@ def _RunOnIOSTarget(binary_dir, test, is_xcuitest=False):
     with tempfile.NamedTemporaryFile() as f:
         import plistlib
 
-        xctestrun_path = f.name
+        xctestrun_path = f.name + ".xctestrun"
         print(xctestrun_path)
-        if is_xcuitest:
-            plistlib.writePlist(xcuitest(binary_dir, test), xctestrun_path)
-        else:
-            plistlib.writePlist(xctest(binary_dir, test), xctestrun_path)
-
-        subprocess.check_call([
-            'xcodebuild', 'test-without-building', '-xctestrun', xctestrun_path,
-            '-destination', 'platform=iOS Simulator,name=iPhone 8'
-        ])
+        command = [
+            'xcodebuild',
+            'test-without-building',
+            '-xctestrun',
+            xctestrun_path,
+            '-destination',
+            'platform=iOS Simulator,name=iPhone 15',
+        ]
+        with open(xctestrun_path, 'wb') as fp:
+            if is_xcuitest:
+                plistlib.dump(xcuitest(binary_dir, test), fp)
+                if gtest_filter:
+                    command.append('-only-testing:' + test + '/' + gtest_filter)
+            else:
+                plistlib.dump(xctest(binary_dir, test, gtest_filter), fp)
+        subprocess.check_call(command)
 
 
 # This script is primarily used from the waterfall so that the list of tests
@@ -525,8 +398,9 @@ def main(args):
     parser = argparse.ArgumentParser(description='Run Crashpad unittests.')
     parser.add_argument('binary_dir', help='Root of build dir')
     parser.add_argument('test', nargs='*', help='Specific test(s) to run.')
-    parser.add_argument('--gtest_filter',
-                        help='GTest filter applied to GTest binary runs.')
+    parser.add_argument(
+        '--gtest_filter',
+        help='Google Test filter applied to Google Test binary runs.')
     args = parser.parse_args()
 
     # Tell 64-bit Windows tests where to find 32-bit test executables, for
@@ -543,7 +417,6 @@ def main(args):
 
     target_os = _BinaryDirTargetOS(args.binary_dir)
     is_android = target_os == 'android'
-    is_fuchsia = target_os == 'fuchsia'
     is_ios = target_os == 'ios'
 
     tests = [
@@ -559,10 +432,11 @@ def main(args):
         android_device = os.environ.get('ANDROID_DEVICE')
         if not android_device:
             adb_devices = subprocess.check_output(['adb', 'devices'],
-                                                  shell=IS_WINDOWS_HOST)
+                                                  shell=IS_WINDOWS_HOST,
+                                                  text=True)
             devices = []
             for line in adb_devices.splitlines():
-                line = line.decode('utf-8')
+                line = line
                 if (line == 'List of devices attached' or
                         re.match('^\* daemon .+ \*$', line) or line == ''):
                     continue
@@ -574,21 +448,6 @@ def main(args):
                 return 2
             android_device = devices[0]
             print('Using autodetected Android device:', android_device)
-    elif is_fuchsia:
-        zircon_nodename = os.environ.get('ZIRCON_NODENAME')
-        if not zircon_nodename:
-            netls = os.path.join(_GetFuchsiaSDKRoot(), 'tools', 'netls')
-            popen = subprocess.Popen([netls, '--nowait'],
-                                     stdout=subprocess.PIPE)
-            devices = popen.communicate()[0].splitlines()
-            if popen.returncode != 0 or len(devices) != 1:
-                print("Please set ZIRCON_NODENAME to your device's hostname",
-                      file=sys.stderr)
-                return 2
-            zircon_nodename = devices[0].strip().split()[1]
-            print('Using autodetected Fuchsia device:', zircon_nodename)
-        _GenerateFuchsiaRuntimeDepsFiles(
-            args.binary_dir, [t for t in tests if not t.endswith('.py')])
     elif is_ios:
         tests.append('ios_crash_xcuitests')
     elif IS_WINDOWS_HOST:
@@ -617,13 +476,11 @@ def main(args):
             if is_android:
                 _RunOnAndroidTarget(args.binary_dir, test, android_device,
                                     extra_command_line)
-            elif is_fuchsia:
-                _RunOnFuchsiaTarget(args.binary_dir, test, zircon_nodename,
-                                    extra_command_line)
             elif is_ios:
                 _RunOnIOSTarget(args.binary_dir,
                                 test,
-                                is_xcuitest=test.startswith('ios'))
+                                is_xcuitest=test.startswith('ios'),
+                                gtest_filter=args.gtest_filter)
             else:
                 subprocess.check_call([os.path.join(args.binary_dir, test)] +
                                       extra_command_line)
