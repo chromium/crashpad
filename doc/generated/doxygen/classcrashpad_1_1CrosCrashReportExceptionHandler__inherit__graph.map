@@ -1,0 +1,5 @@
+<map id="crashpad::CrosCrashReportExceptionHandler" name="crashpad::CrosCrashReportExceptionHandler">
+<area shape="rect" id="Node000001" title="An exception handler that writes crash reports to the ChromeOS crash_reporter." alt="" coords="8,102,197,151"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html" title=" " alt="" coords="5,5,200,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,69,105,101,100,101,100,69"/>
+</map>

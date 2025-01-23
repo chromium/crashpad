@@ -1,0 +1,9 @@
+<map id="crashpad::Annotation" name="crashpad::Annotation">
+<area shape="rect" id="Node000001" title="Base class for an annotation, which records a name&#45;value pair of arbitrary data when set." alt="" coords="5,88,159,118"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1RingBufferAnnotation.html" title=" " alt="" coords="207,5,427,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,81,236,52,238,57,147,86"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1RingBufferAnnotation.html" title="An Annotation which wraps a LengthDelimitedRingBuffer of up to Capacity bytes in length." alt="" coords="207,79,427,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="174,100,206,100,206,106,174,106"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1StringAnnotation.html" title="An." alt="" coords="222,152,412,201"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="147,120,238,149,236,154,146,125"/>
+</map>

@@ -1,0 +1,18 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classcrashpad_1_1FileSeekerInterface.html" title="An interface to seek in files and other file&#45;like objects with semantics matching the underlying plat..." alt="" coords="5,131,213,160"/>
+<area shape="rect" id="Node000001" href="$classcrashpad_1_1FileReaderInterface.html" title="An interface to read to files and other file&#45;like objects with semantics matching the underlying plat..." alt="" coords="261,87,469,116"/>
+<area shape="poly" id="edge26_Node000000_Node000001" title=" " alt="" coords="214,125,274,114,275,120,215,130"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1FileWriterInterface.html" title="An interface to write to files and other file&#45;like objects with semantics matching the underlying pla..." alt="" coords="263,157,466,187"/>
+<area shape="poly" id="edge30_Node000000_Node000004" title=" " alt="" coords="229,155,263,159,262,164,228,161"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1FileReader.html" title="A file reader implementation that wraps traditional system file operations on files accessed through ..." alt="" coords="534,5,684,35"/>
+<area shape="poly" id="edge27_Node000001_Node000002" title=" " alt="" coords="420,78,516,44,552,33,554,38,518,49,421,83"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1StringFile.html" title="A file reader and writer backed by a virtual file, as opposed to a file on disk or other operating sy..." alt="" coords="538,131,680,160"/>
+<area shape="poly" id="edge28_Node000001_Node000003" title=" " alt="" coords="466,117,538,130,537,135,465,122"/>
+<area shape="rect" id="Node000007" href="$classcrashpad_1_1WeakFileHandleFileReader.html" title="A file reader backed by a FileHandle." alt="" coords="517,58,700,107"/>
+<area shape="poly" id="edge29_Node000001_Node000007" title=" " alt="" coords="484,90,516,87,517,93,485,95"/>
+<area shape="poly" id="edge32_Node000004_Node000003" title=" " alt="" coords="482,157,537,151,537,156,482,162"/>
+<area shape="rect" id="Node000005" href="$classcrashpad_1_1FileWriter.html" title="A file writer implementation that wraps traditional system file operations on files accessed through ..." alt="" coords="536,184,681,214"/>
+<area shape="poly" id="edge31_Node000004_Node000005" title=" " alt="" coords="483,182,536,188,535,194,482,188"/>
+<area shape="rect" id="Node000006" href="$classcrashpad_1_1WeakFileHandleFileWriter.html" title="A file writer backed by a FileHandle." alt="" coords="517,237,700,286"/>
+<area shape="poly" id="edge33_Node000004_Node000006" title=" " alt="" coords="423,190,541,234,539,239,421,195"/>
+</map>

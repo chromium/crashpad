@@ -1,0 +1,5 @@
+<map id="crashpad::internal::IOSIntermediateDumpData" name="crashpad::internal::IOSIntermediateDumpData">
+<area shape="rect" id="Node000001" title="A data object, consisting of a std::vector&lt;uint8_t&gt;." alt="" coords="11,102,212,151"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1IOSIntermediateDumpObject.html" title="Base class for intermediate dump object types." alt="" coords="5,5,218,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,69,114,101,109,101,109,69"/>
+</map>

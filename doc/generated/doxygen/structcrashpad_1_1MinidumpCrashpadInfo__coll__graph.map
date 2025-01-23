@@ -1,0 +1,7 @@
+<map id="crashpad::MinidumpCrashpadInfo" name="crashpad::MinidumpCrashpadInfo">
+<area shape="rect" id="Node000001" title="Additional Crashpad&#45;specific information carried within a minidump file." alt="" coords="54,121,284,151"/>
+<area shape="rect" id="Node000002" href="$structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID)." alt="" coords="5,5,125,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,44,158,119,154,122,86,48"/>
+<area shape="rect" id="Node000003" href="$structMINIDUMP__LOCATION__DESCRIPTOR.html" title="A pointer to a structure or union within a minidump file." alt="" coords="149,5,397,35"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="252,48,184,122,180,119,248,44"/>
+</map>

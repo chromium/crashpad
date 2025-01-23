@@ -22,7 +22,7 @@ var searchData=
   ['processreaderwin_19',['ProcessReaderWin',['../classcrashpad_1_1ProcessReaderWin.html',1,'crashpad']]],
   ['processsnapshot_20',['ProcessSnapshot',['../classcrashpad_1_1ProcessSnapshot.html',1,'crashpad']]],
   ['processsnapshotfuchsia_21',['ProcessSnapshotFuchsia',['../classcrashpad_1_1ProcessSnapshotFuchsia.html',1,'crashpad']]],
-  ['processsnapshotios_22',['ProcessSnapshotIOS',['../classcrashpad_1_1ProcessSnapshotIOS.html',1,'crashpad']]],
+  ['processsnapshotiosintermediatedump_22',['ProcessSnapshotIOSIntermediateDump',['../classcrashpad_1_1internal_1_1ProcessSnapshotIOSIntermediateDump.html',1,'crashpad::internal::ProcessSnapshotIOSIntermediateDump'],['../classcrashpad_1_1test_1_1ProcessSnapshotIOSIntermediateDump.html',1,'crashpad::test::ProcessSnapshotIOSIntermediateDump']]],
   ['processsnapshotlinux_23',['ProcessSnapshotLinux',['../classcrashpad_1_1ProcessSnapshotLinux.html',1,'crashpad']]],
   ['processsnapshotmac_24',['ProcessSnapshotMac',['../classcrashpad_1_1ProcessSnapshotMac.html',1,'crashpad']]],
   ['processsnapshotminidump_25',['ProcessSnapshotMinidump',['../classcrashpad_1_1ProcessSnapshotMinidump.html',1,'crashpad']]],
@@ -34,9 +34,10 @@ var searchData=
   ['programheadertablespecific_31',['ProgramHeaderTableSpecific',['../classcrashpad_1_1ElfImageReader_1_1ProgramHeaderTableSpecific.html',1,'crashpad::ElfImageReader']]],
   ['prunecondition_32',['PruneCondition',['../classcrashpad_1_1PruneCondition.html',1,'crashpad']]],
   ['prunecrashreportthread_33',['PruneCrashReportThread',['../classcrashpad_1_1PruneCrashReportThread.html',1,'crashpad']]],
-  ['ptracebroker_34',['PtraceBroker',['../classcrashpad_1_1PtraceBroker.html',1,'crashpad']]],
-  ['ptraceclient_35',['PtraceClient',['../classcrashpad_1_1PtraceClient.html',1,'crashpad']]],
-  ['ptraceconnection_36',['PtraceConnection',['../classcrashpad_1_1PtraceConnection.html',1,'crashpad']]],
-  ['ptracer_37',['Ptracer',['../classcrashpad_1_1Ptracer.html',1,'crashpad']]],
-  ['ptracestrategydecider_38',['PtraceStrategyDecider',['../classcrashpad_1_1PtraceStrategyDecider.html',1,'crashpad']]]
+  ['pruneintermediatedumpsandcrashreportsthread_34',['PruneIntermediateDumpsAndCrashReportsThread',['../classcrashpad_1_1PruneIntermediateDumpsAndCrashReportsThread.html',1,'crashpad']]],
+  ['ptracebroker_35',['PtraceBroker',['../classcrashpad_1_1PtraceBroker.html',1,'crashpad']]],
+  ['ptraceclient_36',['PtraceClient',['../classcrashpad_1_1PtraceClient.html',1,'crashpad']]],
+  ['ptraceconnection_37',['PtraceConnection',['../classcrashpad_1_1PtraceConnection.html',1,'crashpad']]],
+  ['ptracer_38',['Ptracer',['../classcrashpad_1_1Ptracer.html',1,'crashpad']]],
+  ['ptracestrategydecider_39',['PtraceStrategyDecider',['../classcrashpad_1_1PtraceStrategyDecider.html',1,'crashpad']]]
 ];

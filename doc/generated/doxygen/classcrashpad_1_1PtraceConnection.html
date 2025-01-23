@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1PtraceConnection.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1PtraceConnection.html">PtraceConnection</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -103,14 +117,8 @@ $(function(){ initResizable(false); });
 <div class="dynheader">
 Inheritance diagram for crashpad::PtraceConnection:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classcrashpad_1_1PtraceConnection.png" usemap="#crashpad::PtraceConnection_map" alt=""/>
-  <map id="crashpad::PtraceConnection_map" name="crashpad::PtraceConnection_map">
-<area href="classcrashpad_1_1DirectPtraceConnection.html" title="Manages a direct ptrace connection to a process." alt="crashpad::DirectPtraceConnection" shape="rect" coords="0,56,225,80"/>
-<area href="classcrashpad_1_1PtraceClient.html" title="Implements a PtraceConnection over a socket." alt="crashpad::PtraceClient" shape="rect" coords="235,56,460,80"/>
-<area href="classcrashpad_1_1test_1_1FakePtraceConnection.html" title="Stands-in where real PtraceConnections aren&#39;t available." alt="crashpad::test::FakePtraceConnection" shape="rect" coords="470,56,695,80"/>
-  </map>
-</div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcrashpad_1_1PtraceConnection__inherit__graph.svg" width="483" height="166"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -129,12 +137,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a49d4ed2691ef7d612d49e1f145761f57" id="r_a49d4ed2691ef7d612d49e1f145761f57"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49d4ed2691ef7d612d49e1f145761f57">ReadFileContents</a> (const base::FilePath &amp;path, std::string *contents)=0</td></tr>
 <tr class="memdesc:a49d4ed2691ef7d612d49e1f145761f57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the entire contents of a file.  <br /></td></tr>
 <tr class="separator:a49d4ed2691ef7d612d49e1f145761f57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79b3a1c9806c754432a1e8ce5a6eed9f" id="r_a79b3a1c9806c754432a1e8ce5a6eed9f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcrashpad_1_1ProcessMemory.html">ProcessMemory</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a79b3a1c9806c754432a1e8ce5a6eed9f">Memory</a> ()=0</td></tr>
-<tr class="memdesc:a79b3a1c9806c754432a1e8ce5a6eed9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a memory reader for the connected process.  <br /></td></tr>
-<tr class="separator:a79b3a1c9806c754432a1e8ce5a6eed9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5b23bcb0eebd37de0953c179ecf7320" id="r_af5b23bcb0eebd37de0953c179ecf7320"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classcrashpad_1_1ProcessMemoryLinux.html">ProcessMemoryLinux</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af5b23bcb0eebd37de0953c179ecf7320">Memory</a> ()=0</td></tr>
+<tr class="memdesc:af5b23bcb0eebd37de0953c179ecf7320"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a memory reader for the connected process.  <br /></td></tr>
+<tr class="separator:af5b23bcb0eebd37de0953c179ecf7320"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a822a40bdeb85d8ea936d419aea0ea426" id="r_a822a40bdeb85d8ea936d419aea0ea426"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a822a40bdeb85d8ea936d419aea0ea426">Threads</a> (std::vector&lt; pid_t &gt; *threads)=0</td></tr>
 <tr class="memdesc:a822a40bdeb85d8ea936d419aea0ea426"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the thread IDs of the threads in the connected process.  <br /></td></tr>
 <tr class="separator:a822a40bdeb85d8ea936d419aea0ea426"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00ee92fa43f5e51e649243c5e967738c" id="r_a00ee92fa43f5e51e649243c5e967738c"><td class="memItemLeft" align="right" valign="top">virtual ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00ee92fa43f5e51e649243c5e967738c">ReadUpTo</a> (<a class="el" href="namespacecrashpad.html#a3b472f487657ece8e0a9a662a13b2256">VMAddress</a> address, size_t size, void *buffer)=0</td></tr>
+<tr class="memdesc:a00ee92fa43f5e51e649243c5e967738c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies memory from the connected process into a caller-provided buffer in the current process, up to a maximum number of bytes.  <br /></td></tr>
+<tr class="separator:a00ee92fa43f5e51e649243c5e967738c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides an interface for making <code>ptrace</code> requests against a process and its threads. </p>
@@ -274,8 +285,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a79b3a1c9806c754432a1e8ce5a6eed9f" name="a79b3a1c9806c754432a1e8ce5a6eed9f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79b3a1c9806c754432a1e8ce5a6eed9f">&#9670;&#160;</a></span>Memory()</h2>
+<a id="af5b23bcb0eebd37de0953c179ecf7320" name="af5b23bcb0eebd37de0953c179ecf7320"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5b23bcb0eebd37de0953c179ecf7320">&#9670;&#160;</a></span>Memory()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -284,7 +295,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classcrashpad_1_1ProcessMemory.html">ProcessMemory</a> * crashpad::PtraceConnection::Memory </td>
+          <td class="memname">virtual <a class="el" href="classcrashpad_1_1ProcessMemoryLinux.html">ProcessMemoryLinux</a> * crashpad::PtraceConnection::Memory </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -300,7 +311,7 @@ Public Member Functions</h2></td></tr>
 <p>Returns a memory reader for the connected process. </p>
 <p>The caller does not take ownership of the reader. The reader is valid for the lifetime of the <a class="el" href="classcrashpad_1_1PtraceConnection.html" title="Provides an interface for making ptrace requests against a process and its threads.">PtraceConnection</a> that created it. </p>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1DirectPtraceConnection.html#adb9f4182bf16d93915160f256b5d11aa">crashpad::DirectPtraceConnection</a>, <a class="el" href="classcrashpad_1_1PtraceClient.html#a58712ca965cad6746f2421e827292408">crashpad::PtraceClient</a>, and <a class="el" href="classcrashpad_1_1test_1_1FakePtraceConnection.html#ae88bb06d58f6d1d4fb9e600009d146d5">crashpad::test::FakePtraceConnection</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1DirectPtraceConnection.html#a9712e85dcbde2ba6f4782b57eb58eb76">crashpad::DirectPtraceConnection</a>, <a class="el" href="classcrashpad_1_1PtraceClient.html#a6c5944e7ca1c8aa4f803caed1a31420d">crashpad::PtraceClient</a>, and <a class="el" href="classcrashpad_1_1test_1_1FakePtraceConnection.html#afd11797a8b65f38cb90e683a0562d7ab">crashpad::test::FakePtraceConnection</a>.</p>
 
 </div>
 </div>
@@ -345,6 +356,53 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a00ee92fa43f5e51e649243c5e967738c" name="a00ee92fa43f5e51e649243c5e967738c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00ee92fa43f5e51e649243c5e967738c">&#9670;&#160;</a></span>ReadUpTo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual ssize_t crashpad::PtraceConnection::ReadUpTo </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#a3b472f487657ece8e0a9a662a13b2256">VMAddress</a></td>          <td class="paramname"><span class="paramname"><em>address</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>buffer</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Copies memory from the connected process into a caller-provided buffer in the current process, up to a maximum number of bytes. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">address</td><td>The address, in the connected process' address space, of the memory region to copy. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>The maximum size, in bytes, of the memory region to copy. <em class="arg">buffer</em> must be at least this size. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">buffer</td><td>The buffer into which the contents of the other process' memory will be copied.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the number of bytes copied, 0 if there is no more data to read, or -1 on failure with a message logged. </dd></dl>
+
+<p>Implemented in <a class="el" href="classcrashpad_1_1DirectPtraceConnection.html#ac1c67c20145dd82679aeeda8a4a8ac23">crashpad::DirectPtraceConnection</a>, <a class="el" href="classcrashpad_1_1PtraceClient.html#a2faecb340681bfa1054b7733532dbe37">crashpad::PtraceClient</a>, and <a class="el" href="classcrashpad_1_1test_1_1FakePtraceConnection.html#a069136cfef797749bcf5ac54cf94b188">crashpad::test::FakePtraceConnection</a>.</p>
+
+</div>
+</div>
 <a id="a822a40bdeb85d8ea936d419aea0ea426" name="a822a40bdeb85d8ea936d419aea0ea426"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a822a40bdeb85d8ea936d419aea0ea426">&#9670;&#160;</a></span>Threads()</h2>
 
@@ -385,10 +443,13 @@ Public Member Functions</h2></td></tr>
 <li>util/linux/<b>ptrace_connection.h</b></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1PtraceConnection.html">PtraceConnection</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

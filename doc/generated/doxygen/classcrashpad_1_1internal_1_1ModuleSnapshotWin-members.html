@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1internal_1_1ModuleSnapshotWin.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="namespacecrashpad_1_1internal.html">internal</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html">ModuleSnapshotWin</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="headertitle"><div class="title">crashpad::internal::ModuleSnapshotWin Member List</div></div>
 </div><!--header-->
@@ -113,8 +127,10 @@ $(function(){ initResizable(false); });
   <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a7fd77f711ef04d87ece6e04d48d219f7a05280dd34028b7d52eb7488ec8a3e96b">kModuleTypeSharedLibrary</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1ModuleSnapshot.html">crashpad::ModuleSnapshot</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a7fd77f711ef04d87ece6e04d48d219f7a0d87f3e0be43a8c34d84c5091547bc07">kModuleTypeUnknown</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1ModuleSnapshot.html">crashpad::ModuleSnapshot</a></td><td class="entry"></td></tr>
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>ModuleSnapshotWin</b>() (defined in <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html">crashpad::internal::ModuleSnapshotWin</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html">crashpad::internal::ModuleSnapshotWin</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a7fd77f711ef04d87ece6e04d48d219f7">ModuleType</a> enum name</td><td class="entry"><a class="el" href="classcrashpad_1_1ModuleSnapshot.html">crashpad::ModuleSnapshot</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a101eb8b9086642a9b49d47bee0e63f32">Name</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html">crashpad::internal::ModuleSnapshotWin</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>ModuleSnapshotWin</b>(const ModuleSnapshotWin &amp;)=delete (defined in <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html">crashpad::internal::ModuleSnapshotWin</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html">crashpad::internal::ModuleSnapshotWin</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a7fd77f711ef04d87ece6e04d48d219f7">ModuleType</a> enum name</td><td class="entry"><a class="el" href="classcrashpad_1_1ModuleSnapshot.html">crashpad::ModuleSnapshot</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a101eb8b9086642a9b49d47bee0e63f32">Name</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html">crashpad::internal::ModuleSnapshotWin</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>operator=</b>(const ModuleSnapshotWin &amp;)=delete (defined in <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html">crashpad::internal::ModuleSnapshotWin</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html">crashpad::internal::ModuleSnapshotWin</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a178128e0b421c89967f781a68bf0c606">pe_image_reader</a>() const</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html">crashpad::internal::ModuleSnapshotWin</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#af3935e2bc946adce23c3fb95cc8456d9">Size</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html">crashpad::internal::ModuleSnapshotWin</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a51fff655bd3faecb23127fd2f39777fc">SourceVersion</a>(uint16_t *version_0, uint16_t *version_1, uint16_t *version_2, uint16_t *version_3) const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html">crashpad::internal::ModuleSnapshotWin</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
@@ -123,10 +139,12 @@ $(function(){ initResizable(false); });
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>~ModuleSnapshot</b>() (defined in <a class="el" href="classcrashpad_1_1ModuleSnapshot.html">crashpad::ModuleSnapshot</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1ModuleSnapshot.html">crashpad::ModuleSnapshot</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>~ModuleSnapshotWin</b>() override (defined in <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html">crashpad::internal::ModuleSnapshotWin</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html">crashpad::internal::ModuleSnapshotWin</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

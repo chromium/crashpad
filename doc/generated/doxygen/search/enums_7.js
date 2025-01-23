@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['openresult_0',['OpenResult',['../classcrashpad_1_1PtraceBroker.html#ace8571d7cc63395929f3f201a4d54f66',1,'crashpad::PtraceBroker']]],
-  ['operatingsystem_1',['OperatingSystem',['../classcrashpad_1_1SystemSnapshot.html#aa8ef4c8866899122bd8da279b3b2ab37',1,'crashpad::SystemSnapshot']]],
-  ['operationstatus_2',['OperationStatus',['../classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00',1,'crashpad::CrashReportDatabase']]]
+  ['lifetimemilestone_0',['LifetimeMilestone',['../classcrashpad_1_1Metrics.html#a14f5476a370951cfeaa514c3eea6226d',1,'crashpad::Metrics']]],
+  ['logmissingdatavaluefrommap_1',['LogMissingDataValueFromMap',['../namespacecrashpad_1_1internal.html#a7abb0abfd94e874d2cc62daf29fc1f7e',1,'crashpad::internal']]]
 ];

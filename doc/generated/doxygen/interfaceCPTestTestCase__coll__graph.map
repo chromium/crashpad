@@ -1,0 +1,9 @@
+<map id="CPTestTestCase" name="CPTestTestCase">
+<area shape="rect" id="Node000001" title=" " alt="" coords="14,181,130,211"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,84,97,114"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,129,72,180,67,181,55,130"/>
+<area shape="rect" id="Node000003" href="$classCPTestSharedObject.html" title=" " alt="" coords="121,84,266,114"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="166,126,92,183,89,178,162,121"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="154,5,233,35"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="196,50,196,84,191,84,191,50"/>
+</map>

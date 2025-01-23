@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,24 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
-/* @license-end */
-</script>
-<div id="main-nav"></div>
 </div><!-- top -->
-<div id="doc-content">
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
+$(function(){initNavTree('namespacemembers_func_s.html',''); initResizable(true); });
 /* @license-end */
 </script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -90,16 +108,18 @@ $(function(){ initResizable(false); });
 <h3><a id="index_s" name="index_s"></a>- s -</h3><ul>
 <li>SafeTerminateProcess()&#160;:&#160;<a class="el" href="namespacecrashpad.html#ad8efd0f50febdf3c8461fb93de8191f7">crashpad</a></li>
 <li>SanityCheckContext()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1test.html#a603da2f249fd4491222cc8d1088c63f6">crashpad::test</a></li>
-<li>SendToCrashHandlerServer()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a638d7916642f81df8063d300f08ff2ca">crashpad</a></li>
+<li>SendToCrashHandlerServer()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a0d993c28de1644014bf81bac75817757">crashpad</a></li>
 <li>ServiceManagementIsJobLoaded()&#160;:&#160;<a class="el" href="namespacecrashpad.html#aead5f04bd94549956a7f2826aeccf495">crashpad</a></li>
 <li>ServiceManagementIsJobRunning()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a3bc3a94386dd27968d48619f42154463">crashpad</a></li>
 <li>ServiceManagementRemoveJob()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a8cc130fecf996b7d7c76a56200afccb1">crashpad</a></li>
 <li>ServiceManagementSubmitJob()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a97ebbbac4c7f27e2e3ba2b9c080ed0f3">crashpad</a></li>
+<li>SetFileHandleForTesting()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#a5c334f4f9282e880ac66873f6f7be71b">crashpad::internal</a></li>
 <li>SetFileModificationTime()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1test.html#af7e323579fb063cb426c2855bb73d33c">crashpad::test</a></li>
 <li>SetMIGReplyError()&#160;:&#160;<a class="el" href="namespacecrashpad.html#aa023691aedd4f3e6faa923e8d2095947">crashpad</a></li>
 <li>SignalToString()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a97b946d80de148d1fd2452af38b220f4">crashpad</a></li>
 <li>SimulateCrash()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a45a44a5552e00ceaf0917f94433ac104">crashpad</a></li>
 <li>SleepNanoseconds()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a8f1db976c6e43d3731c26df569368592">crashpad</a></li>
+<li>SpawnSubprocess()&#160;:&#160;<a class="el" href="namespacecrashpad.html#aca1a9edb4c9626920d9add1664acc631">crashpad</a></li>
 <li>SplitString()&#160;:&#160;<a class="el" href="namespacecrashpad.html#abb5d05de37d3f1a92ce36c3ce37842b7">crashpad</a></li>
 <li>SplitStringFirst()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a1b3aaf00fdc6fef366afb2a00062c97f">crashpad</a></li>
 <li>StackPointerFromContext()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1test.html#a85dfb1f9093f96eb9dfa17241f73de2e">crashpad::test</a></li>
@@ -111,15 +131,18 @@ $(function(){ initResizable(false); });
 <li>StringToSignal()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a6249dd58c6a81b300d64b25a943fa25c">crashpad</a></li>
 <li>StringToThreadStateFlavor()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a2fdb1f659a2813e80d5b644020a44208">crashpad</a></li>
 <li>StringVectorToCStringVector()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a8913260552f8af42d01f9155b6e717a5">crashpad</a></li>
+<li>StripPACBits()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a6420c8cbc71259c4d6737b622aa5f07e">crashpad</a></li>
 <li>strnlen()&#160;:&#160;<a class="el" href="namespacecrashpad.html#ac8605dea4710c2630ccdd21439e05999">crashpad</a></li>
 <li>SubtractTimespec()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a746883826dd3de7b677f0a6579b14269">crashpad</a></li>
-<li>SystemCrashReporterHandler()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a47204f3a62646651e8f393cac2a6316b">crashpad</a></li>
+<li>SystemCrashReporterHandler()&#160;:&#160;<a class="el" href="namespacecrashpad.html#abf8f0c52904467bf6c534f78a52d5699">crashpad</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

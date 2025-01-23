@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classcrashpad_1_1internal_1_1CaptureMemory_1_1Delegate.html" title="An interface to a platform&#45;specific process reader." alt="" coords="5,43,202,91"/>
+<area shape="rect" id="Node000001" href="$classcrashpad_1_1internal_1_1CaptureMemoryDelegateLinux.html" title=" " alt="" coords="250,5,471,54"/>
+<area shape="poly" id="edge39_Node000000_Node000001" title=" " alt="" coords="217,48,249,43,250,48,217,53"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1CaptureMemoryDelegateWin.html" title=" " alt="" coords="255,79,466,127"/>
+<area shape="poly" id="edge40_Node000000_Node000002" title=" " alt="" coords="217,80,255,86,254,91,217,86"/>
+</map>

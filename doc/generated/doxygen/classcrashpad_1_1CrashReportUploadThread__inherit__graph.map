@@ -1,0 +1,7 @@
+<map id="crashpad::CrashReportUploadThread" name="crashpad::CrashReportUploadThread">
+<area shape="rect" id="Node000001" title="A thread that processes pending crash reports in a CrashReportDatabase by uploading them or marking t..." alt="" coords="82,102,287,151"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1WorkerThread_1_1Delegate.html" title="An interface for doing work on a WorkerThread." alt="" coords="5,5,180,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,63,163,100,159,103,124,67"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1Stoppable.html" title="An interface for operations that may be Started and Stopped." alt="" coords="203,15,350,44"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="254,58,209,103,206,100,250,54"/>
+</map>

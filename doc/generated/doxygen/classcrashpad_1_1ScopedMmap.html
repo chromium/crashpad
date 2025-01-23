@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1ScopedMmap.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1ScopedMmap.html">ScopedMmap</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -103,6 +117,15 @@ $(function(){ initResizable(false); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a6ece07bf1e3d7c66b4e9daa65608f1b8" id="r_a6ece07bf1e3d7c66b4e9daa65608f1b8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ece07bf1e3d7c66b4e9daa65608f1b8">ScopedMmap</a> (bool can_log=true)</td></tr>
+<tr class="memdesc:a6ece07bf1e3d7c66b4e9daa65608f1b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs this object.  <br /></td></tr>
+<tr class="separator:a6ece07bf1e3d7c66b4e9daa65608f1b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90adf89d1b81f8c8be8f7128e3f74593" id="r_a90adf89d1b81f8c8be8f7128e3f74593"><td class="memItemLeft" align="right" valign="top"><a id="a90adf89d1b81f8c8be8f7128e3f74593" name="a90adf89d1b81f8c8be8f7128e3f74593"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ScopedMmap</b> (const <a class="el" href="classcrashpad_1_1ScopedMmap.html">ScopedMmap</a> &amp;)=delete</td></tr>
+<tr class="separator:a90adf89d1b81f8c8be8f7128e3f74593"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a887046442dfc20569ec538eece285457" id="r_a887046442dfc20569ec538eece285457"><td class="memItemLeft" align="right" valign="top"><a id="a887046442dfc20569ec538eece285457" name="a887046442dfc20569ec538eece285457"></a>
+<a class="el" href="classcrashpad_1_1ScopedMmap.html">ScopedMmap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1ScopedMmap.html">ScopedMmap</a> &amp;)=delete</td></tr>
+<tr class="separator:a887046442dfc20569ec538eece285457"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87b285c49a6683ae3c610a6ec8499f18" id="r_a87b285c49a6683ae3c610a6ec8499f18"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87b285c49a6683ae3c610a6ec8499f18">Reset</a> ()</td></tr>
 <tr class="memdesc:a87b285c49a6683ae3c610a6ec8499f18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases the memory-mapped region by calling <code>munmap()</code>.  <br /></td></tr>
 <tr class="separator:a87b285c49a6683ae3c610a6ec8499f18"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -115,6 +138,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6ba22671a482ee2627e8e45f11c98b19" id="r_a6ba22671a482ee2627e8e45f11c98b19"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ba22671a482ee2627e8e45f11c98b19">Mprotect</a> (int prot)</td></tr>
 <tr class="memdesc:a6ba22671a482ee2627e8e45f11c98b19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the protection of the memory-mapped region by calling <code>mprotect()</code>.  <br /></td></tr>
 <tr class="separator:a6ba22671a482ee2627e8e45f11c98b19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab54585c9e16abf8b49f2e782b7cc3b23" id="r_ab54585c9e16abf8b49f2e782b7cc3b23"><td class="memItemLeft" align="right" valign="top"><a id="ab54585c9e16abf8b49f2e782b7cc3b23" name="ab54585c9e16abf8b49f2e782b7cc3b23"></a>
+void *&#160;</td><td class="memItemRight" valign="bottom"><b>release</b> ()</td></tr>
+<tr class="memdesc:ab54585c9e16abf8b49f2e782b7cc3b23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the base address of the memory-mapped region and releases ownership. <br /></td></tr>
+<tr class="separator:ab54585c9e16abf8b49f2e782b7cc3b23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa855d9b16bd8f5be6ecf46507ef702ce" id="r_aa855d9b16bd8f5be6ecf46507ef702ce"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa855d9b16bd8f5be6ecf46507ef702ce">is_valid</a> () const</td></tr>
 <tr class="separator:aa855d9b16bd8f5be6ecf46507ef702ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2223c377191577ac77ae7c43be35b279" id="r_a2223c377191577ac77ae7c43be35b279"><td class="memItemLeft" align="right" valign="top"><a id="a2223c377191577ac77ae7c43be35b279" name="a2223c377191577ac77ae7c43be35b279"></a>
@@ -133,7 +160,41 @@ template&lt;typename T&gt; </td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Maintains a memory-mapped region created by <code>mmap()</code>. </p>
 <p>On destruction, any memory-mapped region managed by an object of this class will be released by calling <code>munmap()</code>. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a6ece07bf1e3d7c66b4e9daa65608f1b8" name="a6ece07bf1e3d7c66b4e9daa65608f1b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ece07bf1e3d7c66b4e9daa65608f1b8">&#9670;&#160;</a></span>ScopedMmap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">crashpad::ScopedMmap::ScopedMmap </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>can_log</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel explicit">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs this object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">can_log</td><td><code>true</code> if methods of this class may log messages. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a id="aa855d9b16bd8f5be6ecf46507ef702ce" name="aa855d9b16bd8f5be6ecf46507ef702ce"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa855d9b16bd8f5be6ecf46507ef702ce">&#9670;&#160;</a></span>is_valid()</h2>
 
@@ -311,10 +372,13 @@ template&lt;typename T&gt; </td></tr>
 <li>util/posix/<b>scoped_mmap.cc</b></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1ScopedMmap.html">ScopedMmap</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

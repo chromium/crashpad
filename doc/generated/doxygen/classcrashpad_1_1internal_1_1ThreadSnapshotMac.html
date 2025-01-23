@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1internal_1_1ThreadSnapshotMac.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="namespacecrashpad_1_1internal.html">internal</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html">ThreadSnapshotMac</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -103,15 +117,22 @@ $(function(){ initResizable(false); });
 <div class="dynheader">
 Inheritance diagram for crashpad::internal::ThreadSnapshotMac:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classcrashpad_1_1internal_1_1ThreadSnapshotMac.png" usemap="#crashpad::internal::ThreadSnapshotMac_map" alt=""/>
-  <map id="crashpad::internal::ThreadSnapshotMac_map" name="crashpad::internal::ThreadSnapshotMac_map">
-<area href="classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot..." alt="crashpad::ThreadSnapshot" shape="rect" coords="0,0,236,24"/>
-  </map>
-</div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcrashpad_1_1internal_1_1ThreadSnapshotMac__inherit__graph.svg" width="195" height="138"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for crashpad::internal::ThreadSnapshotMac:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcrashpad_1_1internal_1_1ThreadSnapshotMac__coll__graph.svg" width="195" height="138"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:acbad3d229dda3e2660f0215ac16b77d5" id="r_acbad3d229dda3e2660f0215ac16b77d5"><td class="memItemLeft" align="right" valign="top"><a id="acbad3d229dda3e2660f0215ac16b77d5" name="acbad3d229dda3e2660f0215ac16b77d5"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ThreadSnapshotMac</b> (const <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html">ThreadSnapshotMac</a> &amp;)=delete</td></tr>
+<tr class="separator:acbad3d229dda3e2660f0215ac16b77d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1aef354213b3d11ff26a1ea50c73da64" id="r_a1aef354213b3d11ff26a1ea50c73da64"><td class="memItemLeft" align="right" valign="top"><a id="a1aef354213b3d11ff26a1ea50c73da64" name="a1aef354213b3d11ff26a1ea50c73da64"></a>
+<a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html">ThreadSnapshotMac</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html">ThreadSnapshotMac</a> &amp;)=delete</td></tr>
+<tr class="separator:a1aef354213b3d11ff26a1ea50c73da64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae861149ddd64559163ebd93fb2c9ad52" id="r_ae861149ddd64559163ebd93fb2c9ad52"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae861149ddd64559163ebd93fb2c9ad52">Initialize</a> (<a class="el" href="classcrashpad_1_1ProcessReaderMac.html">ProcessReaderMac</a> *process_reader, const <a class="el" href="structcrashpad_1_1ProcessReaderMac_1_1Thread.html">ProcessReaderMac::Thread</a> &amp;process_reader_thread)</td></tr>
 <tr class="memdesc:ae861149ddd64559163ebd93fb2c9ad52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the object.  <br /></td></tr>
 <tr class="separator:ae861149ddd64559163ebd93fb2c9ad52"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -124,6 +145,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a081cae888e8e625929cfdda333eb9966" id="r_a081cae888e8e625929cfdda333eb9966"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a081cae888e8e625929cfdda333eb9966">ThreadID</a> () const override</td></tr>
 <tr class="memdesc:a081cae888e8e625929cfdda333eb9966"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the thread’s identifier.  <br /></td></tr>
 <tr class="separator:a081cae888e8e625929cfdda333eb9966"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae90f955b28b184f316bf5fbd6598155c" id="r_ae90f955b28b184f316bf5fbd6598155c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae90f955b28b184f316bf5fbd6598155c">ThreadName</a> () const override</td></tr>
+<tr class="memdesc:ae90f955b28b184f316bf5fbd6598155c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the thread's name.  <br /></td></tr>
+<tr class="separator:ae90f955b28b184f316bf5fbd6598155c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab285ef89616ae6c9a48a9052bd917e37" id="r_ab285ef89616ae6c9a48a9052bd917e37"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab285ef89616ae6c9a48a9052bd917e37">SuspendCount</a> () const override</td></tr>
 <tr class="memdesc:ab285ef89616ae6c9a48a9052bd917e37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the thread’s suspend count.  <br /></td></tr>
 <tr class="separator:ab285ef89616ae6c9a48a9052bd917e37"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -351,6 +375,35 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ae90f955b28b184f316bf5fbd6598155c" name="ae90f955b28b184f316bf5fbd6598155c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae90f955b28b184f316bf5fbd6598155c">&#9670;&#160;</a></span>ThreadName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string crashpad::internal::ThreadSnapshotMac::ThreadName </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the thread's name. </p>
+
+<p>Implements <a class="el" href="classcrashpad_1_1ThreadSnapshot.html#a30ad10ea434c68c924e5ca8fe65dd2e2">crashpad::ThreadSnapshot</a>.</p>
+
+</div>
+</div>
 <a id="a546b936d58eb2ba4dec71914e41dd742" name="a546b936d58eb2ba4dec71914e41dd742"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a546b936d58eb2ba4dec71914e41dd742">&#9670;&#160;</a></span>ThreadSpecificDataAddress()</h2>
 
@@ -385,10 +438,13 @@ Public Member Functions</h2></td></tr>
 <li>snapshot/mac/<b>thread_snapshot_mac.cc</b></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="namespacecrashpad_1_1internal.html">internal</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html">ThreadSnapshotMac</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

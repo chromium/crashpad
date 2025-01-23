@@ -1,5 +1,13 @@
 var searchData=
 [
-  ['x86cpuinfo_0',['X86CpuInfo',['../unionCPU__INFORMATION.html#a730c8f143f18335dd9abccf4c787d6ff',1,'CPU_INFORMATION']]],
-  ['xstatedata_1',['XStateData',['../structMINIDUMP__MISC__INFO__5.html#aa53542027a6044d0a26b67f30a5453c4',1,'MINIDUMP_MISC_INFO_5']]]
+  ['watch_5fpending_5freports_0',['watch_pending_reports',['../structcrashpad_1_1CrashReportUploadThread_1_1Options.html#a7d7c4cdb2bd022a50c29818b332f22eb',1,'crashpad::CrashReportUploadThread::Options']]],
+  ['wday_1',['wDay',['../structSYSTEMTIME.html#aa95bbc66d8f19c5edf20d124faa61181',1,'SYSTEMTIME']]],
+  ['wdayofweek_2',['wDayOfWeek',['../structSYSTEMTIME.html#a9cb5a6b5c30455a545091ce4c382f1c4',1,'SYSTEMTIME']]],
+  ['whour_3',['wHour',['../structSYSTEMTIME.html#aaa06cb27275799b23d2df01b6cc5cdfe',1,'SYSTEMTIME']]],
+  ['wmilliseconds_4',['wMilliseconds',['../structSYSTEMTIME.html#ab4d8077b6cc2f87ec05b6f198b6832d5',1,'SYSTEMTIME']]],
+  ['wminute_5',['wMinute',['../structSYSTEMTIME.html#a57505f81325b68b765d0781ab1dcab36',1,'SYSTEMTIME']]],
+  ['wmonth_6',['wMonth',['../structSYSTEMTIME.html#abbdde81c9b865df6e9def49b80a8966f',1,'SYSTEMTIME']]],
+  ['write_7',['write',['../structcrashpad_1_1test_1_1WinChildProcess_1_1Handles.html#a3c7e9f99c926f659b3168ec33592059d',1,'crashpad::test::WinChildProcess::Handles']]],
+  ['wsecond_8',['wSecond',['../structSYSTEMTIME.html#a2364ae35105e5ea7b1dc2dc6d92064da',1,'SYSTEMTIME']]],
+  ['wyear_9',['wYear',['../structSYSTEMTIME.html#a5efac2653e32ef7b2523d7856b21691a',1,'SYSTEMTIME']]]
 ];

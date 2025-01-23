@@ -1,0 +1,7 @@
+<map id="crashpad::internal::CheckedAddressRangeGeneric&lt; ValueType, SizeType &gt;" name="crashpad::internal::CheckedAddressRangeGeneric&lt; ValueType, SizeType &gt;">
+<area shape="rect" id="Node000001" title="Ensures that a range, composed of a base and a size, does not overflow the pointer type of the proces..." alt="" coords="83,121,304,189"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1CheckedRange.html" title=" " alt="" coords="5,5,182,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,65,169,119,165,122,120,68"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1CheckedRange.html" title=" " alt="" coords="205,5,382,54"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="267,68,222,122,218,119,263,65"/>
+</map>

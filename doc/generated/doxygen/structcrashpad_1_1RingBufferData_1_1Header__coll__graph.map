@@ -1,0 +1,5 @@
+<map id="crashpad::RingBufferData&lt; Capacity &gt;::Header" name="crashpad::RingBufferData&lt; Capacity &gt;::Header">
+<area shape="rect" id="Node000001" title="A header containing metadata preceding the ring buffer data." alt="" coords="5,121,186,170"/>
+<area shape="rect" id="Node000002" href="$structcrashpad_1_1internal_1_1Range.html" title="A tuple holding the current range of bytes which can be read from or have been written to." alt="" coords="29,5,162,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,70,98,121,93,121,93,70"/>
+</map>

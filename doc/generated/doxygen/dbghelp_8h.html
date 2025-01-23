@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('dbghelp_8h.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_48629295dac6e528843af3b62964cd90.html">compat</a></li><li class="navelem"><a class="el" href="dir_c6a286a813207e2720bdfc457eca185d.html">non_win</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
@@ -99,15 +113,22 @@ $(function(){ initResizable(false); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
-<code>#include &quot;base/strings/string16.h&quot;</code><br />
 <code>#include &quot;compat/non_win/timezoneapi.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="verrsrc_8h.html">compat/non_win/verrsrc.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="winnt_8h.html">compat/non_win/winnt.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for dbghelp.h:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="dbghelp_8h__incl.svg" width="411" height="196"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__LOCATION__DESCRIPTOR.html">MINIDUMP_LOCATION_DESCRIPTOR</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer to a structure or union within a minidump file.  <a href="structMINIDUMP__LOCATION__DESCRIPTOR.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__LOCATION__DESCRIPTOR64.html">MINIDUMP_LOCATION_DESCRIPTOR64</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A 64-bit pointer to a structure or union within a minidump file.  <a href="structMINIDUMP__LOCATION__DESCRIPTOR64.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__MEMORY__DESCRIPTOR.html">MINIDUMP_MEMORY_DESCRIPTOR</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer to a snapshot of a region of memory contained within a minidump file.  <a href="structMINIDUMP__MEMORY__DESCRIPTOR.html#details">More...</a><br /></td></tr>
@@ -184,6 +205,12 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__MEMORY__INFO__LIST.html">MINIDUMP_MEMORY_INFO_LIST</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains a list of memory regions.  <a href="structMINIDUMP__MEMORY__INFO__LIST.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__THREAD__NAME.html">MINIDUMP_THREAD_NAME</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the name of the thread with the given thread ID.  <a href="structMINIDUMP__THREAD__NAME.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__THREAD__NAME__LIST.html">MINIDUMP_THREAD_NAME_LIST</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variable-sized struct which contains a list of <a class="el" href="structMINIDUMP__THREAD__NAME.html" title="Contains the name of the thread with the given thread ID.">MINIDUMP_THREAD_NAME</a> structs.  <a href="structMINIDUMP__THREAD__NAME__LIST.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
@@ -236,6 +263,9 @@ Typedefs</h2></td></tr>
 <tr class="memitem:acf465a1a77ecf067a9d946583bc6a3f8" id="r_acf465a1a77ecf067a9d946583bc6a3f8"><td class="memItemLeft" align="right" valign="top">typedef uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf465a1a77ecf067a9d946583bc6a3f8">RVA</a></td></tr>
 <tr class="memdesc:acf465a1a77ecf067a9d946583bc6a3f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">An offset within a minidump file, relative to the start of its <a class="el" href="structMINIDUMP__HEADER.html" title="The top-level structure identifying a minidump file.">MINIDUMP_HEADER</a>.  <br /></td></tr>
 <tr class="separator:acf465a1a77ecf067a9d946583bc6a3f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18e623b3f5dac42b87070281dda7b26b" id="r_a18e623b3f5dac42b87070281dda7b26b"><td class="memItemLeft" align="right" valign="top">typedef uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a18e623b3f5dac42b87070281dda7b26b">RVA64</a></td></tr>
+<tr class="memdesc:a18e623b3f5dac42b87070281dda7b26b"><td class="mdescLeft">&#160;</td><td class="mdescRight">A 64-bit offset within a minidump file, relative to the start of its <a class="el" href="structMINIDUMP__HEADER.html" title="The top-level structure identifying a minidump file.">MINIDUMP_HEADER</a>.  <br /></td></tr>
+<tr class="separator:a18e623b3f5dac42b87070281dda7b26b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acfc1d366cfe597920b92c93bdffec284" id="r_acfc1d366cfe597920b92c93bdffec284"><td class="memItemLeft" align="right" valign="top"><a id="acfc1d366cfe597920b92c93bdffec284" name="acfc1d366cfe597920b92c93bdffec284"></a>
 typedef <a class="el" href="structMINIDUMP__MISC__INFO__5.html">MINIDUMP_MISC_INFO_5</a>&#160;</td><td class="memItemRight" valign="bottom"><b>MINIDUMP_MISC_INFO_N</b></td></tr>
 <tr class="memdesc:acfc1d366cfe597920b92c93bdffec284"><td class="mdescLeft">&#160;</td><td class="mdescRight">The latest known version of the <a class="el" href="structMINIDUMP__MISC__INFO.html" title="Information about the process that the minidump file contains a snapshot of, as well as the system th...">MINIDUMP_MISC_INFO</a> structure. <br /></td></tr>
@@ -336,8 +366,8 @@ Functions</h2></td></tr>
 
 <p>The build string-related fields in <a class="el" href="structMINIDUMP__MISC__INFO__4.html" title="Information about the process that the minidump file contains a snapshot of, as well as the system th...">MINIDUMP_MISC_INFO_4</a> are valid. </p>
 <p>The following fields are valid:</p><ul>
-<li><a class="el" href="structMINIDUMP__MISC__INFO__4.html#a22ccb40896084aced8a3c780a927456f" title="The operating system’s “build string”, a string identifying a specific build of the operating system.">MINIDUMP_MISC_INFO_4::BuildString</a></li>
-<li><a class="el" href="structMINIDUMP__MISC__INFO__4.html#a75b120e8a596ddc38c414a317da33132" title="The minidump producer’s “build string”, a string identifying the module that produced a minidump file...">MINIDUMP_MISC_INFO_4::DbgBldStr</a> </li>
+<li><a class="el" href="structMINIDUMP__MISC__INFO__4.html#a6ff31a9dbbf32ddaed0546f93ae5512f" title="The operating system’s “build string”, a string identifying a specific build of the operating system.">MINIDUMP_MISC_INFO_4::BuildString</a></li>
+<li><a class="el" href="structMINIDUMP__MISC__INFO__4.html#a6c447d66a5f3154d307e4b794773d418" title="The minidump producer’s “build string”, a string identifying the module that produced a minidump file...">MINIDUMP_MISC_INFO_4::DbgBldStr</a> </li>
 </ul>
 
 </div>
@@ -378,6 +408,24 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a18e623b3f5dac42b87070281dda7b26b" name="a18e623b3f5dac42b87070281dda7b26b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18e623b3f5dac42b87070281dda7b26b">&#9670;&#160;</a></span>RVA64</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef uint64_t <a class="el" href="#a18e623b3f5dac42b87070281dda7b26b">RVA64</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A 64-bit offset within a minidump file, relative to the start of its <a class="el" href="structMINIDUMP__HEADER.html" title="The top-level structure identifying a minidump file.">MINIDUMP_HEADER</a>. </p>
+<p><a class="el" href="#acf465a1a77ecf067a9d946583bc6a3f8" title="An offset within a minidump file, relative to the start of its MINIDUMP_HEADER.">RVA</a> stands for “relative virtual address”. Within a minidump file, RVAs are used as pointers to link structures together.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structMINIDUMP__LOCATION__DESCRIPTOR64.html" title="A 64-bit pointer to a structure or union within a minidump file.">MINIDUMP_LOCATION_DESCRIPTOR64</a> </dd></dl>
+
+</div>
+</div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="a64711234318a4a002f399dffb474ca08" name="a64711234318a4a002f399dffb474ca08"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a64711234318a4a002f399dffb474ca08">&#9670;&#160;</a></span>MINIDUMP_STREAM_TYPE</h2>
@@ -414,6 +462,8 @@ Functions</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a64711234318a4a002f399dffb474ca08ab3437fce4862d62ca22f4933cada4d43" name="a64711234318a4a002f399dffb474ca08ab3437fce4862d62ca22f4933cada4d43"></a>MemoryInfoListStream&#160;</td><td class="fielddoc"><p>The stream type for <a class="el" href="structMINIDUMP__MEMORY__INFO__LIST.html" title="Contains a list of memory regions.">MINIDUMP_MEMORY_INFO_LIST</a>. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="a64711234318a4a002f399dffb474ca08a48eadbd0e4d5fad1e60632f31dd0fea1" name="a64711234318a4a002f399dffb474ca08a48eadbd0e4d5fad1e60632f31dd0fea1"></a>ThreadNamesStream&#160;</td><td class="fielddoc"><p>The stream type for <a class="el" href="structMINIDUMP__THREAD__NAME__LIST.html" title="Variable-sized struct which contains a list of MINIDUMP_THREAD_NAME structs.">MINIDUMP_THREAD_NAME_LIST</a>. </p>
+</td></tr>
 <tr><td class="fieldname"><a id="a64711234318a4a002f399dffb474ca08a63f8fcf1fc01df4351e89ea2e6b27074" name="a64711234318a4a002f399dffb474ca08a63f8fcf1fc01df4351e89ea2e6b27074"></a>LastReservedStream&#160;</td><td class="fielddoc"><p>Values greater than this value will not be used by the system and can be used for custom user data streams. </p>
 </td></tr>
 </table>
@@ -443,6 +493,9 @@ Functions</h2></td></tr>
 <li>A <a class="el" href="structMINIDUMP__MODULE__LIST.html" title="Information about all modules loaded within the process at the time the snapshot was taken.">MINIDUMP_MODULE_LIST</a> stream. All loaded modules are present.</li>
 <li>Typically, a <a class="el" href="structMINIDUMP__MEMORY__LIST.html" title="Information about memory regions within the process.">MINIDUMP_MEMORY_LIST</a> stream containing duplicate pointers to the stack memory regions also referenced by the <a class="el" href="structMINIDUMP__THREAD__LIST.html" title="Information about all threads within the process.">MINIDUMP_THREAD_LIST</a> stream. This type of minidump file also includes a <a class="el" href="structMINIDUMP__MEMORY__DESCRIPTOR.html" title="A pointer to a snapshot of a region of memory contained within a minidump file.">MINIDUMP_MEMORY_DESCRIPTOR</a> containing the 256 bytes centered around the exception address or the instruction pointer. </li>
 </ul>
+</td></tr>
+<tr><td class="fieldname"><a id="a7580bc5aa0738de92a9766904fc7e79ba2b6954a23f9a55089857c137d08f6cc4" name="a7580bc5aa0738de92a9766904fc7e79ba2b6954a23f9a55089857c137d08f6cc4"></a>MiniDumpWithAvxXStateContext&#160;</td><td class="fielddoc"><p>A minidump with extended contexts. </p>
+<p>Contains Normal plus a MISC_INFO_5 structure describing the contexts. </p>
 </td></tr>
 </table>
 
@@ -474,10 +527,13 @@ Functions</h2></td></tr>
 </div>
 </div>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_48629295dac6e528843af3b62964cd90.html">compat</a></li><li class="navelem"><a class="el" href="dir_c6a286a813207e2720bdfc457eca185d.html">non_win</a></li><li class="navelem"><a class="el" href="dbghelp_8h.html">dbghelp.h</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

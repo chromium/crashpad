@@ -1,0 +1,9 @@
+<map id="crashpad::WorkerThread::Delegate" name="crashpad::WorkerThread::Delegate">
+<area shape="rect" id="Node000001" title="An interface for doing work on a WorkerThread." alt="" coords="5,79,180,127"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1CrashReportUploadThread.html" title="A thread that processes pending crash reports in a CrashReportDatabase by uploading them or marking t..." alt="" coords="233,5,438,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,71,252,52,253,57,191,76"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1PruneCrashReportThread.html" title="A thread that periodically prunes crash reports from the database using the specified condition." alt="" coords="236,79,436,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="195,100,236,100,236,106,195,106"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1PruneIntermediateDumpsAndCrashReportsThread.html" title="A thread that periodically prunes crash reports from the database using the specified condition,..." alt="" coords="228,152,444,201"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="191,130,253,149,252,154,189,135"/>
+</map>

@@ -1,7 +1,20 @@
 var searchData=
 [
-  ['gather_5findirectly_5freferenced_5fmemory_0',['gather_indirectly_referenced_memory',['../structcrashpad_1_1CrashpadInfoClientOptions.html#a1b6b914b622f9cb6f69f2b8d92c57138',1,'crashpad::CrashpadInfoClientOptions']]],
-  ['general_5fregisters_1',['general_registers',['../structcrashpad_1_1ProcessReaderFuchsia_1_1Thread.html#af35a515c06a7519f043e907a6cc01bdb',1,'crashpad::ProcessReaderFuchsia::Thread']]],
-  ['granted_5faccess_2',['granted_access',['../structcrashpad_1_1HandleSnapshot.html#a6d5ba8ac07378bd893608c890c946139',1,'crashpad::HandleSnapshot::granted_access'],['../structcrashpad_1_1ProcessInfo_1_1Handle.html#acab654d299712c8e2993d9489be2b30d',1,'crashpad::ProcessInfo::Handle::granted_access']]],
-  ['grantedaccess_3',['GrantedAccess',['../structMINIDUMP__HANDLE__DESCRIPTOR.html#a1be95e43b44a564dfb059ce169dc7dff',1,'MINIDUMP_HANDLE_DESCRIPTOR']]]
+  ['fcsr_0',['fcsr',['../structcrashpad_1_1MinidumpContextRISCV64.html#ae0d2ccb9ebfacaac7c904174f44b6c12',1,'crashpad::MinidumpContextRISCV64']]],
+  ['featureinformation_1',['FeatureInformation',['../unionCPU__INFORMATION.html#a044a13c077ea0b3834dd33e4a48027cc',1,'CPU_INFORMATION']]],
+  ['features_2',['Features',['../structXSTATE__CONFIG__FEATURE__MSC__INFO.html#affeeac564e3a87bf1533c165dc976e02',1,'XSTATE_CONFIG_FEATURE_MSC_INFO']]],
+  ['file_5fpath_3',['file_path',['../structcrashpad_1_1CrashReportDatabase_1_1Report.html#a42cfce2b75dfee931b8d82968592d8a7',1,'crashpad::CrashReportDatabase::Report']]],
+  ['fir_4',['fir',['../structcrashpad_1_1MinidumpContextMIPS.html#a0ba62492430ca47a4ba68f29b4f6cd4e',1,'crashpad::MinidumpContextMIPS::fir'],['../structcrashpad_1_1MinidumpContextMIPS64.html#aaaba56d5990ff02633280c9c41c04ece',1,'crashpad::MinidumpContextMIPS64::fir']]],
+  ['flags_5',['Flags',['../structMINIDUMP__HEADER.html#a052f2280538826d030c4cb5154963e27',1,'MINIDUMP_HEADER']]],
+  ['flags1_6',['Flags1',['../structMINIDUMP__MISC__INFO.html#ac1c8ca04b2a85e2070e1b43b26d26e47',1,'MINIDUMP_MISC_INFO']]],
+  ['flavor_7',['flavor',['../structcrashpad_1_1ExceptionPorts_1_1ExceptionHandler.html#a37ea6e5c308978536093bbd36b0ff561',1,'crashpad::ExceptionPorts::ExceptionHandler']]],
+  ['float_5fcontext_8',['float_context',['../structcrashpad_1_1ThreadInfo.html#a6a059df1d872858f7db189a3fa15b906',1,'crashpad::ThreadInfo']]],
+  ['fp_9',['fp',['../structcrashpad_1_1MinidumpContextARM64.html#a87bc317dea386f22a4cfce6396d2f8f1',1,'crashpad::MinidumpContextARM64']]],
+  ['fp_5fregisters_10',['fp_registers',['../structcrashpad_1_1ProcessReaderFuchsia_1_1Thread.html#ac89210fb5cf63d6db1daf6e21873671b',1,'crashpad::ProcessReaderFuchsia::Thread']]],
+  ['fpcr_11',['fpcr',['../structcrashpad_1_1MinidumpContextARM64.html#aeda828d358cefeccd95a8cdaeb7e878c',1,'crashpad::MinidumpContextARM64']]],
+  ['fpcsr_12',['fpcsr',['../structcrashpad_1_1MinidumpContextMIPS.html#a6b14d723f54094e5b142f19087df4dfc',1,'crashpad::MinidumpContextMIPS::fpcsr'],['../structcrashpad_1_1MinidumpContextMIPS64.html#a50d74f99a522262ec5d40c538cb69914',1,'crashpad::MinidumpContextMIPS64::fpcsr']]],
+  ['fpregs_13',['fpregs',['../structcrashpad_1_1MinidumpContextMIPS.html#aa4a47de20eecb95188e84a6b9aedd954',1,'crashpad::MinidumpContextMIPS::fpregs'],['../structcrashpad_1_1MinidumpContextMIPS64.html#aeea816a826db87e1ec87b69ea384dbfc',1,'crashpad::MinidumpContextMIPS64::fpregs'],['../structcrashpad_1_1MinidumpContextRISCV64.html#af94ad4e140ee921f0b10b30ec6e4e02b',1,'crashpad::MinidumpContextRISCV64::fpregs']]],
+  ['fpscr_14',['fpscr',['../structcrashpad_1_1MinidumpContextARM.html#a9561992e98f6226b4a37e61cd25123a7',1,'crashpad::MinidumpContextARM']]],
+  ['fpsimd_15',['fpsimd',['../structcrashpad_1_1MinidumpContextARM64.html#a23b1d291c74af871f074385bae01cc4a',1,'crashpad::MinidumpContextARM64']]],
+  ['fpsr_16',['fpsr',['../structcrashpad_1_1MinidumpContextARM64.html#ac749db2cf1f4f92f396e1d034a32963d',1,'crashpad::MinidumpContextARM64']]]
 ];

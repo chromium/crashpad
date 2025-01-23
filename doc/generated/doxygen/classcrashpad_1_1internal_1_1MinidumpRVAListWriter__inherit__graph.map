@@ -1,0 +1,11 @@
+<map id="crashpad::internal::MinidumpRVAListWriter" name="crashpad::internal::MinidumpRVAListWriter">
+<area shape="rect" id="Node000001" title="The writer for a MinidumpRVAList object in a minidump file, containing a list of RVA pointers." alt="" coords="197,126,373,174"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1internal_1_1MinidumpStringListWriter.html" title=" " alt="" coords="442,5,670,92"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="366,117,441,89,443,94,368,122"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1internal_1_1MinidumpStringListWriter.html" title=" " alt="" coords="421,116,691,184"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="389,147,421,147,421,153,389,153"/>
+<area shape="rect" id="Node000005" href="$classcrashpad_1_1internal_1_1MinidumpStringListWriter.html" title="The writer for a MinidumpRVAList object in a minidump file, containing a list of MinidumpStringWriter..." alt="" coords="450,208,662,276"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="374,177,455,205,453,210,372,182"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1MinidumpWritable.html" title="The base class for all content that might be written to a minidump file." alt="" coords="5,126,149,174"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,147,196,147,196,153,164,153"/>
+</map>

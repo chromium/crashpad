@@ -1,0 +1,5 @@
+<map id="crashpad::ServerToClientMessage" name="crashpad::ServerToClientMessage">
+<area shape="rect" id="Node000001" title="The response sent back to the client via SendToCrashHandlerServer()." alt="" coords="27,102,202,151"/>
+<area shape="rect" id="Node000002" href="$structcrashpad_1_1RegistrationResponse.html" title="A client registration response." alt="" coords="5,5,224,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,51,117,101,112,101,112,51"/>
+</map>

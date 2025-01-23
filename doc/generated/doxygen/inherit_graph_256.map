@@ -1,0 +1,17 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classcrashpad_1_1SystemSnapshot.html" title="An abstract interface to a snapshot representing the state of a system, comprising an operating syste..." alt="" coords="5,235,192,264"/>
+<area shape="rect" id="Node000001" href="$classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html" title="A SystemSnapshot of the running system, when the system runs Fuchsia." alt="" coords="289,5,465,54"/>
+<area shape="poly" id="edge148_Node000000_Node000001" title=" " alt="" coords="112,220,132,184,161,142,196,100,238,65,262,52,287,42,289,47,264,57,241,69,200,104,165,145,137,187,116,222"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1SystemSnapshotIOSIntermediateDump.html" title="A SystemSnapshot of the running system, when the system runs iOS." alt="" coords="240,79,514,127"/>
+<area shape="poly" id="edge149_Node000000_Node000002" title=" " alt="" coords="124,222,175,179,238,138,268,126,270,130,241,143,178,183,128,226"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1internal_1_1SystemSnapshotLinux.html" title="A SystemSnapshot of the running system, when the system runs Linux." alt="" coords="295,152,459,201"/>
+<area shape="poly" id="edge150_Node000000_Node000003" title=" " alt="" coords="172,228,294,195,295,200,173,233"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1internal_1_1SystemSnapshotMac.html" title="A SystemSnapshot of the running system, when the system runs macOS." alt="" coords="299,225,455,274"/>
+<area shape="poly" id="edge151_Node000000_Node000004" title=" " alt="" coords="207,247,298,247,298,252,207,252"/>
+<area shape="rect" id="Node000005" href="$classcrashpad_1_1internal_1_1SystemSnapshotMinidump.html" title="A SystemSnapshot based on a minidump file." alt="" coords="280,299,474,347"/>
+<area shape="poly" id="edge152_Node000000_Node000005" title=" " alt="" coords="173,266,282,295,281,301,172,272"/>
+<area shape="rect" id="Node000006" href="$classcrashpad_1_1internal_1_1SystemSnapshotWin.html" title="A SystemSnapshot of the running system, when the system runs Windows." alt="" coords="300,372,454,421"/>
+<area shape="poly" id="edge153_Node000000_Node000006" title=" " alt="" coords="128,273,178,316,241,357,300,379,298,384,238,361,175,320,124,278"/>
+<area shape="rect" id="Node000007" href="$classcrashpad_1_1test_1_1TestSystemSnapshot.html" title="A test SystemSnapshot that can carry arbitrary data for testing purposes." alt="" coords="284,445,470,494"/>
+<area shape="poly" id="edge154_Node000000_Node000007" title=" " alt="" coords="116,277,137,313,165,354,200,395,241,430,284,451,282,455,238,435,196,399,161,357,132,315,112,280"/>
+</map>

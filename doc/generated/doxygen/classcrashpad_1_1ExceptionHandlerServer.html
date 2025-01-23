@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1ExceptionHandlerServer.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html">ExceptionHandlerServer</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
@@ -110,6 +124,12 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a125a03194d7d7660c47215f0aff2b32a" id="r_a125a03194d7d7660c47215f0aff2b32a"><td class="memItemLeft" align="right" valign="top"><a id="a125a03194d7d7660c47215f0aff2b32a" name="a125a03194d7d7660c47215f0aff2b32a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ExceptionHandlerServer</b> (const <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html">ExceptionHandlerServer</a> &amp;)=delete</td></tr>
+<tr class="separator:a125a03194d7d7660c47215f0aff2b32a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a635f7080ed6255a6ccb0ac7d0cba50b4" id="r_a635f7080ed6255a6ccb0ac7d0cba50b4"><td class="memItemLeft" align="right" valign="top"><a id="a635f7080ed6255a6ccb0ac7d0cba50b4" name="a635f7080ed6255a6ccb0ac7d0cba50b4"></a>
+<a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html">ExceptionHandlerServer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html">ExceptionHandlerServer</a> &amp;)=delete</td></tr>
+<tr class="separator:a635f7080ed6255a6ccb0ac7d0cba50b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe3a905c640eac71a6ec23f872a26fa7" id="r_afe3a905c640eac71a6ec23f872a26fa7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe3a905c640eac71a6ec23f872a26fa7">SetPtraceStrategyDecider</a> (std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1PtraceStrategyDecider.html">PtraceStrategyDecider</a> &gt; decider)</td></tr>
 <tr class="memdesc:afe3a905c640eac71a6ec23f872a26fa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the handler's <a class="el" href="classcrashpad_1_1PtraceStrategyDecider.html" title="Abstract base class for deciding how the handler should ptrace a client.">PtraceStrategyDecider</a>.  <br /></td></tr>
 <tr class="separator:afe3a905c640eac71a6ec23f872a26fa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -122,9 +142,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a75dd814798b8f8224f53d84cea8368be" id="r_a75dd814798b8f8224f53d84cea8368be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a75dd814798b8f8224f53d84cea8368be">Stop</a> ()</td></tr>
 <tr class="memdesc:a75dd814798b8f8224f53d84cea8368be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops a running exception-handling server.  <br /></td></tr>
 <tr class="separator:a75dd814798b8f8224f53d84cea8368be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98dba7a5b210d88d5133cae5a615086d" id="r_a98dba7a5b210d88d5133cae5a615086d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98dba7a5b210d88d5133cae5a615086d">ExceptionHandlerServer</a> (base::mac::ScopedMachReceiveRight receive_port, bool launchd)</td></tr>
-<tr class="memdesc:a98dba7a5b210d88d5133cae5a615086d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html" title="Runs the main exception-handling server in Crashpad’s handler process.">ExceptionHandlerServer</a> object.  <br /></td></tr>
-<tr class="separator:a98dba7a5b210d88d5133cae5a615086d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5460447edfb4bcbbbbe41086dd689893" id="r_a5460447edfb4bcbbbbe41086dd689893"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5460447edfb4bcbbbbe41086dd689893">ExceptionHandlerServer</a> (base::apple::ScopedMachReceiveRight receive_port, bool launchd)</td></tr>
+<tr class="memdesc:a5460447edfb4bcbbbbe41086dd689893"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html" title="Runs the main exception-handling server in Crashpad’s handler process.">ExceptionHandlerServer</a> object.  <br /></td></tr>
+<tr class="separator:a5460447edfb4bcbbbbe41086dd689893"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a125a03194d7d7660c47215f0aff2b32a" id="r_a125a03194d7d7660c47215f0aff2b32a"><td class="memItemLeft" align="right" valign="top"><a id="a125a03194d7d7660c47215f0aff2b32a" name="a125a03194d7d7660c47215f0aff2b32a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ExceptionHandlerServer</b> (const <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html">ExceptionHandlerServer</a> &amp;)=delete</td></tr>
+<tr class="separator:a125a03194d7d7660c47215f0aff2b32a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a635f7080ed6255a6ccb0ac7d0cba50b4" id="r_a635f7080ed6255a6ccb0ac7d0cba50b4"><td class="memItemLeft" align="right" valign="top"><a id="a635f7080ed6255a6ccb0ac7d0cba50b4" name="a635f7080ed6255a6ccb0ac7d0cba50b4"></a>
+<a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html">ExceptionHandlerServer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html">ExceptionHandlerServer</a> &amp;)=delete</td></tr>
+<tr class="separator:a635f7080ed6255a6ccb0ac7d0cba50b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a348789edd93bcd388ddd38c77230583d" id="r_a348789edd93bcd388ddd38c77230583d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a348789edd93bcd388ddd38c77230583d">Run</a> (<a class="el" href="classcrashpad_1_1UniversalMachExcServer_1_1Interface.html">UniversalMachExcServer::Interface</a> *exception_interface)</td></tr>
 <tr class="memdesc:a348789edd93bcd388ddd38c77230583d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the exception-handling server.  <br /></td></tr>
 <tr class="separator:a348789edd93bcd388ddd38c77230583d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -134,6 +160,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6493334c96948606db2553cbbc5a2877" id="r_a6493334c96948606db2553cbbc5a2877"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6493334c96948606db2553cbbc5a2877">ExceptionHandlerServer</a> (bool persistent)</td></tr>
 <tr class="memdesc:a6493334c96948606db2553cbbc5a2877"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs the exception handling server.  <br /></td></tr>
 <tr class="separator:a6493334c96948606db2553cbbc5a2877"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a125a03194d7d7660c47215f0aff2b32a" id="r_a125a03194d7d7660c47215f0aff2b32a"><td class="memItemLeft" align="right" valign="top"><a id="a125a03194d7d7660c47215f0aff2b32a" name="a125a03194d7d7660c47215f0aff2b32a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ExceptionHandlerServer</b> (const <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html">ExceptionHandlerServer</a> &amp;)=delete</td></tr>
+<tr class="separator:a125a03194d7d7660c47215f0aff2b32a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a635f7080ed6255a6ccb0ac7d0cba50b4" id="r_a635f7080ed6255a6ccb0ac7d0cba50b4"><td class="memItemLeft" align="right" valign="top"><a id="a635f7080ed6255a6ccb0ac7d0cba50b4" name="a635f7080ed6255a6ccb0ac7d0cba50b4"></a>
+<a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html">ExceptionHandlerServer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html">ExceptionHandlerServer</a> &amp;)=delete</td></tr>
+<tr class="separator:a635f7080ed6255a6ccb0ac7d0cba50b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7a18e94b43bbe192e37a28638e25a51" id="r_ab7a18e94b43bbe192e37a28638e25a51"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab7a18e94b43bbe192e37a28638e25a51">SetPipeName</a> (const std::wstring &amp;pipe_name)</td></tr>
 <tr class="memdesc:ab7a18e94b43bbe192e37a28638e25a51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the pipe name to listen for client registrations on.  <br /></td></tr>
 <tr class="separator:ab7a18e94b43bbe192e37a28638e25a51"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -159,8 +191,8 @@ static const size_t&#160;</td><td class="memItemRight" valign="bottom"><b>kPipeI
 <div class="textblock"><p>Runs the main exception-handling server in Crashpad’s handler process. </p>
 <p>Runs the main exception-handling server in Crashpad's handler process. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a98dba7a5b210d88d5133cae5a615086d" name="a98dba7a5b210d88d5133cae5a615086d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98dba7a5b210d88d5133cae5a615086d">&#9670;&#160;</a></span>ExceptionHandlerServer() <span class="overload">[1/2]</span></h2>
+<a id="a5460447edfb4bcbbbbe41086dd689893" name="a5460447edfb4bcbbbbe41086dd689893"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5460447edfb4bcbbbbe41086dd689893">&#9670;&#160;</a></span>ExceptionHandlerServer() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -168,7 +200,7 @@ static const size_t&#160;</td><td class="memItemRight" valign="bottom"><b>kPipeI
         <tr>
           <td class="memname">crashpad::ExceptionHandlerServer::ExceptionHandlerServer </td>
           <td>(</td>
-          <td class="paramtype">base::mac::ScopedMachReceiveRight</td>          <td class="paramname"><span class="paramname"><em>receive_port</em></span>, </td>
+          <td class="paramtype">base::apple::ScopedMachReceiveRight</td>          <td class="paramname"><span class="paramname"><em>receive_port</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -464,10 +496,13 @@ static const size_t&#160;</td><td class="memItemRight" valign="bottom"><b>kPipeI
 <li>util/win/<b>exception_handler_server.cc</b></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html">ExceptionHandlerServer</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

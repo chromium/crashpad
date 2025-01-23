@@ -1,0 +1,15 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classcrashpad_1_1ProcessMemory.html" title="Abstract base class for accessing the memory of another process." alt="" coords="5,139,190,168"/>
+<area shape="rect" id="Node000001" href="$classFakeProcessMemory.html" title=" " alt="" coords="282,5,432,35"/>
+<area shape="poly" id="edge128_Node000000_Node000001" title=" " alt="" coords="123,126,173,84,204,62,237,44,281,29,283,34,239,49,207,67,176,88,127,130"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ProcessMemoryFuchsia.html" title="Accesses the memory of another Fuchsia process." alt="" coords="243,59,472,88"/>
+<area shape="poly" id="edge129_Node000000_Node000002" title=" " alt="" coords="148,130,237,98,279,86,281,92,238,103,149,135"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1ProcessMemoryLinux.html" title="Accesses the memory of another Linux process." alt="" coords="249,112,466,142"/>
+<area shape="poly" id="edge130_Node000000_Node000003" title=" " alt="" coords="205,140,248,135,248,141,206,145"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1ProcessMemoryMac.html" title="Accesses the memory of another Mach task." alt="" coords="253,165,462,195"/>
+<area shape="poly" id="edge131_Node000000_Node000004" title=" " alt="" coords="206,162,252,167,252,172,205,167"/>
+<area shape="rect" id="Node000005" href="$classcrashpad_1_1ProcessMemorySanitized.html" title="Sanitized access to the memory of another process." alt="" coords="238,219,477,248"/>
+<area shape="poly" id="edge132_Node000000_Node000005" title=" " alt="" coords="149,172,238,204,281,215,279,221,237,209,148,177"/>
+<area shape="rect" id="Node000006" href="$classcrashpad_1_1ProcessMemoryWin.html" title="Accesses the memory of another Windows process." alt="" coords="254,272,461,302"/>
+<area shape="poly" id="edge133_Node000000_Node000006" title=" " alt="" coords="127,177,176,219,207,240,239,258,269,269,267,274,237,263,204,245,173,223,123,181"/>
+</map>

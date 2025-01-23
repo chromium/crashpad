@@ -1,0 +1,17 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html" title=" " alt="" coords="6,24,200,73"/>
+<area shape="rect" id="Node000001" href="$classcrashpad_1_1CrashReportExceptionHandler.html" title="An exception handler that writes crash reports for exceptions to a CrashReportDatabase." alt="" coords="266,79,488,127"/>
+<area shape="poly" id="edge12_Node000000_Node000001" title=" " alt="" coords="216,68,266,78,265,83,215,73"/>
+<area shape="rect" id="Node000007" href="$classcrashpad_1_1CrosCrashReportExceptionHandler.html" title="An exception handler that writes crash reports to the ChromeOS crash_reporter." alt="" coords="283,5,471,54"/>
+<area shape="poly" id="edge13_Node000000_Node000007" title=" " alt="" coords="216,38,282,33,282,39,216,43"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1UniversalMachExcServer_1_1Interface.html" title="An interface that the different request messages that are a part of the exc and mach_exc Mach subsyst..." alt="" coords="5,133,201,182"/>
+<area shape="poly" id="edge14_Node000002_Node000001" title=" " alt="" coords="216,133,265,122,266,128,217,138"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1test_1_1ExceptionSwallower_1_1ExceptionSwallowerThread.html" title=" " alt="" coords="249,152,505,201"/>
+<area shape="poly" id="edge15_Node000002_Node000003" title=" " alt="" coords="216,163,249,165,248,170,216,168"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1Thread.html" title="Basic thread abstraction. Users should derive from this class and implement ThreadMain()." alt="" coords="39,224,167,254"/>
+<area shape="poly" id="edge18_Node000004_Node000003" title=" " alt="" coords="181,218,267,199,268,204,183,224"/>
+<area shape="rect" id="Node000005" href="$classcrashpad_1_1SessionEndWatcher.html" title="Creates a hidden window and waits for a WM_ENDSESSION message, indicating that the session is ending ..." alt="" coords="274,224,480,254"/>
+<area shape="poly" id="edge16_Node000004_Node000005" title=" " alt="" coords="183,236,274,236,274,242,183,242"/>
+<area shape="rect" id="Node000006" href="$classcrashpad_1_1internal_1_1WorkerThreadImpl.html" title=" " alt="" coords="303,277,450,326"/>
+<area shape="poly" id="edge17_Node000004_Node000006" title=" " alt="" coords="183,254,303,282,302,287,181,260"/>
+</map>

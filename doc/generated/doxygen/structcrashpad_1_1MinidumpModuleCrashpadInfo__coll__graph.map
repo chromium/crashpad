@@ -1,0 +1,5 @@
+<map id="crashpad::MinidumpModuleCrashpadInfo" name="crashpad::MinidumpModuleCrashpadInfo">
+<area shape="rect" id="Node000001" title="Additional Crashpad&#45;specific information about a module carried within a minidump file." alt="" coords="33,140,226,189"/>
+<area shape="rect" id="Node000002" href="$structMINIDUMP__LOCATION__DESCRIPTOR.html" title="A pointer to a structure or union within a minidump file." alt="" coords="5,5,254,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,51,132,140,127,140,127,51"/>
+</map>

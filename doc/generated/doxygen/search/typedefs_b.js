@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['valuesizetype_0',['ValueSizeType',['../classcrashpad_1_1Annotation.html#afe8c08cb46e337e355c0f32c6f2e1851',1,'crashpad::Annotation']]],
-  ['vmaddress_1',['VMAddress',['../namespacecrashpad.html#a3b472f487657ece8e0a9a662a13b2256',1,'crashpad']]],
-  ['vmoffset_2',['VMOffset',['../namespacecrashpad.html#a4f2830f883069635702408e21571dfe2',1,'crashpad']]],
-  ['vmsize_3',['VMSize',['../namespacecrashpad.html#afc29d9e6679a899150179ba3ce896072',1,'crashpad']]]
+  ['scopeddir_0',['ScopedDIR',['../namespacecrashpad.html#ab78e3cfff43d8e9e512f30955e370bb3',1,'crashpad']]],
+  ['scopedfilehandle_1',['ScopedFileHandle',['../namespacecrashpad.html#a2d3a0ca2e9e37905b425f2cb1b428e7e',1,'crashpad']]],
+  ['simpleaddressrangebag_2',['SimpleAddressRangeBag',['../namespacecrashpad.html#a0ddac921c80ea43961025cacea5e92f1',1,'crashpad']]],
+  ['simplestringdictionary_3',['SimpleStringDictionary',['../namespacecrashpad.html#a234f585958271d359e8f1a4ae3f95553',1,'crashpad']]],
+  ['sizetype_4',['SizeType',['../structcrashpad_1_1RingBufferData.html#a9b271f9f918fdfca4ffe71dc4711189d',1,'crashpad::RingBufferData']]],
+  ['stringtosymbolicconstantoptions_5',['StringToSymbolicConstantOptions',['../namespacecrashpad.html#a78ec34d8dc54f6d191e3ddae3eb79170',1,'crashpad']]],
+  ['symbolicconstanttostringoptions_6',['SymbolicConstantToStringOptions',['../namespacecrashpad.html#a18cc715d0526f5bd9909027403f30d7d',1,'crashpad']]]
 ];

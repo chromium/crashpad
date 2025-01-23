@@ -1,0 +1,5 @@
+<map id="crashpad::internal::IOSIntermediateDumpFilePath" name="crashpad::internal::IOSIntermediateDumpFilePath">
+<area shape="rect" id="Node000001" title="An intermediate dump backed by a FilePath. FilePath is unlinked immediately upon initialization to en..." alt="" coords="10,102,231,151"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1IOSIntermediateDumpInterface.html" title="The base class for reading data into an IOSIntermediateDumpReader." alt="" coords="5,5,236,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,69,123,101,118,101,118,69"/>
+</map>

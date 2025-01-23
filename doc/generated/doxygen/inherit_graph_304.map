@@ -1,0 +1,13 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classcrashpad_1_1WorkerThread_1_1Delegate.html" title="An interface for doing work on a WorkerThread." alt="" coords="5,48,180,97"/>
+<area shape="rect" id="Node000001" href="$classcrashpad_1_1CrashReportUploadThread.html" title="A thread that processes pending crash reports in a CrashReportDatabase by uploading them or marking t..." alt="" coords="233,5,438,54"/>
+<area shape="poly" id="edge166_Node000000_Node000001" title=" " alt="" coords="195,52,232,45,233,50,196,57"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1PruneCrashReportThread.html" title="A thread that periodically prunes crash reports from the database using the specified condition." alt="" coords="236,79,436,127"/>
+<area shape="poly" id="edge167_Node000000_Node000003" title=" " alt="" coords="195,83,236,88,235,93,195,88"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1PruneIntermediateDumpsAndCrashReportsThread.html" title="A thread that periodically prunes crash reports from the database using the specified condition,..." alt="" coords="228,152,444,201"/>
+<area shape="poly" id="edge168_Node000000_Node000004" title=" " alt="" coords="172,101,181,106,205,122,229,137,258,149,256,154,226,141,202,126,178,111,169,106"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1Stoppable.html" title="An interface for operations that may be Started and Stopped." alt="" coords="19,120,166,150"/>
+<area shape="poly" id="edge169_Node000002_Node000001" title=" " alt="" coords="167,111,178,106,192,96,202,86,212,75,226,65,252,52,254,57,229,69,215,79,206,90,196,100,181,111,170,116"/>
+<area shape="poly" id="edge170_Node000002_Node000003" title=" " alt="" coords="180,121,235,114,236,119,181,126"/>
+<area shape="poly" id="edge171_Node000002_Node000004" title=" " alt="" coords="181,147,228,155,227,161,180,153"/>
+</map>

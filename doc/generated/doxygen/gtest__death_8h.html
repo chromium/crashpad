@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('gtest__death_8h.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_13e138d54eb8818da29c3992edef070a.html">test</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a>  </div>
@@ -97,20 +111,25 @@ $(function(){ initResizable(false); });
 <div class="textblock"><code>#include &quot;base/logging.h&quot;</code><br />
 <code>#include &quot;build/build_config.h&quot;</code><br />
 <code>#include &quot;gtest/gtest.h&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for gtest_death.h:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="gtest__death_8h__incl.svg" width="418" height="119"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a415e40b4d538d7421e1b0a43ddd3f83e" id="r_a415e40b4d538d7421e1b0a43ddd3f83e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a415e40b4d538d7421e1b0a43ddd3f83e">ASSERT_DEATH_CRASH</a>(statement,  regex)</td></tr>
-<tr class="memdesc:a415e40b4d538d7421e1b0a43ddd3f83e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the gtest <code>ASSERT_DEATH_IF_SUPPORTED()</code> macro to make assertions about death caused by crashes.  <br /></td></tr>
+<tr class="memdesc:a415e40b4d538d7421e1b0a43ddd3f83e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the Google Test <code>ASSERT_DEATH_IF_SUPPORTED()</code> macro to make assertions about death caused by crashes.  <br /></td></tr>
 <tr class="separator:a415e40b4d538d7421e1b0a43ddd3f83e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a496cb27779b2120a1854e81375e9ae5f" id="r_a496cb27779b2120a1854e81375e9ae5f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a496cb27779b2120a1854e81375e9ae5f">EXPECT_DEATH_CRASH</a>(statement,  regex)</td></tr>
-<tr class="memdesc:a496cb27779b2120a1854e81375e9ae5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the gtest <code>EXPECT_DEATH_IF_SUPPORTED()</code> macro to make assertions about death caused by crashes.  <br /></td></tr>
+<tr class="memdesc:a496cb27779b2120a1854e81375e9ae5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the Google Test <code>EXPECT_DEATH_IF_SUPPORTED()</code> macro to make assertions about death caused by crashes.  <br /></td></tr>
 <tr class="separator:a496cb27779b2120a1854e81375e9ae5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11ab1a718cd7a7ed56b7e2fbd2c36f74" id="r_a11ab1a718cd7a7ed56b7e2fbd2c36f74"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11ab1a718cd7a7ed56b7e2fbd2c36f74">ASSERT_DEATH_CHECK</a>(statement,  regex)</td></tr>
-<tr class="memdesc:a11ab1a718cd7a7ed56b7e2fbd2c36f74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the <a class="el" href="#a415e40b4d538d7421e1b0a43ddd3f83e" title="Wraps the gtest ASSERT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by crashes.">ASSERT_DEATH_CRASH()</a> macro to make assertions about death caused by <code>CHECK()</code> failures.  <br /></td></tr>
+<tr class="memdesc:a11ab1a718cd7a7ed56b7e2fbd2c36f74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the <a class="el" href="#a415e40b4d538d7421e1b0a43ddd3f83e" title="Wraps the Google Test ASSERT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by cras...">ASSERT_DEATH_CRASH()</a> macro to make assertions about death caused by <code>CHECK()</code> failures.  <br /></td></tr>
 <tr class="separator:a11ab1a718cd7a7ed56b7e2fbd2c36f74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4bd7e1dbfc8862448a4b0fb66790e50" id="r_aa4bd7e1dbfc8862448a4b0fb66790e50"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa4bd7e1dbfc8862448a4b0fb66790e50">EXPECT_DEATH_CHECK</a>(statement,  regex)</td></tr>
-<tr class="memdesc:aa4bd7e1dbfc8862448a4b0fb66790e50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the <a class="el" href="#a496cb27779b2120a1854e81375e9ae5f" title="Wraps the gtest EXPECT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by crashes.">EXPECT_DEATH_CRASH()</a> macro to make assertions about death caused by <code>CHECK()</code> failures.  <br /></td></tr>
+<tr class="memdesc:aa4bd7e1dbfc8862448a4b0fb66790e50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the <a class="el" href="#a496cb27779b2120a1854e81375e9ae5f" title="Wraps the Google Test EXPECT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by cras...">EXPECT_DEATH_CRASH()</a> macro to make assertions about death caused by <code>CHECK()</code> failures.  <br /></td></tr>
 <tr class="separator:aa4bd7e1dbfc8862448a4b0fb66790e50"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
@@ -133,11 +152,11 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#a415e40b4d538d7421e1b0a43ddd3f83e">ASSERT_DEATH_CRASH</a>(statement, regex)</div>
-<div class="ttc" id="agtest__death_8h_html_a415e40b4d538d7421e1b0a43ddd3f83e"><div class="ttname"><a href="#a415e40b4d538d7421e1b0a43ddd3f83e">ASSERT_DEATH_CRASH</a></div><div class="ttdeci">#define ASSERT_DEATH_CRASH(statement, regex)</div><div class="ttdoc">Wraps the gtest ASSERT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by crashes.</div><div class="ttdef"><b>Definition</b> gtest_death.h:45</div></div>
+<div class="ttc" id="agtest__death_8h_html_a415e40b4d538d7421e1b0a43ddd3f83e"><div class="ttname"><a href="#a415e40b4d538d7421e1b0a43ddd3f83e">ASSERT_DEATH_CRASH</a></div><div class="ttdeci">#define ASSERT_DEATH_CRASH(statement, regex)</div><div class="ttdoc">Wraps the Google Test ASSERT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by cras...</div><div class="ttdef"><b>Definition</b> gtest_death.h:45</div></div>
 </div><!-- fragment -->
-<p>Wraps the <a class="el" href="#a415e40b4d538d7421e1b0a43ddd3f83e" title="Wraps the gtest ASSERT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by crashes.">ASSERT_DEATH_CRASH()</a> macro to make assertions about death caused by <code>CHECK()</code> failures. </p>
-<p>In an in-Chromium build in the official configuration, <code>CHECK()</code> does not print its condition or streamed messages. In that case, this macro uses an empty <em class="arg">regex</em> pattern when calling <a class="el" href="#a415e40b4d538d7421e1b0a43ddd3f83e" title="Wraps the gtest ASSERT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by crashes.">ASSERT_DEATH_CRASH()</a> to avoid looking for any particular output on the standard error stream. In other build configurations, the <em class="arg">regex</em> pattern is left intact.</p>
-<p>On macOS, <code>CHECK()</code> failures normally show up as crashes to the system’s crash reporter, but it is undesirable for intentional <a class="el" href="#a11ab1a718cd7a7ed56b7e2fbd2c36f74" title="Wraps the ASSERT_DEATH_CRASH() macro to make assertions about death caused by CHECK() failures.">ASSERT_DEATH_CHECK()</a> crashes to be handled by any crash reporter, so this is implemented in terms of <a class="el" href="#a415e40b4d538d7421e1b0a43ddd3f83e" title="Wraps the gtest ASSERT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by crashes.">ASSERT_DEATH_CRASH()</a> instead of <code>ASSERT_DEATH()</code>.</p>
+<p>Wraps the <a class="el" href="#a415e40b4d538d7421e1b0a43ddd3f83e" title="Wraps the Google Test ASSERT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by cras...">ASSERT_DEATH_CRASH()</a> macro to make assertions about death caused by <code>CHECK()</code> failures. </p>
+<p>In an in-Chromium build in the official configuration, <code>CHECK()</code> does not print its condition or streamed messages. In that case, this macro uses an empty <em class="arg">regex</em> pattern when calling <a class="el" href="#a415e40b4d538d7421e1b0a43ddd3f83e" title="Wraps the Google Test ASSERT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by cras...">ASSERT_DEATH_CRASH()</a> to avoid looking for any particular output on the standard error stream. In other build configurations, the <em class="arg">regex</em> pattern is left intact.</p>
+<p>On macOS, <code>CHECK()</code> failures normally show up as crashes to the system’s crash reporter, but it is undesirable for intentional <a class="el" href="#a11ab1a718cd7a7ed56b7e2fbd2c36f74" title="Wraps the ASSERT_DEATH_CRASH() macro to make assertions about death caused by CHECK() failures.">ASSERT_DEATH_CHECK()</a> crashes to be handled by any crash reporter, so this is implemented in terms of <a class="el" href="#a415e40b4d538d7421e1b0a43ddd3f83e" title="Wraps the Google Test ASSERT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by cras...">ASSERT_DEATH_CRASH()</a> instead of <code>ASSERT_DEATH()</code>.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="#aa4bd7e1dbfc8862448a4b0fb66790e50" title="Wraps the EXPECT_DEATH_CRASH() macro to make assertions about death caused by CHECK() failures.">EXPECT_DEATH_CHECK()</a> </dd></dl>
 
 </div>
@@ -166,15 +185,15 @@ Macros</h2></td></tr>
 <div class="line">        <a class="code hl_function" href="classcrashpad_1_1test_1_1ExceptionSwallower.html#af7fdf8f0dca2bb2a34397d58283d3676">crashpad::test::ExceptionSwallower::SwallowExceptions</a>(); \</div>
 <div class="line">        { statement; }, regex);                                  \</div>
 <div class="line">  } <span class="keywordflow">while</span> (<span class="keyword">false</span>)</div>
-<div class="ttc" id="aclasscrashpad_1_1test_1_1ExceptionSwallower_html"><div class="ttname"><a href="classcrashpad_1_1test_1_1ExceptionSwallower.html">crashpad::test::ExceptionSwallower</a></div><div class="ttdoc">Swallows EXC_CRASH and EXC_CORPSE_NOTIFY exceptions in test child processes.</div><div class="ttdef"><b>Definition</b> exception_swallower.h:56</div></div>
-<div class="ttc" id="aclasscrashpad_1_1test_1_1ExceptionSwallower_html_af7fdf8f0dca2bb2a34397d58283d3676"><div class="ttname"><a href="classcrashpad_1_1test_1_1ExceptionSwallower.html#af7fdf8f0dca2bb2a34397d58283d3676">crashpad::test::ExceptionSwallower::SwallowExceptions</a></div><div class="ttdeci">static void SwallowExceptions()</div><div class="ttdoc">In a test child process, arranges to swallow EXC_CRASH and EXC_CORPSE_NOTIFY exceptions.</div><div class="ttdef"><b>Definition</b> exception_swallower.cc:153</div></div>
+<div class="ttc" id="aclasscrashpad_1_1test_1_1ExceptionSwallower_html"><div class="ttname"><a href="classcrashpad_1_1test_1_1ExceptionSwallower.html">crashpad::test::ExceptionSwallower</a></div><div class="ttdoc">Swallows EXC_CRASH and EXC_CORPSE_NOTIFY exceptions in test child processes.</div><div class="ttdef"><b>Definition</b> exception_swallower.h:55</div></div>
+<div class="ttc" id="aclasscrashpad_1_1test_1_1ExceptionSwallower_html_af7fdf8f0dca2bb2a34397d58283d3676"><div class="ttname"><a href="classcrashpad_1_1test_1_1ExceptionSwallower.html#af7fdf8f0dca2bb2a34397d58283d3676">crashpad::test::ExceptionSwallower::SwallowExceptions</a></div><div class="ttdeci">static void SwallowExceptions()</div><div class="ttdoc">In a test child process, arranges to swallow EXC_CRASH and EXC_CORPSE_NOTIFY exceptions.</div><div class="ttdef"><b>Definition</b> exception_swallower.cc:154</div></div>
 </div><!-- fragment -->
-<p>Wraps the gtest <code>ASSERT_DEATH_IF_SUPPORTED()</code> macro to make assertions about death caused by crashes. </p>
-<p>On macOS, this macro prevents the system’s crash reporter from handling crashes that occur in <em class="arg">statement</em>. Crashes are normally visible to the system’s crash reporter, but it is undesirable for intentional <a class="el" href="#a415e40b4d538d7421e1b0a43ddd3f83e" title="Wraps the gtest ASSERT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by crashes.">ASSERT_DEATH_CRASH()</a> crashes to be handled by any crash reporter.</p>
-<p><code>ASSERT_DEATH_IF_SUPPORTED()</code> is used instead of <code>ASSERT_DEATH()</code> to support platforms where death tests are not implemented by gtest (e.g. Fuchsia). On platforms where death tests are not implemented, a warning will be logged and the remainder of the test body skipped.</p>
+<p>Wraps the Google Test <code>ASSERT_DEATH_IF_SUPPORTED()</code> macro to make assertions about death caused by crashes. </p>
+<p>On macOS, this macro prevents the system’s crash reporter from handling crashes that occur in <em class="arg">statement</em>. Crashes are normally visible to the system’s crash reporter, but it is undesirable for intentional <a class="el" href="#a415e40b4d538d7421e1b0a43ddd3f83e" title="Wraps the Google Test ASSERT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by cras...">ASSERT_DEATH_CRASH()</a> crashes to be handled by any crash reporter.</p>
+<p><code>ASSERT_DEATH_IF_SUPPORTED()</code> is used instead of <code>ASSERT_DEATH()</code> to support platforms where death tests are not implemented by Google Test (e.g. Fuchsia). On platforms where death tests are not implemented, a warning will be logged and the remainder of the test body skipped.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="#a11ab1a718cd7a7ed56b7e2fbd2c36f74" title="Wraps the ASSERT_DEATH_CRASH() macro to make assertions about death caused by CHECK() failures.">ASSERT_DEATH_CHECK()</a> </dd>
 <dd>
-<a class="el" href="#a496cb27779b2120a1854e81375e9ae5f" title="Wraps the gtest EXPECT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by crashes.">EXPECT_DEATH_CRASH()</a> </dd></dl>
+<a class="el" href="#a496cb27779b2120a1854e81375e9ae5f" title="Wraps the Google Test EXPECT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by cras...">EXPECT_DEATH_CRASH()</a> </dd></dl>
 
 </div>
 </div>
@@ -197,11 +216,11 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">  <a class="code hl_define" href="#a496cb27779b2120a1854e81375e9ae5f">EXPECT_DEATH_CRASH</a>(statement, regex)</div>
-<div class="ttc" id="agtest__death_8h_html_a496cb27779b2120a1854e81375e9ae5f"><div class="ttname"><a href="#a496cb27779b2120a1854e81375e9ae5f">EXPECT_DEATH_CRASH</a></div><div class="ttdeci">#define EXPECT_DEATH_CRASH(statement, regex)</div><div class="ttdoc">Wraps the gtest EXPECT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by crashes.</div><div class="ttdef"><b>Definition</b> gtest_death.h:68</div></div>
+<div class="ttc" id="agtest__death_8h_html_a496cb27779b2120a1854e81375e9ae5f"><div class="ttname"><a href="#a496cb27779b2120a1854e81375e9ae5f">EXPECT_DEATH_CRASH</a></div><div class="ttdeci">#define EXPECT_DEATH_CRASH(statement, regex)</div><div class="ttdoc">Wraps the Google Test EXPECT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by cras...</div><div class="ttdef"><b>Definition</b> gtest_death.h:68</div></div>
 </div><!-- fragment -->
-<p>Wraps the <a class="el" href="#a496cb27779b2120a1854e81375e9ae5f" title="Wraps the gtest EXPECT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by crashes.">EXPECT_DEATH_CRASH()</a> macro to make assertions about death caused by <code>CHECK()</code> failures. </p>
-<p>In an in-Chromium build in the official configuration, <code>CHECK()</code> does not print its condition or streamed messages. In that case, this macro uses an empty <em class="arg">regex</em> pattern when calling <a class="el" href="#a496cb27779b2120a1854e81375e9ae5f" title="Wraps the gtest EXPECT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by crashes.">EXPECT_DEATH_CRASH()</a> to avoid looking for any particular output on the standard error stream. In other build configurations, the <em class="arg">regex</em> pattern is left intact.</p>
-<p>On macOS, <code>CHECK()</code> failures normally show up as crashes to the system’s crash reporter, but it is undesirable for intentional <a class="el" href="#aa4bd7e1dbfc8862448a4b0fb66790e50" title="Wraps the EXPECT_DEATH_CRASH() macro to make assertions about death caused by CHECK() failures.">EXPECT_DEATH_CHECK()</a> crashes to be handled by any crash reporter, so this is implemented in terms of <a class="el" href="#a496cb27779b2120a1854e81375e9ae5f" title="Wraps the gtest EXPECT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by crashes.">EXPECT_DEATH_CRASH()</a> instead of <code>EXPECT_DEATH()</code>.</p>
+<p>Wraps the <a class="el" href="#a496cb27779b2120a1854e81375e9ae5f" title="Wraps the Google Test EXPECT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by cras...">EXPECT_DEATH_CRASH()</a> macro to make assertions about death caused by <code>CHECK()</code> failures. </p>
+<p>In an in-Chromium build in the official configuration, <code>CHECK()</code> does not print its condition or streamed messages. In that case, this macro uses an empty <em class="arg">regex</em> pattern when calling <a class="el" href="#a496cb27779b2120a1854e81375e9ae5f" title="Wraps the Google Test EXPECT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by cras...">EXPECT_DEATH_CRASH()</a> to avoid looking for any particular output on the standard error stream. In other build configurations, the <em class="arg">regex</em> pattern is left intact.</p>
+<p>On macOS, <code>CHECK()</code> failures normally show up as crashes to the system’s crash reporter, but it is undesirable for intentional <a class="el" href="#aa4bd7e1dbfc8862448a4b0fb66790e50" title="Wraps the EXPECT_DEATH_CRASH() macro to make assertions about death caused by CHECK() failures.">EXPECT_DEATH_CHECK()</a> crashes to be handled by any crash reporter, so this is implemented in terms of <a class="el" href="#a496cb27779b2120a1854e81375e9ae5f" title="Wraps the Google Test EXPECT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by cras...">EXPECT_DEATH_CRASH()</a> instead of <code>EXPECT_DEATH()</code>.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="#a11ab1a718cd7a7ed56b7e2fbd2c36f74" title="Wraps the ASSERT_DEATH_CRASH() macro to make assertions about death caused by CHECK() failures.">ASSERT_DEATH_CHECK()</a> </dd></dl>
 
 </div>
@@ -231,20 +250,23 @@ Macros</h2></td></tr>
 <div class="line">                 regex);                                                  \</div>
 <div class="line">  } <span class="keywordflow">while</span> (<span class="keyword">false</span>)</div>
 </div><!-- fragment -->
-<p>Wraps the gtest <code>EXPECT_DEATH_IF_SUPPORTED()</code> macro to make assertions about death caused by crashes. </p>
-<p>On macOS, this macro prevents the system’s crash reporter from handling crashes that occur in <em class="arg">statement</em>. Crashes are normally visible to the system’s crash reporter, but it is undesirable for intentional <a class="el" href="#a496cb27779b2120a1854e81375e9ae5f" title="Wraps the gtest EXPECT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by crashes.">EXPECT_DEATH_CRASH()</a> crashes to be handled by any crash reporter.</p>
-<p><code>EXPECT_DEATH_IF_SUPPORTED()</code> is used instead of <code>EXPECT_DEATH()</code> to support platforms where death tests are not implemented by gtest (e.g. Fuchsia). On platforms where death tests are not implemented, a warning will be logged and the remainder of the test body skipped.</p>
+<p>Wraps the Google Test <code>EXPECT_DEATH_IF_SUPPORTED()</code> macro to make assertions about death caused by crashes. </p>
+<p>On macOS, this macro prevents the system’s crash reporter from handling crashes that occur in <em class="arg">statement</em>. Crashes are normally visible to the system’s crash reporter, but it is undesirable for intentional <a class="el" href="#a496cb27779b2120a1854e81375e9ae5f" title="Wraps the Google Test EXPECT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by cras...">EXPECT_DEATH_CRASH()</a> crashes to be handled by any crash reporter.</p>
+<p><code>EXPECT_DEATH_IF_SUPPORTED()</code> is used instead of <code>EXPECT_DEATH()</code> to support platforms where death tests are not implemented by Google Test (e.g. Fuchsia). On platforms where death tests are not implemented, a warning will be logged and the remainder of the test body skipped.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="#aa4bd7e1dbfc8862448a4b0fb66790e50" title="Wraps the EXPECT_DEATH_CRASH() macro to make assertions about death caused by CHECK() failures.">EXPECT_DEATH_CHECK()</a> </dd>
 <dd>
-<a class="el" href="#a415e40b4d538d7421e1b0a43ddd3f83e" title="Wraps the gtest ASSERT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by crashes.">ASSERT_DEATH_CRASH()</a> </dd></dl>
+<a class="el" href="#a415e40b4d538d7421e1b0a43ddd3f83e" title="Wraps the Google Test ASSERT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by cras...">ASSERT_DEATH_CRASH()</a> </dd></dl>
 
 </div>
 </div>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_13e138d54eb8818da29c3992edef070a.html">test</a></li><li class="navelem"><a class="el" href="gtest__death_8h.html">gtest_death.h</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

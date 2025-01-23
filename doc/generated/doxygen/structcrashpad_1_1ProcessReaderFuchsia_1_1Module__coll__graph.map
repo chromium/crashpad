@@ -1,0 +1,5 @@
+<map id="crashpad::ProcessReaderFuchsia::Module" name="crashpad::ProcessReaderFuchsia::Module">
+<area shape="rect" id="Node000001" title="Contains information about a module loaded into a process." alt="" coords="5,102,227,151"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ElfImageReader.html" title="A reader for ELF images mapped into another process." alt="" coords="24,5,208,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,51,119,101,113,101,113,51"/>
+</map>

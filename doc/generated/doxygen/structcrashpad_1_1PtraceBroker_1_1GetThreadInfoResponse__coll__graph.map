@@ -1,0 +1,17 @@
+<map id="crashpad::PtraceBroker::GetThreadInfoResponse" name="crashpad::PtraceBroker::GetThreadInfoResponse">
+<area shape="rect" id="Node000001" title="The response sent for a Request with type kTypeGetThreadInfo." alt="" coords="800,116,982,165"/>
+<area shape="rect" id="Node000002" href="$structcrashpad_1_1ThreadInfo.html" title="A collection of ptrace&#45;able information about a thread." alt="" coords="572,126,725,155"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="741,138,800,138,800,143,741,143"/>
+<area shape="rect" id="Node000003" href="$unioncrashpad_1_1ThreadContext.html" title="The set of general purpose registers for an architecture family." alt="" coords="253,88,428,118"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="444,113,572,128,571,134,443,118"/>
+<area shape="rect" id="Node000004" href="$structcrashpad_1_1ThreadContext_1_1t32__t.html" title="The general purpose registers used by the 32&#45;bit variant of the architecture." alt="" coords="5,5,181,54"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="193,56,288,85,287,90,191,61"/>
+<area shape="rect" id="Node000005" href="$structcrashpad_1_1ThreadContext_1_1t64__t.html" title="The general purpose registers used by the 64&#45;bit variant of the architecture." alt="" coords="5,79,181,127"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="196,100,252,100,252,106,196,106"/>
+<area shape="rect" id="Node000006" href="$unioncrashpad_1_1FloatContext.html" title="The floating point registers used for an architecture family." alt="" coords="259,162,422,191"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="437,167,548,155,571,152,572,157,548,161,437,172"/>
+<area shape="rect" id="Node000007" href="$structcrashpad_1_1FloatContext_1_1f32__t.html" title="The floating point registers used by the 32&#45;bit variant of the architecture." alt="" coords="12,152,174,201"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="190,174,259,174,259,179,190,179"/>
+<area shape="rect" id="Node000008" href="$structcrashpad_1_1FloatContext_1_1f64__t.html" title="The floating point registers used by the 64&#45;bit variant of the architecture." alt="" coords="12,225,174,274"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="189,219,287,189,288,194,190,224"/>
+</map>

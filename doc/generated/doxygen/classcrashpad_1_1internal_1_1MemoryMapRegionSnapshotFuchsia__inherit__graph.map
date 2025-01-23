@@ -1,0 +1,5 @@
+<map id="crashpad::internal::MemoryMapRegionSnapshotFuchsia" name="crashpad::internal::MemoryMapRegionSnapshotFuchsia">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,102,260,151"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1MemoryMapRegionSnapshot.html" title="An abstract interface to a snapshot representing a region of the memory map present in the snapshot p..." alt="" coords="29,5,236,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,69,135,101,130,101,130,69"/>
+</map>

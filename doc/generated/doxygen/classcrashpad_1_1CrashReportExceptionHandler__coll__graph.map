@@ -1,0 +1,8 @@
+<map id="crashpad::CrashReportExceptionHandler" name="crashpad::CrashReportExceptionHandler">
+<area shape="rect" id="Node000001" title="An exception handler that writes crash reports for exceptions to a CrashReportDatabase." alt="" coords="249,5,470,54"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html" title=" " alt="" coords="6,5,200,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,36,248,36,248,41,216,41"/>
+<area shape="poly" id="edge3_Node000001_Node000002" title=" " alt="" coords="216,18,248,18,248,23,216,23"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1UniversalMachExcServer_1_1Interface.html" title="An interface that the different request messages that are a part of the exc and mach_exc Mach subsyst..." alt="" coords="5,79,201,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="204,71,271,52,272,57,206,76"/>
+</map>

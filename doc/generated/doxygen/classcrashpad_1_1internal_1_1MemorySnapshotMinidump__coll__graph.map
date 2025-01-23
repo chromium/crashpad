@@ -1,0 +1,5 @@
+<map id="crashpad::internal::MemorySnapshotMinidump" name="crashpad::internal::MemorySnapshotMinidump">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,83,207,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process." alt="" coords="9,5,203,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,50,109,82,103,82,103,50"/>
+</map>

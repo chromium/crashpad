@@ -1,0 +1,11 @@
+<map id="crashpad::FileWriterInterface" name="crashpad::FileWriterInterface">
+<area shape="rect" id="Node000001" title="An interface to write to files and other file&#45;like objects with semantics matching the underlying pla..." alt="" coords="144,83,348,113"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1FileWriter.html" title="A file writer implementation that wraps traditional system file operations on files accessed through ..." alt="" coords="5,170,151,200"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="206,122,107,172,104,167,203,118"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1StringFile.html" title="A file reader and writer backed by a virtual file, as opposed to a file on disk or other operating sy..." alt="" coords="175,170,317,200"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="249,128,249,170,243,170,243,128"/>
+<area shape="rect" id="Node000005" href="$classcrashpad_1_1WeakFileHandleFileWriter.html" title="A file writer backed by a FileHandle." alt="" coords="341,161,524,209"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="292,117,382,158,379,162,290,122"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1FileSeekerInterface.html" title="An interface to seek in files and other file&#45;like objects with semantics matching the underlying plat..." alt="" coords="142,5,350,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="249,51,249,82,243,82,243,51"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="crashpad::internal::WorkerThreadImpl" name="crashpad::internal::WorkerThreadImpl">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,83,153,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1Thread.html" title="Basic thread abstraction. Users should derive from this class and implement ThreadMain()." alt="" coords="15,5,143,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="82,50,82,82,76,82,76,50"/>
+</map>

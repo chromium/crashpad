@@ -1,0 +1,10 @@
+<map id="crashpad::StringFile" name="crashpad::StringFile">
+<area shape="rect" id="Node000001" title="A file reader and writer backed by a virtual file, as opposed to a file on disk or other operating sy..." alt="" coords="153,161,295,190"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1FileReaderInterface.html" title="An interface to read to files and other file&#45;like objects with semantics matching the underlying plat..." alt="" coords="5,83,214,113"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,119,204,158,201,162,142,124"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1FileSeekerInterface.html" title="An interface to seek in files and other file&#45;like objects with semantics matching the underlying plat..." alt="" coords="120,5,328,35"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="192,46,132,85,130,80,189,42"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1FileWriterInterface.html" title="An interface to write to files and other file&#45;like objects with semantics matching the underlying pla..." alt="" coords="237,83,440,113"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="260,42,319,80,316,85,257,46"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="306,124,247,162,244,158,303,119"/>
+</map>

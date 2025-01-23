@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,24 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
-/* @license-end */
-</script>
-<div id="main-nav"></div>
 </div><!-- top -->
-<div id="doc-content">
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
+$(function(){initNavTree('functions_d.html',''); initResizable(true); });
 /* @license-end */
 </script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -89,19 +107,23 @@ $(function(){ initResizable(false); });
 
 <h3><a id="index_d" name="index_d"></a>- d -</h3><ul>
 <li>Data&#160;:&#160;<a class="el" href="structIMAGE__DEBUG__MISC.html#a7ea2a7b3d6dc6e329c901fe324e5ae05">IMAGE_DEBUG_MISC</a></li>
-<li>data&#160;:&#160;<a class="el" href="structcrashpad_1_1MinidumpByteArray.html#aec012e2ccbbcf2bb88b7f18d26d1b1a8">crashpad::MinidumpByteArray</a>, <a class="el" href="classcrashpad_1_1MinidumpByteArrayWriter.html#a24719485b5484fb3ffa8e1ffe957426b">crashpad::MinidumpByteArrayWriter</a>, <a class="el" href="classcrashpad_1_1ProcessMemoryMac_1_1MappedMemory.html#a2ed93e09f5bf0d0a533804821c783b83">crashpad::ProcessMemoryMac::MappedMemory</a></li>
+<li>data&#160;:&#160;<a class="el" href="structcrashpad_1_1MinidumpByteArray.html#aec012e2ccbbcf2bb88b7f18d26d1b1a8">crashpad::MinidumpByteArray</a>, <a class="el" href="classcrashpad_1_1MinidumpByteArrayWriter.html#a24719485b5484fb3ffa8e1ffe957426b">crashpad::MinidumpByteArrayWriter</a>, <a class="el" href="classcrashpad_1_1ProcessMemoryMac_1_1MappedMemory.html#a2ed93e09f5bf0d0a533804821c783b83">crashpad::ProcessMemoryMac::MappedMemory</a>, <a class="el" href="structcrashpad_1_1RingBufferData.html#ae2bd2e8942d3218431a37da44df2fe00">crashpad::RingBufferData&lt; Capacity &gt;</a></li>
+<li>data_range&#160;:&#160;<a class="el" href="structcrashpad_1_1RingBufferData_1_1Header.html#a807ae9bddf874995b28e509ff5e59668">crashpad::RingBufferData&lt; Capacity &gt;::Header</a></li>
+<li>DatabasePath()&#160;:&#160;<a class="el" href="classcrashpad_1_1CrashReportDatabase.html#afe676b90d245de89a1e0fdf5697fd737">crashpad::CrashReportDatabase</a>, <a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#a21726685bd9ad3f8ea80b998cbc516b5">crashpad::CrashReportDatabaseGeneric</a>, <a class="el" href="classcrashpad_1_1CrashReportDatabaseMac.html#af1df1a6d2e02a62b43bc931f018fde51">crashpad::CrashReportDatabaseMac</a>, <a class="el" href="classcrashpad_1_1CrashReportDatabaseWin.html#a49aa899fc1ea582e60ccece94acf6508">crashpad::CrashReportDatabaseWin</a></li>
 <li>DatabaseSizePruneCondition()&#160;:&#160;<a class="el" href="classcrashpad_1_1DatabaseSizePruneCondition.html#aafe25019360a9622e1c60baf8a79de25">crashpad::DatabaseSizePruneCondition</a></li>
-<li>DataSize&#160;:&#160;<a class="el" href="structMINIDUMP__LOCATION__DESCRIPTOR.html#ad83430521d4a8991d85e06be61525a92">MINIDUMP_LOCATION_DESCRIPTOR</a></li>
+<li>DataSize&#160;:&#160;<a class="el" href="structMINIDUMP__LOCATION__DESCRIPTOR64.html#a37c137362c6ff0b2cb2c3206be4b40f9">MINIDUMP_LOCATION_DESCRIPTOR64</a>, <a class="el" href="structMINIDUMP__LOCATION__DESCRIPTOR.html#ad83430521d4a8991d85e06be61525a92">MINIDUMP_LOCATION_DESCRIPTOR</a></li>
 <li>DataType&#160;:&#160;<a class="el" href="structIMAGE__DEBUG__MISC.html#a34353f624ec48a7aff62190abbe0ba38">IMAGE_DEBUG_MISC</a></li>
 <li>DaylightBias&#160;:&#160;<a class="el" href="structTIME__ZONE__INFORMATION.html#ac42af349e90f75b4517a3049e66f703b">TIME_ZONE_INFORMATION</a></li>
 <li>DaylightDate&#160;:&#160;<a class="el" href="structTIME__ZONE__INFORMATION.html#aa8615f1d1c4d13e8b2b46ec0ae205624">TIME_ZONE_INFORMATION</a></li>
-<li>DaylightName&#160;:&#160;<a class="el" href="structTIME__ZONE__INFORMATION.html#a02d029c6e3f27d196f7c5e7eef84a357">TIME_ZONE_INFORMATION</a></li>
+<li>DaylightName&#160;:&#160;<a class="el" href="structTIME__ZONE__INFORMATION.html#a3c4d4d47d880a1eed84449a663e0de54">TIME_ZONE_INFORMATION</a></li>
 <li>DaylightSavingTimeStatus&#160;:&#160;<a class="el" href="classcrashpad_1_1SystemSnapshot.html#a28be27b27e7257818a9b13f121f0f472">crashpad::SystemSnapshot</a></li>
-<li>DbgBldStr&#160;:&#160;<a class="el" href="structMINIDUMP__MISC__INFO__4.html#a75b120e8a596ddc38c414a317da33132">MINIDUMP_MISC_INFO_4</a></li>
+<li>DbgBldStr&#160;:&#160;<a class="el" href="structMINIDUMP__MISC__INFO__4.html#a6c447d66a5f3154d307e4b794773d418">MINIDUMP_MISC_INFO_4</a></li>
+<li>debug_control&#160;:&#160;<a class="el" href="structcrashpad_1_1MinidumpContextAMD64.html#a65f302dd9d5ad77f4fca9cb0b176ac91">crashpad::MinidumpContextAMD64</a></li>
 <li>DebugDirectoryInformation()&#160;:&#160;<a class="el" href="classcrashpad_1_1PEImageReader.html#a9c82a9323b9484d7f68343fb1ba55e87">crashpad::PEImageReader</a></li>
-<li>DebugFileName()&#160;:&#160;<a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotElf.html#a9fb19229fcb645db788871e14201e2e4">crashpad::internal::ModuleSnapshotElf</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotIOS.html#a4ddca4548f1b8a217f8bad49aed75ff9">crashpad::internal::ModuleSnapshotIOS</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a62bb8650ee3d30f289e70b9bd6c0bde3">crashpad::internal::ModuleSnapshotMac</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#ab5640b14a706cc30ade77dd4dba6e1c7">crashpad::internal::ModuleSnapshotMinidump</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotSanitized.html#a762284ccb6030b54a57581427379d8fe">crashpad::internal::ModuleSnapshotSanitized</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#ae819d7011878cb9aed89cd1b693cc721">crashpad::internal::ModuleSnapshotWin</a>, <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#aa08595e35c34bb13e456cddb4f40f698">crashpad::ModuleSnapshot</a>, <a class="el" href="classcrashpad_1_1test_1_1TestModuleSnapshot.html#a718634cb14e12d27fd1e531dd292a3be">crashpad::test::TestModuleSnapshot</a></li>
+<li>DebugFileName()&#160;:&#160;<a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotElf.html#a9fb19229fcb645db788871e14201e2e4">crashpad::internal::ModuleSnapshotElf</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotIOSIntermediateDump.html#adba7c2fa399c5124ba34a4f0704d291f">crashpad::internal::ModuleSnapshotIOSIntermediateDump</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a62bb8650ee3d30f289e70b9bd6c0bde3">crashpad::internal::ModuleSnapshotMac</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#ab5640b14a706cc30ade77dd4dba6e1c7">crashpad::internal::ModuleSnapshotMinidump</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotSanitized.html#a762284ccb6030b54a57581427379d8fe">crashpad::internal::ModuleSnapshotSanitized</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#ae819d7011878cb9aed89cd1b693cc721">crashpad::internal::ModuleSnapshotWin</a>, <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#aa08595e35c34bb13e456cddb4f40f698">crashpad::ModuleSnapshot</a>, <a class="el" href="classcrashpad_1_1test_1_1TestModuleSnapshot.html#a718634cb14e12d27fd1e531dd292a3be">crashpad::test::TestModuleSnapshot</a></li>
 <li>DecrementThreadSuspendCounts()&#160;:&#160;<a class="el" href="classcrashpad_1_1ProcessReaderWin.html#a7e381af0ba9565d55d2bc6b58d0c55bc">crashpad::ProcessReaderWin</a></li>
 <li>DeleteReport()&#160;:&#160;<a class="el" href="classcrashpad_1_1CrashReportDatabase.html#aa8aff03198b18b5dc479c189115500c4">crashpad::CrashReportDatabase</a>, <a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#a13bd4a9b11a9219a4618c1f93bd1ff3c">crashpad::CrashReportDatabaseGeneric</a>, <a class="el" href="classcrashpad_1_1CrashReportDatabaseMac.html#ab33eac7ac70f94627d750d2bf3d9ba4a">crashpad::CrashReportDatabaseMac</a>, <a class="el" href="classcrashpad_1_1CrashReportDatabaseWin.html#a8d00c5da892c1fc2abf10b1a7180adbe">crashpad::CrashReportDatabaseWin</a></li>
+<li>DeserializeFromBuffer()&#160;:&#160;<a class="el" href="structcrashpad_1_1RingBufferData.html#a1932c58fb9222a68fb30a0eb55930727">crashpad::RingBufferData&lt; Capacity &gt;</a></li>
 <li>DidChangePrivileges()&#160;:&#160;<a class="el" href="classcrashpad_1_1ProcessInfo.html#a38a40f720591eb2117a260b5faad78c9">crashpad::ProcessInfo</a></li>
 <li>DirectoryFD()&#160;:&#160;<a class="el" href="classcrashpad_1_1DirectoryReader.html#a23ea059efe4057ac3aab0c9560155033">crashpad::DirectoryReader</a></li>
 <li>DirectoryListEntry()&#160;:&#160;<a class="el" href="classcrashpad_1_1internal_1_1MinidumpStreamWriter.html#a3d2658a99963fa9083c07dc2ddc72845">crashpad::internal::MinidumpStreamWriter</a></li>
@@ -115,9 +137,18 @@ $(function(){ initResizable(false); });
 <li>DoWork()&#160;:&#160;<a class="el" href="classcrashpad_1_1WorkerThread_1_1Delegate.html#a91492f3dae15910a62d1980f0ec618c3">crashpad::WorkerThread::Delegate</a></li>
 <li>DoWorkNow()&#160;:&#160;<a class="el" href="classcrashpad_1_1WorkerThread.html#af30d5046ff7606f8d6b3fc5bf61143e0">crashpad::WorkerThread</a></li>
 <li>Drain()&#160;:&#160;<a class="el" href="classcrashpad_1_1ThreadSafeVector.html#aceacfe576494ca4fecf0fd6b0496eae1">crashpad::ThreadSafeVector&lt; T &gt;</a></li>
+<li>dump_completed&#160;:&#160;<a class="el" href="structcrashpad_1_1wer_1_1WerRegistration.html#aea49d89d7504e84eb20f9d59da6870d9">crashpad::wer::WerRegistration</a>, <a class="el" href="structcrashpad_1_1WerRegistration.html#aea49d89d7504e84eb20f9d59da6870d9">crashpad::WerRegistration</a></li>
+<li>dump_without_crashing&#160;:&#160;<a class="el" href="structcrashpad_1_1wer_1_1WerRegistration.html#a2fcea11ade238d522336d52f58dcbb3e">crashpad::wer::WerRegistration</a>, <a class="el" href="structcrashpad_1_1WerRegistration.html#a2fcea11ade238d522336d52f58dcbb3e">crashpad::WerRegistration</a></li>
 <li>DumpAndCrash()&#160;:&#160;<a class="el" href="classcrashpad_1_1CrashpadClient.html#a87d1fa142b0bf7094fc66fef3135a64a">crashpad::CrashpadClient</a></li>
 <li>DumpAndCrashTargetProcess()&#160;:&#160;<a class="el" href="classcrashpad_1_1CrashpadClient.html#a35a46ba3d17822a7025b526980564d7e">crashpad::CrashpadClient</a></li>
+<li>DumpExceptionFromMachException()&#160;:&#160;<a class="el" href="classcrashpad_1_1internal_1_1InProcessHandler.html#ac651ffb14553a9b0e74bcb45ab8f0489">crashpad::internal::InProcessHandler</a></li>
+<li>DumpExceptionFromNSExceptionWithFrames()&#160;:&#160;<a class="el" href="classcrashpad_1_1internal_1_1InProcessHandler.html#abc68a16f6fc9c16f635c7d8b895691d4">crashpad::internal::InProcessHandler</a></li>
+<li>DumpExceptionFromSignal()&#160;:&#160;<a class="el" href="classcrashpad_1_1internal_1_1InProcessHandler.html#a5f97d1795997362a616d385750eea49b">crashpad::internal::InProcessHandler</a></li>
+<li>DumpExceptionFromSimulatedMachException()&#160;:&#160;<a class="el" href="classcrashpad_1_1internal_1_1InProcessHandler.html#ac916b47c3b1e4a72841fd8307d3cc18f">crashpad::internal::InProcessHandler</a></li>
+<li>DumpExceptionFromSimulatedMachExceptionAtPath()&#160;:&#160;<a class="el" href="classcrashpad_1_1internal_1_1InProcessHandler.html#a471921879e36cca57d0b06cb4f4c28bc">crashpad::internal::InProcessHandler</a></li>
 <li>DumpWithoutCrash()&#160;:&#160;<a class="el" href="classcrashpad_1_1CrashpadClient.html#aab06443c04d43a2c0dac926275c5ad27">crashpad::CrashpadClient</a></li>
+<li>DumpWithoutCrashAndDeferProcessing()&#160;:&#160;<a class="el" href="classcrashpad_1_1CrashpadClient.html#aab68a45c6124a96c4881198dee39661a">crashpad::CrashpadClient</a></li>
+<li>DumpWithoutCrashAndDeferProcessingAtPath()&#160;:&#160;<a class="el" href="classcrashpad_1_1CrashpadClient.html#ac572c522f926f426cc7a86b759b0147a">crashpad::CrashpadClient</a></li>
 <li>dwFileDateLS&#160;:&#160;<a class="el" href="structVS__FIXEDFILEINFO.html#a9941cc13c4ebf36c267765bd62c16cd3">VS_FIXEDFILEINFO</a></li>
 <li>dwFileDateMS&#160;:&#160;<a class="el" href="structVS__FIXEDFILEINFO.html#ab7d5db03c9f65acf75b2681a391ee341">VS_FIXEDFILEINFO</a></li>
 <li>dwFileFlags&#160;:&#160;<a class="el" href="structVS__FIXEDFILEINFO.html#a1ecf0351f90806354f987321c4d1ce0e">VS_FIXEDFILEINFO</a></li>
@@ -137,10 +168,12 @@ $(function(){ initResizable(false); });
 <li>dynamic_array&#160;:&#160;<a class="el" href="structcrashpad_1_1DebugRendezvous_1_1LinkEntry.html#a44b89b02c92d6f4259e8f73943b4211d">crashpad::DebugRendezvous::LinkEntry</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

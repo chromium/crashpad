@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1MemorySnapshot.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
@@ -104,16 +118,8 @@ $(function(){ initResizable(false); });
 <div class="dynheader">
 Inheritance diagram for crashpad::MemorySnapshot:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classcrashpad_1_1MemorySnapshot.png" usemap="#crashpad::MemorySnapshot_map" alt=""/>
-  <map id="crashpad::MemorySnapshot_map" name="crashpad::MemorySnapshot_map">
-<area href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html" title="A MemorySnapshot of a memory region in a process on the running system. Works on multiple platforms b..." alt="crashpad::internal::MemorySnapshotGeneric" shape="rect" coords="0,56,271,80"/>
-<area href="classcrashpad_1_1internal_1_1MemorySnapshotIOS.html" title="A MemorySnapshot of a memory region." alt="crashpad::internal::MemorySnapshotIOS" shape="rect" coords="281,56,552,80"/>
-<area href="classcrashpad_1_1internal_1_1MemorySnapshotMinidump.html" alt="crashpad::internal::MemorySnapshotMinidump" shape="rect" coords="562,56,833,80"/>
-<area href="classcrashpad_1_1internal_1_1MemorySnapshotSanitized.html" title="A MemorySnapshot which wraps and filters sensitive information from another MemorySnapshot." alt="crashpad::internal::MemorySnapshotSanitized" shape="rect" coords="843,56,1114,80"/>
-<area href="classcrashpad_1_1test_1_1TestMemorySnapshot.html" title="A test MemorySnapshot that can carry arbitrary data for testing purposes." alt="crashpad::test::TestMemorySnapshot" shape="rect" coords="1124,56,1395,80"/>
-  </map>
-</div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcrashpad_1_1MemorySnapshot__inherit__graph.svg" width="536" height="354"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
@@ -164,7 +170,7 @@ Public Member Functions</h2></td></tr>
 
 <p>The base address of the memory snapshot in the snapshot process’ address space. </p>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html#ae5bdf470b7f7f02dc0862999e38b2fab">crashpad::internal::MemorySnapshotGeneric</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotIOS.html#a725967bbee8d176815ad94f04ae4d063">crashpad::internal::MemorySnapshotIOS</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotMinidump.html#aaebb4139dbce56f63700486dc1f744ca">crashpad::internal::MemorySnapshotMinidump</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotSanitized.html#a12b2db1487cd9ed293bd3e9b97aa31b6">crashpad::internal::MemorySnapshotSanitized</a>, and <a class="el" href="classcrashpad_1_1test_1_1TestMemorySnapshot.html#a515bc4e6d55ae98fe90c169b40659be7">crashpad::test::TestMemorySnapshot</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html#ae5bdf470b7f7f02dc0862999e38b2fab">crashpad::internal::MemorySnapshotGeneric</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotIOSIntermediateDump.html#af6f8ee9540464321333a60b2d5387af6">crashpad::internal::MemorySnapshotIOSIntermediateDump</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotMinidump.html#aaebb4139dbce56f63700486dc1f744ca">crashpad::internal::MemorySnapshotMinidump</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotSanitized.html#a12b2db1487cd9ed293bd3e9b97aa31b6">crashpad::internal::MemorySnapshotSanitized</a>, <a class="el" href="classcrashpad_1_1test_1_1MemorySnapshotIOSIntermediateDump.html#af6f8ee9540464321333a60b2d5387af6">crashpad::test::MemorySnapshotIOSIntermediateDump</a>, and <a class="el" href="classcrashpad_1_1test_1_1TestMemorySnapshot.html#a515bc4e6d55ae98fe90c169b40659be7">crashpad::test::TestMemorySnapshot</a>.</p>
 
 </div>
 </div>
@@ -195,7 +201,7 @@ Public Member Functions</h2></td></tr>
 <p>The ranges described by the two snapshots must either overlap or abut, and must be of the same concrete type.</p>
 <dl class="section return"><dt>Returns</dt><dd>A newly allocated <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process.">MemorySnapshot</a> representing the merged range, or <code>nullptr</code> with an error logged. </dd></dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html#ad5c0380b3c6bd69cd2b784e6615bc599">crashpad::internal::MemorySnapshotGeneric</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotIOS.html#ae842f08f33b3880a49f11eb28bb230ca">crashpad::internal::MemorySnapshotIOS</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotMinidump.html#a5335f28519da45b5865517cd38b6a28e">crashpad::internal::MemorySnapshotMinidump</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotSanitized.html#aa866596180ec2edb9a611e8b71f5df4c">crashpad::internal::MemorySnapshotSanitized</a>, and <a class="el" href="classcrashpad_1_1test_1_1TestMemorySnapshot.html#aeae5e5eb887e1c1efadcaad2657a60ee">crashpad::test::TestMemorySnapshot</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html#ad5c0380b3c6bd69cd2b784e6615bc599">crashpad::internal::MemorySnapshotGeneric</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotIOSIntermediateDump.html#a5a8bea6d8688b409c4324da629ea7163">crashpad::internal::MemorySnapshotIOSIntermediateDump</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotMinidump.html#a5335f28519da45b5865517cd38b6a28e">crashpad::internal::MemorySnapshotMinidump</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotSanitized.html#aa866596180ec2edb9a611e8b71f5df4c">crashpad::internal::MemorySnapshotSanitized</a>, <a class="el" href="classcrashpad_1_1test_1_1MemorySnapshotIOSIntermediateDump.html#a5a8bea6d8688b409c4324da629ea7163">crashpad::test::MemorySnapshotIOSIntermediateDump</a>, and <a class="el" href="classcrashpad_1_1test_1_1TestMemorySnapshot.html#aeae5e5eb887e1c1efadcaad2657a60ee">crashpad::test::TestMemorySnapshot</a>.</p>
 
 </div>
 </div>
@@ -226,7 +232,7 @@ Public Member Functions</h2></td></tr>
 <p>Implementations do not necessarily read the memory snapshot data prior to this method being called. Memory snapshot data may be loaded lazily and may be discarded after being passed to the delegate. This provides clean memory management without burdening a snapshot implementation with the requirement that it track all memory region data simultaneously.</p>
 <dl class="section return"><dt>Returns</dt><dd><code>false</code> on failure, otherwise, the return value of <a class="el" href="classcrashpad_1_1MemorySnapshot_1_1Delegate.html#a844f77076dc607ce0cd8946aea75f73b" title="Called by MemorySnapshot::Read() to provide data requested by a call to that method.">Delegate::MemorySnapshotDelegateRead()</a>, which should be <code>true</code> on success and <code>false</code> on failure. </dd></dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html#a02120cc5c0ba7a4ba13b2ae9c682d008">crashpad::internal::MemorySnapshotGeneric</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotIOS.html#a3eafb123ac678b683e64a595b725e12f">crashpad::internal::MemorySnapshotIOS</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotMinidump.html#a2d3157397de27e71b0d2af67642d4e13">crashpad::internal::MemorySnapshotMinidump</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotSanitized.html#a3d62b4b91128a491173e744b4a52ec3c">crashpad::internal::MemorySnapshotSanitized</a>, and <a class="el" href="classcrashpad_1_1test_1_1TestMemorySnapshot.html#a89b8798372679d4aef3cf823b165d1d3">crashpad::test::TestMemorySnapshot</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html#a02120cc5c0ba7a4ba13b2ae9c682d008">crashpad::internal::MemorySnapshotGeneric</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotIOSIntermediateDump.html#a12bf4beaeb7d334fb83b0b70d261b63e">crashpad::internal::MemorySnapshotIOSIntermediateDump</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotMinidump.html#a2d3157397de27e71b0d2af67642d4e13">crashpad::internal::MemorySnapshotMinidump</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotSanitized.html#a3d62b4b91128a491173e744b4a52ec3c">crashpad::internal::MemorySnapshotSanitized</a>, <a class="el" href="classcrashpad_1_1test_1_1MemorySnapshotIOSIntermediateDump.html#a12bf4beaeb7d334fb83b0b70d261b63e">crashpad::test::MemorySnapshotIOSIntermediateDump</a>, and <a class="el" href="classcrashpad_1_1test_1_1TestMemorySnapshot.html#a89b8798372679d4aef3cf823b165d1d3">crashpad::test::TestMemorySnapshot</a>.</p>
 
 </div>
 </div>
@@ -255,7 +261,7 @@ Public Member Functions</h2></td></tr>
 
 <p>The size of the memory snapshot. </p>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html#a596b171197033067adb7226e0c6843d5">crashpad::internal::MemorySnapshotGeneric</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotIOS.html#a094f8c7e3e07fdab89a842a309e8ef69">crashpad::internal::MemorySnapshotIOS</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotMinidump.html#ac1cf4e3338544fcc5f1d1f656a9bdcc9">crashpad::internal::MemorySnapshotMinidump</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotSanitized.html#a4a39cb820fb6b0c5e91c293914b5bfec">crashpad::internal::MemorySnapshotSanitized</a>, and <a class="el" href="classcrashpad_1_1test_1_1TestMemorySnapshot.html#a6af5648bca88c709a75c129f96893087">crashpad::test::TestMemorySnapshot</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html#a596b171197033067adb7226e0c6843d5">crashpad::internal::MemorySnapshotGeneric</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotIOSIntermediateDump.html#aa6dce622633896f129e9723b92a94207">crashpad::internal::MemorySnapshotIOSIntermediateDump</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotMinidump.html#ac1cf4e3338544fcc5f1d1f656a9bdcc9">crashpad::internal::MemorySnapshotMinidump</a>, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotSanitized.html#a4a39cb820fb6b0c5e91c293914b5bfec">crashpad::internal::MemorySnapshotSanitized</a>, <a class="el" href="classcrashpad_1_1test_1_1MemorySnapshotIOSIntermediateDump.html#aa6dce622633896f129e9723b92a94207">crashpad::test::MemorySnapshotIOSIntermediateDump</a>, and <a class="el" href="classcrashpad_1_1test_1_1TestMemorySnapshot.html#a6af5648bca88c709a75c129f96893087">crashpad::test::TestMemorySnapshot</a>.</p>
 
 </div>
 </div>
@@ -263,10 +269,13 @@ Public Member Functions</h2></td></tr>
 <li>snapshot/<b>memory_snapshot.h</b></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

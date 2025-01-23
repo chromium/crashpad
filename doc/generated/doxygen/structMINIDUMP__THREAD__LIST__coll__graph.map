@@ -1,0 +1,10 @@
+<map id="MINIDUMP_THREAD_LIST" name="MINIDUMP_THREAD_LIST">
+<area shape="rect" id="Node000001" title="Information about all threads within the process." alt="" coords="88,295,270,325"/>
+<area shape="rect" id="Node000002" href="$structMINIDUMP__THREAD.html" title="Information about a specific thread within the process." alt="" coords="104,199,254,228"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,244,182,295,176,295,176,244"/>
+<area shape="rect" id="Node000003" href="$structMINIDUMP__MEMORY__DESCRIPTOR.html" title="A pointer to a snapshot of a region of memory contained within a minidump file." alt="" coords="227,102,467,132"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="310,142,205,201,202,196,307,137"/>
+<area shape="rect" id="Node000004" href="$structMINIDUMP__LOCATION__DESCRIPTOR.html" title="A pointer to a structure or union within a minidump file." alt="" coords="5,5,254,35"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="124,50,119,89,119,111,123,131,143,168,167,197,163,200,138,171,118,133,114,111,113,89,119,50"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="177,39,315,99,313,104,175,44"/>
+</map>

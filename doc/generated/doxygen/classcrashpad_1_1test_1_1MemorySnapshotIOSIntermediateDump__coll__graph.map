@@ -1,0 +1,5 @@
+<map id="crashpad::test::MemorySnapshotIOSIntermediateDump" name="crashpad::test::MemorySnapshotIOSIntermediateDump">
+<area shape="rect" id="Node000001" title="A MemorySnapshot of a memory region." alt="" coords="5,83,232,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process." alt="" coords="21,5,216,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,50,121,82,116,82,116,50"/>
+</map>

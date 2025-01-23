@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1CrashpadClient.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1CrashpadClient.html">CrashpadClient</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="headertitle"><div class="title">crashpad::CrashpadClient Member List</div></div>
 </div><!--header-->
@@ -96,39 +110,54 @@ $(function(){ initResizable(false); });
 <p>This is the complete list of members for <a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a>, including all inherited members.</p>
 <table class="directory">
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>CrashpadClient</b>() (defined in <a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a1c85fe7b91688420fad92df3914a4a74">CrashWithoutDump</a>(const std::string &amp;message)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a87d1fa142b0bf7094fc66fef3135a64a">DumpAndCrash</a>(EXCEPTION_POINTERS *exception_pointers)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a35a46ba3d17822a7025b526980564d7e">DumpAndCrashTargetProcess</a>(HANDLE process, HANDLE blame_thread, DWORD exception_code)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#aab06443c04d43a2c0dac926275c5ad27">DumpWithoutCrash</a>(NativeCPUContext *context)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a11d9ce224c47b7c14fc57bccb9b08204">DumpWithoutCrash</a>(NativeCPUContext *context)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a8ac211aa3a8cf278eb10f4058a7776fb">DumpWithoutCrash</a>(const CONTEXT &amp;context)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a7366c56f2429a00f217be3c0d3165f5f">FirstChanceHandler</a> typedef</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a2fc86d3d5bc6dcc9c9456e487f516c4d">GetHandlerIPCPipe</a>() const</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a7463d2dea776beddf8b45d8d17acbf7a">GetHandlerMachPort</a>() const</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a7f78d5b29981a529a181734f14aa0bf5">GetHandlerSocket</a>(int *sock, pid_t *pid)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a4b4dce645a664899c20c04f5740ab06fa193286f9cde3032e18a06a4e6452e660">kTriggeredExceptionCode</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>CrashpadClient</b>(const CrashpadClient &amp;)=delete (defined in <a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a1c85fe7b91688420fad92df3914a4a74">CrashWithoutDump</a>(const std::string &amp;message)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a87d1fa142b0bf7094fc66fef3135a64a">DumpAndCrash</a>(EXCEPTION_POINTERS *exception_pointers)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a35a46ba3d17822a7025b526980564d7e">DumpAndCrashTargetProcess</a>(HANDLE process, HANDLE blame_thread, DWORD exception_code)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#aab06443c04d43a2c0dac926275c5ad27">DumpWithoutCrash</a>(NativeCPUContext *context)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a11d9ce224c47b7c14fc57bccb9b08204">DumpWithoutCrash</a>(NativeCPUContext *context)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a8ac211aa3a8cf278eb10f4058a7776fb">DumpWithoutCrash</a>(const CONTEXT &amp;context)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#aab68a45c6124a96c4881198dee39661a">DumpWithoutCrashAndDeferProcessing</a>(NativeCPUContext *context)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#ac572c522f926f426cc7a86b759b0147a">DumpWithoutCrashAndDeferProcessingAtPath</a>(NativeCPUContext *context, const base::FilePath path)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a7366c56f2429a00f217be3c0d3165f5f">FirstChanceHandler</a> typedef</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a2fc86d3d5bc6dcc9c9456e487f516c4d">GetHandlerIPCPipe</a>() const</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a79dced7d1eccf3c64ae2db2ab0d4bcaa">GetHandlerMachPort</a>() const</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a7f78d5b29981a529a181734f14aa0bf5">GetHandlerSocket</a>(int *sock, pid_t *pid)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a724a19bda2c7961912b38dd5f956672c">GetThreadIdForTesting</a>()</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a9f5232b8b72daa59955aa599b57b3d70">InitializeSignalStackForThread</a>()</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>operator=</b>(const CrashpadClient &amp;)=delete (defined in <a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a62b2694c9ac6c03337375fd78ea0f606">ProcessIntermediateDump</a>(const base::FilePath &amp;file, const std::map&lt; std::string, std::string &gt; &amp;annotations={})</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#abeadfc2c5c3a59a713b5e66863f85948">ProcessIntermediateDumps</a>(const std::map&lt; std::string, std::string &gt; &amp;annotations={})</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a0ee35d49868b4c5e4ca3e2ebae523b7f">ProcessPendingReportsObservationCallback</a> typedef</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a8cd0ae1ad706038c6f648be8d6469e15">RegisterWerModule</a>(const std::wstring &amp;full_path)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a6018afb6648d77f74f7cc28231db2982">ResetForTesting</a>()</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#afbf4149291f643c8bfdb43ce8b6c55af">SetFirstChanceExceptionHandler</a>(FirstChanceHandler handler)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a9f1d5d38e9b4f5781e3821551dcc39d5">SetHandlerIPCPipe</a>(const std::wstring &amp;ipc_pipe)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a35e9ce1b1771a597aa3276ec28de28a7">SetHandlerMachPort</a>(base::mac::ScopedMachSendRight exception_port)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a5f93df3806aba3bd9886b12229550e12">SetHandlerMachPort</a>(base::apple::ScopedMachSendRight exception_port)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a89f34445eca859e6c0d1876e8e171c25">SetHandlerMachService</a>(const std::string &amp;service_name)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#ae2d2d23831a27eef8fe99deb2d3119dc">SetHandlerSocket</a>(ScopedFileHandle sock, pid_t pid)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a5be35922505fe7ac6c7e895110729938">SetLastChanceExceptionHandler</a>(bool(*handler)(int, siginfo_t *, ucontext_t *))</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#ab09fcf86b403def5852944e9f2c98438">SetMachExceptionCallbackForTesting</a>(void(*callback)())</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a60f5ab794ec5e1e671e13c28e82fa5f5">SetUnhandledSignals</a>(const std::set&lt; int &gt; &amp;unhandled_signals)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a03b085be5f0d5682822141c104998c65">StartCrashpadInProcessHandler</a>()</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da">StartHandler</a>(const base::FilePath &amp;handler, const base::FilePath &amp;database, const base::FilePath &amp;metrics_dir, const std::string &amp;url, const std::map&lt; std::string, std::string &gt; &amp;annotations, const std::vector&lt; std::string &gt; &amp;arguments, bool restartable, bool asynchronous_start)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a942c84be2b904987b0d7e6a410eff100">StartHandlerAtCrash</a>(const base::FilePath &amp;handler, const base::FilePath &amp;database, const base::FilePath &amp;metrics_dir, const std::string &amp;url, const std::map&lt; std::string, std::string &gt; &amp;annotations, const std::vector&lt; std::string &gt; &amp;arguments)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#abca367c1dc74adaa43162498c5a4c4a1">StartCrashpadInProcessHandler</a>(const base::FilePath &amp;database, const std::string &amp;url, const std::map&lt; std::string, std::string &gt; &amp;annotations, ProcessPendingReportsObservationCallback callback)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a55a66dbad38f306d733bac8e42de02cf">StartHandler</a>(const base::FilePath &amp;handler, const base::FilePath &amp;database, const base::FilePath &amp;metrics_dir, const std::string &amp;url, const std::map&lt; std::string, std::string &gt; &amp;annotations, const std::vector&lt; std::string &gt; &amp;arguments, bool restartable, bool asynchronous_start, const std::vector&lt; base::FilePath &gt; &amp;attachments={})</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#abcf7a68a42e8108f8b648a4f19d52287">StartHandlerAtCrash</a>(const base::FilePath &amp;handler, const base::FilePath &amp;database, const base::FilePath &amp;metrics_dir, const std::string &amp;url, const std::map&lt; std::string, std::string &gt; &amp;annotations, const std::vector&lt; std::string &gt; &amp;arguments, const std::vector&lt; base::FilePath &gt; &amp;attachments={})</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a10b09eb149139d4df63a4bca3042ef67">StartHandlerForClient</a>(const base::FilePath &amp;handler, const base::FilePath &amp;database, const base::FilePath &amp;metrics_dir, const std::string &amp;url, const std::map&lt; std::string, std::string &gt; &amp;annotations, const std::vector&lt; std::string &gt; &amp;arguments, int socket)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a1ed0bd663b34b4bd5640cf6e42289034">StartHandlerWithLinkerAtCrash</a>(const std::string &amp;handler_trampoline, const std::string &amp;handler_library, bool is_64_bit, const std::vector&lt; std::string &gt; *env, const base::FilePath &amp;database, const base::FilePath &amp;metrics_dir, const std::string &amp;url, const std::map&lt; std::string, std::string &gt; &amp;annotations, const std::vector&lt; std::string &gt; &amp;arguments)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a86d9776fd32f37ef528fa1a3eeac78fc">StartHandlerWithLinkerForClient</a>(const std::string &amp;handler_trampoline, const std::string &amp;handler_library, bool is_64_bit, const std::vector&lt; std::string &gt; *env, const base::FilePath &amp;database, const base::FilePath &amp;metrics_dir, const std::string &amp;url, const std::map&lt; std::string, std::string &gt; &amp;annotations, const std::vector&lt; std::string &gt; &amp;arguments, int socket)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#ac6ab4585d5703a3289a7f05df806575a">StartJavaHandlerAtCrash</a>(const std::string &amp;class_name, const std::vector&lt; std::string &gt; *env, const base::FilePath &amp;database, const base::FilePath &amp;metrics_dir, const std::string &amp;url, const std::map&lt; std::string, std::string &gt; &amp;annotations, const std::vector&lt; std::string &gt; &amp;arguments)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a5ec0698a7626fd82a3dc756f60d4e061">StartJavaHandlerForClient</a>(const std::string &amp;class_name, const std::vector&lt; std::string &gt; *env, const base::FilePath &amp;database, const base::FilePath &amp;metrics_dir, const std::string &amp;url, const std::map&lt; std::string, std::string &gt; &amp;annotations, const std::vector&lt; std::string &gt; &amp;arguments, int socket)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a1a6a1e62d90a67db782664b1fe5a952f">UseSystemDefaultHandler</a>()</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a0377d4e93ac77453f57f3c1fcae09e14">WaitForHandlerStart</a>(unsigned int timeout_ms)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>~CrashpadClient</b>() (defined in <a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a74ad055cbc0559637638c1827eb98813">StartProcessingPendingReports</a>(UploadBehavior upload_behavior=UploadBehavior::kUploadWhenAppIsActive)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a1a6a1e62d90a67db782664b1fe5a952f">UseSystemDefaultHandler</a>()</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a0377d4e93ac77453f57f3c1fcae09e14">WaitForHandlerStart</a>(unsigned int timeout_ms)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>~CrashpadClient</b>() (defined in <a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashpadClient.html">crashpad::CrashpadClient</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

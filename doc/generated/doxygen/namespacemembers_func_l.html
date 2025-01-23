@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,24 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
-/* @license-end */
-</script>
-<div id="main-nav"></div>
 </div><!-- top -->
-<div id="doc-content">
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
+$(function(){initNavTree('namespacemembers_func_l.html',''); initResizable(true); });
 /* @license-end */
 </script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -110,29 +128,31 @@ $(function(){ initResizable(false); });
 <li>LaunchDataNewReal()&#160;:&#160;<a class="el" href="namespacecrashpad.html#aa78698056108819fe4bd268cc55801c3">crashpad</a></li>
 <li>LaunchDataNewString()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a7ae48002caa906acb164114bc290b048">crashpad</a></li>
 <li>LaunchMsg()&#160;:&#160;<a class="el" href="namespacecrashpad.html#ae541f07925a67de751502b903af919b4">crashpad</a></li>
+<li>LoadTestModule()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1test.html#a4f42c5d290ec3dc2dbae82b56a806fac">crashpad::test</a></li>
 <li>LoggingCloseFile()&#160;:&#160;<a class="el" href="namespacecrashpad.html#ab9db00544fd57cfde0bb03d32b989221">crashpad</a></li>
 <li>LoggingCreateDirectory()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a7ae84cd353b237bfdf698d40da521568">crashpad</a></li>
 <li>LoggingDetermineMergedRange()&#160;:&#160;<a class="el" href="namespacecrashpad.html#acb7b5be59c1293af50753130136aeb32">crashpad</a></li>
 <li>LoggingFileSizeByHandle()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a0224d5a689cdb8c2315c255fd6ea6b5c">crashpad</a></li>
-<li>LoggingLockFile()&#160;:&#160;<a class="el" href="namespacecrashpad.html#acd02263566d8c43fc7886f88a13b364f">crashpad</a></li>
 <li>LoggingOpenFileForRead()&#160;:&#160;<a class="el" href="namespacecrashpad.html#ab3712d59104f641109b170c78a912b4d">crashpad</a></li>
 <li>LoggingOpenFileForReadAndWrite()&#160;:&#160;<a class="el" href="namespacecrashpad.html#aab3e964bdba04aaf74e7a27a36efe108">crashpad</a></li>
 <li>LoggingOpenFileForWrite()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a62fc6876cc0c660f0ea8bd1dd0a07e82">crashpad</a></li>
 <li>LoggingReadEntireFile()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a300ac399f9d33a4c47b4e4c148ebbe7c">crashpad</a></li>
 <li>LoggingReadFileExactly()&#160;:&#160;<a class="el" href="namespacecrashpad.html#ac3fb8955565f605e08c1e30562fbdb7a">crashpad</a></li>
+<li>LoggingReadFileUntil()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a13522930fa21f678aefd0bcd1ba2ce92">crashpad</a></li>
 <li>LoggingReadToEOF()&#160;:&#160;<a class="el" href="namespacecrashpad.html#ae52dab87e27350dd4c70ea4c8ac258cc">crashpad</a></li>
 <li>LoggingRemoveDirectory()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a7fdc84fcc207cf0b718626997d11ad04">crashpad</a></li>
 <li>LoggingRemoveFile()&#160;:&#160;<a class="el" href="namespacecrashpad.html#ac7c5ccd8661bd87eed66eae26fb9e0d3">crashpad</a></li>
 <li>LoggingSeekFile()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a3d6cedc10e24145d4a0c1000c33f8a10">crashpad</a></li>
 <li>LoggingTruncateFile()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a06ba30c1a4b2974f1d4ea842db55b068">crashpad</a></li>
-<li>LoggingUnlockFile()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a15c1f3a2c6f04e944fdca12e22b0cb6e">crashpad</a></li>
 <li>LoggingWriteFile()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a8a91af9c690d2a280c463596bf82070b">crashpad</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,24 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
-/* @license-end */
-</script>
-<div id="main-nav"></div>
 </div><!-- top -->
-<div id="doc-content">
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
+$(function(){initNavTree('functions_f.html',''); initResizable(true); });
 /* @license-end */
 </script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -88,8 +106,9 @@ $(function(){ initResizable(false); });
 <div class="textblock">Here is a list of all documented class members with links to the class documentation for each member:</div>
 
 <h3><a id="index_f" name="index_f"></a>- f -</h3><ul>
+<li>fcsr&#160;:&#160;<a class="el" href="structcrashpad_1_1MinidumpContextRISCV64.html#ae0d2ccb9ebfacaac7c904174f44b6c12">crashpad::MinidumpContextRISCV64</a></li>
 <li>FeatureInformation&#160;:&#160;<a class="el" href="unionCPU__INFORMATION.html#a044a13c077ea0b3834dd33e4a48027cc">CPU_INFORMATION</a></li>
-<li>Features()&#160;:&#160;<a class="el" href="classcrashpad_1_1internal_1_1CpuidReader.html#a87cab9dc27cada5fa41e16ba3036b876">crashpad::internal::CpuidReader</a>, <a class="el" href="structXSTATE__CONFIG__FEATURE__MSC__INFO.html#affeeac564e3a87bf1533c165dc976e02">XSTATE_CONFIG_FEATURE_MSC_INFO</a></li>
+<li>Features&#160;:&#160;<a class="el" href="structXSTATE__CONFIG__FEATURE__MSC__INFO.html#affeeac564e3a87bf1533c165dc976e02">XSTATE_CONFIG_FEATURE_MSC_INFO</a></li>
 <li>file_path&#160;:&#160;<a class="el" href="structcrashpad_1_1CrashReportDatabase_1_1Report.html#a42cfce2b75dfee931b8d82968592d8a7">crashpad::CrashReportDatabase::Report</a></li>
 <li>FileEncoder()&#160;:&#160;<a class="el" href="classcrashpad_1_1FileEncoder.html#a802d616e93ae90952475e9370cd5b46b">crashpad::FileEncoder</a></li>
 <li>fileoff()&#160;:&#160;<a class="el" href="classcrashpad_1_1MachOImageSegmentReader.html#ab3b139fd095a7187294f05d0780af81c">crashpad::MachOImageSegmentReader</a></li>
@@ -97,7 +116,7 @@ $(function(){ initResizable(false); });
 <li>FilePathToCommandLineArgument()&#160;:&#160;<a class="el" href="classcrashpad_1_1ToolSupport.html#aa7fe01187c086fb6422d42e61485c855">crashpad::ToolSupport</a></li>
 <li>FileReaderHTTPBodyStream()&#160;:&#160;<a class="el" href="classcrashpad_1_1FileReaderHTTPBodyStream.html#a791c06a7d79b3aae8720ce54549e52ce">crashpad::FileReaderHTTPBodyStream</a></li>
 <li>FileType()&#160;:&#160;<a class="el" href="classcrashpad_1_1ElfImageReader.html#afd0483257628188753b1f70709b8cad6">crashpad::ElfImageReader</a>, <a class="el" href="classcrashpad_1_1MachOImageReader.html#a8cd79040c190b0f165fdb915bc469e8b">crashpad::MachOImageReader</a>, <a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#a8f71a95dc0f7e8458694443a2b26dd2c">crashpad::test::TestPaths</a></li>
-<li>FileVersion()&#160;:&#160;<a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotElf.html#a3767422e2ead1489a2ef7059837bb0b1">crashpad::internal::ModuleSnapshotElf</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotIOS.html#a3f5a47809e7079af9668902671ff5332">crashpad::internal::ModuleSnapshotIOS</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#ab124235bd262034c5ec432f663ee7967">crashpad::internal::ModuleSnapshotMac</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a68b5f5bf99675f59afaad3bdf785bad6">crashpad::internal::ModuleSnapshotMinidump</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotSanitized.html#a0342ad96a26f86a77f535726cc9631bd">crashpad::internal::ModuleSnapshotSanitized</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a360ff8c4593575bec6cf5ad9d095fa3c">crashpad::internal::ModuleSnapshotWin</a>, <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a6b3f4831720290e2ab5460ef21ff7443">crashpad::ModuleSnapshot</a>, <a class="el" href="classcrashpad_1_1test_1_1TestModuleSnapshot.html#ae82618e4945d0fa2f5e735578be3aa55">crashpad::test::TestModuleSnapshot</a></li>
+<li>FileVersion()&#160;:&#160;<a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotElf.html#a3767422e2ead1489a2ef7059837bb0b1">crashpad::internal::ModuleSnapshotElf</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotIOSIntermediateDump.html#a5e229018035850df69fff4b066ded8c4">crashpad::internal::ModuleSnapshotIOSIntermediateDump</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#ab124235bd262034c5ec432f663ee7967">crashpad::internal::ModuleSnapshotMac</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a68b5f5bf99675f59afaad3bdf785bad6">crashpad::internal::ModuleSnapshotMinidump</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotSanitized.html#a0342ad96a26f86a77f535726cc9631bd">crashpad::internal::ModuleSnapshotSanitized</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a360ff8c4593575bec6cf5ad9d095fa3c">crashpad::internal::ModuleSnapshotWin</a>, <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a6b3f4831720290e2ab5460ef21ff7443">crashpad::ModuleSnapshot</a>, <a class="el" href="classcrashpad_1_1test_1_1TestModuleSnapshot.html#ae82618e4945d0fa2f5e735578be3aa55">crashpad::test::TestModuleSnapshot</a></li>
 <li>FindFilePossibleMmapStarts()&#160;:&#160;<a class="el" href="classcrashpad_1_1MemoryMap.html#a60f4f585a397fbfc6c5cc00b5afb13ee">crashpad::MemoryMap</a></li>
 <li>FindMapping()&#160;:&#160;<a class="el" href="classcrashpad_1_1MemoryMap.html#ac765748bcf0835bc2268e5884724f4ed">crashpad::MemoryMap</a></li>
 <li>FindMappingForAddress()&#160;:&#160;<a class="el" href="classcrashpad_1_1MemoryMapFuchsia.html#a2e8b50d55a4edc4227c8e7d74e68bff0">crashpad::MemoryMapFuchsia</a></li>
@@ -105,26 +124,35 @@ $(function(){ initResizable(false); });
 <li>FindResourceByID()&#160;:&#160;<a class="el" href="classcrashpad_1_1PEImageResourceReader.html#a74d047ffc2e95da0764413735ba0b592">crashpad::PEImageResourceReader</a></li>
 <li>FindThreadWithStackAddress()&#160;:&#160;<a class="el" href="classcrashpad_1_1ProcessSnapshotLinux.html#a9cee10d89e045ad258d66b974dc26544">crashpad::ProcessSnapshotLinux</a></li>
 <li>FinishedWritingCrashReport()&#160;:&#160;<a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a346b5f90a50066d5057b4eaaacdcf3b7">crashpad::CrashReportDatabase</a>, <a class="el" href="classcrashpad_1_1CrashReportDatabaseGeneric.html#a81da0d483b8c69b8baa636c1a6ad4dae">crashpad::CrashReportDatabaseGeneric</a>, <a class="el" href="classcrashpad_1_1CrashReportDatabaseMac.html#a21779f103f618f0fa97d8cbe6f5ea936">crashpad::CrashReportDatabaseMac</a>, <a class="el" href="classcrashpad_1_1CrashReportDatabaseWin.html#a3f92307c8d84d5a0822d7412db997cf6">crashpad::CrashReportDatabaseWin</a></li>
-<li>fir&#160;:&#160;<a class="el" href="structcrashpad_1_1MinidumpContextMIPS64.html#aaaba56d5990ff02633280c9c41c04ece">crashpad::MinidumpContextMIPS64</a></li>
+<li>fir&#160;:&#160;<a class="el" href="structcrashpad_1_1MinidumpContextMIPS64.html#aaaba56d5990ff02633280c9c41c04ece">crashpad::MinidumpContextMIPS64</a>, <a class="el" href="structcrashpad_1_1MinidumpContextMIPS.html#a0ba62492430ca47a4ba68f29b4f6cd4e">crashpad::MinidumpContextMIPS</a></li>
 <li>FirstChanceHandler&#160;:&#160;<a class="el" href="classcrashpad_1_1CrashpadClient.html#a7366c56f2429a00f217be3c0d3165f5f">crashpad::CrashpadClient</a></li>
 <li>Flags&#160;:&#160;<a class="el" href="structMINIDUMP__HEADER.html#a052f2280538826d030c4cb5154963e27">MINIDUMP_HEADER</a></li>
 <li>Flags1&#160;:&#160;<a class="el" href="structMINIDUMP__MISC__INFO.html#ac1c8ca04b2a85e2070e1b43b26d26e47">MINIDUMP_MISC_INFO</a></li>
 <li>flavor&#160;:&#160;<a class="el" href="structcrashpad_1_1ExceptionPorts_1_1ExceptionHandler.html#a37ea6e5c308978536093bbd36b0ff561">crashpad::ExceptionPorts::ExceptionHandler</a></li>
 <li>float_context&#160;:&#160;<a class="el" href="structcrashpad_1_1ThreadInfo.html#a6a059df1d872858f7db189a3fa15b906">crashpad::ThreadInfo</a></li>
 <li>flush_count()&#160;:&#160;<a class="el" href="classcrashpad_1_1test_1_1TestOutputStream.html#abf5caf3bd28b6cdd983c1760cfb3f355">crashpad::test::TestOutputStream</a></li>
-<li>fpcsr&#160;:&#160;<a class="el" href="structcrashpad_1_1MinidumpContextMIPS64.html#a50d74f99a522262ec5d40c538cb69914">crashpad::MinidumpContextMIPS64</a></li>
-<li>fpregs&#160;:&#160;<a class="el" href="structcrashpad_1_1MinidumpContextMIPS64.html#a4fa7dbdbf20537ec636701a94cc12cbe">crashpad::MinidumpContextMIPS64</a></li>
+<li>fp&#160;:&#160;<a class="el" href="structcrashpad_1_1MinidumpContextARM64.html#a87bc317dea386f22a4cfce6396d2f8f1">crashpad::MinidumpContextARM64</a></li>
+<li>fp_registers&#160;:&#160;<a class="el" href="structcrashpad_1_1ProcessReaderFuchsia_1_1Thread.html#ac89210fb5cf63d6db1daf6e21873671b">crashpad::ProcessReaderFuchsia::Thread</a></li>
+<li>fpcr&#160;:&#160;<a class="el" href="structcrashpad_1_1MinidumpContextARM64.html#aeda828d358cefeccd95a8cdaeb7e878c">crashpad::MinidumpContextARM64</a></li>
+<li>fpcsr&#160;:&#160;<a class="el" href="structcrashpad_1_1MinidumpContextMIPS64.html#a50d74f99a522262ec5d40c538cb69914">crashpad::MinidumpContextMIPS64</a>, <a class="el" href="structcrashpad_1_1MinidumpContextMIPS.html#a6b14d723f54094e5b142f19087df4dfc">crashpad::MinidumpContextMIPS</a></li>
+<li>fpregs&#160;:&#160;<a class="el" href="structcrashpad_1_1MinidumpContextMIPS64.html#aeea816a826db87e1ec87b69ea384dbfc">crashpad::MinidumpContextMIPS64</a>, <a class="el" href="structcrashpad_1_1MinidumpContextMIPS.html#aa4a47de20eecb95188e84a6b9aedd954">crashpad::MinidumpContextMIPS</a>, <a class="el" href="structcrashpad_1_1MinidumpContextRISCV64.html#af94ad4e140ee921f0b10b30ec6e4e02b">crashpad::MinidumpContextRISCV64</a></li>
+<li>fpscr&#160;:&#160;<a class="el" href="structcrashpad_1_1MinidumpContextARM.html#a9561992e98f6226b4a37e61cd25123a7">crashpad::MinidumpContextARM</a></li>
+<li>fpsimd&#160;:&#160;<a class="el" href="structcrashpad_1_1MinidumpContextARM64.html#a23b1d291c74af871f074385bae01cc4a">crashpad::MinidumpContextARM64</a></li>
+<li>fpsr&#160;:&#160;<a class="el" href="structcrashpad_1_1MinidumpContextARM64.html#ac749db2cf1f4f92f396e1d034a32963d">crashpad::MinidumpContextARM64</a></li>
 <li>Freeze()&#160;:&#160;<a class="el" href="classcrashpad_1_1internal_1_1MinidumpRVAListWriter.html#a6a3be257be54b243485f64049903af1d">crashpad::internal::MinidumpRVAListWriter</a>, <a class="el" href="classcrashpad_1_1internal_1_1MinidumpStreamWriter.html#a6bace0c62b1f29aa710974a2bbcb3e1c">crashpad::internal::MinidumpStreamWriter</a>, <a class="el" href="classcrashpad_1_1internal_1_1MinidumpStringWriter.html#a561dc9ddd4e0a71845dbcdc12f47efe4">crashpad::internal::MinidumpStringWriter&lt; Traits &gt;</a>, <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#a773db80946a99c6a3cc29c7d4dd77bd6">crashpad::internal::MinidumpWritable</a>, <a class="el" href="classcrashpad_1_1MinidumpAnnotationListWriter.html#a2175ffd84924d8b1d4a186fa26ba151f">crashpad::MinidumpAnnotationListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpAnnotationWriter.html#a51ce9cfdaa344db48df5be2973d5bc91">crashpad::MinidumpAnnotationWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpByteArrayWriter.html#a7a1b605ad753dc0d852c816c91b29ecc">crashpad::MinidumpByteArrayWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpCrashpadInfoWriter.html#a94b22bb7492af0d870d5322c213e518b">crashpad::MinidumpCrashpadInfoWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpExceptionWriter.html#ae72aacc2c624bf510d7dfb54b048cd4d">crashpad::MinidumpExceptionWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpFileWriter.html#a5592aa929693a02f7cb81797d07b1dd8">crashpad::MinidumpFileWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpHandleDataWriter.html#adbf1b553198952d9f415fac76d31974b">crashpad::MinidumpHandleDataWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpMemoryInfoListWriter.html#a1f30ea6410bf4d3b474efab88d8a2e34">crashpad::MinidumpMemoryInfoListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpMemoryListWriter.html#a0573a2ec6a0ab9acfdd86026f9aaad83">crashpad::MinidumpMemoryListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpMiscInfoWriter.html#a2302dcdd274fb64d38bf0cd718501eca">crashpad::MinidumpMiscInfoWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpModuleCrashpadInfoListWriter.html#a6a297f7c96b01f33cbad0b58f8dcce3a">crashpad::MinidumpModuleCrashpadInfoListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpModuleCrashpadInfoWriter.html#a70e8a4ca07f2807a43d9a3a0f80aaf02">crashpad::MinidumpModuleCrashpadInfoWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpModuleListWriter.html#ac0cbc8ac8324870386764df79563ae9f">crashpad::MinidumpModuleListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpModuleMiscDebugRecordWriter.html#a03027e96a7b5d09687d37e9d7bd3baa5">crashpad::MinidumpModuleMiscDebugRecordWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpModuleWriter.html#a9d6b00cee197c404e4ce93edd02acea2">crashpad::MinidumpModuleWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpSimpleStringDictionaryEntryWriter.html#af50ed884d5406d4bfbd3ac4a0b12bc83">crashpad::MinidumpSimpleStringDictionaryEntryWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpSimpleStringDictionaryWriter.html#a14f5cec241dc23dfaaec24a89c43e9f7">crashpad::MinidumpSimpleStringDictionaryWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpSystemInfoWriter.html#a76bad6c5eedf1c4c65b89c04e96bc376">crashpad::MinidumpSystemInfoWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpThreadListWriter.html#a7517faf9891c1bd588951ab3e0aef55f">crashpad::MinidumpThreadListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpThreadWriter.html#a15c9b51f3bd39e89030265ae27c361c9">crashpad::MinidumpThreadWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpUnloadedModuleListWriter.html#a39aaa6a3d41f9ef2b25f47ec1d75021f">crashpad::MinidumpUnloadedModuleListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpUnloadedModuleWriter.html#a05698ba441130dbb9f1a4edba20b1b45">crashpad::MinidumpUnloadedModuleWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpUserStreamWriter.html#a0e95d95eb75d4878a6377501b08c6df0">crashpad::MinidumpUserStreamWriter</a></li>
+<li>FreezeAndGetSizeOfObject()&#160;:&#160;<a class="el" href="classcrashpad_1_1MinidumpContextWriter.html#a219ffc1f211adc1876156272afbc3178">crashpad::MinidumpContextWriter</a></li>
 <li>FsaveToFxsave()&#160;:&#160;<a class="el" href="structcrashpad_1_1CPUContextX86.html#a8b6ecedc4f28b2e6b1564dc57489a8d9">crashpad::CPUContextX86</a></li>
 <li>FsaveToFxsaveTagWord()&#160;:&#160;<a class="el" href="structcrashpad_1_1CPUContextX86.html#a30c413e9272b7f2167c305a486e88dc0">crashpad::CPUContextX86</a></li>
 <li>FxsaveToFsave()&#160;:&#160;<a class="el" href="structcrashpad_1_1CPUContextX86.html#ab90efe3c4cf0e10d820a12d7227383c0">crashpad::CPUContextX86</a></li>
 <li>FxsaveToFsaveTagWord()&#160;:&#160;<a class="el" href="structcrashpad_1_1CPUContextX86.html#aaa6da129178e00395358c4f288d5dc06">crashpad::CPUContextX86</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

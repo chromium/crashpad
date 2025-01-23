@@ -1,0 +1,5 @@
+<map id="crashpad::ProcessMemoryFuchsia" name="crashpad::ProcessMemoryFuchsia">
+<area shape="rect" id="Node000001" title="Accesses the memory of another Fuchsia process." alt="" coords="5,83,235,113"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ProcessMemory.html" title="Abstract base class for accessing the memory of another process." alt="" coords="28,5,212,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,51,123,82,117,82,117,51"/>
+</map>

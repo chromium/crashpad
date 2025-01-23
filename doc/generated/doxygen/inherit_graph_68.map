@@ -1,0 +1,11 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classcrashpad_1_1HTTPBodyStream.html" title="An interface to a stream that can be used for an HTTP request body." alt="" coords="5,120,199,150"/>
+<area shape="rect" id="Node000001" href="$classcrashpad_1_1CompositeHTTPBodyStream.html" title="An implementation of HTTPBodyStream that combines an array of several other HTTPBodyStream objects in..." alt="" coords="249,5,464,54"/>
+<area shape="poly" id="edge34_Node000000_Node000001" title=" " alt="" coords="145,111,246,65,279,52,281,57,248,69,148,115"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1FileReaderHTTPBodyStream.html" title="An implementation of HTTPBodyStream that reads from a FileReaderInterface and provides its contents f..." alt="" coords="249,79,464,127"/>
+<area shape="poly" id="edge35_Node000000_Node000002" title=" " alt="" coords="214,118,249,114,249,119,214,124"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1GzipHTTPBodyStream.html" title="An implementation of HTTPBodyStream that gzip&#45;compresses another HTTPBodyStream." alt="" coords="247,151,467,180"/>
+<area shape="poly" id="edge36_Node000000_Node000003" title=" " alt="" coords="214,146,247,150,246,155,214,151"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1StringHTTPBodyStream.html" title="An implementation of HTTPBodyStream that turns a fixed string into a stream." alt="" coords="264,204,450,253"/>
+<area shape="poly" id="edge37_Node000000_Node000004" title=" " alt="" coords="155,154,248,190,279,201,277,206,246,195,153,159"/>
+</map>

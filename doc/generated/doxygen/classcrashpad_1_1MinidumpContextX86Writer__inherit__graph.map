@@ -1,0 +1,7 @@
+<map id="crashpad::MinidumpContextX86Writer" name="crashpad::MinidumpContextX86Writer">
+<area shape="rect" id="Node000001" title="The writer for a MinidumpContextX86 structure in a minidump file." alt="" coords="5,199,200,247"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1MinidumpContextWriter.html" title="The base class for writers of CPU context structures in minidump files." alt="" coords="5,102,200,151"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,166,105,198,100,198,100,166"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1internal_1_1MinidumpWritable.html" title="The base class for all content that might be written to a minidump file." alt="" coords="31,5,174,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="105,69,105,101,100,101,100,69"/>
+</map>

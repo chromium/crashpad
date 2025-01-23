@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,24 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
-/* @license-end */
-</script>
-<div id="main-nav"></div>
 </div><!-- top -->
-<div id="doc-content">
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
+$(function(){initNavTree('namespacemembers_func_r.html',''); initResizable(true); });
 /* @license-end */
 </script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -89,16 +107,22 @@ $(function(){ initResizable(false); });
 
 <h3><a id="index_r" name="index_r"></a>- r -</h3><ul>
 <li>RandomString()&#160;:&#160;<a class="el" href="namespacecrashpad.html#ab15d0aff86a0aafe6f33cbd8913441c7">crashpad</a></li>
-<li>ReadAnnotationsWhitelist()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a9c33155413280cfd8ae286e732012ee5">crashpad</a></li>
+<li>RawLog()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#ab63eb78006fab41682142407c7ed8266">crashpad::internal</a></li>
+<li>ReadAllowedAnnotations()&#160;:&#160;<a class="el" href="namespacecrashpad.html#aa8f086bf42672cc9deccc4f93301478a">crashpad</a></li>
+<li>ReadAllowedMemoryRanges()&#160;:&#160;<a class="el" href="namespacecrashpad.html#af4f3d401cee57d9776ad3d338111a95c">crashpad</a></li>
+<li>ReadBase128VarintFromRingBuffer()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#ac5db901839b71b66028ca0e6a641fc82">crashpad::internal</a></li>
+<li>ReadBytesFromRingBuffer()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#a1a3d3f4a7c8b076a0842e38040f380c3">crashpad::internal</a></li>
+<li>ReadExactly()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#a84be045daad7d16e7a3e4b8d0b4c768d">crashpad::internal</a></li>
 <li>ReadFile()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96">crashpad</a></li>
 <li>ReadFileExactly()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a6e685af255d9b71fb46ed2679329dd7c">crashpad</a></li>
-<li>ReadMemoryRangeWhitelist()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a906c1cba64238a5877dbb51c62a3844c">crashpad</a></li>
+<li>ReadFileUntil()&#160;:&#160;<a class="el" href="namespacecrashpad.html#ab37c2677a36c7cf97be67103a3a5b5a6">crashpad</a></li>
 <li>ReadMinidumpAnnotationList()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#a8f87cb910cbec4bc36871770b23a036f">crashpad::internal</a></li>
 <li>ReadMinidumpSimpleStringDictionary()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#aa9b358d36faf271ec17d7e9a829610a9">crashpad::internal</a></li>
 <li>ReadMinidumpStringList()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#afac4436aa35c86be47e56179a51662ca">crashpad::internal</a></li>
-<li>ReadMinidumpUTF16String()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#ad20d4bbcc4ce65d8b4e1143e2b0e4cc8">crashpad::internal</a></li>
+<li>ReadMinidumpUTF16String()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#a901ce77a0daa61232ba8c202bd376f1e">crashpad::internal</a></li>
 <li>ReadMinidumpUTF8String()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#a769d4791b91e4fffea817ad2e9dda54b">crashpad::internal</a></li>
 <li>ReadStreamToString()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1test.html#a35412b33d0a275fa43e8633296059534">crashpad::test</a></li>
+<li>ReadStringSysctlByName()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a33fd86bc618d758d07c29304df9fbf4f">crashpad</a></li>
 <li>ReadThreadIDs()&#160;:&#160;<a class="el" href="namespacecrashpad.html#ae93766162f8810f02d1891951937aede">crashpad</a></li>
 <li>ReadXattr()&#160;:&#160;<a class="el" href="namespacecrashpad.html#ac86f028e5f175cccfcab418346d7bcfe">crashpad</a></li>
 <li>ReadXattrBool()&#160;:&#160;<a class="el" href="namespacecrashpad.html#ab8c682ff6d5f00ca828640a72436e196">crashpad</a></li>
@@ -106,13 +130,17 @@ $(function(){ initResizable(false); });
 <li>ReadXattrTimeT()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a71572c94f27aba3f34938d3a0d9030a3">crashpad</a></li>
 <li>RecordFileLimitAnnotation()&#160;:&#160;<a class="el" href="namespacecrashpad.html#ad20301f0c5158576b0893444ff662108">crashpad</a></li>
 <li>ReinterpretBytes()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a61b73837f43334046a1b56763fefba55">crashpad</a></li>
+<li>RemoveFileIfExists()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1test.html#a489b62007e6118a1addd46674ca4e474">crashpad::test</a></li>
 <li>RemoveXattr()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a354d84b9ce60fa7d437c2ee6f58ea05f">crashpad</a></li>
+<li>RingBufferArraySize()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#a2346f7c090e2636272c74b84d0b45285">crashpad::internal</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

@@ -1,0 +1,5 @@
+<map id="crashpad::ProcessReaderLinux::Module" name="crashpad::ProcessReaderLinux::Module">
+<area shape="rect" id="Node000001" title="Contains information about a module loaded into a process." alt="" coords="5,102,215,151"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ElfImageReader.html" title="A reader for ELF images mapped into another process." alt="" coords="18,5,202,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,51,113,101,107,101,107,51"/>
+</map>

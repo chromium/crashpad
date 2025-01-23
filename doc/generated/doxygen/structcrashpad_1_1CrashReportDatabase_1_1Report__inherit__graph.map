@@ -1,0 +1,5 @@
+<map id="crashpad::CrashReportDatabase::Report" name="crashpad::CrashReportDatabase::Report">
+<area shape="rect" id="Node000001" title="A crash report record." alt="" coords="5,5,225,54"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1CrashReportDatabase_1_1UploadReport.html" title="A crash report that is in the process of being uploaded." alt="" coords="5,102,225,151"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,69,118,101,112,101,112,69"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="crashpad::MinidumpUserStreamWriter::ContentsWriter" name="crashpad::MinidumpUserStreamWriter::ContentsWriter">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,56,226,105"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1MinidumpUserStreamWriter_1_1ExtensionStreamContentsWriter.html" title=" " alt="" coords="274,5,503,73"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="241,59,273,54,274,59,242,64"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1MinidumpUserStreamWriter_1_1SnapshotContentsWriter.html" title=" " alt="" coords="277,98,500,146"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="242,97,277,102,277,108,241,102"/>
+</map>

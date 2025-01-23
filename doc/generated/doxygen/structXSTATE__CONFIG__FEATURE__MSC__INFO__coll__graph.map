@@ -1,0 +1,5 @@
+<map id="XSTATE_CONFIG_FEATURE_MSC_INFO" name="XSTATE_CONFIG_FEATURE_MSC_INFO">
+<area shape="rect" id="Node000001" title="Information about XSAVE&#45;managed state stored within CPU&#45;specific context structures." alt="" coords="5,102,186,151"/>
+<area shape="rect" id="Node000002" href="$structXSTATE__FEATURE.html" title="The location of a single state component within an XSAVE area." alt="" coords="33,5,158,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,51,98,101,93,101,93,51"/>
+</map>

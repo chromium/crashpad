@@ -1,0 +1,5 @@
+<map id="crashpad::internal::SystemSnapshotMac" name="crashpad::internal::SystemSnapshotMac">
+<area shape="rect" id="Node000001" title="A SystemSnapshot of the running system, when the system runs macOS." alt="" coords="20,83,177,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1SystemSnapshot.html" title="An abstract interface to a snapshot representing the state of a system, comprising an operating syste..." alt="" coords="5,5,192,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,50,101,82,96,82,96,50"/>
+</map>

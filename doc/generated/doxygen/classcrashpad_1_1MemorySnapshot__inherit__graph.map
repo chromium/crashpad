@@ -1,0 +1,13 @@
+<map id="crashpad::MemorySnapshot" name="crashpad::MemorySnapshot">
+<area shape="rect" id="Node000001" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process." alt="" coords="5,162,200,191"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1MemorySnapshotGeneric.html" title="A MemorySnapshot of a memory region in a process on the running system. Works on multiple platforms b..." alt="" coords="295,5,483,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,149,181,106,246,65,293,47,295,52,249,69,184,110,132,153"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1internal_1_1MemorySnapshotIOSIntermediateDump.html" title="A MemorySnapshot of a memory region." alt="" coords="248,79,530,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="178,154,290,125,292,131,179,160"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1internal_1_1MemorySnapshotMinidump.html" title=" " alt="" coords="288,152,490,201"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="215,174,288,174,288,179,215,179"/>
+<area shape="rect" id="Node000005" href="$classcrashpad_1_1internal_1_1MemorySnapshotSanitized.html" title="A MemorySnapshot which wraps and filters sensitive information from another MemorySnapshot." alt="" coords="292,225,486,274"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="179,193,292,222,291,227,178,198"/>
+<area shape="rect" id="Node000006" href="$classcrashpad_1_1test_1_1TestMemorySnapshot.html" title="A test MemorySnapshot that can carry arbitrary data for testing purposes." alt="" coords="292,299,486,347"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="132,200,184,243,249,283,292,300,290,305,246,288,181,247,129,204"/>
+</map>

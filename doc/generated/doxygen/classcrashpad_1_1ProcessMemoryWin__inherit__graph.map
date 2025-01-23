@@ -1,0 +1,5 @@
+<map id="crashpad::ProcessMemoryWin" name="crashpad::ProcessMemoryWin">
+<area shape="rect" id="Node000001" title="Accesses the memory of another Windows process." alt="" coords="5,83,213,113"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ProcessMemory.html" title="Abstract base class for accessing the memory of another process." alt="" coords="17,5,201,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,51,112,82,106,82,106,51"/>
+</map>

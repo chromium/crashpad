@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['scopeddir_0',['ScopedDIR',['../namespacecrashpad.html#ab78e3cfff43d8e9e512f30955e370bb3',1,'crashpad']]],
-  ['scopedfilehandle_1',['ScopedFileHandle',['../namespacecrashpad.html#a2d3a0ca2e9e37905b425f2cb1b428e7e',1,'crashpad']]],
-  ['simpleaddressrangebag_2',['SimpleAddressRangeBag',['../namespacecrashpad.html#a0ddac921c80ea43961025cacea5e92f1',1,'crashpad']]],
-  ['simplestringdictionary_3',['SimpleStringDictionary',['../namespacecrashpad.html#a234f585958271d359e8f1a4ae3f95553',1,'crashpad']]],
-  ['stringtosymbolicconstantoptions_4',['StringToSymbolicConstantOptions',['../namespacecrashpad.html#a78ec34d8dc54f6d191e3ddae3eb79170',1,'crashpad']]],
-  ['symbolicconstanttostringoptions_5',['SymbolicConstantToStringOptions',['../namespacecrashpad.html#a18cc715d0526f5bd9909027403f30d7d',1,'crashpad']]]
+  ['ringbufferannotationcapacity_0',['RingBufferAnnotationCapacity',['../namespacecrashpad.html#ac3ac7f59200f3fee264cf9f7248a8910',1,'crashpad']]],
+  ['ringbufferarraytype_1',['RingBufferArrayType',['../structcrashpad_1_1RingBufferData.html#a6fd291e780260c88e3e1d8512cc15a23',1,'crashpad::RingBufferData']]],
+  ['ringbuffercapacity_2',['RingBufferCapacity',['../namespacecrashpad.html#aa7ef9aa2375aa179ab428923628fbc12',1,'crashpad']]],
+  ['rva_3',['RVA',['../dbghelp_8h.html#acf465a1a77ecf067a9d946583bc6a3f8',1,'dbghelp.h']]],
+  ['rva64_4',['RVA64',['../dbghelp_8h.html#a18e623b3f5dac42b87070281dda7b26b',1,'dbghelp.h']]]
 ];

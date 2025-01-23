@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1test_1_1ExceptionSwallower.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,15 +102,10 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="namespacecrashpad_1_1test.html">test</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1test_1_1ExceptionSwallower.html">ExceptionSwallower</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classcrashpad_1_1test_1_1ExceptionSwallower-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">crashpad::test::ExceptionSwallower Class Reference</div></div>
@@ -107,6 +122,15 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1ExceptionSwallower_1_1ExceptionSwallowerThread.html">ExceptionSwallowerThread</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a86f041af8eb88bc4da8ffb680762cae7" id="r_a86f041af8eb88bc4da8ffb680762cae7"><td class="memItemLeft" align="right" valign="top"><a id="a86f041af8eb88bc4da8ffb680762cae7" name="a86f041af8eb88bc4da8ffb680762cae7"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ExceptionSwallower</b> (const <a class="el" href="classcrashpad_1_1test_1_1ExceptionSwallower.html">ExceptionSwallower</a> &amp;)=delete</td></tr>
+<tr class="separator:a86f041af8eb88bc4da8ffb680762cae7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3848395c091cc858b7033bc8f17d814" id="r_ad3848395c091cc858b7033bc8f17d814"><td class="memItemLeft" align="right" valign="top"><a id="ad3848395c091cc858b7033bc8f17d814" name="ad3848395c091cc858b7033bc8f17d814"></a>
+<a class="el" href="classcrashpad_1_1test_1_1ExceptionSwallower.html">ExceptionSwallower</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1test_1_1ExceptionSwallower.html">ExceptionSwallower</a> &amp;)=delete</td></tr>
+<tr class="separator:ad3848395c091cc858b7033bc8f17d814"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:af7fdf8f0dca2bb2a34397d58283d3676" id="r_af7fdf8f0dca2bb2a34397d58283d3676"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af7fdf8f0dca2bb2a34397d58283d3676">SwallowExceptions</a> ()</td></tr>
@@ -119,7 +143,7 @@ Static Public Member Functions</h2></td></tr>
 <p>On macOS, the system’s crash reporter normally saves crash reports for all crashes in test code, by virtue of being set as the <code>EXC_CRASH</code> or <code>EXC_CORPSE_NOTIFY</code> handler. This litters the user’s <code>~/Library/Logs/DiagnosticReports</code> directory and can be time-consuming. Reports generated for code that crashes intentionally have no value, and many Crashpad tests do crash intentionally.</p>
 <p>Instantiate an <a class="el" href="classcrashpad_1_1test_1_1ExceptionSwallower.html" title="Swallows EXC_CRASH and EXC_CORPSE_NOTIFY exceptions in test child processes.">ExceptionSwallower</a> object in a parent test process (a process where <code>TEST()</code>, <code>TEST_F()</code>, and <code>TEST_P()</code> execute) to create an exception swallower server running on a dedicated thread. A service mapping for this server will be published with the bootstrap server and made available in the <code>CRASHPAD_EXCEPTION_SWALLOWER_SERVICE</code> environment variable. In a child process, call <a class="el" href="#af7fdf8f0dca2bb2a34397d58283d3676" title="In a test child process, arranges to swallow EXC_CRASH and EXC_CORPSE_NOTIFY exceptions.">SwallowExceptions()</a> to look up this service and set it as the <code>EXC_CRASH</code> and <code>EXC_CORPSE_NOTIFY</code> handler. When these exceptions are raised in the child process, they’ll be handled by the exception swallower server, which performs no action but reports that exceptions were successfully handled so that the system’s crash reporter, ReportCrash, will not be invoked.</p>
 <p>At most one <a class="el" href="classcrashpad_1_1test_1_1ExceptionSwallower.html" title="Swallows EXC_CRASH and EXC_CORPSE_NOTIFY exceptions in test child processes.">ExceptionSwallower</a> may be instantiated in a process at a time. If <code>CRASHPAD_EXCEPTION_SWALLOWER_SERVICE</code> is already set, <a class="el" href="classcrashpad_1_1test_1_1ExceptionSwallower.html" title="Swallows EXC_CRASH and EXC_CORPSE_NOTIFY exceptions in test child processes.">ExceptionSwallower</a> leaves it in place and takes no additional action.</p>
-<p>Crashpad’s <a class="el" href="gtest__death_8h.html#a415e40b4d538d7421e1b0a43ddd3f83e" title="Wraps the gtest ASSERT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by crashes.">ASSERT_DEATH_CRASH()</a>, <a class="el" href="gtest__death_8h.html#a496cb27779b2120a1854e81375e9ae5f" title="Wraps the gtest EXPECT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by crashes.">EXPECT_DEATH_CRASH()</a>, <a class="el" href="gtest__death_8h.html#a11ab1a718cd7a7ed56b7e2fbd2c36f74" title="Wraps the ASSERT_DEATH_CRASH() macro to make assertions about death caused by CHECK() failures.">ASSERT_DEATH_CHECK()</a>, and <a class="el" href="gtest__death_8h.html#aa4bd7e1dbfc8862448a4b0fb66790e50" title="Wraps the EXPECT_DEATH_CRASH() macro to make assertions about death caused by CHECK() failures.">EXPECT_DEATH_CHECK()</a> macros make use of this class on macOS, as does the <a class="el" href="classcrashpad_1_1test_1_1Multiprocess.html" title="Manages a multiprocess test.">Multiprocess</a> test interface. </p>
+<p>Crashpad’s <a class="el" href="gtest__death_8h.html#a415e40b4d538d7421e1b0a43ddd3f83e" title="Wraps the Google Test ASSERT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by cras...">ASSERT_DEATH_CRASH()</a>, <a class="el" href="gtest__death_8h.html#a496cb27779b2120a1854e81375e9ae5f" title="Wraps the Google Test EXPECT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by cras...">EXPECT_DEATH_CRASH()</a>, <a class="el" href="gtest__death_8h.html#a11ab1a718cd7a7ed56b7e2fbd2c36f74" title="Wraps the ASSERT_DEATH_CRASH() macro to make assertions about death caused by CHECK() failures.">ASSERT_DEATH_CHECK()</a>, and <a class="el" href="gtest__death_8h.html#aa4bd7e1dbfc8862448a4b0fb66790e50" title="Wraps the EXPECT_DEATH_CRASH() macro to make assertions about death caused by CHECK() failures.">EXPECT_DEATH_CHECK()</a> macros make use of this class on macOS, as does the <a class="el" href="classcrashpad_1_1test_1_1Multiprocess.html" title="Manages a multiprocess test.">Multiprocess</a> test interface. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="af7fdf8f0dca2bb2a34397d58283d3676" name="af7fdf8f0dca2bb2a34397d58283d3676"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af7fdf8f0dca2bb2a34397d58283d3676">&#9670;&#160;</a></span>SwallowExceptions()</h2>
@@ -145,7 +169,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>In a test child process, arranges to swallow <code>EXC_CRASH</code> and <code>EXC_CORPSE_NOTIFY</code> exceptions. </p>
-<p>This must be called in a test child process. It must not be called from a parent test process directly. Parent test processes are those that execute <code>TEST()</code>, <code>TEST_F()</code>, and <code>TEST_P()</code>. Test child processes execute <a class="el" href="gtest__death_8h.html#a415e40b4d538d7421e1b0a43ddd3f83e" title="Wraps the gtest ASSERT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by crashes.">ASSERT_DEATH_CRASH()</a>, <a class="el" href="gtest__death_8h.html#a496cb27779b2120a1854e81375e9ae5f" title="Wraps the gtest EXPECT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by crashes.">EXPECT_DEATH_CRASH()</a>, <a class="el" href="gtest__death_8h.html#a11ab1a718cd7a7ed56b7e2fbd2c36f74" title="Wraps the ASSERT_DEATH_CRASH() macro to make assertions about death caused by CHECK() failures.">ASSERT_DEATH_CHECK()</a>, <a class="el" href="gtest__death_8h.html#aa4bd7e1dbfc8862448a4b0fb66790e50" title="Wraps the EXPECT_DEATH_CRASH() macro to make assertions about death caused by CHECK() failures.">EXPECT_DEATH_CHECK()</a>, and Multiprocess::RunChild().</p>
+<p>This must be called in a test child process. It must not be called from a parent test process directly. Parent test processes are those that execute <code>TEST()</code>, <code>TEST_F()</code>, and <code>TEST_P()</code>. Test child processes execute <a class="el" href="gtest__death_8h.html#a415e40b4d538d7421e1b0a43ddd3f83e" title="Wraps the Google Test ASSERT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by cras...">ASSERT_DEATH_CRASH()</a>, <a class="el" href="gtest__death_8h.html#a496cb27779b2120a1854e81375e9ae5f" title="Wraps the Google Test EXPECT_DEATH_IF_SUPPORTED() macro to make assertions about death caused by cras...">EXPECT_DEATH_CRASH()</a>, <a class="el" href="gtest__death_8h.html#a11ab1a718cd7a7ed56b7e2fbd2c36f74" title="Wraps the ASSERT_DEATH_CRASH() macro to make assertions about death caused by CHECK() failures.">ASSERT_DEATH_CHECK()</a>, <a class="el" href="gtest__death_8h.html#aa4bd7e1dbfc8862448a4b0fb66790e50" title="Wraps the EXPECT_DEATH_CRASH() macro to make assertions about death caused by CHECK() failures.">EXPECT_DEATH_CHECK()</a>, and Multiprocess::RunChild().</p>
 <p>It is an error to call this in a test child process without having first instantiated an <a class="el" href="classcrashpad_1_1test_1_1ExceptionSwallower.html" title="Swallows EXC_CRASH and EXC_CORPSE_NOTIFY exceptions in test child processes.">ExceptionSwallower</a> object in a parent test project. It is also an error to call this in a parent test process. </p>
 
 </div>
@@ -155,10 +179,13 @@ Static Public Member Functions</h2></td></tr>
 <li>test/mac/<b>exception_swallower.cc</b></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="namespacecrashpad_1_1test.html">test</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1test_1_1ExceptionSwallower.html">ExceptionSwallower</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

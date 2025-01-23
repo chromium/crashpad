@@ -1,0 +1,5 @@
+<map id="crashpad::PtraceClient" name="crashpad::PtraceClient">
+<area shape="rect" id="Node000001" title="Implements a PtraceConnection over a socket." alt="" coords="23,83,181,113"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1PtraceConnection.html" title="Provides an interface for making ptrace requests against a process and its threads." alt="" coords="5,5,199,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,51,105,82,99,82,99,51"/>
+</map>

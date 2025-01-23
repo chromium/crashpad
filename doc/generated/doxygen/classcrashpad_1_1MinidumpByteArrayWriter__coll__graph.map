@@ -1,0 +1,5 @@
+<map id="crashpad::MinidumpByteArrayWriter" name="crashpad::MinidumpByteArrayWriter">
+<area shape="rect" id="Node000001" title="Writes a variable&#45;length byte array for a minidump into a." alt="" coords="5,102,215,151"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1MinidumpWritable.html" title="The base class for all content that might be written to a minidump file." alt="" coords="38,5,182,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,69,113,101,107,101,107,69"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="crashpad::test::ProcessSnapshotIOSIntermediateDump" name="crashpad::test::ProcessSnapshotIOSIntermediateDump">
+<area shape="rect" id="Node000001" title="A ProcessSnapshot of a running (or crashed) process running on a iphoneOS system." alt="" coords="5,83,226,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ProcessSnapshot.html" title="An abstract interface to a snapshot representing the state of a process." alt="" coords="21,5,210,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,50,118,82,113,82,113,50"/>
+</map>

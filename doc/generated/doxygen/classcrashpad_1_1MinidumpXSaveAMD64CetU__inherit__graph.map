@@ -1,0 +1,5 @@
+<map id="crashpad::MinidumpXSaveAMD64CetU" name="crashpad::MinidumpXSaveAMD64CetU">
+<area shape="rect" id="Node000001" title="XSAVE_CET_U_FORMAT." alt="" coords="5,102,267,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1MinidumpXSaveFeatureAMD64.html" title="Wraps an xsave feature that knows where and how big it is." alt="" coords="20,5,252,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="139,70,139,101,133,101,133,70"/>
+</map>

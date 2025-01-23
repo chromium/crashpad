@@ -1,0 +1,5 @@
+<map id="crashpad::internal::MinidumpStreamWriter" name="crashpad::internal::MinidumpStreamWriter">
+<area shape="rect" id="Node000001" title="The base class for all second&#45;level objects (“streams”) in a minidump file." alt="" coords="5,102,181,151"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1MinidumpWritable.html" title="The base class for all content that might be written to a minidump file." alt="" coords="21,5,165,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,69,96,101,90,101,90,69"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="crashpad::PruneCondition" name="crashpad::PruneCondition">
+<area shape="rect" id="Node000001" title="An abstract base class for evaluating crash reports for deletion." alt="" coords="5,59,187,88"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1AgePruneCondition.html" title="A PruneCondition that deletes reports older than the specified number days." alt="" coords="242,5,448,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,52,272,33,273,38,184,57"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1BinaryPruneCondition.html" title="A PruneCondition that conjoins two other PruneConditions." alt="" coords="235,59,456,88"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="202,71,234,71,234,76,202,76"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1DatabaseSizePruneCondition.html" title="A PruneCondition that deletes older reports to keep the total Crashpad database size under the specif..." alt="" coords="243,112,448,160"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="174,90,246,109,245,114,172,95"/>
+</map>

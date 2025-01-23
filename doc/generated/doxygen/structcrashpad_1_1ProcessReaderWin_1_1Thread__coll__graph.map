@@ -1,0 +1,5 @@
+<map id="crashpad::ProcessReaderWin::Thread" name="crashpad::ProcessReaderWin::Thread">
+<area shape="rect" id="Node000001" title="Contains information about a thread that belongs to a process." alt="" coords="5,121,205,170"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ProcessReaderWin_1_1ThreadContext.html" title="Helper to make the context copyable and resizable." alt="" coords="5,5,205,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,70,108,121,102,121,102,70"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="crashpad::CrashReportDatabase" name="crashpad::CrashReportDatabase">
+<area shape="rect" id="Node000001" title="An interface for managing a collection of crash report files and metadata associated with the crash r..." alt="" coords="5,78,225,107"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1CrashReportDatabaseGeneric.html" title=" " alt="" coords="285,5,504,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,71,284,52,285,57,200,76"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1CrashReportDatabaseMac.html" title="A CrashReportDatabase that uses HFS+ extended attributes to store report metadata." alt="" coords="273,78,517,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="240,90,272,90,272,95,240,95"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1CrashReportDatabaseWin.html" title=" " alt="" coords="274,131,516,160"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="212,108,314,128,313,133,211,113"/>
+</map>

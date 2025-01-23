@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1StringAnnotation.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1StringAnnotation.html">StringAnnotation</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
@@ -104,12 +118,13 @@ $(function(){ initResizable(false); });
 <div class="dynheader">
 Inheritance diagram for crashpad::StringAnnotation&lt; MaxSize &gt;:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classcrashpad_1_1StringAnnotation.png" usemap="#crashpad::StringAnnotation_3C_20MaxSize_20_3E_map" alt=""/>
-  <map id="crashpad::StringAnnotation_3C_20MaxSize_20_3E_map" name="crashpad::StringAnnotation_3C_20MaxSize_20_3E_map">
-<area href="classcrashpad_1_1Annotation.html" title="Base class for an annotation, which records a name-value pair of arbitrary data when set." alt="crashpad::Annotation" shape="rect" coords="0,0,236,24"/>
-  </map>
-</div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcrashpad_1_1StringAnnotation__inherit__graph.svg" width="202" height="138"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for crashpad::StringAnnotation&lt; MaxSize &gt;:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcrashpad_1_1StringAnnotation__coll__graph.svg" width="202" height="138"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
@@ -120,6 +135,9 @@ Public Types</h2></td></tr>
 <tr class="memitem:a734ee64cd20afdb78acb8656ed867d34 inherit pub_types_classcrashpad_1_1Annotation" id="r_a734ee64cd20afdb78acb8656ed867d34"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Annotation.html#a734ee64cd20afdb78acb8656ed867d34">Type</a> : uint16_t </td></tr>
 <tr class="memdesc:a734ee64cd20afdb78acb8656ed867d34"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of data stored in the annotation.  <a href="classcrashpad_1_1Annotation.html#a734ee64cd20afdb78acb8656ed867d34">More...</a><br /></td></tr>
 <tr class="separator:a734ee64cd20afdb78acb8656ed867d34 inherit pub_types_classcrashpad_1_1Annotation"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8138304d92db98dc621e43e83b41812 inherit pub_types_classcrashpad_1_1Annotation" id="r_aa8138304d92db98dc621e43e83b41812"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Annotation.html#aa8138304d92db98dc621e43e83b41812">ConcurrentAccessGuardMode</a> : bool </td></tr>
+<tr class="memdesc:aa8138304d92db98dc621e43e83b41812"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mode used to guard concurrent reads from writes.  <a href="classcrashpad_1_1Annotation.html#aa8138304d92db98dc621e43e83b41812">More...</a><br /></td></tr>
+<tr class="separator:aa8138304d92db98dc621e43e83b41812 inherit pub_types_classcrashpad_1_1Annotation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe8c08cb46e337e355c0f32c6f2e1851 inherit pub_types_classcrashpad_1_1Annotation" id="r_afe8c08cb46e337e355c0f32c6f2e1851"><td class="memItemLeft" align="right" valign="top">
 using&#160;</td><td class="memItemRight" valign="bottom"><b>ValueSizeType</b> = uint32_t</td></tr>
 <tr class="memdesc:afe8c08cb46e337e355c0f32c6f2e1851 inherit pub_types_classcrashpad_1_1Annotation"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type used for <em class="arg"><a class="el" href="classcrashpad_1_1Annotation.html#a4c742340370959ebbda4f395bb0eb303" title="Specifies the number of bytes in value_ptr_ to include when generating a crash report.">SetSize()</a></em>. <br /></td></tr>
@@ -130,6 +148,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac74262415bf2a1b21b0e774c085873dd" id="r_ac74262415bf2a1b21b0e774c085873dd"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac74262415bf2a1b21b0e774c085873dd">StringAnnotation</a> (const char name[])</td></tr>
 <tr class="memdesc:ac74262415bf2a1b21b0e774c085873dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a new <a class="el" href="classcrashpad_1_1StringAnnotation.html" title="An.">StringAnnotation</a> with the given <em class="arg">name</em>.  <br /></td></tr>
 <tr class="separator:ac74262415bf2a1b21b0e774c085873dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb63d064de9cbab24f7ae40418c55ead" id="r_adb63d064de9cbab24f7ae40418c55ead"><td class="memItemLeft" align="right" valign="top"><a id="adb63d064de9cbab24f7ae40418c55ead" name="adb63d064de9cbab24f7ae40418c55ead"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>StringAnnotation</b> (const <a class="el" href="classcrashpad_1_1StringAnnotation.html">StringAnnotation</a> &amp;)=delete</td></tr>
+<tr class="separator:adb63d064de9cbab24f7ae40418c55ead"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb340498c0e2841664cc40d82f42e512" id="r_abb340498c0e2841664cc40d82f42e512"><td class="memItemLeft" align="right" valign="top"><a id="abb340498c0e2841664cc40d82f42e512" name="abb340498c0e2841664cc40d82f42e512"></a>
+<a class="el" href="classcrashpad_1_1StringAnnotation.html">StringAnnotation</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1StringAnnotation.html">StringAnnotation</a> &amp;)=delete</td></tr>
+<tr class="separator:abb340498c0e2841664cc40d82f42e512"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0050b6c025f62438c1c5b70054f2eb1f" id="r_a0050b6c025f62438c1c5b70054f2eb1f"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0050b6c025f62438c1c5b70054f2eb1f">StringAnnotation</a> (const char name[], <a class="el" href="#ac3fbe4a499f120d699ed1cba27ac5a50">Tag</a> tag)</td></tr>
 <tr class="memdesc:a0050b6c025f62438c1c5b70054f2eb1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a new <a class="el" href="classcrashpad_1_1StringAnnotation.html" title="An.">StringAnnotation</a> with the given <em class="arg">name</em>.  <br /></td></tr>
 <tr class="separator:a0050b6c025f62438c1c5b70054f2eb1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,9 +167,15 @@ Public Member Functions</h2></td></tr>
 const base::StringPiece&#160;</td><td class="memItemRight" valign="bottom"><b>value</b> () const</td></tr>
 <tr class="separator:ab0c13cc95f466ec6f7e7d18f7a598bb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcrashpad_1_1Annotation"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classcrashpad_1_1Annotation')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcrashpad_1_1Annotation.html">crashpad::Annotation</a></td></tr>
-<tr class="memitem:a2eca2863d47336e481595957ad06083e inherit pub_methods_classcrashpad_1_1Annotation" id="r_a2eca2863d47336e481595957ad06083e"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Annotation.html#a2eca2863d47336e481595957ad06083e">Annotation</a> (<a class="el" href="classcrashpad_1_1Annotation.html#a734ee64cd20afdb78acb8656ed867d34">Type</a> type, const char name[], void *const value_ptr)</td></tr>
-<tr class="memdesc:a2eca2863d47336e481595957ad06083e inherit pub_methods_classcrashpad_1_1Annotation"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a new annotation.  <br /></td></tr>
-<tr class="separator:a2eca2863d47336e481595957ad06083e inherit pub_methods_classcrashpad_1_1Annotation"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d830bdd5a1d3d18d63a1035a37fadaa inherit pub_methods_classcrashpad_1_1Annotation" id="r_a6d830bdd5a1d3d18d63a1035a37fadaa"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Annotation.html#a6d830bdd5a1d3d18d63a1035a37fadaa">Annotation</a> (<a class="el" href="classcrashpad_1_1Annotation.html#a734ee64cd20afdb78acb8656ed867d34">Type</a> type, const char name[], void *value_ptr)</td></tr>
+<tr class="memdesc:a6d830bdd5a1d3d18d63a1035a37fadaa inherit pub_methods_classcrashpad_1_1Annotation"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a new annotation.  <br /></td></tr>
+<tr class="separator:a6d830bdd5a1d3d18d63a1035a37fadaa inherit pub_methods_classcrashpad_1_1Annotation"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe09417616586315dbf85017554e83a2 inherit pub_methods_classcrashpad_1_1Annotation" id="r_abe09417616586315dbf85017554e83a2"><td class="memItemLeft" align="right" valign="top">
+&#160;</td><td class="memItemRight" valign="bottom"><b>Annotation</b> (const <a class="el" href="classcrashpad_1_1Annotation.html">Annotation</a> &amp;)=delete</td></tr>
+<tr class="separator:abe09417616586315dbf85017554e83a2 inherit pub_methods_classcrashpad_1_1Annotation"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad99d6b0cfe90eb4b7897cf5f2ae2893d inherit pub_methods_classcrashpad_1_1Annotation" id="r_ad99d6b0cfe90eb4b7897cf5f2ae2893d"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classcrashpad_1_1Annotation.html">Annotation</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1Annotation.html">Annotation</a> &amp;)=delete</td></tr>
+<tr class="separator:ad99d6b0cfe90eb4b7897cf5f2ae2893d inherit pub_methods_classcrashpad_1_1Annotation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c742340370959ebbda4f395bb0eb303 inherit pub_methods_classcrashpad_1_1Annotation" id="r_a4c742340370959ebbda4f395bb0eb303"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Annotation.html#a4c742340370959ebbda4f395bb0eb303">SetSize</a> (<a class="el" href="classcrashpad_1_1Annotation.html#afe8c08cb46e337e355c0f32c6f2e1851">ValueSizeType</a> size)</td></tr>
 <tr class="memdesc:a4c742340370959ebbda4f395bb0eb303 inherit pub_methods_classcrashpad_1_1Annotation"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies the number of bytes in <em class="arg">value_ptr_</em> to include when generating a crash report.  <br /></td></tr>
 <tr class="separator:a4c742340370959ebbda4f395bb0eb303 inherit pub_methods_classcrashpad_1_1Annotation"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -168,6 +198,12 @@ const char *&#160;</td><td class="memItemRight" valign="bottom"><b>name</b> () c
 <tr class="memitem:a1b10ea16800d2fe866f07b13c45d5497 inherit pub_methods_classcrashpad_1_1Annotation" id="r_a1b10ea16800d2fe866f07b13c45d5497"><td class="memItemLeft" align="right" valign="top">
 const void *&#160;</td><td class="memItemRight" valign="bottom"><b>value</b> () const</td></tr>
 <tr class="separator:a1b10ea16800d2fe866f07b13c45d5497 inherit pub_methods_classcrashpad_1_1Annotation"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8221dc58ea52f06541851708870a1eee inherit pub_methods_classcrashpad_1_1Annotation" id="r_a8221dc58ea52f06541851708870a1eee"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classcrashpad_1_1Annotation.html#aa8138304d92db98dc621e43e83b41812">ConcurrentAccessGuardMode</a>&#160;</td><td class="memItemRight" valign="bottom"><b>concurrent_access_guard_mode</b> () const</td></tr>
+<tr class="separator:a8221dc58ea52f06541851708870a1eee inherit pub_methods_classcrashpad_1_1Annotation"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a03bee3e6e428a9219681a3d238cd79 inherit pub_methods_classcrashpad_1_1Annotation" id="r_a5a03bee3e6e428a9219681a3d238cd79"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classcrashpad_1_1ScopedSpinGuard.html">ScopedSpinGuard</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Annotation.html#a5a03bee3e6e428a9219681a3d238cd79">TryCreateScopedSpinGuard</a> (uint64_t timeout_ns)</td></tr>
+<tr class="memdesc:a5a03bee3e6e428a9219681a3d238cd79 inherit pub_methods_classcrashpad_1_1Annotation"><td class="mdescLeft">&#160;</td><td class="mdescRight">If this <a class="el" href="classcrashpad_1_1Annotation.html" title="Base class for an annotation, which records a name-value pair of arbitrary data when set.">Annotation</a> guards concurrent access using <a class="el" href="classcrashpad_1_1ScopedSpinGuard.html" title="A scoped mutual-exclusion guard wrapping a SpinGuardState with RAII semantics.">ScopedSpinGuard</a>, tries to obtain the spin guard and returns the result.  <br /></td></tr>
+<tr class="separator:a5a03bee3e6e428a9219681a3d238cd79 inherit pub_methods_classcrashpad_1_1Annotation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -177,17 +213,26 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:ab56b76fed6c08cf0d1bb5fd9a92ea1be inherit pub_static_methods_classcrashpad_1_1Annotation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_static_attribs_classcrashpad_1_1Annotation"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_static_attribs_classcrashpad_1_1Annotation')"><img src="closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="classcrashpad_1_1Annotation.html">crashpad::Annotation</a></td></tr>
 <tr class="memitem:a159abc1f99211ba3d3be0e68789af327 inherit pub_static_attribs_classcrashpad_1_1Annotation" id="r_a159abc1f99211ba3d3be0e68789af327"><td class="memItemLeft" align="right" valign="top">
-static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><b>kNameMaxLength</b> = 64</td></tr>
-<tr class="memdesc:a159abc1f99211ba3d3be0e68789af327 inherit pub_static_attribs_classcrashpad_1_1Annotation"><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum length of an annotation’s name, in bytes. <br /></td></tr>
+static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><b>kNameMaxLength</b> = 256</td></tr>
+<tr class="memdesc:a159abc1f99211ba3d3be0e68789af327 inherit pub_static_attribs_classcrashpad_1_1Annotation"><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum length of an annotation’s name, in bytes. Matches the behavior of Breakpad's <a class="el" href="namespacecrashpad.html#a234f585958271d359e8f1a4ae3f95553" title="A TSimpleStringDictionary with default template parameters.">SimpleStringDictionary</a>. <br /></td></tr>
 <tr class="separator:a159abc1f99211ba3d3be0e68789af327 inherit pub_static_attribs_classcrashpad_1_1Annotation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e776193af79d77a2b45138aa42fa92f inherit pub_static_attribs_classcrashpad_1_1Annotation" id="r_a9e776193af79d77a2b45138aa42fa92f"><td class="memItemLeft" align="right" valign="top">
 static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><b>kValueMaxSize</b> = 5 * 4096</td></tr>
 <tr class="memdesc:a9e776193af79d77a2b45138aa42fa92f inherit pub_static_attribs_classcrashpad_1_1Annotation"><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum size of an annotation’s value, in bytes. <br /></td></tr>
 <tr class="separator:a9e776193af79d77a2b45138aa42fa92f inherit pub_static_attribs_classcrashpad_1_1Annotation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classcrashpad_1_1Annotation"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_classcrashpad_1_1Annotation')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classcrashpad_1_1Annotation.html">crashpad::Annotation</a></td></tr>
+<tr class="memitem:ab02fccbd8b9004cd228c4deb5c5a4ff3 inherit pro_methods_classcrashpad_1_1Annotation" id="r_ab02fccbd8b9004cd228c4deb5c5a4ff3"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Annotation.html#ab02fccbd8b9004cd228c4deb5c5a4ff3">Annotation</a> (<a class="el" href="classcrashpad_1_1Annotation.html#a734ee64cd20afdb78acb8656ed867d34">Type</a> type, const char name[], void *value_ptr, <a class="el" href="classcrashpad_1_1Annotation.html#aa8138304d92db98dc621e43e83b41812">ConcurrentAccessGuardMode</a> concurrent_access_guard_mode)</td></tr>
+<tr class="memdesc:ab02fccbd8b9004cd228c4deb5c5a4ff3 inherit pro_methods_classcrashpad_1_1Annotation"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a new annotation.  <br /></td></tr>
+<tr class="separator:ab02fccbd8b9004cd228c4deb5c5a4ff3 inherit pro_methods_classcrashpad_1_1Annotation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f94481b9b9736c29e1f8ccf79e62649 inherit pro_methods_classcrashpad_1_1Annotation" id="r_a0f94481b9b9736c29e1f8ccf79e62649"><td class="memItemLeft" align="right" valign="top">
 std::atomic&lt; <a class="el" href="classcrashpad_1_1Annotation.html">Annotation</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>link_node</b> ()</td></tr>
 <tr class="separator:a0f94481b9b9736c29e1f8ccf79e62649 inherit pro_methods_classcrashpad_1_1Annotation"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a333784a00b2effdc080a9d8de61d82e7 inherit pro_methods_classcrashpad_1_1Annotation" id="r_a333784a00b2effdc080a9d8de61d82e7"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classcrashpad_1_1Annotation.html">Annotation</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetLinkNode</b> (std::memory_order order=std::memory_order_seq_cst)</td></tr>
+<tr class="separator:a333784a00b2effdc080a9d8de61d82e7 inherit pro_methods_classcrashpad_1_1Annotation"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bec7c0bd273ee2b78d65375d4eb25d4 inherit pro_methods_classcrashpad_1_1Annotation" id="r_a4bec7c0bd273ee2b78d65375d4eb25d4"><td class="memItemLeft" align="right" valign="top">
+const <a class="el" href="classcrashpad_1_1Annotation.html">Annotation</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetLinkNode</b> (std::memory_order order=std::memory_order_seq_cst) const</td></tr>
+<tr class="separator:a4bec7c0bd273ee2b78d65375d4eb25d4 inherit pro_methods_classcrashpad_1_1Annotation"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classcrashpad_1_1Annotation.html#afe8c08cb46e337e355c0f32c6f2e1851">Annotation::ValueSizeType</a> MaxSize&gt;<br />
@@ -295,7 +340,7 @@ template&lt;<a class="el" href="classcrashpad_1_1Annotation.html#afe8c08cb46e337
 <div class="line">  {<span class="stringliteral">&quot;name-2&quot;</span>, crashpad::StringAnnotation&lt;32&gt;::Tag::kArray},</div>
 <div class="line">  {<span class="stringliteral">&quot;name-3&quot;</span>, crashpad::StringAnnotation&lt;32&gt;::Tag::kArray},</div>
 <div class="line">};</div>
-<div class="ttc" id="aclasscrashpad_1_1StringAnnotation_html"><div class="ttname"><a href="classcrashpad_1_1StringAnnotation.html">crashpad::StringAnnotation</a></div><div class="ttdoc">An.</div><div class="ttdef"><b>Definition</b> annotation.h:197</div></div>
+<div class="ttc" id="aclasscrashpad_1_1StringAnnotation_html"><div class="ttname"><a href="classcrashpad_1_1StringAnnotation.html">crashpad::StringAnnotation</a></div><div class="ttdoc">An.</div><div class="ttdef"><b>Definition</b> annotation.h:284</div></div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">name</td><td>The <a class="el" href="classcrashpad_1_1Annotation.html" title="Base class for an annotation, which records a name-value pair of arbitrary data when set.">Annotation</a> name. </td></tr>
@@ -381,10 +426,13 @@ template&lt;<a class="el" href="classcrashpad_1_1Annotation.html#afe8c08cb46e337
 <li>client/<b>annotation.h</b></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1StringAnnotation.html">StringAnnotation</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

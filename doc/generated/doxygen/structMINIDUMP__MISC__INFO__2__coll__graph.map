@@ -1,0 +1,5 @@
+<map id="MINIDUMP_MISC_INFO_2" name="MINIDUMP_MISC_INFO_2">
+<area shape="rect" id="Node000001" title="Information about the process that the minidump file contains a snapshot of, as well as the system th..." alt="" coords="5,83,189,113"/>
+<area shape="rect" id="Node000002" href="$structMINIDUMP__MISC__INFO.html" title="Information about the process that the minidump file contains a snapshot of, as well as the system th..." alt="" coords="12,5,182,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,51,100,82,94,82,94,51"/>
+</map>

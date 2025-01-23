@@ -1,0 +1,5 @@
+<map id="crashpad::LogOutputStream" name="crashpad::LogOutputStream">
+<area shape="rect" id="Node000001" title="This class outputs a stream of data as a series of log messages." alt="" coords="5,83,201,113"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="19,5,187,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,51,106,82,100,82,100,51"/>
+</map>

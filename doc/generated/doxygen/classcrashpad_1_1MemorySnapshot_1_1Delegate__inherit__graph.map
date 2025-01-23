@@ -1,0 +1,9 @@
+<map id="crashpad::MemorySnapshot::Delegate" name="crashpad::MemorySnapshot::Delegate">
+<area shape="rect" id="Node000001" title="An interface that MemorySnapshot clients must implement in order to receive memory snapshot data." alt="" coords="5,43,200,91"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1MinidumpUserStreamWriter_1_1SnapshotContentsWriter.html" title=" " alt="" coords="248,5,470,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="215,48,247,43,248,49,215,53"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1SnapshotMinidumpMemoryWriter.html" title="The base class for writers of memory ranges pointed to by MINIDUMP_MEMORY_DESCRIPTOR objects in a min..." alt="" coords="257,79,460,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="215,80,257,86,256,91,215,85"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1test_1_1TestMinidumpMemoryWriter.html" title="A SnapshotMinidumpMemoryWriter implementation used for testing." alt="" coords="518,79,721,127"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="476,100,517,100,517,106,476,106"/>
+</map>

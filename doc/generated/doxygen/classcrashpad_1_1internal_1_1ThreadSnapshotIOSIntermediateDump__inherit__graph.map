@@ -1,0 +1,5 @@
+<map id="crashpad::internal::ThreadSnapshotIOSIntermediateDump" name="crashpad::internal::ThreadSnapshotIOSIntermediateDump">
+<area shape="rect" id="Node000001" title="A ThreadSnapshot of a thread on an iOS system." alt="" coords="5,83,278,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot..." alt="" coords="49,5,234,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,50,144,82,139,82,139,50"/>
+</map>

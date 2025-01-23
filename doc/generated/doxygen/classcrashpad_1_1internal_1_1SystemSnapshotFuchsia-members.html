@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="namespacecrashpad_1_1internal.html">internal</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">SystemSnapshotFuchsia</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="headertitle"><div class="title">crashpad::internal::SystemSnapshotFuchsia Member List</div></div>
 </div><!--header-->
@@ -95,44 +109,49 @@ $(function(){ initResizable(false); });
 
 <p>This is the complete list of members for <a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#a1581988298eb51f4f3f540860c92a3ef">CPUCount</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#ab546a14144ab2e12e334a49974895f96">CPUFrequency</a>(uint64_t *current_hz, uint64_t *max_hz) const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#a32a89f6bfd6c07d3b00e26b9809f1875">CPURevision</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#ad4ce430517b99c32cefb358ff1b65f6b">CPUVendor</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#a2a94e629598018066163553b55600ef3">CPUX86ExtendedFeatures</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#a9753255943c7729fe948fa9d2aec4804">CPUX86Features</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#ae7a90ecce3aec0f2171d5d48956a0b3b">CPUX86Leaf7Features</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#a3dcb3bdec6fcb24454f0d5eb23d1f7d5">CPUX86Signature</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#a09b36d7856b43483fcd239162b07b74c">CPUX86SupportsDAZ</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#a28be27b27e7257818a9b13f121f0f472">DaylightSavingTimeStatus</a> enum name</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#afd830e273be76193941711f97a66939d">GetCPUArchitecture</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#a75a3f661b7ed4711959329acdac3fa51">GetOperatingSystem</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#aef3ec38648ba93bb666b8d32e3904770">Initialize</a>(const timeval *snapshot_time)</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#a28be27b27e7257818a9b13f121f0f472a28fe951fe4f5074425c57af81b79283c">kDoesNotObserveDaylightSavingTime</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#a28be27b27e7257818a9b13f121f0f472adf6b62cc7b76e91109ddddbdf291bafa">kObservingDaylightSavingTime</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#a28be27b27e7257818a9b13f121f0f472ae6af43c569ce9d4c82e4161911dceb6e">kObservingStandardTime</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#aa8ef4c8866899122bd8da279b3b2ab37a7b55a893acecf7b76c4da1e6de6238cc">kOperatingSystemAndroid</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#aa8ef4c8866899122bd8da279b3b2ab37aa23dedf5402267f3fa7633b65fe015dd">kOperatingSystemFuchsia</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#aa8ef4c8866899122bd8da279b3b2ab37aa48954de54bd061c4d2aa364e004ffb0">kOperatingSystemIOS</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#aa8ef4c8866899122bd8da279b3b2ab37a43adb3361c16b09bd5ed9c40021b19f7">kOperatingSystemLinux</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#aa8ef4c8866899122bd8da279b3b2ab37aa04c1f5e9b28c9dd33a4a4a65f632ee6">kOperatingSystemMacOSX</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#aa8ef4c8866899122bd8da279b3b2ab37a433de68d427f8723255eba765f2adb71">kOperatingSystemUnknown</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#aa8ef4c8866899122bd8da279b3b2ab37a4bbe782ab0bdab4ac1bfd47c9e84f4a8">kOperatingSystemWindows</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#a82095bd613d1d4d48fa74bb3a85fb93d">MachineDescription</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#afdd0fc34f8bfcae0c19100715f4a040e">NXEnabled</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#aa8ef4c8866899122bd8da279b3b2ab37">OperatingSystem</a> enum name</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#ab195629f677891b00ff4913e02240a61">AddressMask</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#a1581988298eb51f4f3f540860c92a3ef">CPUCount</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#ab546a14144ab2e12e334a49974895f96">CPUFrequency</a>(uint64_t *current_hz, uint64_t *max_hz) const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#a32a89f6bfd6c07d3b00e26b9809f1875">CPURevision</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#ad4ce430517b99c32cefb358ff1b65f6b">CPUVendor</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#a2a94e629598018066163553b55600ef3">CPUX86ExtendedFeatures</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#a9753255943c7729fe948fa9d2aec4804">CPUX86Features</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#ae7a90ecce3aec0f2171d5d48956a0b3b">CPUX86Leaf7Features</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#a3dcb3bdec6fcb24454f0d5eb23d1f7d5">CPUX86Signature</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#a09b36d7856b43483fcd239162b07b74c">CPUX86SupportsDAZ</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#a28be27b27e7257818a9b13f121f0f472">DaylightSavingTimeStatus</a> enum name</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#afd830e273be76193941711f97a66939d">GetCPUArchitecture</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#a75a3f661b7ed4711959329acdac3fa51">GetOperatingSystem</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#aef3ec38648ba93bb666b8d32e3904770">Initialize</a>(const timeval *snapshot_time)</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#a28be27b27e7257818a9b13f121f0f472a28fe951fe4f5074425c57af81b79283c">kDoesNotObserveDaylightSavingTime</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#a28be27b27e7257818a9b13f121f0f472adf6b62cc7b76e91109ddddbdf291bafa">kObservingDaylightSavingTime</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#a28be27b27e7257818a9b13f121f0f472ae6af43c569ce9d4c82e4161911dceb6e">kObservingStandardTime</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#aa8ef4c8866899122bd8da279b3b2ab37a7b55a893acecf7b76c4da1e6de6238cc">kOperatingSystemAndroid</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#aa8ef4c8866899122bd8da279b3b2ab37aa23dedf5402267f3fa7633b65fe015dd">kOperatingSystemFuchsia</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#aa8ef4c8866899122bd8da279b3b2ab37aa48954de54bd061c4d2aa364e004ffb0">kOperatingSystemIOS</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#aa8ef4c8866899122bd8da279b3b2ab37a43adb3361c16b09bd5ed9c40021b19f7">kOperatingSystemLinux</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#aa8ef4c8866899122bd8da279b3b2ab37aa04c1f5e9b28c9dd33a4a4a65f632ee6">kOperatingSystemMacOSX</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#aa8ef4c8866899122bd8da279b3b2ab37a433de68d427f8723255eba765f2adb71">kOperatingSystemUnknown</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#aa8ef4c8866899122bd8da279b3b2ab37a4bbe782ab0bdab4ac1bfd47c9e84f4a8">kOperatingSystemWindows</a> enum value</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#a82095bd613d1d4d48fa74bb3a85fb93d">MachineDescription</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#afdd0fc34f8bfcae0c19100715f4a040e">NXEnabled</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#aa8ef4c8866899122bd8da279b3b2ab37">OperatingSystem</a> enum name</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>operator=</b>(const SystemSnapshotFuchsia &amp;)=delete (defined in <a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#af3b10f2729412ba9816cc5e84685340d">OSServer</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#ab7c0c867c6fe5371e2346587adacea9d">OSVersion</a>(int *major, int *minor, int *bugfix, std::string *build) const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#a1a80bdf52b9d6c23cbb8509a25a814ce">OSVersionFull</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>SystemSnapshotFuchsia</b>() (defined in <a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#a617880843018ced9f158f565d4cd7689">TimeZone</a>(DaylightSavingTimeStatus *dst_status, int *standard_offset_seconds, int *daylight_offset_seconds, std::string *standard_name, std::string *daylight_name) const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>~SystemSnapshot</b>() (defined in <a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>~SystemSnapshotFuchsia</b>() override (defined in <a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>SystemSnapshotFuchsia</b>(const SystemSnapshotFuchsia &amp;)=delete (defined in <a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html#a617880843018ced9f158f565d4cd7689">TimeZone</a>(DaylightSavingTimeStatus *dst_status, int *standard_offset_seconds, int *daylight_offset_seconds, std::string *standard_name, std::string *daylight_name) const override</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>~SystemSnapshot</b>() (defined in <a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1SystemSnapshot.html">crashpad::SystemSnapshot</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>~SystemSnapshotFuchsia</b>() override (defined in <a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotFuchsia.html">crashpad::internal::SystemSnapshotFuchsia</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

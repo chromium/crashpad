@@ -1,0 +1,5 @@
+<map id="crashpad::FileReaderHTTPBodyStream" name="crashpad::FileReaderHTTPBodyStream">
+<area shape="rect" id="Node000001" title="An implementation of HTTPBodyStream that reads from a FileReaderInterface and provides its contents f..." alt="" coords="5,83,221,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1HTTPBodyStream.html" title="An interface to a stream that can be used for an HTTP request body." alt="" coords="16,5,210,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,50,116,82,110,82,110,50"/>
+</map>

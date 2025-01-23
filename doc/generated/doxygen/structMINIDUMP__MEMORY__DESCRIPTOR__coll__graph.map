@@ -1,0 +1,5 @@
+<map id="MINIDUMP_MEMORY_DESCRIPTOR" name="MINIDUMP_MEMORY_DESCRIPTOR">
+<area shape="rect" id="Node000001" title="A pointer to a snapshot of a region of memory contained within a minidump file." alt="" coords="9,102,250,132"/>
+<area shape="rect" id="Node000002" href="$structMINIDUMP__LOCATION__DESCRIPTOR.html" title="A pointer to a structure or union within a minidump file." alt="" coords="5,5,254,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,51,132,102,127,102,127,51"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,15,159,44"/>
+<area shape="rect" id="Node000001" href="$classlogging_1_1NtstatusLogMessage.html" title=" " alt="" coords="207,15,412,44"/>
+<area shape="poly" id="edge172_Node000000_Node000001" title=" " alt="" coords="174,27,206,27,206,32,174,32"/>
+<area shape="rect" id="Node000002" href="$classlogging_1_1NtstatusLogMessageFatal.html" title=" " alt="" coords="460,5,665,54"/>
+<area shape="poly" id="edge173_Node000001_Node000002" title=" " alt="" coords="428,27,459,27,459,32,428,32"/>
+</map>

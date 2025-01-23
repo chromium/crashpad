@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1internal_1_1ModuleSnapshotSanitized.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="namespacecrashpad_1_1internal.html">internal</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotSanitized.html">ModuleSnapshotSanitized</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -103,18 +117,25 @@ $(function(){ initResizable(false); });
 <div class="dynheader">
 Inheritance diagram for crashpad::internal::ModuleSnapshotSanitized:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classcrashpad_1_1internal_1_1ModuleSnapshotSanitized.png" usemap="#crashpad::internal::ModuleSnapshotSanitized_map" alt=""/>
-  <map id="crashpad::internal::ModuleSnapshotSanitized_map" name="crashpad::internal::ModuleSnapshotSanitized_map">
-<area href="classcrashpad_1_1ModuleSnapshot.html" title="An abstract interface to a snapshot representing a code module (binary image) loaded into a snapshot ..." alt="crashpad::ModuleSnapshot" shape="rect" coords="0,0,264,24"/>
-  </map>
-</div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcrashpad_1_1internal_1_1ModuleSnapshotSanitized__inherit__graph.svg" width="199" height="138"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for crashpad::internal::ModuleSnapshotSanitized:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcrashpad_1_1internal_1_1ModuleSnapshotSanitized__coll__graph.svg" width="199" height="138"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac72807589c64f82753e67d609c5b96a8" id="r_ac72807589c64f82753e67d609c5b96a8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac72807589c64f82753e67d609c5b96a8">ModuleSnapshotSanitized</a> (const <a class="el" href="classcrashpad_1_1ModuleSnapshot.html">ModuleSnapshot</a> *snapshot, const std::vector&lt; std::string &gt; *annotations_whitelist)</td></tr>
-<tr class="memdesc:ac72807589c64f82753e67d609c5b96a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs this object.  <br /></td></tr>
-<tr class="separator:ac72807589c64f82753e67d609c5b96a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab62c070d2b976c77fe0de139253671e0" id="r_ab62c070d2b976c77fe0de139253671e0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab62c070d2b976c77fe0de139253671e0">ModuleSnapshotSanitized</a> (const <a class="el" href="classcrashpad_1_1ModuleSnapshot.html">ModuleSnapshot</a> *snapshot, const std::vector&lt; std::string &gt; *allowed_annotations)</td></tr>
+<tr class="memdesc:ab62c070d2b976c77fe0de139253671e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs this object.  <br /></td></tr>
+<tr class="separator:ab62c070d2b976c77fe0de139253671e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af368df9cd706c0854f8344762be16907" id="r_af368df9cd706c0854f8344762be16907"><td class="memItemLeft" align="right" valign="top"><a id="af368df9cd706c0854f8344762be16907" name="af368df9cd706c0854f8344762be16907"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ModuleSnapshotSanitized</b> (const <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotSanitized.html">ModuleSnapshotSanitized</a> &amp;)=delete</td></tr>
+<tr class="separator:af368df9cd706c0854f8344762be16907"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebe5cdd15a3a8d9f10adaa7d20c81740" id="r_aebe5cdd15a3a8d9f10adaa7d20c81740"><td class="memItemLeft" align="right" valign="top"><a id="aebe5cdd15a3a8d9f10adaa7d20c81740" name="aebe5cdd15a3a8d9f10adaa7d20c81740"></a>
+<a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotSanitized.html">ModuleSnapshotSanitized</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotSanitized.html">ModuleSnapshotSanitized</a> &amp;)=delete</td></tr>
+<tr class="separator:aebe5cdd15a3a8d9f10adaa7d20c81740"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aebce0141ac7a9601c8163d36a0e14e15" id="r_aebce0141ac7a9601c8163d36a0e14e15"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aebce0141ac7a9601c8163d36a0e14e15">Name</a> () const override</td></tr>
 <tr class="memdesc:aebce0141ac7a9601c8163d36a0e14e15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the module’s pathname.  <br /></td></tr>
 <tr class="separator:aebce0141ac7a9601c8163d36a0e14e15"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -171,8 +192,8 @@ Additional Inherited Members</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A <a class="el" href="classcrashpad_1_1ModuleSnapshot.html" title="An abstract interface to a snapshot representing a code module (binary image) loaded into a snapshot ...">ModuleSnapshot</a> which wraps and filters sensitive information from another <a class="el" href="classcrashpad_1_1ModuleSnapshot.html" title="An abstract interface to a snapshot representing a code module (binary image) loaded into a snapshot ...">ModuleSnapshot</a>. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ac72807589c64f82753e67d609c5b96a8" name="ac72807589c64f82753e67d609c5b96a8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac72807589c64f82753e67d609c5b96a8">&#9670;&#160;</a></span>ModuleSnapshotSanitized()</h2>
+<a id="ab62c070d2b976c77fe0de139253671e0" name="ab62c070d2b976c77fe0de139253671e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab62c070d2b976c77fe0de139253671e0">&#9670;&#160;</a></span>ModuleSnapshotSanitized()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -185,7 +206,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; std::string &gt; *</td>          <td class="paramname"><span class="paramname"><em>annotations_whitelist</em></span>&#160;)</td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; *</td>          <td class="paramname"><span class="paramname"><em>allowed_annotations</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -194,7 +215,7 @@ Additional Inherited Members</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">snapshot</td><td>The <a class="el" href="classcrashpad_1_1ModuleSnapshot.html" title="An abstract interface to a snapshot representing a code module (binary image) loaded into a snapshot ...">ModuleSnapshot</a> to sanitize. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">annotations_whitelist</td><td>A list of annotation names to allow to be returned by <a class="el" href="#a56869a4c33b4f9c9b649fc9c8bed4334" title="Returns key-value string annotations recorded in the module.">AnnotationsSimpleMap()</a> or <a class="el" href="#ae78ba959a251829475c70612b675b783" title="Returns the typed annotation objects recorded in the module.">AnnotationObjects()</a>. If <code>nullptr</code>, all annotations will be returned. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">allowed_annotations</td><td>A list of annotation names to allow to be returned by <a class="el" href="#a56869a4c33b4f9c9b649fc9c8bed4334" title="Returns key-value string annotations recorded in the module.">AnnotationsSimpleMap()</a> or <a class="el" href="#ae78ba959a251829475c70612b675b783" title="Returns the typed annotation objects recorded in the module.">AnnotationObjects()</a>. If <code>nullptr</code>, all annotations will be returned. </td></tr>
   </table>
   </dd>
 </dl>
@@ -700,10 +721,13 @@ Additional Inherited Members</h2></td></tr>
 <li>snapshot/sanitized/<b>module_snapshot_sanitized.cc</b></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="namespacecrashpad_1_1internal.html">internal</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotSanitized.html">ModuleSnapshotSanitized</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

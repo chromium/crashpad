@@ -1,0 +1,5 @@
+<map id="crashpad::test::FakePtraceConnection" name="crashpad::test::FakePtraceConnection">
+<area shape="rect" id="Node000001" title="Stands&#45;in where real PtraceConnections aren&#39;t available." alt="" coords="10,83,194,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1PtraceConnection.html" title="Provides an interface for making ptrace requests against a process and its threads." alt="" coords="5,5,199,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,50,105,82,99,82,99,50"/>
+</map>

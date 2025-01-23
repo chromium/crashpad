@@ -1,0 +1,9 @@
+<map id="crashpad::MinidumpContextX86" name="crashpad::MinidumpContextX86">
+<area shape="rect" id="Node000001" title="A 32&#45;bit x86 CPU context (register state) carried in a minidump file." alt="" coords="21,237,239,266"/>
+<area shape="rect" id="Node000002" href="$structcrashpad_1_1CPUContextX86_1_1Fsave.html" title=" " alt="" coords="5,121,188,170"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,184,128,235,123,237,106,185"/>
+<area shape="rect" id="Node000003" href="$structcrashpad_1_1CPUContextX86_1_1Fxsave.html" title=" " alt="" coords="212,121,394,170"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="252,180,155,238,152,234,250,176"/>
+<area shape="rect" id="Node000004" href="$unioncrashpad_1_1CPUContextX86_1_1X87OrMMXRegister.html" title=" " alt="" coords="212,5,394,54"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="306,70,306,121,300,121,300,70"/>
+</map>

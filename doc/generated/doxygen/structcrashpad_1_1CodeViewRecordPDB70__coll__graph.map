@@ -1,0 +1,5 @@
+<map id="crashpad::CodeViewRecordPDB70" name="crashpad::CodeViewRecordPDB70">
+<area shape="rect" id="Node000001" title="A CodeView record linking to a .pdb 7.0 file." alt="" coords="5,102,193,151"/>
+<area shape="rect" id="Node000002" href="$structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID)." alt="" coords="39,5,159,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,51,102,101,96,101,96,51"/>
+</map>

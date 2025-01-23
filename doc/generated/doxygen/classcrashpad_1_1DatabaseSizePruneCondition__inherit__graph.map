@@ -1,0 +1,5 @@
+<map id="crashpad::DatabaseSizePruneCondition" name="crashpad::DatabaseSizePruneCondition">
+<area shape="rect" id="Node000001" title="A PruneCondition that deletes older reports to keep the total Crashpad database size under the specif..." alt="" coords="5,83,210,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1PruneCondition.html" title="An abstract base class for evaluating crash reports for deletion." alt="" coords="17,5,198,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,50,110,82,105,82,105,50"/>
+</map>

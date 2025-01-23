@@ -1,0 +1,5 @@
+<map id="crashpad::test::TestMemoryMapRegionSnapshot" name="crashpad::test::TestMemoryMapRegionSnapshot">
+<area shape="rect" id="Node000001" title="A test MemoryMapRegionSnapshot that can carry arbitrary data for testing purposes." alt="" coords="12,102,206,151"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1MemoryMapRegionSnapshot.html" title="An abstract interface to a snapshot representing a region of the memory map present in the snapshot p..." alt="" coords="5,5,213,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,69,112,101,106,101,106,69"/>
+</map>

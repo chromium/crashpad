@@ -1,0 +1,7 @@
+<map id="crashpad::CPUContextX86" name="crashpad::CPUContextX86">
+<area shape="rect" id="Node000001" title="A context structure carrying 32&#45;bit x86 CPU state." alt="" coords="5,237,188,266"/>
+<area shape="rect" id="Node000002" href="$structcrashpad_1_1CPUContextX86_1_1Fxsave.html" title=" " alt="" coords="5,121,188,170"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,185,99,236,94,236,94,185"/>
+<area shape="rect" id="Node000003" href="$unioncrashpad_1_1CPUContextX86_1_1X87OrMMXRegister.html" title=" " alt="" coords="5,5,188,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="99,70,99,121,94,121,94,70"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classcrashpad_1_1MinidumpUserExtensionStreamDataSource.html" title="Describes a user extension data stream in a minidump." alt="" coords="5,5,242,54"/>
+<area shape="rect" id="Node000001" href="$classcrashpad_1_1test_1_1BufferExtensionStreamDataSource.html" title="A user extension data source that wraps a buffer." alt="" coords="290,5,506,54"/>
+<area shape="poly" id="edge60_Node000000_Node000001" title=" " alt="" coords="257,27,289,27,289,32,257,32"/>
+</map>

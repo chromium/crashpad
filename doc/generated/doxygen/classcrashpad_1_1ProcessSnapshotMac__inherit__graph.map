@@ -1,0 +1,5 @@
+<map id="crashpad::ProcessSnapshotMac" name="crashpad::ProcessSnapshotMac">
+<area shape="rect" id="Node000001" title="A ProcessSnapshot of a running (or crashed) process running on a macOS system." alt="" coords="5,83,219,113"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ProcessSnapshot.html" title="An abstract interface to a snapshot representing the state of a process." alt="" coords="18,5,206,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,51,115,82,109,82,109,51"/>
+</map>

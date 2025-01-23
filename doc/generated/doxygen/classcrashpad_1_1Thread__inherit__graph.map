@@ -1,0 +1,9 @@
+<map id="crashpad::Thread" name="crashpad::Thread">
+<area shape="rect" id="Node000001" title="Basic thread abstraction. Users should derive from this class and implement ThreadMain()." alt="" coords="5,68,133,98"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1SessionEndWatcher.html" title="Creates a hidden window and waits for a WM_ENDSESSION message, indicating that the session is ending ..." alt="" coords="206,5,412,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,60,180,44,227,33,228,38,181,49,129,65"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1internal_1_1WorkerThreadImpl.html" title=" " alt="" coords="235,58,382,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="148,80,235,80,235,86,148,86"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1test_1_1ExceptionSwallower_1_1ExceptionSwallowerThread.html" title=" " alt="" coords="181,132,437,180"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="132,100,181,116,222,129,221,134,180,121,130,105"/>
+</map>

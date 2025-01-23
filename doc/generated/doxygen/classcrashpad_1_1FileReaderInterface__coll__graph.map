@@ -1,0 +1,5 @@
+<map id="crashpad::FileReaderInterface" name="crashpad::FileReaderInterface">
+<area shape="rect" id="Node000001" title="An interface to read to files and other file&#45;like objects with semantics matching the underlying plat..." alt="" coords="5,83,214,113"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1FileSeekerInterface.html" title="An interface to seek in files and other file&#45;like objects with semantics matching the underlying plat..." alt="" coords="6,5,213,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,51,112,82,107,82,107,51"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="MINIDUMP_MODULE_LIST" name="MINIDUMP_MODULE_LIST">
+<area shape="rect" id="Node000001" title="Information about all modules loaded within the process at the time the snapshot was taken." alt="" coords="88,218,276,247"/>
+<area shape="rect" id="Node000002" href="$structMINIDUMP__MODULE.html" title="Information about a specific module loaded within the process at the time the snapshot was taken." alt="" coords="104,121,260,151"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,166,185,217,179,217,179,166"/>
+<area shape="rect" id="Node000003" href="$structVS__FIXEDFILEINFO.html" title="Version information for a file." alt="" coords="5,5,143,35"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="100,44,171,119,167,122,96,48"/>
+<area shape="rect" id="Node000004" href="$structMINIDUMP__LOCATION__DESCRIPTOR.html" title="A pointer to a structure or union within a minidump file." alt="" coords="167,5,416,35"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="272,49,227,99,201,122,197,118,223,95,268,45"/>
+</map>

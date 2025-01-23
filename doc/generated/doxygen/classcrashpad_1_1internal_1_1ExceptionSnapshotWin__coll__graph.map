@@ -1,0 +1,5 @@
+<map id="crashpad::internal::ExceptionSnapshotWin" name="crashpad::internal::ExceptionSnapshotWin">
+<area shape="rect" id="Node000001" title=" " alt="" coords="21,83,191,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ExceptionSnapshot.html" title="An abstract interface to a snapshot representing an exception that a snapshot process sustained and t..." alt="" coords="5,5,207,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,50,109,82,103,82,103,50"/>
+</map>

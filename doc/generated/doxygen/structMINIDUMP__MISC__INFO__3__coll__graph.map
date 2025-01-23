@@ -1,0 +1,11 @@
+<map id="MINIDUMP_MISC_INFO_3" name="MINIDUMP_MISC_INFO_3">
+<area shape="rect" id="Node000001" title="Information about the process that the minidump file contains a snapshot of, as well as the system th..." alt="" coords="109,218,293,247"/>
+<area shape="rect" id="Node000002" href="$structMINIDUMP__MISC__INFO__2.html" title="Information about the process that the minidump file contains a snapshot of, as well as the system th..." alt="" coords="5,121,189,151"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,159,187,215,184,219,122,163"/>
+<area shape="rect" id="Node000003" href="$structMINIDUMP__MISC__INFO.html" title="Information about the process that the minidump file contains a snapshot of, as well as the system th..." alt="" coords="12,5,182,35"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="100,50,100,121,94,121,94,50"/>
+<area shape="rect" id="Node000004" href="$structTIME__ZONE__INFORMATION.html" title="Information about a time zone and its daylight saving rules." alt="" coords="212,121,403,151"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="283,163,219,219,215,215,279,159"/>
+<area shape="rect" id="Node000005" href="$structSYSTEMTIME.html" title="Represents a date and time." alt="" coords="258,5,358,35"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="310,50,310,121,305,121,305,50"/>
+</map>

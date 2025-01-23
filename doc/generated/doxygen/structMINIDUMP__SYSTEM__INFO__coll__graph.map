@@ -1,0 +1,5 @@
+<map id="MINIDUMP_SYSTEM_INFO" name="MINIDUMP_SYSTEM_INFO">
+<area shape="rect" id="Node000001" title="Information about the system that hosted the process that the minidump file contains a snapshot of." alt="" coords="5,102,191,132"/>
+<area shape="rect" id="Node000002" href="$unionCPU__INFORMATION.html" title="Information about the CPU (or CPUs) that ran the process that the minidump file contains a snapshot o..." alt="" coords="25,5,171,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,51,101,102,95,102,95,51"/>
+</map>

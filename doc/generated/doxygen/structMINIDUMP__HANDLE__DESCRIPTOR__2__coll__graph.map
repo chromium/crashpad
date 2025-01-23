@@ -1,0 +1,5 @@
+<map id="MINIDUMP_HANDLE_DESCRIPTOR_2" name="MINIDUMP_HANDLE_DESCRIPTOR_2">
+<area shape="rect" id="Node000001" title="Contains the state of an individual system handle at the time the snapshot was taken...." alt="" coords="5,83,256,113"/>
+<area shape="rect" id="Node000002" href="$structMINIDUMP__HANDLE__DESCRIPTOR.html" title="Contains the state of an individual system handle at the time the snapshot was taken...." alt="" coords="12,5,249,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="133,51,133,82,128,82,128,51"/>
+</map>

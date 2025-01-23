@@ -1,0 +1,7 @@
+<map id="MINIDUMP_EXCEPTION_STREAM" name="MINIDUMP_EXCEPTION_STREAM">
+<area shape="rect" id="Node000001" title="Information about the exception that triggered a minidump file’s generation." alt="" coords="121,102,291,151"/>
+<area shape="rect" id="Node000002" href="$structMINIDUMP__EXCEPTION.html" title="Information about an exception that occurred in the process." alt="" coords="5,5,175,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,44,181,99,178,103,115,48"/>
+<area shape="rect" id="Node000003" href="$structMINIDUMP__LOCATION__DESCRIPTOR.html" title="A pointer to a structure or union within a minidump file." alt="" coords="199,5,448,35"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="300,48,265,80,237,104,234,99,262,76,296,44"/>
+</map>

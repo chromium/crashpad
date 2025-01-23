@@ -1,0 +1,5 @@
+<map id="crashpad::ChildPortServer" name="crashpad::ChildPortServer">
+<area shape="rect" id="Node000001" title="A server interface for the child_port Mach subsystem." alt="" coords="21,102,204,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1MachMessageServer_1_1Interface.html" title="A Mach RPC callback interface, called by Run()." alt="" coords="5,5,220,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,70,115,101,110,101,110,70"/>
+</map>

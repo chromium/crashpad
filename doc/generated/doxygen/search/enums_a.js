@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['state_0',['State',['../classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7',1,'crashpad::internal::MinidumpWritable::State'],['../classcrashpad_1_1InitializationState.html#a044ea6d40e23683d6d1bb5ce30dafd88',1,'crashpad::InitializationState::State']]],
-  ['stdiostream_1',['StdioStream',['../namespacecrashpad.html#a8402ddae562db04a8daf6bffecaded5b',1,'crashpad']]],
-  ['strategy_2',['Strategy',['../classcrashpad_1_1PtraceStrategyDecider.html#aa39b3c161f5763733538a453c09d2546',1,'crashpad::PtraceStrategyDecider']]],
-  ['stringtosymbolicconstantoptionbits_3',['StringToSymbolicConstantOptionBits',['../namespacecrashpad.html#a8387ad067a7e6a1735ab97a1af450d2b',1,'crashpad']]],
-  ['symbolicconstanttostringoptionbits_4',['SymbolicConstantToStringOptionBits',['../namespacecrashpad.html#a7856b82b71167792ea6103debb5105ed',1,'crashpad']]]
+  ['pendingreportreason_0',['PendingReportReason',['../classcrashpad_1_1Metrics.html#a5881f58aa7bb94bd82677670dbdbac06',1,'crashpad::Metrics']]],
+  ['persistent_1',['Persistent',['../classcrashpad_1_1MachMessageServer.html#a737f51adaf8725883f1158ef2576aae8',1,'crashpad::MachMessageServer']]],
+  ['phase_2',['Phase',['../classcrashpad_1_1internal_1_1MinidumpWritable.html#a009f007265d64a5fb416848480a00ae9',1,'crashpad::internal::MinidumpWritable']]],
+  ['portrighttype_3',['PortRightType',['../classcrashpad_1_1ChildPortHandshake.html#a727e01831df67754b0ff439735f41608',1,'crashpad::ChildPortHandshake']]],
+  ['processsuspensionstate_4',['ProcessSuspensionState',['../namespacecrashpad.html#ab96bb7edb42a2e1ce28eda205a18a17a',1,'crashpad']]]
 ];

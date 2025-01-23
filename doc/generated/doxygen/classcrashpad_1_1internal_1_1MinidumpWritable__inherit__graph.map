@@ -1,0 +1,99 @@
+<map id="crashpad::internal::MinidumpWritable" name="crashpad::internal::MinidumpWritable">
+<area shape="rect" id="Node000001" title="The base class for all content that might be written to a minidump file." alt="" coords="5,828,149,877"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1MinidumpStringWriter.html" title=" " alt="" coords="197,8,452,76"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="77,812,85,658,105,446,120,338,140,238,164,156,179,123,195,97,220,74,223,78,199,101,183,126,169,158,145,240,126,339,110,447,91,659,82,813"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1internal_1_1MinidumpStringWriter.html" title=" " alt="" coords="201,110,448,178"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="79,812,91,680,114,503,129,413,148,330,169,261,194,212,213,192,235,176,238,181,216,196,199,215,174,263,153,332,134,414,119,503,96,680,84,813"/>
+<area shape="rect" id="Node000006" href="$classcrashpad_1_1MinidumpAnnotationListWriter.html" title="The writer for a MinidumpAnnotationList object in a minidump file, containing a list of MinidumpAnnot..." alt="" coords="217,225,432,274"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="79,812,91,692,113,535,129,456,147,385,169,326,195,285,215,269,218,273,199,289,174,328,152,386,134,457,119,536,96,693,84,813"/>
+<area shape="rect" id="Node000007" href="$classcrashpad_1_1MinidumpAnnotationWriter.html" title="The writer for a MinidumpAnnotation object in a minidump file." alt="" coords="217,299,432,347"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="80,813,94,707,118,572,134,504,152,443,172,393,195,359,214,343,218,347,199,362,177,396,157,445,139,506,123,573,100,708,85,813"/>
+<area shape="rect" id="Node000008" href="$classcrashpad_1_1MinidumpByteArrayWriter.html" title="Writes a variable&#45;length byte array for a minidump into a." alt="" coords="220,372,429,421"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="75,812,79,733,96,631,111,577,132,525,159,475,195,432,218,415,221,419,199,436,164,478,136,527,116,579,101,632,85,734,80,813"/>
+<area shape="rect" id="Node000009" href="$classcrashpad_1_1MinidumpContextWriter.html" title="The base class for writers of CPU context structures in minidump files." alt="" coords="227,445,422,494"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="78,812,86,745,105,663,120,619,140,577,165,538,195,504,225,484,228,488,198,508,169,541,145,580,125,621,110,664,91,746,83,813"/>
+<area shape="rect" id="Node000017" href="$classcrashpad_1_1MinidumpFileWriter.html" title="The root&#45;level object in a minidump file." alt="" coords="221,518,428,547"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="80,812,91,755,111,685,126,650,145,616,168,584,195,557,219,542,222,547,198,561,172,588,149,619,131,652,116,687,96,756,85,813"/>
+<area shape="rect" id="Node000018" href="$classcrashpad_1_1MinidumpModuleCodeViewRecordWriter.html" title="The base class for writers of CodeView records referenced by MINIDUMP_MODULE::CvRecord in minidump fi..." alt="" coords="228,571,421,619"/>
+<area shape="poly" id="edge17_Node000001_Node000018" title=" " alt="" coords="87,812,102,770,124,721,155,672,195,630,226,612,228,617,198,634,160,675,129,723,107,772,92,814"/>
+<area shape="rect" id="Node000025" href="$classcrashpad_1_1MinidumpModuleCrashpadInfoListWriter.html" title="The writer for a MinidumpModuleCrashpadInfoList object in a minidump file, containing a list of Minid..." alt="" coords="228,644,421,693"/>
+<area shape="poly" id="edge22_Node000001_Node000025" title=" " alt="" coords="97,813,138,757,165,728,195,703,226,687,228,692,198,708,168,732,142,760,102,816"/>
+<area shape="rect" id="Node000026" href="$classcrashpad_1_1MinidumpModuleCrashpadInfoWriter.html" title="The writer for a MinidumpModuleCrashpadInfo object in a minidump file." alt="" coords="228,717,421,766"/>
+<area shape="poly" id="edge23_Node000001_Node000026" title=" " alt="" coords="124,817,196,777,228,764,229,769,198,781,127,822"/>
+<area shape="rect" id="Node000027" href="$classcrashpad_1_1MinidumpModuleMiscDebugRecordWriter.html" title="The writer for an IMAGE_DEBUG_MISC object in a minidump file." alt="" coords="228,791,421,839"/>
+<area shape="poly" id="edge24_Node000001_Node000027" title=" " alt="" coords="163,837,227,827,228,832,164,842"/>
+<area shape="rect" id="Node000028" href="$classcrashpad_1_1MinidumpModuleWriter.html" title="The writer for a MINIDUMP_MODULE object in a minidump file." alt="" coords="228,864,421,913"/>
+<area shape="poly" id="edge25_Node000001_Node000028" title=" " alt="" coords="164,862,228,872,227,877,163,868"/>
+<area shape="rect" id="Node000029" href="$classcrashpad_1_1MinidumpSimpleStringDictionaryEntryWriter.html" title="The writer for a MinidumpSimpleStringDictionaryEntry object in a minidump file." alt="" coords="227,937,422,986"/>
+<area shape="poly" id="edge26_Node000001_Node000029" title=" " alt="" coords="128,883,198,922,230,934,228,939,196,927,125,888"/>
+<area shape="rect" id="Node000030" href="$classcrashpad_1_1MinidumpSimpleStringDictionaryWriter.html" title="The writer for a MinidumpSimpleStringDictionary object in a minidump file, containing a list of Minid..." alt="" coords="231,1011,418,1059"/>
+<area shape="poly" id="edge27_Node000001_Node000030" title=" " alt="" coords="102,888,143,944,169,972,198,995,232,1012,229,1017,195,1000,165,976,138,948,98,892"/>
+<area shape="rect" id="Node000031" href="$classcrashpad_1_1MinidumpThreadNameWriter.html" title="The writer for a MINIDUMP_THREAD_NAME object in a minidump file." alt="" coords="230,1084,419,1133"/>
+<area shape="poly" id="edge28_Node000001_Node000031" title=" " alt="" coords="92,891,107,933,130,981,160,1028,198,1069,230,1088,228,1092,195,1073,156,1032,125,983,102,935,87,893"/>
+<area shape="rect" id="Node000032" href="$classcrashpad_1_1MinidumpThreadWriter.html" title="The writer for a MINIDUMP_THREAD object in a minidump file." alt="" coords="230,1157,419,1206"/>
+<area shape="poly" id="edge29_Node000001_Node000032" title=" " alt="" coords="86,892,97,948,118,1015,151,1084,173,1115,198,1142,231,1162,228,1167,195,1146,169,1118,147,1087,113,1017,92,949,81,893"/>
+<area shape="rect" id="Node000033" href="$classcrashpad_1_1MinidumpUnloadedModuleWriter.html" title="The writer for a MINIDUMP_UNLOADED_MODULE object in a minidump file." alt="" coords="221,1231,428,1279"/>
+<area shape="poly" id="edge30_Node000001_Node000033" title=" " alt="" coords="82,892,90,962,108,1049,123,1094,143,1138,168,1179,198,1216,222,1233,219,1237,195,1220,163,1183,138,1141,118,1096,103,1050,84,962,77,892"/>
+<area shape="rect" id="Node000034" href="$classcrashpad_1_1SnapshotMinidumpMemoryWriter.html" title="The base class for writers of memory ranges pointed to by MINIDUMP_MEMORY_DESCRIPTOR objects in a min..." alt="" coords="223,1304,426,1353"/>
+<area shape="poly" id="edge31_Node000001_Node000034" title=" " alt="" coords="87,892,102,987,127,1106,160,1217,179,1260,199,1289,224,1307,221,1312,195,1293,174,1263,155,1219,122,1107,97,988,81,892"/>
+<area shape="rect" id="Node000036" href="$classcrashpad_1_1internal_1_1MinidumpRVAListWriter.html" title="The writer for a MinidumpRVAList object in a minidump file, containing a list of RVA pointers." alt="" coords="236,1377,412,1426"/>
+<area shape="poly" id="edge33_Node000001_Node000036" title=" " alt="" coords="85,891,99,1001,122,1142,138,1212,155,1276,176,1327,199,1363,216,1377,237,1387,235,1392,213,1381,195,1366,171,1330,150,1277,132,1213,117,1143,93,1002,80,892"/>
+<area shape="rect" id="Node000040" href="$classcrashpad_1_1internal_1_1MinidumpStreamWriter.html" title="The base class for all second&#45;level objects (“streams”) in a minidump file." alt="" coords="237,1644,412,1693"/>
+<area shape="poly" id="edge37_Node000001_Node000040" title=" " alt="" coords="85,892,97,990,119,1126,152,1282,174,1361,199,1437,225,1497,255,1554,309,1643,304,1645,250,1557,220,1499,194,1439,169,1362,147,1283,114,1127,92,991,80,892"/>
+<area shape="rect" id="Node000053" href="$classcrashpad_1_1internal_1_1MinidumpStringWriter.html" title="Writes a variable&#45;length string to a minidump file in accordance with the string type’s characteristi..." alt="" coords="240,1717,408,1785"/>
+<area shape="poly" id="edge47_Node000001_Node000053" title=" " alt="" coords="81,892,86,1064,102,1307,117,1431,138,1544,165,1638,181,1675,199,1703,218,1720,241,1732,239,1737,215,1724,195,1706,176,1677,160,1640,133,1545,112,1431,97,1307,81,1065,76,892"/>
+<area shape="rect" id="Node000054" href="$classcrashpad_1_1test_1_1TestUInt32MinidumpWritable.html" title="An internal::MinidumpWritable that carries a uint32_t for testing." alt="" coords="232,1809,417,1858"/>
+<area shape="poly" id="edge48_Node000001_Node000054" title=" " alt="" coords="80,892,82,1082,86,1213,95,1353,109,1491,131,1619,144,1674,160,1723,178,1764,199,1795,214,1808,232,1818,230,1823,211,1813,195,1798,173,1766,155,1725,139,1676,125,1620,104,1492,90,1353,81,1213,76,1082,75,892"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1internal_1_1MinidumpUTF16StringWriter.html" title="Writes a variable&#45;length UTF&#45;16&#45;encoded MINIDUMP_STRING to a minidump file." alt="" coords="536,5,745,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="467,34,536,31,536,36,468,39"/>
+<area shape="rect" id="Node000005" href="$classcrashpad_1_1internal_1_1MinidumpUTF8StringWriter.html" title="Writes a variable&#45;length UTF&#45;8&#45;encoded MinidumpUTF8String to a minidump file." alt="" coords="540,79,741,127"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="463,124,540,113,540,119,464,129"/>
+<area shape="rect" id="Node000010" href="$classcrashpad_1_1MinidumpContextAMD64Writer.html" title="The writer for a MinidumpContextAMD64 structure in a minidump file." alt="" coords="544,152,738,201"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="433,444,450,431,468,404,476,377,476,350,473,323,470,295,470,268,479,240,498,212,518,196,542,185,544,190,521,200,502,216,483,242,476,268,475,295,478,322,482,350,481,378,473,406,454,434,437,448"/>
+<area shape="rect" id="Node000011" href="$classcrashpad_1_1MinidumpContextARM64Writer.html" title="The writer for a MinidumpContextARM64 structure in a minidump file." alt="" coords="544,225,738,274"/>
+<area shape="poly" id="edge10_Node000009_Node000011" title=" " alt="" coords="433,443,450,430,464,413,471,396,473,359,476,322,483,303,498,285,519,270,542,260,544,265,521,275,502,289,488,306,481,323,478,360,476,397,468,416,454,434,436,448"/>
+<area shape="rect" id="Node000012" href="$classcrashpad_1_1MinidumpContextARMWriter.html" title="The writer for a MinidumpContextARM structure in a minidump file." alt="" coords="544,299,738,347"/>
+<area shape="poly" id="edge11_Node000009_Node000012" title=" " alt="" coords="434,441,450,430,466,413,473,395,481,376,498,358,542,337,544,341,502,362,486,379,478,397,470,416,454,434,436,445"/>
+<area shape="rect" id="Node000013" href="$classcrashpad_1_1MinidumpContextMIPS64Writer.html" title="The writer for a MinidumpContextMIPS64 structure in a minidump file." alt="" coords="544,372,738,421"/>
+<area shape="poly" id="edge12_Node000009_Node000013" title=" " alt="" coords="436,441,543,416,544,421,437,446"/>
+<area shape="rect" id="Node000014" href="$classcrashpad_1_1MinidumpContextMIPSWriter.html" title="The writer for a MinidumpContextMIPS structure in a minidump file." alt="" coords="544,445,738,494"/>
+<area shape="poly" id="edge13_Node000009_Node000014" title=" " alt="" coords="437,467,543,467,543,472,437,472"/>
+<area shape="rect" id="Node000015" href="$classcrashpad_1_1MinidumpContextRISCV64Writer.html" title="The writer for a MinidumpContextRISCV64 structure in a minidump file." alt="" coords="544,519,738,567"/>
+<area shape="poly" id="edge14_Node000009_Node000015" title=" " alt="" coords="437,493,544,518,543,523,436,498"/>
+<area shape="rect" id="Node000016" href="$classcrashpad_1_1MinidumpContextX86Writer.html" title="The writer for a MinidumpContextX86 structure in a minidump file." alt="" coords="544,592,738,641"/>
+<area shape="poly" id="edge15_Node000009_Node000016" title=" " alt="" coords="437,493,454,504,471,522,478,541,486,560,502,577,544,598,542,603,498,581,481,563,473,543,466,525,450,508,434,498"/>
+<area shape="rect" id="Node000019" href="$classcrashpad_1_1internal_1_1MinidumpModuleCodeViewRecordPDBLinkWriter.html" title=" " alt="" coords="500,665,781,733"/>
+<area shape="poly" id="edge18_Node000018_Node000019" title=" " alt="" coords="430,622,453,630,501,650,535,662,533,667,499,655,451,635,428,627"/>
+<area shape="rect" id="Node000021" href="$classcrashpad_1_1internal_1_1MinidumpModuleCodeViewRecordPDBLinkWriter.html" title=" " alt="" coords="500,757,781,825"/>
+<area shape="poly" id="edge19_Node000018_Node000021" title=" " alt="" coords="437,618,454,630,466,644,474,659,479,688,484,716,490,729,502,742,517,754,514,759,498,746,486,732,479,717,474,689,468,661,462,647,450,634,434,622"/>
+<area shape="rect" id="Node000023" href="$classcrashpad_1_1MinidumpModuleCodeViewRecordBuildIDWriter.html" title="The writer for a CodeViewRecordBuildID object in a minidump file." alt="" coords="536,849,746,898"/>
+<area shape="poly" id="edge20_Node000018_Node000023" title=" " alt="" coords="437,616,454,631,472,657,480,683,481,709,478,735,476,760,477,785,484,810,502,835,518,847,536,857,534,862,515,852,498,838,480,812,472,786,471,760,473,734,476,709,475,684,467,659,450,634,433,621"/>
+<area shape="rect" id="Node000024" href="$classcrashpad_1_1internal_1_1MinidumpModuleCodeViewRecordPDBLinkWriter.html" title="The base class for writers of CodeView records that serve as links to .pdb (program database) files." alt="" coords="506,922,775,990"/>
+<area shape="poly" id="edge21_Node000018_Node000024" title=" " alt="" coords="436,616,454,631,477,666,486,701,485,736,479,771,474,805,472,839,480,873,502,908,515,920,511,924,498,911,475,875,467,840,468,805,474,770,480,736,480,702,472,668,450,634,433,620"/>
+<area shape="rect" id="Node000035" href="$classcrashpad_1_1test_1_1TestMinidumpMemoryWriter.html" title="A SnapshotMinidumpMemoryWriter implementation used for testing." alt="" coords="539,1092,742,1141"/>
+<area shape="poly" id="edge32_Node000034_Node000035" title=" " alt="" coords="438,1299,450,1289,463,1273,470,1256,473,1221,476,1186,484,1168,498,1150,517,1137,537,1127,540,1132,519,1141,502,1154,488,1171,481,1187,478,1222,475,1257,468,1275,454,1293,441,1303"/>
+<area shape="rect" id="Node000037" href="$classcrashpad_1_1internal_1_1MinidumpStringListWriter.html" title=" " alt="" coords="527,1165,754,1252"/>
+<area shape="poly" id="edge34_Node000036_Node000037" title=" " alt="" coords="425,1378,450,1362,461,1351,468,1339,474,1314,480,1289,498,1262,525,1243,528,1247,502,1266,485,1291,479,1316,473,1341,466,1354,454,1366,428,1383"/>
+<area shape="rect" id="Node000038" href="$classcrashpad_1_1internal_1_1MinidumpStringListWriter.html" title=" " alt="" coords="506,1276,776,1344"/>
+<area shape="poly" id="edge35_Node000036_Node000038" title=" " alt="" coords="424,1370,521,1342,523,1347,426,1375"/>
+<area shape="rect" id="Node000039" href="$classcrashpad_1_1internal_1_1MinidumpStringListWriter.html" title="The writer for a MinidumpRVAList object in a minidump file, containing a list of MinidumpStringWriter..." alt="" coords="534,1368,747,1436"/>
+<area shape="poly" id="edge36_Node000036_Node000039" title=" " alt="" coords="428,1399,534,1399,534,1404,428,1404"/>
+<area shape="rect" id="Node000041" href="$classcrashpad_1_1MinidumpCrashpadInfoWriter.html" title="The writer for a MinidumpCrashpadInfo stream in a minidump file." alt="" coords="539,1460,742,1509"/>
+<area shape="poly" id="edge38_Node000040_Node000041" title=" " alt="" coords="357,1631,419,1574,458,1544,499,1519,537,1503,539,1508,501,1524,461,1549,422,1578,360,1635"/>
+<area shape="rect" id="Node000042" href="$classcrashpad_1_1MinidumpExceptionWriter.html" title="The writer for a MINIDUMP_EXCEPTION_STREAM stream in a minidump file." alt="" coords="538,1533,744,1582"/>
+<area shape="poly" id="edge39_Node000040_Node000042" title=" " alt="" coords="392,1635,499,1592,539,1580,540,1585,501,1598,394,1640"/>
+<area shape="rect" id="Node000043" href="$classcrashpad_1_1MinidumpHandleDataWriter.html" title="The writer for a MINIDUMP_HANDLE_DATA_STREAM stream in a minidump and its contained MINIDUMP_HANDLE_D..." alt="" coords="546,1607,736,1655"/>
+<area shape="poly" id="edge40_Node000040_Node000043" title=" " alt="" coords="427,1654,545,1640,545,1645,428,1659"/>
+<area shape="rect" id="Node000044" href="$classcrashpad_1_1MinidumpMemoryInfoListWriter.html" title="The writer for a MINIDUMP_MEMORY_INFO_LIST stream in a minidump file, containing a list of MINIDUMP_M..." alt="" coords="541,1680,740,1729"/>
+<area shape="poly" id="edge41_Node000040_Node000044" title=" " alt="" coords="428,1677,541,1690,540,1696,428,1683"/>
+<area shape="rect" id="Node000045" href="$classcrashpad_1_1MinidumpMemoryListWriter.html" title="The writer for a MINIDUMP_MEMORY_LIST stream in a minidump file, containing a list of MINIDUMP_MEMORY..." alt="" coords="541,1753,740,1802"/>
+<area shape="poly" id="edge42_Node000040_Node000045" title=" " alt="" coords="427,1692,453,1703,478,1721,501,1738,542,1754,540,1759,499,1743,474,1725,451,1708,425,1697"/>
+<area shape="rect" id="Node000046" href="$classcrashpad_1_1MinidumpMiscInfoWriter.html" title="The writer for a stream in the MINIDUMP_MISC_INFO family in a minidump file." alt="" coords="541,1827,740,1875"/>
+<area shape="poly" id="edge43_Node000040_Node000046" title=" " alt="" coords="428,1687,454,1704,466,1717,473,1731,478,1759,484,1786,490,1799,502,1812,520,1824,542,1834,539,1839,518,1829,498,1816,486,1802,479,1788,473,1760,468,1733,462,1720,450,1708,425,1691"/>
+<area shape="rect" id="Node000047" href="$classcrashpad_1_1MinidumpModuleListWriter.html" title="The writer for a MINIDUMP_MODULE_LIST stream in a minidump file, containing a list of MINIDUMP_MODULE..." alt="" coords="544,1900,737,1949"/>
+<area shape="poly" id="edge44_Node000040_Node000047" title=" " alt="" coords="428,1685,454,1704,471,1727,478,1751,478,1797,477,1819,478,1842,486,1863,502,1885,521,1900,544,1910,542,1915,519,1905,498,1889,481,1866,473,1843,472,1819,473,1797,473,1751,466,1729,450,1708,424,1689"/>
+<area shape="rect" id="Node000048" href="$classcrashpad_1_1MinidumpSystemInfoWriter.html" title="The writer for a MINIDUMP_SYSTEM_INFO stream in a minidump file." alt="" coords="545,1973,736,2022"/>
+<area shape="poly" id="edge45_Node000040_Node000048" title=" " alt="" coords="428,1684,454,1704,475,1737,484,1769,483,1802,478,1834,473,1865,473,1897,481,1928,502,1959,522,1974,546,1985,543,1990,519,1979,498,1962,476,1930,468,1897,468,1865,473,1833,478,1801,478,1770,471,1739,450,1707,425,1688"/>
+<area shape="rect" id="Node000049" href="$classcrashpad_1_1MinidumpThreadListWriter.html" title="The writer for a MINIDUMP_THREAD_LIST stream in a minidump file, containing a list of MINIDUMP_THREAD..." alt="" coords="546,2047,735,2095"/>
+<area shape="poly" id="edge46_Node000040_Node000049" title=" " alt="" coords="428,1684,454,1704,470,1725,480,1746,489,1788,486,1830,478,1871,470,1911,467,1951,476,1992,487,2012,502,2032,522,2048,547,2059,544,2064,519,2053,498,2036,482,2014,471,1993,462,1952,465,1911,473,1870,481,1829,484,1789,475,1748,465,1728,450,1708,424,1688"/>
+</map>

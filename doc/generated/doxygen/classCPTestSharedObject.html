@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classCPTestSharedObject.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,8 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Instance Methods</a> &#124;
@@ -94,24 +112,46 @@ $(function(){ initResizable(false); });
 <div class="dynheader">
 Inheritance diagram for CPTestSharedObject:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classCPTestSharedObject.png" alt=""/>
- </div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCPTestSharedObject__inherit__graph.svg" width="156" height="119"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for CPTestSharedObject:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCPTestSharedObject__coll__graph.svg" width="156" height="119"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Instance Methods</h2></td></tr>
 <tr class="memitem:ab881d7c5cc1bfca8915c947e41aa83ff" id="r_ab881d7c5cc1bfca8915c947e41aa83ff"><td class="memItemLeft" align="right" valign="top"><a id="ab881d7c5cc1bfca8915c947e41aa83ff" name="ab881d7c5cc1bfca8915c947e41aa83ff"></a>
 (NSString *)&#160;</td><td class="memItemRight" valign="bottom">- <b>testEDO</b></td></tr>
 <tr class="separator:ab881d7c5cc1bfca8915c947e41aa83ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8273dc8140fcea38f1249ab4e6d4edc8" id="r_a8273dc8140fcea38f1249ab4e6d4edc8"><td class="memItemLeft" align="right" valign="top"><a id="a8273dc8140fcea38f1249ab4e6d4edc8" name="a8273dc8140fcea38f1249ab4e6d4edc8"></a>
+(void)&#160;</td><td class="memItemRight" valign="bottom">- <b>processIntermediateDumps</b></td></tr>
+<tr class="separator:a8273dc8140fcea38f1249ab4e6d4edc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a8012f2b71043d4a60811b18162c6d2" id="r_a3a8012f2b71043d4a60811b18162c6d2"><td class="memItemLeft" align="right" valign="top"><a id="a3a8012f2b71043d4a60811b18162c6d2" name="a3a8012f2b71043d4a60811b18162c6d2"></a>
+(void)&#160;</td><td class="memItemRight" valign="bottom">- <b>clearPendingReports</b></td></tr>
+<tr class="separator:a3a8012f2b71043d4a60811b18162c6d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba6dc40c33c87009ec1f73aa391b1fad" id="r_aba6dc40c33c87009ec1f73aa391b1fad"><td class="memItemLeft" align="right" valign="top"><a id="aba6dc40c33c87009ec1f73aa391b1fad" name="aba6dc40c33c87009ec1f73aa391b1fad"></a>
+(int)&#160;</td><td class="memItemRight" valign="bottom">- <b>pendingReportCount</b></td></tr>
+<tr class="separator:aba6dc40c33c87009ec1f73aa391b1fad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c750584a11faca8d23e7ba09f3f2d0d" id="r_a0c750584a11faca8d23e7ba09f3f2d0d"><td class="memItemLeft" align="right" valign="top"><a id="a0c750584a11faca8d23e7ba09f3f2d0d" name="a0c750584a11faca8d23e7ba09f3f2d0d"></a>
+(bool)&#160;</td><td class="memItemRight" valign="bottom">- <b>pendingReportException:</b></td></tr>
+<tr class="separator:a0c750584a11faca8d23e7ba09f3f2d0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79eee8627189f171b4da0aecee1b90a0" id="r_a79eee8627189f171b4da0aecee1b90a0"><td class="memItemLeft" align="right" valign="top"><a id="a79eee8627189f171b4da0aecee1b90a0" name="a79eee8627189f171b4da0aecee1b90a0"></a>
+(bool)&#160;</td><td class="memItemRight" valign="bottom">- <b>pendingReportExceptionInfo:</b></td></tr>
+<tr class="separator:a79eee8627189f171b4da0aecee1b90a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7b3414378c9985a4c7dd42999d557de" id="r_ac7b3414378c9985a4c7dd42999d557de"><td class="memItemLeft" align="right" valign="top"><a id="ac7b3414378c9985a4c7dd42999d557de" name="ac7b3414378c9985a4c7dd42999d557de"></a>
+(NSDictionary *)&#160;</td><td class="memItemRight" valign="bottom">- <b>getAnnotations</b></td></tr>
+<tr class="separator:ac7b3414378c9985a4c7dd42999d557de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f2ae68977785b697969b9eeb8f3cffe" id="r_a3f2ae68977785b697969b9eeb8f3cffe"><td class="memItemLeft" align="right" valign="top"><a id="a3f2ae68977785b697969b9eeb8f3cffe" name="a3f2ae68977785b697969b9eeb8f3cffe"></a>
+(NSDictionary *)&#160;</td><td class="memItemRight" valign="bottom">- <b>getProcessAnnotations</b></td></tr>
+<tr class="separator:a3f2ae68977785b697969b9eeb8f3cffe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa053e352c480f8810b73dc0a51be50c2" id="r_aa053e352c480f8810b73dc0a51be50c2"><td class="memItemLeft" align="right" valign="top"><a id="aa053e352c480f8810b73dc0a51be50c2" name="aa053e352c480f8810b73dc0a51be50c2"></a>
 (void)&#160;</td><td class="memItemRight" valign="bottom">- <b>crashBadAccess</b></td></tr>
 <tr class="separator:aa053e352c480f8810b73dc0a51be50c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21aa4e92c867908d3e5bd014b6830b19" id="r_a21aa4e92c867908d3e5bd014b6830b19"><td class="memItemLeft" align="right" valign="top"><a id="a21aa4e92c867908d3e5bd014b6830b19" name="a21aa4e92c867908d3e5bd014b6830b19"></a>
 (void)&#160;</td><td class="memItemRight" valign="bottom">- <b>crashKillAbort</b></td></tr>
 <tr class="separator:a21aa4e92c867908d3e5bd014b6830b19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34c2ac7cb2f675e9926dca22151551b2" id="r_a34c2ac7cb2f675e9926dca22151551b2"><td class="memItemLeft" align="right" valign="top"><a id="a34c2ac7cb2f675e9926dca22151551b2" name="a34c2ac7cb2f675e9926dca22151551b2"></a>
-(void)&#160;</td><td class="memItemRight" valign="bottom">- <b>crashSegv</b></td></tr>
-<tr class="separator:a34c2ac7cb2f675e9926dca22151551b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa7c561c4a19979e33b759c6fe9a8f166" id="r_aa7c561c4a19979e33b759c6fe9a8f166"><td class="memItemLeft" align="right" valign="top"><a id="aa7c561c4a19979e33b759c6fe9a8f166" name="aa7c561c4a19979e33b759c6fe9a8f166"></a>
 (void)&#160;</td><td class="memItemRight" valign="bottom">- <b>crashTrap</b></td></tr>
 <tr class="separator:aa7c561c4a19979e33b759c6fe9a8f166"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -124,25 +164,64 @@ Instance Methods</h2></td></tr>
 <tr class="memitem:a50c2eec8fc5376722de8c31673e85e9c" id="r_a50c2eec8fc5376722de8c31673e85e9c"><td class="memItemLeft" align="right" valign="top"><a id="a50c2eec8fc5376722de8c31673e85e9c" name="a50c2eec8fc5376722de8c31673e85e9c"></a>
 (void)&#160;</td><td class="memItemRight" valign="bottom">- <b>crashNSException</b></td></tr>
 <tr class="separator:a50c2eec8fc5376722de8c31673e85e9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae93ea32ab625c8095714072cfa893c24" id="r_ae93ea32ab625c8095714072cfa893c24"><td class="memItemLeft" align="right" valign="top"><a id="ae93ea32ab625c8095714072cfa893c24" name="ae93ea32ab625c8095714072cfa893c24"></a>
-(void)&#160;</td><td class="memItemRight" valign="bottom">- <b>crashUnreocgnizedSelectorAfterDelay</b></td></tr>
-<tr class="separator:ae93ea32ab625c8095714072cfa893c24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a985f5b6c7b6b35403cb46fe2867cb660" id="r_a985f5b6c7b6b35403cb46fe2867cb660"><td class="memItemLeft" align="right" valign="top"><a id="a985f5b6c7b6b35403cb46fe2867cb660" name="a985f5b6c7b6b35403cb46fe2867cb660"></a>
+(void)&#160;</td><td class="memItemRight" valign="bottom">- <b>crashNotAnNSException</b></td></tr>
+<tr class="separator:a985f5b6c7b6b35403cb46fe2867cb660"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92bc8d682f48e047c4cd9a55a84a67a1" id="r_a92bc8d682f48e047c4cd9a55a84a67a1"><td class="memItemLeft" align="right" valign="top"><a id="a92bc8d682f48e047c4cd9a55a84a67a1" name="a92bc8d682f48e047c4cd9a55a84a67a1"></a>
+(void)&#160;</td><td class="memItemRight" valign="bottom">- <b>crashUnhandledNSException</b></td></tr>
+<tr class="separator:a92bc8d682f48e047c4cd9a55a84a67a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad869ce9581850f57c99e9ccb547d6bff" id="r_ad869ce9581850f57c99e9ccb547d6bff"><td class="memItemLeft" align="right" valign="top"><a id="ad869ce9581850f57c99e9ccb547d6bff" name="ad869ce9581850f57c99e9ccb547d6bff"></a>
+(void)&#160;</td><td class="memItemRight" valign="bottom">- <b>crashUnrecognizedSelectorAfterDelay</b></td></tr>
+<tr class="separator:ad869ce9581850f57c99e9ccb547d6bff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad35ff53266c9629138f75d4544cce54c" id="r_ad35ff53266c9629138f75d4544cce54c"><td class="memItemLeft" align="right" valign="top"><a id="ad35ff53266c9629138f75d4544cce54c" name="ad35ff53266c9629138f75d4544cce54c"></a>
 (void)&#160;</td><td class="memItemRight" valign="bottom">- <b>catchNSException</b></td></tr>
 <tr class="separator:ad35ff53266c9629138f75d4544cce54c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed72f6c589174a87cc85daf4820b651e" id="r_aed72f6c589174a87cc85daf4820b651e"><td class="memItemLeft" align="right" valign="top"><a id="aed72f6c589174a87cc85daf4820b651e" name="aed72f6c589174a87cc85daf4820b651e"></a>
+(void)&#160;</td><td class="memItemRight" valign="bottom">- <b>crashCoreAutoLayoutSinkhole</b></td></tr>
+<tr class="separator:aed72f6c589174a87cc85daf4820b651e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad86aea5ca443f2069f98179b2d9b1b7a" id="r_ad86aea5ca443f2069f98179b2d9b1b7a"><td class="memItemLeft" align="right" valign="top"><a id="ad86aea5ca443f2069f98179b2d9b1b7a" name="ad86aea5ca443f2069f98179b2d9b1b7a"></a>
 (void)&#160;</td><td class="memItemRight" valign="bottom">- <b>crashRecursion</b></td></tr>
 <tr class="separator:ad86aea5ca443f2069f98179b2d9b1b7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b079283bd506a1d95ab0c52ddcafa20" id="r_a6b079283bd506a1d95ab0c52ddcafa20"><td class="memItemLeft" align="right" valign="top"><a id="a6b079283bd506a1d95ab0c52ddcafa20" name="a6b079283bd506a1d95ab0c52ddcafa20"></a>
+(void)&#160;</td><td class="memItemRight" valign="bottom">- <b>crashWithCrashInfoMessage</b></td></tr>
+<tr class="separator:a6b079283bd506a1d95ab0c52ddcafa20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a442ebcacb96e52c44a88677fc7050c9f" id="r_a442ebcacb96e52c44a88677fc7050c9f"><td class="memItemLeft" align="right" valign="top"><a id="a442ebcacb96e52c44a88677fc7050c9f" name="a442ebcacb96e52c44a88677fc7050c9f"></a>
+(void)&#160;</td><td class="memItemRight" valign="bottom">- <b>crashWithDyldErrorString</b></td></tr>
+<tr class="separator:a442ebcacb96e52c44a88677fc7050c9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab624e92e3504079f014aef9e62039bac" id="r_ab624e92e3504079f014aef9e62039bac"><td class="memItemLeft" align="right" valign="top"><a id="ab624e92e3504079f014aef9e62039bac" name="ab624e92e3504079f014aef9e62039bac"></a>
+(void)&#160;</td><td class="memItemRight" valign="bottom">- <b>crashWithAnnotations</b></td></tr>
+<tr class="separator:ab624e92e3504079f014aef9e62039bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e04dba88fc4bd5398a4b351beae415f" id="r_a9e04dba88fc4bd5398a4b351beae415f"><td class="memItemLeft" align="right" valign="top"><a id="a9e04dba88fc4bd5398a4b351beae415f" name="a9e04dba88fc4bd5398a4b351beae415f"></a>
+(void)&#160;</td><td class="memItemRight" valign="bottom">- <b>generateDumpWithoutCrash:threads:</b></td></tr>
+<tr class="separator:a9e04dba88fc4bd5398a4b351beae415f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af54813e738546436d2f696e425d7d2a2" id="r_af54813e738546436d2f696e425d7d2a2"><td class="memItemLeft" align="right" valign="top"><a id="af54813e738546436d2f696e425d7d2a2" name="af54813e738546436d2f696e425d7d2a2"></a>
+(void)&#160;</td><td class="memItemRight" valign="bottom">- <b>crashConcurrentSignalAndMach</b></td></tr>
+<tr class="separator:af54813e738546436d2f696e425d7d2a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6fd24f4b176dd170c40f647904ec617" id="r_ab6fd24f4b176dd170c40f647904ec617"><td class="memItemLeft" align="right" valign="top"><a id="ab6fd24f4b176dd170c40f647904ec617" name="ab6fd24f4b176dd170c40f647904ec617"></a>
+(void)&#160;</td><td class="memItemRight" valign="bottom">- <b>catchConcurrentNSException</b></td></tr>
+<tr class="separator:ab6fd24f4b176dd170c40f647904ec617"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a488a8e125c27e5a59e6e99735dd2bd85" id="r_a488a8e125c27e5a59e6e99735dd2bd85"><td class="memItemLeft" align="right" valign="top"><a id="a488a8e125c27e5a59e6e99735dd2bd85" name="a488a8e125c27e5a59e6e99735dd2bd85"></a>
+(void)&#160;</td><td class="memItemRight" valign="bottom">- <b>crashInHandlerReentrant</b></td></tr>
+<tr class="separator:a488a8e125c27e5a59e6e99735dd2bd85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a395be6885a8b38fb90b4ed48212264bf" id="r_a395be6885a8b38fb90b4ed48212264bf"><td class="memItemLeft" align="right" valign="top"><a id="a395be6885a8b38fb90b4ed48212264bf" name="a395be6885a8b38fb90b4ed48212264bf"></a>
+(void)&#160;</td><td class="memItemRight" valign="bottom">- <b>allocateWithForbiddenAllocators</b></td></tr>
+<tr class="separator:a395be6885a8b38fb90b4ed48212264bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a900a689a9d2bef1c76ea790a6e927c43" id="r_a900a689a9d2bef1c76ea790a6e927c43"><td class="memItemLeft" align="right" valign="top"><a id="a900a689a9d2bef1c76ea790a6e927c43" name="a900a689a9d2bef1c76ea790a6e927c43"></a>
+(NSString *)&#160;</td><td class="memItemRight" valign="bottom">- <b>rawLogContents</b></td></tr>
+<tr class="separator:a900a689a9d2bef1c76ea790a6e927c43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>test/ios/host/<b>cptest_application_delegate.mm</b></li>
 <li>test/ios/host/<b>cptest_shared_object.h</b></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="classCPTestSharedObject.html">CPTestSharedObject</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

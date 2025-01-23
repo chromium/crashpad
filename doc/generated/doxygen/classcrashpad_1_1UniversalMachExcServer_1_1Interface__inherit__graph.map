@@ -1,0 +1,7 @@
+<map id="crashpad::UniversalMachExcServer::Interface" name="crashpad::UniversalMachExcServer::Interface">
+<area shape="rect" id="Node000001" title="An interface that the different request messages that are a part of the exc and mach_exc Mach subsyst..." alt="" coords="5,43,201,91"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1CrashReportExceptionHandler.html" title="An exception handler that writes crash reports for exceptions to a CrashReportDatabase." alt="" coords="266,5,488,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,49,266,42,266,47,216,54"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1test_1_1ExceptionSwallower_1_1ExceptionSwallowerThread.html" title=" " alt="" coords="249,79,505,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="216,79,249,83,248,89,216,84"/>
+</map>

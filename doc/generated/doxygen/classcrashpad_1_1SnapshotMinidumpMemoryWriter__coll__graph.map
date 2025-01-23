@@ -1,0 +1,7 @@
+<map id="crashpad::SnapshotMinidumpMemoryWriter" name="crashpad::SnapshotMinidumpMemoryWriter">
+<area shape="rect" id="Node000001" title="The base class for writers of memory ranges pointed to by MINIDUMP_MEMORY_DESCRIPTOR objects in a min..." alt="" coords="71,102,275,151"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1MinidumpWritable.html" title="The base class for all content that might be written to a minidump file." alt="" coords="5,5,149,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,63,151,99,147,103,110,67"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1MemorySnapshot_1_1Delegate.html" title="An interface that MemorySnapshot clients must implement in order to receive memory snapshot data." alt="" coords="173,5,368,54"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="237,67,199,103,196,99,233,63"/>
+</map>

@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,24 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
-/* @license-end */
-</script>
-<div id="main-nav"></div>
 </div><!-- top -->
-<div id="doc-content">
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
+$(function(){initNavTree('namespacemembers_enum.html',''); initResizable(true); });
 /* @license-end */
 </script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -87,10 +105,22 @@ $(function(){ initResizable(false); });
 <div class="contents">
 <div class="textblock">Here is a list of all documented namespace enums with links to the namespaces they belong to:</div><ul>
 <li>CPUArchitecture&#160;:&#160;<a class="el" href="namespacecrashpad.html#a270e290ba558e948eb6690bd217cbb71">crashpad</a></li>
+<li>ExceptionCodes&#160;:&#160;<a class="el" href="namespacecrashpad.html#a62f81158149497e656e97ce1b1565185">crashpad</a></li>
 <li>FileLocking&#160;:&#160;<a class="el" href="namespacecrashpad.html#a3753a95b02e5c96c6e20017e467cef07">crashpad</a></li>
+<li>FileLockingBlocking&#160;:&#160;<a class="el" href="namespacecrashpad.html#a5e435b88af637eb873950400d28bc9d4">crashpad</a></li>
+<li>FileLockingResult&#160;:&#160;<a class="el" href="namespacecrashpad.html#a50dad59abd6bde82bf08419de636d580">crashpad</a></li>
 <li>FilePermissions&#160;:&#160;<a class="el" href="namespacecrashpad.html#a034ccc90eb0d1f587ee89275d822175d">crashpad</a></li>
 <li>FileWriteMode&#160;:&#160;<a class="el" href="namespacecrashpad.html#afa69b0967d9a6df659ff5d2a02ff3e51">crashpad</a></li>
+<li>IntermediateDumpKey&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#a0bd681d9a298340fb0fcea85df493ba7">crashpad::internal</a></li>
+<li>IOSIntermediateDumpReaderInitializeResult&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#a1e873e8db055939026cd6ff8811aa0c2">crashpad::internal</a></li>
+<li>LogMissingDataValueFromMap&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#a7abb0abfd94e874d2cc62daf29fc1f7e">crashpad::internal</a></li>
+<li>MinidumpContextAMD64Flags&#160;:&#160;<a class="el" href="namespacecrashpad.html#aa197c419950bae99f1ba663f10b1891c">crashpad</a></li>
+<li>MinidumpContextARM64Flags&#160;:&#160;<a class="el" href="namespacecrashpad.html#a52002589247bce8e16fc48857f31ec8a">crashpad</a></li>
+<li>MinidumpContextARMFlags&#160;:&#160;<a class="el" href="namespacecrashpad.html#ab7077f40e8cf5fae1f668085248efe77">crashpad</a></li>
 <li>MinidumpContextFlags&#160;:&#160;<a class="el" href="namespacecrashpad.html#a835e6bd6cb3f97c99c572596878c1573">crashpad</a></li>
+<li>MinidumpContextMIPS64Flags&#160;:&#160;<a class="el" href="namespacecrashpad.html#a34392d7c57fce1cdcc10bb1f026a79e6">crashpad</a></li>
+<li>MinidumpContextMIPSFlags&#160;:&#160;<a class="el" href="namespacecrashpad.html#add06cd316d6db039af0fd3607be18dec">crashpad</a></li>
+<li>MinidumpContextRISCV64Flags&#160;:&#160;<a class="el" href="namespacecrashpad.html#a2b038cf2475f6e27660050f8907a309e">crashpad</a></li>
 <li>MinidumpContextX86Flags&#160;:&#160;<a class="el" href="namespacecrashpad.html#a2a503f0a39ec98188b60178edbc1fc55">crashpad</a></li>
 <li>MinidumpCPUArchitecture&#160;:&#160;<a class="el" href="namespacecrashpad.html#a98e532bb06fc5ffdd93e0ceb6d789eb1">crashpad</a></li>
 <li>MinidumpOS&#160;:&#160;<a class="el" href="namespacecrashpad.html#a9be77c6f7868f00c2f279006a1abe26a">crashpad</a></li>
@@ -102,13 +132,16 @@ $(function(){ initResizable(false); });
 <li>SymbolicConstantToStringOptionBits&#160;:&#160;<a class="el" href="namespacecrashpad.html#a7856b82b71167792ea6103debb5105ed">crashpad</a></li>
 <li>TerminationCodes&#160;:&#160;<a class="el" href="namespacecrashpad.html#acf909fcc58999f95ab1a2d485a3b884f">crashpad</a></li>
 <li>TriState&#160;:&#160;<a class="el" href="namespacecrashpad.html#a3b405c19a5787fabcfba96001d49f292">crashpad</a></li>
+<li>UploadBehavior&#160;:&#160;<a class="el" href="namespacecrashpad.html#a8acaf90af42afce7536ea74c1cf32258">crashpad</a></li>
 <li>XattrStatus&#160;:&#160;<a class="el" href="namespacecrashpad.html#a589b4d9bd6f2233b67148ab6793c3c13">crashpad</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

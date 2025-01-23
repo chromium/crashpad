@@ -1,0 +1,5 @@
+<map id="crashpad::internal::ExceptionSnapshotFuchsia" name="crashpad::internal::ExceptionSnapshotFuchsia">
+<area shape="rect" id="Node000001" title="An ExceptionSnapshot of an exception sustained by a process on a Fuchsia system." alt="" coords="10,83,202,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ExceptionSnapshot.html" title="An abstract interface to a snapshot representing an exception that a snapshot process sustained and t..." alt="" coords="5,5,207,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,50,109,82,103,82,103,50"/>
+</map>

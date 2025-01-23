@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1ChildPortHandshake.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1ChildPortHandshake.html">ChildPortHandshake</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
@@ -112,6 +126,12 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:acd394239167a0d59d8ccc77acf15413f" id="r_acd394239167a0d59d8ccc77acf15413f"><td class="memItemLeft" align="right" valign="top"><a id="acd394239167a0d59d8ccc77acf15413f" name="acd394239167a0d59d8ccc77acf15413f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ChildPortHandshake</b> (const <a class="el" href="classcrashpad_1_1ChildPortHandshake.html">ChildPortHandshake</a> &amp;)=delete</td></tr>
+<tr class="separator:acd394239167a0d59d8ccc77acf15413f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a563d8b15b710179528b1417a6bb424b4" id="r_a563d8b15b710179528b1417a6bb424b4"><td class="memItemLeft" align="right" valign="top"><a id="a563d8b15b710179528b1417a6bb424b4" name="a563d8b15b710179528b1417a6bb424b4"></a>
+<a class="el" href="classcrashpad_1_1ChildPortHandshake.html">ChildPortHandshake</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1ChildPortHandshake.html">ChildPortHandshake</a> &amp;)=delete</td></tr>
+<tr class="separator:a563d8b15b710179528b1417a6bb424b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9298ec6d6ba1c3ca38157322fdd0c135" id="r_a9298ec6d6ba1c3ca38157322fdd0c135"><td class="memItemLeft" align="right" valign="top">base::ScopedFD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9298ec6d6ba1c3ca38157322fdd0c135">ClientReadFD</a> ()</td></tr>
 <tr class="memdesc:a9298ec6d6ba1c3ca38157322fdd0c135"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtains the “read” side of the pipe, to be used by the client.  <br /></td></tr>
 <tr class="separator:a9298ec6d6ba1c3ca38157322fdd0c135"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,7 +190,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>test::ChildPortHands
 <div class="line">server_write_fd.reset();</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Make a new Mach receive right.</span></div>
-<div class="line">base::mac::ScopedMachReceiveRight</div>
+<div class="line">base::apple::ScopedMachReceiveRight</div>
 <div class="line">    receive_right(<a class="code hl_function" href="namespacecrashpad.html#a9c9bc6ad9973f794c425707617b63278">NewMachPort</a>(MACH_PORT_RIGHT_RECEIVE));</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Make a send right corresponding to the receive right.</span></div>
@@ -181,29 +201,29 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>test::ChildPortHands
 <div class="line">                        MACH_MSG_TYPE_MAKE_SEND,</div>
 <div class="line">                        &amp;send_right,</div>
 <div class="line">                        &amp;send_right_type);</div>
-<div class="line">base::mac::ScopedMachSendRight send_right_owner(send_right);</div>
+<div class="line">base::apple::ScopedMachSendRight send_right_owner(send_right);</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Send the receive right to the child process, retaining the send right</span></div>
 <div class="line"><span class="comment">// for use in the parent process.</span></div>
 <div class="line"><span class="keywordflow">if</span> (child_port_handshake.<a class="code hl_function" href="#a94543dc329a5a7d869cc1cb76e23fc20">RunClient</a>(receive_right.get(),</div>
 <div class="line">                                   MACH_MSG_TYPE_MOVE_RECEIVE)) {</div>
-<div class="line">  ignore_result(receive_right.release());</div>
+<div class="line">  std::ignore = receive_right.release();</div>
 <div class="line">}</div>
-<div class="ttc" id="aclasscrashpad_1_1ChildPortHandshake_html_a13c305bc7f510f7ec0696ea3257fef35"><div class="ttname"><a href="#a13c305bc7f510f7ec0696ea3257fef35">crashpad::ChildPortHandshake::ServerWriteFD</a></div><div class="ttdeci">base::ScopedFD ServerWriteFD()</div><div class="ttdoc">Obtains the “write” side of the pipe, to be used by the server.</div><div class="ttdef"><b>Definition</b> child_port_handshake.cc:366</div></div>
-<div class="ttc" id="aclasscrashpad_1_1ChildPortHandshake_html_a94543dc329a5a7d869cc1cb76e23fc20"><div class="ttname"><a href="#a94543dc329a5a7d869cc1cb76e23fc20">crashpad::ChildPortHandshake::RunClient</a></div><div class="ttdeci">bool RunClient(mach_port_t port, mach_msg_type_name_t right_type)</div><div class="ttdoc">Runs the client.</div><div class="ttdef"><b>Definition</b> child_port_handshake.cc:376</div></div>
-<div class="ttc" id="anamespacecrashpad_html_a003f563ef0fe26081b4520012e0c1ef8"><div class="ttname"><a href="namespacecrashpad.html#a003f563ef0fe26081b4520012e0c1ef8">crashpad::CloseMultipleNowOrOnExec</a></div><div class="ttdeci">void CloseMultipleNowOrOnExec(int fd, int preserve_fd)</div><div class="ttdoc">Close multiple file descriptors or mark them close-on-exec.</div><div class="ttdef"><b>Definition</b> close_multiple.cc:111</div></div>
-<div class="ttc" id="anamespacecrashpad_html_a9c9bc6ad9973f794c425707617b63278"><div class="ttname"><a href="namespacecrashpad.html#a9c9bc6ad9973f794c425707617b63278">crashpad::NewMachPort</a></div><div class="ttdeci">mach_port_t NewMachPort(mach_port_right_t right)</div><div class="ttdoc">Creates a new Mach port in the current task.</div><div class="ttdef"><b>Definition</b> mach_extensions.cc:33</div></div>
+<div class="ttc" id="aclasscrashpad_1_1ChildPortHandshake_html_a13c305bc7f510f7ec0696ea3257fef35"><div class="ttname"><a href="#a13c305bc7f510f7ec0696ea3257fef35">crashpad::ChildPortHandshake::ServerWriteFD</a></div><div class="ttdeci">base::ScopedFD ServerWriteFD()</div><div class="ttdoc">Obtains the “write” side of the pipe, to be used by the server.</div><div class="ttdef"><b>Definition</b> child_port_handshake.cc:370</div></div>
+<div class="ttc" id="aclasscrashpad_1_1ChildPortHandshake_html_a94543dc329a5a7d869cc1cb76e23fc20"><div class="ttname"><a href="#a94543dc329a5a7d869cc1cb76e23fc20">crashpad::ChildPortHandshake::RunClient</a></div><div class="ttdeci">bool RunClient(mach_port_t port, mach_msg_type_name_t right_type)</div><div class="ttdoc">Runs the client.</div><div class="ttdef"><b>Definition</b> child_port_handshake.cc:380</div></div>
+<div class="ttc" id="anamespacecrashpad_html_a003f563ef0fe26081b4520012e0c1ef8"><div class="ttname"><a href="namespacecrashpad.html#a003f563ef0fe26081b4520012e0c1ef8">crashpad::CloseMultipleNowOrOnExec</a></div><div class="ttdeci">void CloseMultipleNowOrOnExec(int fd, int preserve_fd)</div><div class="ttdoc">Close multiple file descriptors or mark them close-on-exec.</div><div class="ttdef"><b>Definition</b> close_multiple.cc:112</div></div>
+<div class="ttc" id="anamespacecrashpad_html_a9c9bc6ad9973f794c425707617b63278"><div class="ttname"><a href="namespacecrashpad.html#a9c9bc6ad9973f794c425707617b63278">crashpad::NewMachPort</a></div><div class="ttdeci">mach_port_t NewMachPort(mach_port_right_t right)</div><div class="ttdoc">Creates a new Mach port in the current task.</div><div class="ttdef"><b>Definition</b> mach_extensions.cc:32</div></div>
 </div><!-- fragment --><p>Example child process, running a server that receives a receive right from its parent: </p><div class="fragment"><div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* argv[]) {</div>
 <div class="line">  <span class="comment">// The parent passed server_write_fd in argv[1].</span></div>
 <div class="line">  base::ScopedFD server_write_fd(atoi(argv[1]));</div>
 <div class="line"> </div>
 <div class="line">  <span class="comment">// Obtain a receive right from the parent process.</span></div>
-<div class="line">  base::mac::ScopedMachReceiveRight receive_right(</div>
+<div class="line">  base::apple::ScopedMachReceiveRight receive_right(</div>
 <div class="line">      <a class="code hl_function" href="#a0f73b816d441e5e7f6650c8c5601e654">ChildPortHandshake::RunServerForFD</a>(</div>
 <div class="line">          std::move(server_write_fd),</div>
 <div class="line">          <a class="code hl_enumvalue" href="#a727e01831df67754b0ff439735f41608aca4dfdef124043305e6880e006032603">ChildPortHandshake::PortRightType::kReceiveRight</a>));</div>
 <div class="line">}</div>
-<div class="ttc" id="aclasscrashpad_1_1ChildPortHandshake_html_a0f73b816d441e5e7f6650c8c5601e654"><div class="ttname"><a href="#a0f73b816d441e5e7f6650c8c5601e654">crashpad::ChildPortHandshake::RunServerForFD</a></div><div class="ttdeci">static mach_port_t RunServerForFD(base::ScopedFD server_write_fd, PortRightType port_right_type)</div><div class="ttdoc">Runs the server.</div><div class="ttdef"><b>Definition</b> child_port_handshake.cc:383</div></div>
+<div class="ttc" id="aclasscrashpad_1_1ChildPortHandshake_html_a0f73b816d441e5e7f6650c8c5601e654"><div class="ttname"><a href="#a0f73b816d441e5e7f6650c8c5601e654">crashpad::ChildPortHandshake::RunServerForFD</a></div><div class="ttdeci">static mach_port_t RunServerForFD(base::ScopedFD server_write_fd, PortRightType port_right_type)</div><div class="ttdoc">Runs the server.</div><div class="ttdef"><b>Definition</b> child_port_handshake.cc:387</div></div>
 <div class="ttc" id="aclasscrashpad_1_1ChildPortHandshake_html_a727e01831df67754b0ff439735f41608aca4dfdef124043305e6880e006032603"><div class="ttname"><a href="#a727e01831df67754b0ff439735f41608aca4dfdef124043305e6880e006032603">crashpad::ChildPortHandshake::PortRightType::kReceiveRight</a></div><div class="ttdeci">@ kReceiveRight</div><div class="ttdoc">The server expects to receive a receive right.</div><div class="ttdef"><b>Definition</b> child_port_handshake.h:151</div></div>
 </div><!-- fragment --> </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a727e01831df67754b0ff439735f41608" name="a727e01831df67754b0ff439735f41608"></a>
@@ -431,10 +451,13 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>test::ChildPortHands
 <li>util/mach/<b>child_port_handshake.cc</b></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1ChildPortHandshake.html">ChildPortHandshake</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

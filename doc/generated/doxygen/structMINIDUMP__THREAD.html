@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('structMINIDUMP__THREAD.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,8 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
@@ -96,6 +114,11 @@ $(function(){ initResizable(false); });
  <a href="#details">More...</a></p>
 
 <p><code>#include &quot;dbghelp.h&quot;</code></p>
+<div class="dynheader">
+Collaboration diagram for MINIDUMP_THREAD:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="structMINIDUMP__THREAD__coll__graph.svg" width="472" height="234"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -226,7 +249,7 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>ThreadId</b></td>
 
 <p>A pointer to a CPU-specific CONTEXT structure containing the thread’s context at the time the snapshot was taken. </p>
 <p>If the minidump file was generated as a result of an exception taken on this thread, this field may identify a different context than the exception context. For these minidump files, a <a class="el" href="structMINIDUMP__EXCEPTION__STREAM.html" title="Information about the exception that triggered a minidump file’s generation.">MINIDUMP_EXCEPTION_STREAM</a> stream will be present, and the context contained within that stream will be the exception context.</p>
-<p>The interpretation of the context structure is dependent on the CPU architecture identified by <a class="el" href="structMINIDUMP__SYSTEM__INFO.html#adc85b29d7df8943baf1a96af23051ca8" title="The system’s CPU architecture. This may be a PROCESSOR_ARCHITECTURE_* value, or a member of crashpad:...">MINIDUMP_SYSTEM_INFO::ProcessorArchitecture</a>. For <a class="el" href="namespacecrashpad.html#a98e532bb06fc5ffdd93e0ceb6d789eb1a667f84537acd054ce17f527bcd41c885" title="32-bit x86.">crashpad::kMinidumpCPUArchitectureX86</a>, this will be crashpad::MinidumpContextX86. For <a class="el" href="namespacecrashpad.html#a98e532bb06fc5ffdd93e0ceb6d789eb1a74c0fcddcbf1502d7dedc7cd965550df" title="64-bit x86.">crashpad::kMinidumpCPUArchitectureAMD64</a>, this will be crashpad::MinidumpContextAMD64. </p>
+<p>The interpretation of the context structure is dependent on the CPU architecture identified by <a class="el" href="structMINIDUMP__SYSTEM__INFO.html#adc85b29d7df8943baf1a96af23051ca8" title="The system’s CPU architecture. This may be a PROCESSOR_ARCHITECTURE_* value, or a member of crashpad:...">MINIDUMP_SYSTEM_INFO::ProcessorArchitecture</a>. For <a class="el" href="namespacecrashpad.html#a98e532bb06fc5ffdd93e0ceb6d789eb1a667f84537acd054ce17f527bcd41c885" title="32-bit x86.">crashpad::kMinidumpCPUArchitectureX86</a>, this will be <a class="el" href="structcrashpad_1_1MinidumpContextX86.html" title="A 32-bit x86 CPU context (register state) carried in a minidump file.">crashpad::MinidumpContextX86</a>. For <a class="el" href="namespacecrashpad.html#a98e532bb06fc5ffdd93e0ceb6d789eb1a74c0fcddcbf1502d7dedc7cd965550df" title="64-bit x86.">crashpad::kMinidumpCPUArchitectureAMD64</a>, this will be <a class="el" href="structcrashpad_1_1MinidumpContextAMD64.html" title="An x86_64 (AMD64) CPU context (register state) carried in a minidump file.">crashpad::MinidumpContextAMD64</a>. </p>
 
 </div>
 </div>
@@ -234,10 +257,13 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>ThreadId</b></td>
 <li>compat/non_win/<a class="el" href="dbghelp_8h.html">dbghelp.h</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="structMINIDUMP__THREAD.html">MINIDUMP_THREAD</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

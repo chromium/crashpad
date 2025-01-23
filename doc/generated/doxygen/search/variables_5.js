@@ -1,13 +1,16 @@
 var searchData=
 [
-  ['featureinformation_0',['FeatureInformation',['../unionCPU__INFORMATION.html#a044a13c077ea0b3834dd33e4a48027cc',1,'CPU_INFORMATION']]],
-  ['features_1',['Features',['../structXSTATE__CONFIG__FEATURE__MSC__INFO.html#affeeac564e3a87bf1533c165dc976e02',1,'XSTATE_CONFIG_FEATURE_MSC_INFO']]],
-  ['file_5fpath_2',['file_path',['../structcrashpad_1_1CrashReportDatabase_1_1Report.html#a42cfce2b75dfee931b8d82968592d8a7',1,'crashpad::CrashReportDatabase::Report']]],
-  ['fir_3',['fir',['../structcrashpad_1_1MinidumpContextMIPS64.html#aaaba56d5990ff02633280c9c41c04ece',1,'crashpad::MinidumpContextMIPS64']]],
-  ['flags_4',['Flags',['../structMINIDUMP__HEADER.html#a052f2280538826d030c4cb5154963e27',1,'MINIDUMP_HEADER']]],
-  ['flags1_5',['Flags1',['../structMINIDUMP__MISC__INFO.html#ac1c8ca04b2a85e2070e1b43b26d26e47',1,'MINIDUMP_MISC_INFO']]],
-  ['flavor_6',['flavor',['../structcrashpad_1_1ExceptionPorts_1_1ExceptionHandler.html#a37ea6e5c308978536093bbd36b0ff561',1,'crashpad::ExceptionPorts::ExceptionHandler']]],
-  ['float_5fcontext_7',['float_context',['../structcrashpad_1_1ThreadInfo.html#a6a059df1d872858f7db189a3fa15b906',1,'crashpad::ThreadInfo']]],
-  ['fpcsr_8',['fpcsr',['../structcrashpad_1_1MinidumpContextMIPS64.html#a50d74f99a522262ec5d40c538cb69914',1,'crashpad::MinidumpContextMIPS64']]],
-  ['fpregs_9',['fpregs',['../structcrashpad_1_1MinidumpContextMIPS64.html#a4fa7dbdbf20537ec636701a94cc12cbe',1,'crashpad::MinidumpContextMIPS64']]]
+  ['elf_5freader_0',['elf_reader',['../structcrashpad_1_1ProcessReaderLinux_1_1Module.html#a5f5e28420218857dc65d6f717190f09c',1,'crashpad::ProcessReaderLinux::Module']]],
+  ['enabledfeatures_1',['EnabledFeatures',['../structXSTATE__CONFIG__FEATURE__MSC__INFO.html#aa459021075327a4f5178c478bde26382',1,'XSTATE_CONFIG_FEATURE_MSC_INFO']]],
+  ['entries_2',['entries',['../structcrashpad_1_1MinidumpSimpleStringDictionary.html#a09a4e7a0fb45b0b74cf0aacfb6445ba9',1,'crashpad::MinidumpSimpleStringDictionary::entries'],['../structcrashpad_1_1SanitizationAllowedMemoryRanges.html#ab5f21778fbbc009ad3111571d5501e63',1,'crashpad::SanitizationAllowedMemoryRanges::entries']]],
+  ['epc_3',['epc',['../structcrashpad_1_1MinidumpContextMIPS64.html#a8ae7ce0d124b985794d1ea5db923916c',1,'crashpad::MinidumpContextMIPS64']]],
+  ['exception_4',['exception',['../structcrashpad_1_1WerRegistration.html#a5fb632ed55d81b9246de6fbddefdb289',1,'crashpad::WerRegistration::exception'],['../structcrashpad_1_1wer_1_1WerRegistration.html#a5fb632ed55d81b9246de6fbddefdb289',1,'crashpad::wer::WerRegistration::exception']]],
+  ['exception_5finformation_5faddress_5',['exception_information_address',['../structcrashpad_1_1ExceptionHandlerProtocol_1_1ClientInformation.html#a6c192285f19f900925fcd3de905a6ef0',1,'crashpad::ExceptionHandlerProtocol::ClientInformation']]],
+  ['exception_5fpointers_6',['exception_pointers',['../structcrashpad_1_1ExceptionInformation.html#aa416aefb61ce2d78707f683c4b2c2b66',1,'crashpad::ExceptionInformation']]],
+  ['exceptionaddress_7',['ExceptionAddress',['../structMINIDUMP__EXCEPTION.html#a90415942a28bed1cf46a96866713423a',1,'MINIDUMP_EXCEPTION']]],
+  ['exceptioncode_8',['ExceptionCode',['../structMINIDUMP__EXCEPTION.html#ab6a3e2b22e571abef6c879eed52d292e',1,'MINIDUMP_EXCEPTION']]],
+  ['exceptionflags_9',['ExceptionFlags',['../structMINIDUMP__EXCEPTION.html#a790cc793a96f090e848160f8d7757ce9',1,'MINIDUMP_EXCEPTION']]],
+  ['exceptioninformation_10',['ExceptionInformation',['../structMINIDUMP__EXCEPTION.html#a5a8ba606d8065108a3053c7bb339822a',1,'MINIDUMP_EXCEPTION']]],
+  ['exceptionrecord_11',['ExceptionRecord',['../structMINIDUMP__EXCEPTION.html#acfa95816daebbd4603b2423013761c05',1,'MINIDUMP_EXCEPTION::ExceptionRecord'],['../structMINIDUMP__EXCEPTION__STREAM.html#a64d52a1f80f7f0a6f48d615bd1105c35',1,'MINIDUMP_EXCEPTION_STREAM::ExceptionRecord']]],
+  ['extra_12',['extra',['../structcrashpad_1_1MinidumpContextARM.html#a4512da131ac99f726a5854b16b9285c8',1,'crashpad::MinidumpContextARM']]]
 ];

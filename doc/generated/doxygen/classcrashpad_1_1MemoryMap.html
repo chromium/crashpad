@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1MemoryMap.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1MemoryMap.html">MemoryMap</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
@@ -120,6 +134,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac765748bcf0835bc2268e5884724f4ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a28378e3ad216fc1bf175ac3a434c72" id="r_a0a28378e3ad216fc1bf175ac3a434c72"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structcrashpad_1_1MemoryMap_1_1Mapping.html">Mapping</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0a28378e3ad216fc1bf175ac3a434c72">FindMappingWithName</a> (const std::string &amp;name) const</td></tr>
 <tr class="separator:a0a28378e3ad216fc1bf175ac3a434c72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af65706abe1a19dabc618add1628339b1" id="r_af65706abe1a19dabc618add1628339b1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classcrashpad_1_1CheckedRange.html">CheckedRange</a>&lt; uint64_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af65706abe1a19dabc618add1628339b1">GetReadableRanges</a> (const <a class="el" href="classcrashpad_1_1CheckedRange.html">CheckedRange</a>&lt; <a class="el" href="namespacecrashpad.html#ac349d7ee7fdd6c312073c0e9d9af3db6">LinuxVMAddress</a>, <a class="el" href="namespacecrashpad.html#af03f17b393b7a4f00279d2c37550b441">LinuxVMSize</a> &gt; &amp;range) const</td></tr>
+<tr class="memdesc:af65706abe1a19dabc618add1628339b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a range to be read from the target process, returns a vector of ranges, representing the readable portions of the original range.  <br /></td></tr>
+<tr class="separator:af65706abe1a19dabc618add1628339b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60f4f585a397fbfc6c5cc00b5afb13ee" id="r_a60f4f585a397fbfc6c5cc00b5afb13ee"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MemoryMap_1_1Iterator.html">Iterator</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60f4f585a397fbfc6c5cc00b5afb13ee">FindFilePossibleMmapStarts</a> (const <a class="el" href="structcrashpad_1_1MemoryMap_1_1Mapping.html">Mapping</a> &amp;mapping) const</td></tr>
 <tr class="memdesc:a60f4f585a397fbfc6c5cc00b5afb13ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find possible initial mappings of files mapped over several segments.  <br /></td></tr>
 <tr class="separator:a60f4f585a397fbfc6c5cc00b5afb13ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -197,6 +214,32 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="af65706abe1a19dabc618add1628339b1" name="af65706abe1a19dabc618add1628339b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af65706abe1a19dabc618add1628339b1">&#9670;&#160;</a></span>GetReadableRanges()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="classcrashpad_1_1CheckedRange.html">CheckedRange</a>&lt; <a class="el" href="namespacecrashpad.html#a3b472f487657ece8e0a9a662a13b2256">VMAddress</a> &gt; &gt; crashpad::MemoryMap::GetReadableRanges </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcrashpad_1_1CheckedRange.html">CheckedRange</a>&lt; <a class="el" href="namespacecrashpad.html#ac349d7ee7fdd6c312073c0e9d9af3db6">LinuxVMAddress</a>, <a class="el" href="namespacecrashpad.html#af03f17b393b7a4f00279d2c37550b441">LinuxVMSize</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>range</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Given a range to be read from the target process, returns a vector of ranges, representing the readable portions of the original range. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">range</td><td>The range being identified.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector of ranges corresponding to the portion of <em class="arg">range</em> that is readable based on the memory map. </dd></dl>
+
+</div>
+</div>
 <a id="a6c08c18f41b08ed7ee26e7634c72abf6" name="a6c08c18f41b08ed7ee26e7634c72abf6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6c08c18f41b08ed7ee26e7634c72abf6">&#9670;&#160;</a></span>Initialize()</h2>
 
@@ -247,10 +290,13 @@ Public Member Functions</h2></td></tr>
 <li>util/linux/<b>memory_map.cc</b></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1MemoryMap.html">MemoryMap</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

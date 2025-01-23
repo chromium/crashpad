@@ -7,5 +7,6 @@ var searchData=
   ['annotationlist_4',['AnnotationList',['../classcrashpad_1_1AnnotationList.html',1,'crashpad::AnnotationList'],['../structcrashpad_1_1process__types_1_1AnnotationList.html',1,'crashpad::process_types::AnnotationList&lt; Traits &gt;']]],
   ['annotationsnapshot_5',['AnnotationSnapshot',['../structcrashpad_1_1AnnotationSnapshot.html',1,'crashpad']]],
   ['appendmultiprocesstest_6',['AppendMultiprocessTest',['../classcrashpad_1_1test_1_1internal_1_1AppendMultiprocessTest.html',1,'crashpad::test::internal']]],
-  ['auxiliaryvector_7',['AuxiliaryVector',['../classcrashpad_1_1AuxiliaryVector.html',1,'crashpad']]]
+  ['attachmentsarray_7',['AttachmentsArray',['../classcrashpad_1_1PtraceBroker_1_1AttachmentsArray.html',1,'crashpad::PtraceBroker']]],
+  ['auxiliaryvector_8',['AuxiliaryVector',['../classcrashpad_1_1AuxiliaryVector.html',1,'crashpad']]]
 ];

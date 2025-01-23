@@ -1,0 +1,9 @@
+<map id="test/gtest_death.h" name="test/gtest_death.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="146,5,282,35"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,83,119,113"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,38,105,78,103,73,184,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="143,83,285,113"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="217,36,217,67,211,67,211,36"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="310,83,412,113"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="243,33,321,73,319,78,240,38"/>
+</map>

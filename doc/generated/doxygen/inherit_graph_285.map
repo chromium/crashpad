@@ -1,0 +1,19 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot..." alt="" coords="5,272,190,302"/>
+<area shape="rect" id="Node000001" href="$classcrashpad_1_1internal_1_1ThreadSnapshotFuchsia.html" title="A ThreadSnapshot of a thread on a Fuchsia system." alt="" coords="287,5,461,54"/>
+<area shape="poly" id="edge158_Node000000_Node000001" title=" " alt="" coords="107,257,125,214,153,162,190,110,212,86,236,65,260,51,285,41,287,46,262,56,239,69,215,90,194,113,157,165,130,216,112,259"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1ThreadSnapshotIOSIntermediateDump.html" title="A ThreadSnapshot of a thread on an iOS system." alt="" coords="238,79,510,127"/>
+<area shape="poly" id="edge159_Node000000_Node000002" title=" " alt="" coords="116,257,166,197,199,165,236,138,261,126,264,130,239,143,202,169,169,201,120,261"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1internal_1_1ThreadSnapshotLinux.html" title="A ThreadSnapshot of a thread on a Linux system." alt="" coords="293,152,455,201"/>
+<area shape="poly" id="edge160_Node000000_Node000003" title=" " alt="" coords="136,262,183,236,237,211,291,193,293,198,239,216,185,241,138,266"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1internal_1_1ThreadSnapshotMac.html" title="A ThreadSnapshot of a thread in a running (or crashed) process on a macOS system." alt="" coords="297,225,451,274"/>
+<area shape="poly" id="edge161_Node000000_Node000004" title=" " alt="" coords="204,270,296,257,297,263,205,275"/>
+<area shape="rect" id="Node000005" href="$classcrashpad_1_1internal_1_1ThreadSnapshotMinidump.html" title="A ThreadSnapshot based on a thread in a minidump file." alt="" coords="278,299,470,347"/>
+<area shape="poly" id="edge162_Node000000_Node000005" title=" " alt="" coords="205,298,278,308,277,313,205,304"/>
+<area shape="rect" id="Node000006" href="$classcrashpad_1_1internal_1_1ThreadSnapshotSanitized.html" title="A ThreadSnapshot which wraps and filters sensitive information from another ThreadSnapshot." alt="" coords="282,372,466,421"/>
+<area shape="poly" id="edge163_Node000000_Node000006" title=" " alt="" coords="139,308,186,333,239,357,282,371,280,376,237,361,184,338,137,312"/>
+<area shape="rect" id="Node000007" href="$classcrashpad_1_1internal_1_1ThreadSnapshotWin.html" title="A ThreadSnapshot of a thread in a running (or crashed) process on a Windows system." alt="" coords="298,445,450,494"/>
+<area shape="poly" id="edge164_Node000000_Node000007" title=" " alt="" coords="120,313,170,373,203,404,239,430,268,444,298,454,296,459,266,449,236,435,199,408,166,376,116,316"/>
+<area shape="rect" id="Node000008" href="$classcrashpad_1_1test_1_1TestThreadSnapshot.html" title="A test ThreadSnapshot that can carry arbitrary data for testing purposes." alt="" coords="282,519,466,567"/>
+<area shape="poly" id="edge165_Node000000_Node000008" title=" " alt="" coords="112,316,130,358,158,409,194,460,239,504,260,516,282,525,280,530,257,521,236,508,190,464,153,412,126,360,107,318"/>
+</map>

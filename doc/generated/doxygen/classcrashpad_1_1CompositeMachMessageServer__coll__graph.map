@@ -1,0 +1,5 @@
+<map id="crashpad::CompositeMachMessageServer" name="crashpad::CompositeMachMessageServer">
+<area shape="rect" id="Node000001" title="Adapts multiple MachMessageServer::Interface implementations for simultaneous use in a single MachMes..." alt="" coords="5,102,244,151"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1MachMessageServer_1_1Interface.html" title="A Mach RPC callback interface, called by Run()." alt="" coords="17,5,232,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="127,69,127,101,122,101,122,69"/>
+</map>

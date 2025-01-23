@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,24 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
-/* @license-end */
-</script>
-<div id="main-nav"></div>
 </div><!-- top -->
-<div id="doc-content">
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
+$(function(){initNavTree('namespacemembers_func_g.html',''); initResizable(true); });
 /* @license-end */
 </script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -90,12 +108,20 @@ $(function(){ initResizable(false); });
 <h3><a id="index_g" name="index_g"></a>- g -</h3><ul>
 <li>GetBootTime()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a546d3f9feba8be654adc0292f99e043a">crashpad</a></li>
 <li>GetChildKoids()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a4f31c2f8b1cfea873b757dc486281437">crashpad</a></li>
+<li>GetDataFromMap()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#a48ecfd47df51a51c58778ed66724c76b">crashpad::internal</a></li>
+<li>GetDataStringFromMap()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#a187e5fd8ee3b350be31ff2e774d4a77e">crashpad::internal</a></li>
+<li>GetDataValueFromMap()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#a4509ef5cbbddf71f243b9b9980b6b934">crashpad::internal</a></li>
+<li>GetDataValueFromMapErrorInternal()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#a37301cb323f18458f169c8380fce0d0f">crashpad::internal</a></li>
+<li>GetDirectorySize()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a23c75452e519dc3715a6f7f30fc83805">crashpad</a></li>
 <li>GetFallbackSecurityDescriptorForNamedPipeInstance()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a8dec2ab03620dcacc0b0d60ae0845f3c">crashpad</a></li>
+<li>GetFileSize()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a9e0124db0942485ff3afb224f48cd765">crashpad</a></li>
 <li>GetFunction()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#ae4d58effe49ff90e8197ce1f959fe104">crashpad::internal</a></li>
 <li>GetFunctionInternal()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#aa982a8cad0e72cddf1989d135db3c338">crashpad::internal</a></li>
 <li>GetHandlesForThreadKoids()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a24450f6cd81133935420337540b4d62b">crashpad</a></li>
 <li>GetKoidForHandle()&#160;:&#160;<a class="el" href="namespacecrashpad.html#aa78f92ab17c2ca6a7a86edc949ac1fde">crashpad</a></li>
+<li>GetListFromMap()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#a50ce0ce37f1184230544ffc095e614ee">crashpad::internal</a></li>
 <li>GetMainArguments()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1test.html#a04f9df0a866217f549d350e196488558">crashpad::test</a></li>
+<li>GetMapFromMap()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1internal.html#aa28e9ee53a4459da6e8074ce3d4f9197">crashpad::internal</a></li>
 <li>GetModuleVersionAndType()&#160;:&#160;<a class="el" href="namespacecrashpad.html#af5f4414be804bdcd71f57053d7147eff">crashpad</a></li>
 <li>GetReadableRangesOfMemoryMap()&#160;:&#160;<a class="el" href="namespacecrashpad.html#a794c1a44de599deb3e261eab0bd6c03b">crashpad</a></li>
 <li>GetSecurityDescriptorForNamedPipeInstance()&#160;:&#160;<a class="el" href="namespacecrashpad.html#af22242667ee950fe12a99b298dda5e08">crashpad</a></li>
@@ -106,10 +132,12 @@ $(function(){ initResizable(false); });
 <li>GetTLS()&#160;:&#160;<a class="el" href="namespacecrashpad_1_1test.html#ab5dd0773c6a29a2bd213336d6654e58d">crashpad::test</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

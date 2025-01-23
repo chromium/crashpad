@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1CrashReportExceptionHandler.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">CrashReportExceptionHandler</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="headertitle"><div class="title">crashpad::CrashReportExceptionHandler Member List</div></div>
 </div><!--header-->
@@ -96,13 +110,19 @@ $(function(){ initResizable(false); });
 <p>This is the complete list of members for <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a>, including all inherited members.</p>
 <table class="directory">
   <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#a98ecf7abdf0a99fe30b6fa7116649bee">CatchMachException</a>(exception_behavior_t behavior, exception_handler_t exception_port, thread_t thread, task_t task, exception_type_t exception, const mach_exception_data_type_t *code, mach_msg_type_number_t code_count, thread_state_flavor_t *flavor, ConstThreadState old_state, mach_msg_type_number_t old_state_count, thread_state_t new_state, mach_msg_type_number_t *new_state_count, const mach_msg_trailer_t *trailer, bool *destroy_complex_request) override</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#a8a6915cc3ec83393d25aefb9dcb6c9c5">CrashReportExceptionHandler</a>(CrashReportDatabase *database, CrashReportUploadThread *upload_thread, const std::map&lt; std::string, std::string &gt; *process_annotations, bool write_minidump_to_database, bool write_minidump_to_log, const UserStreamDataSources *user_stream_data_sources)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#a8a8370bde381637feb46d4095e047303">CrashReportExceptionHandler</a>(CrashReportDatabase *database, CrashReportUploadThread *upload_thread, const std::map&lt; std::string, std::string &gt; *process_annotations, const UserStreamDataSources *user_stream_data_sources)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#ab592c79401e42435f1c4e96f6893a374">CrashReportExceptionHandler</a>(CrashReportDatabase *database, CrashReportUploadThread *upload_thread, const std::map&lt; std::string, std::string &gt; *process_annotations, const std::vector&lt; base::FilePath &gt; *attachments, bool write_minidump_to_database, bool write_minidump_to_log, const UserStreamDataSources *user_stream_data_sources)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>CrashReportExceptionHandler</b>(const CrashReportExceptionHandler &amp;)=delete (defined in <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#a8a8370bde381637feb46d4095e047303">CrashReportExceptionHandler</a>(CrashReportDatabase *database, CrashReportUploadThread *upload_thread, const std::map&lt; std::string, std::string &gt; *process_annotations, const UserStreamDataSources *user_stream_data_sources)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#a1dcfab1bbc889f638b828bd5af296e62">ExceptionHandlerServerException</a>(HANDLE process, WinVMAddress exception_information_address, WinVMAddress debug_critical_section_address) override</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#aced3c98628a1f723dbd7952f8e3b421f">ExceptionHandlerServerStarted</a>() override</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#a1fbcf0d81ffaa2503a18e9c9be4ef904">HandleException</a>(pid_t client_process_id, uid_t client_uid, const ExceptionHandlerProtocol::ClientInformation &amp;info, VMAddress requesting_thread_stack_address=0, pid_t *requesting_thread_id=nullptr, UUID *local_report_id=nullptr) override</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#a987b0c71d61a773d3ae6378b61ca92c0">HandleExceptionWithBroker</a>(pid_t client_process_id, uid_t client_uid, const ExceptionHandlerProtocol::ClientInformation &amp;info, int broker_sock, UUID *local_report_id=nullptr) override</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>CrashReportExceptionHandler</b>(const CrashReportExceptionHandler &amp;)=delete (defined in <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#abd0e83e1677c5908e6568425de2d2156">CrashReportExceptionHandler</a>(CrashReportDatabase *database, CrashReportUploadThread *upload_thread, const std::map&lt; std::string, std::string &gt; *process_annotations, const std::vector&lt; base::FilePath &gt; *attachments, const UserStreamDataSources *user_stream_data_sources)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>CrashReportExceptionHandler</b>(const CrashReportExceptionHandler &amp;)=delete (defined in <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#a1dcfab1bbc889f638b828bd5af296e62">ExceptionHandlerServerException</a>(HANDLE process, WinVMAddress exception_information_address, WinVMAddress debug_critical_section_address) override</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#aced3c98628a1f723dbd7952f8e3b421f">ExceptionHandlerServerStarted</a>() override</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#a1fbcf0d81ffaa2503a18e9c9be4ef904">HandleException</a>(pid_t client_process_id, uid_t client_uid, const ExceptionHandlerProtocol::ClientInformation &amp;info, VMAddress requesting_thread_stack_address=0, pid_t *requesting_thread_id=nullptr, UUID *local_report_id=nullptr) override</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#a987b0c71d61a773d3ae6378b61ca92c0">HandleExceptionWithBroker</a>(pid_t client_process_id, uid_t client_uid, const ExceptionHandlerProtocol::ClientInformation &amp;info, int broker_sock, UUID *local_report_id=nullptr) override</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>operator=</b>(const CrashReportExceptionHandler &amp;)=delete (defined in <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>operator=</b>(const CrashReportExceptionHandler &amp;)=delete (defined in <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>operator=</b>(const CrashReportExceptionHandler &amp;)=delete (defined in <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>~CrashReportExceptionHandler</b>() override (defined in <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"></td></tr>
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>~CrashReportExceptionHandler</b>() (defined in <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>~CrashReportExceptionHandler</b>() (defined in <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">crashpad::CrashReportExceptionHandler</a></td><td class="entry"></td></tr>
@@ -110,10 +130,12 @@ $(function(){ initResizable(false); });
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>~Delegate</b>() (defined in <a class="el" href="classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html">crashpad::ExceptionHandlerServer::Delegate</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html">crashpad::ExceptionHandlerServer::Delegate</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>~Interface</b>() (defined in <a class="el" href="classcrashpad_1_1UniversalMachExcServer_1_1Interface.html">crashpad::UniversalMachExcServer::Interface</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1UniversalMachExcServer_1_1Interface.html">crashpad::UniversalMachExcServer::Interface</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span></td></tr>
 </table></div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

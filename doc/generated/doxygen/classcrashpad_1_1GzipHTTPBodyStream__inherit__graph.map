@@ -1,0 +1,5 @@
+<map id="crashpad::GzipHTTPBodyStream" name="crashpad::GzipHTTPBodyStream">
+<area shape="rect" id="Node000001" title="An implementation of HTTPBodyStream that gzip&#45;compresses another HTTPBodyStream." alt="" coords="5,83,226,113"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1HTTPBodyStream.html" title="An interface to a stream that can be used for an HTTP request body." alt="" coords="19,5,212,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,51,118,82,113,82,113,51"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classcrashpad_1_1test_1_1Multiprocess.html" title="Manages a multiprocess test." alt="" coords="5,32,200,62"/>
+<area shape="rect" id="Node000001" href="$classcrashpad_1_1test_1_1MachMultiprocess.html" title="Manages a Mach&#45;aware multiprocess test." alt="" coords="248,5,475,35"/>
+<area shape="poly" id="edge155_Node000000_Node000001" title=" " alt="" coords="215,33,247,29,248,35,216,38"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1test_1_1MultiprocessExec.html" title="Manages an exec()&#45;based multiprocess test." alt="" coords="250,59,472,88"/>
+<area shape="poly" id="edge156_Node000000_Node000002" title=" " alt="" coords="216,56,250,59,250,65,215,61"/>
+</map>

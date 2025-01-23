@@ -1,0 +1,11 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$structMINIDUMP__MISC__INFO.html" title="Information about the process that the minidump file contains a snapshot of, as well as the system th..." alt="" coords="5,5,175,35"/>
+<area shape="rect" id="Node000001" href="$structMINIDUMP__MISC__INFO__2.html" title="Information about the process that the minidump file contains a snapshot of, as well as the system th..." alt="" coords="223,5,406,35"/>
+<area shape="poly" id="edge175_Node000000_Node000001" title=" " alt="" coords="190,18,222,18,222,23,190,23"/>
+<area shape="rect" id="Node000002" href="$structMINIDUMP__MISC__INFO__3.html" title="Information about the process that the minidump file contains a snapshot of, as well as the system th..." alt="" coords="454,5,637,35"/>
+<area shape="poly" id="edge176_Node000001_Node000002" title=" " alt="" coords="421,18,453,18,453,23,421,23"/>
+<area shape="rect" id="Node000003" href="$structMINIDUMP__MISC__INFO__4.html" title="Information about the process that the minidump file contains a snapshot of, as well as the system th..." alt="" coords="685,5,869,35"/>
+<area shape="poly" id="edge177_Node000002_Node000003" title=" " alt="" coords="653,18,685,18,685,23,653,23"/>
+<area shape="rect" id="Node000004" href="$structMINIDUMP__MISC__INFO__5.html" title="Information about the process that the minidump file contains a snapshot of, as well as the system th..." alt="" coords="917,5,1100,35"/>
+<area shape="poly" id="edge178_Node000003_Node000004" title=" " alt="" coords="884,18,916,18,916,23,884,23"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="MINIDUMP_THREAD_NAME_LIST" name="MINIDUMP_THREAD_NAME_LIST">
+<area shape="rect" id="Node000001" title="Variable&#45;sized struct which contains a list of MINIDUMP_THREAD_NAME structs." alt="" coords="5,102,232,132"/>
+<area shape="rect" id="Node000002" href="$structMINIDUMP__THREAD__NAME.html" title="Contains the name of the thread with the given thread ID." alt="" coords="21,5,216,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,51,121,102,116,102,116,51"/>
+</map>

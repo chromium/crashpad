@@ -1,0 +1,9 @@
+<map id="crashpad::MinidumpModuleCodeViewRecordPDB20Writer" name="crashpad::MinidumpModuleCodeViewRecordPDB20Writer">
+<area shape="rect" id="Node000001" title="The writer for a CodeViewRecordPDB20 object in a minidump file." alt="" coords="767,15,975,64"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1MinidumpModuleCodeViewRecordPDBLinkWriter.html" title=" " alt="" coords="438,5,719,73"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="735,36,767,36,767,42,735,42"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1MinidumpModuleCodeViewRecordWriter.html" title="The base class for writers of CodeView records referenced by MINIDUMP_MODULE::CvRecord in minidump fi..." alt="" coords="197,15,390,64"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="406,36,438,36,438,42,406,42"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1internal_1_1MinidumpWritable.html" title="The base class for all content that might be written to a minidump file." alt="" coords="5,15,149,64"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="164,36,196,36,196,42,164,42"/>
+</map>

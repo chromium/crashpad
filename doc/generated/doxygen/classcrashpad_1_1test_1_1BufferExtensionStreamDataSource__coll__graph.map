@@ -1,0 +1,5 @@
+<map id="crashpad::test::BufferExtensionStreamDataSource" name="crashpad::test::BufferExtensionStreamDataSource">
+<area shape="rect" id="Node000001" title="A user extension data source that wraps a buffer." alt="" coords="15,102,232,151"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1MinidumpUserExtensionStreamDataSource.html" title="Describes a user extension data stream in a minidump." alt="" coords="5,5,242,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="126,69,126,101,121,101,121,69"/>
+</map>

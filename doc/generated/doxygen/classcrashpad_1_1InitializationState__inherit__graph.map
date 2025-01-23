@@ -1,0 +1,5 @@
+<map id="crashpad::InitializationState" name="crashpad::InitializationState">
+<area shape="rect" id="Node000001" title="Tracks whether data are initialized." alt="" coords="5,5,164,54"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1InitializationStateDcheck.html" title="Tracks whether data are initialized, triggering a DCHECK assertion on an invalid data access." alt="" coords="5,102,164,151"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,69,87,101,82,101,82,69"/>
+</map>

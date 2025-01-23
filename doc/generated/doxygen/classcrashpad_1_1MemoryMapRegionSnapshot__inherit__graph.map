@@ -1,0 +1,11 @@
+<map id="crashpad::MemoryMapRegionSnapshot" name="crashpad::MemoryMapRegionSnapshot">
+<area shape="rect" id="Node000001" title="An abstract interface to a snapshot representing a region of the memory map present in the snapshot p..." alt="" coords="5,116,213,165"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1MemoryMapRegionSnapshotFuchsia.html" title=" " alt="" coords="269,5,524,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,106,260,65,296,52,298,57,262,69,170,111"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1internal_1_1MemoryMapRegionSnapshotMinidump.html" title=" " alt="" coords="261,79,532,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="228,122,260,118,261,123,228,128"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1internal_1_1MemoryMapRegionSnapshotWin.html" title=" " alt="" coords="280,152,512,201"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="228,153,280,159,279,164,228,158"/>
+<area shape="rect" id="Node000005" href="$classcrashpad_1_1test_1_1TestMemoryMapRegionSnapshot.html" title="A test MemoryMapRegionSnapshot that can carry arbitrary data for testing purposes." alt="" coords="299,225,494,274"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="172,170,262,210,299,223,298,228,260,215,169,175"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="crashpad::internal::SystemSnapshotIOSIntermediateDump" name="crashpad::internal::SystemSnapshotIOSIntermediateDump">
+<area shape="rect" id="Node000001" title="A SystemSnapshot of the running system, when the system runs iOS." alt="" coords="5,83,280,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1SystemSnapshot.html" title="An abstract interface to a snapshot representing the state of a system, comprising an operating syste..." alt="" coords="49,5,236,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,50,145,82,140,82,140,50"/>
+</map>

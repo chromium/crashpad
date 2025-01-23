@@ -1,0 +1,5 @@
+<map id="crashpad::internal::IOSIntermediateDumpByteArray" name="crashpad::internal::IOSIntermediateDumpByteArray">
+<area shape="rect" id="Node000001" title="An intermediate dump backed by a byte array." alt="" coords="5,102,241,151"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1IOSIntermediateDumpInterface.html" title="The base class for reading data into an IOSIntermediateDumpReader." alt="" coords="8,5,238,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="126,69,126,101,120,101,120,69"/>
+</map>

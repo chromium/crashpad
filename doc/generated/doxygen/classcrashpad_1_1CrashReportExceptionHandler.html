@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1CrashReportExceptionHandler.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">CrashReportExceptionHandler</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -103,20 +117,25 @@ $(function(){ initResizable(false); });
 <div class="dynheader">
 Inheritance diagram for crashpad::CrashReportExceptionHandler:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classcrashpad_1_1CrashReportExceptionHandler.png" usemap="#crashpad::CrashReportExceptionHandler_map" alt=""/>
-  <map id="crashpad::CrashReportExceptionHandler_map" name="crashpad::CrashReportExceptionHandler_map">
-<area href="classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html" alt="crashpad::ExceptionHandlerServer::Delegate" shape="rect" coords="0,0,272,24"/>
-<area href="classcrashpad_1_1UniversalMachExcServer_1_1Interface.html" title="An interface that the different request messages that are a part of the exc and mach_exc Mach subsyst..." alt="crashpad::UniversalMachExcServer::Interface" shape="rect" coords="282,0,554,24"/>
-<area href="classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html" alt="crashpad::ExceptionHandlerServer::Delegate" shape="rect" coords="564,0,836,24"/>
-  </map>
-</div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcrashpad_1_1CrashReportExceptionHandler__inherit__graph.svg" width="476" height="134"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for crashpad::CrashReportExceptionHandler:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcrashpad_1_1CrashReportExceptionHandler__coll__graph.svg" width="476" height="134"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8a6915cc3ec83393d25aefb9dcb6c9c5" id="r_a8a6915cc3ec83393d25aefb9dcb6c9c5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a6915cc3ec83393d25aefb9dcb6c9c5">CrashReportExceptionHandler</a> (<a class="el" href="classcrashpad_1_1CrashReportDatabase.html">CrashReportDatabase</a> *database, <a class="el" href="classcrashpad_1_1CrashReportUploadThread.html">CrashReportUploadThread</a> *upload_thread, const std::map&lt; std::string, std::string &gt; *process_annotations, bool write_minidump_to_database, bool write_minidump_to_log, const UserStreamDataSources *user_stream_data_sources)</td></tr>
-<tr class="memdesc:a8a6915cc3ec83393d25aefb9dcb6c9c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new object that will store crash reports in <em class="arg">database</em>.  <br /></td></tr>
-<tr class="separator:a8a6915cc3ec83393d25aefb9dcb6c9c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab592c79401e42435f1c4e96f6893a374" id="r_ab592c79401e42435f1c4e96f6893a374"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab592c79401e42435f1c4e96f6893a374">CrashReportExceptionHandler</a> (<a class="el" href="classcrashpad_1_1CrashReportDatabase.html">CrashReportDatabase</a> *database, <a class="el" href="classcrashpad_1_1CrashReportUploadThread.html">CrashReportUploadThread</a> *upload_thread, const std::map&lt; std::string, std::string &gt; *process_annotations, const std::vector&lt; base::FilePath &gt; *attachments, bool write_minidump_to_database, bool write_minidump_to_log, const UserStreamDataSources *user_stream_data_sources)</td></tr>
+<tr class="memdesc:ab592c79401e42435f1c4e96f6893a374"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new object that will store crash reports in <em class="arg">database</em>.  <br /></td></tr>
+<tr class="separator:ab592c79401e42435f1c4e96f6893a374"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fd1dc4d78b3deec86a3c96629b5e5bf" id="r_a0fd1dc4d78b3deec86a3c96629b5e5bf"><td class="memItemLeft" align="right" valign="top"><a id="a0fd1dc4d78b3deec86a3c96629b5e5bf" name="a0fd1dc4d78b3deec86a3c96629b5e5bf"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>CrashReportExceptionHandler</b> (const <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">CrashReportExceptionHandler</a> &amp;)=delete</td></tr>
+<tr class="separator:a0fd1dc4d78b3deec86a3c96629b5e5bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e653248d4e677d54cdf69a40e09b5e7" id="r_a4e653248d4e677d54cdf69a40e09b5e7"><td class="memItemLeft" align="right" valign="top"><a id="a4e653248d4e677d54cdf69a40e09b5e7" name="a4e653248d4e677d54cdf69a40e09b5e7"></a>
+<a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">CrashReportExceptionHandler</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">CrashReportExceptionHandler</a> &amp;)=delete</td></tr>
+<tr class="separator:a4e653248d4e677d54cdf69a40e09b5e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1fbcf0d81ffaa2503a18e9c9be4ef904" id="r_a1fbcf0d81ffaa2503a18e9c9be4ef904"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1fbcf0d81ffaa2503a18e9c9be4ef904">HandleException</a> (pid_t client_process_id, uid_t client_uid, const <a class="el" href="structcrashpad_1_1ExceptionHandlerProtocol_1_1ClientInformation.html">ExceptionHandlerProtocol::ClientInformation</a> &amp;info, <a class="el" href="namespacecrashpad.html#a3b472f487657ece8e0a9a662a13b2256">VMAddress</a> requesting_thread_stack_address=0, pid_t *requesting_thread_id=nullptr, <a class="el" href="structcrashpad_1_1UUID.html">UUID</a> *local_report_id=nullptr) override</td></tr>
 <tr class="memdesc:a1fbcf0d81ffaa2503a18e9c9be4ef904"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on receipt of a crash dump request from a client.  <br /></td></tr>
 <tr class="separator:a1fbcf0d81ffaa2503a18e9c9be4ef904"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,12 +145,24 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8a8370bde381637feb46d4095e047303" id="r_a8a8370bde381637feb46d4095e047303"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a8370bde381637feb46d4095e047303">CrashReportExceptionHandler</a> (<a class="el" href="classcrashpad_1_1CrashReportDatabase.html">CrashReportDatabase</a> *database, <a class="el" href="classcrashpad_1_1CrashReportUploadThread.html">CrashReportUploadThread</a> *upload_thread, const std::map&lt; std::string, std::string &gt; *process_annotations, const UserStreamDataSources *user_stream_data_sources)</td></tr>
 <tr class="memdesc:a8a8370bde381637feb46d4095e047303"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new object that will store crash reports in <em class="arg">database</em>.  <br /></td></tr>
 <tr class="separator:a8a8370bde381637feb46d4095e047303"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fd1dc4d78b3deec86a3c96629b5e5bf" id="r_a0fd1dc4d78b3deec86a3c96629b5e5bf"><td class="memItemLeft" align="right" valign="top"><a id="a0fd1dc4d78b3deec86a3c96629b5e5bf" name="a0fd1dc4d78b3deec86a3c96629b5e5bf"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>CrashReportExceptionHandler</b> (const <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">CrashReportExceptionHandler</a> &amp;)=delete</td></tr>
+<tr class="separator:a0fd1dc4d78b3deec86a3c96629b5e5bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e653248d4e677d54cdf69a40e09b5e7" id="r_a4e653248d4e677d54cdf69a40e09b5e7"><td class="memItemLeft" align="right" valign="top"><a id="a4e653248d4e677d54cdf69a40e09b5e7" name="a4e653248d4e677d54cdf69a40e09b5e7"></a>
+<a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">CrashReportExceptionHandler</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">CrashReportExceptionHandler</a> &amp;)=delete</td></tr>
+<tr class="separator:a4e653248d4e677d54cdf69a40e09b5e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98ecf7abdf0a99fe30b6fa7116649bee" id="r_a98ecf7abdf0a99fe30b6fa7116649bee"><td class="memItemLeft" align="right" valign="top">kern_return_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98ecf7abdf0a99fe30b6fa7116649bee">CatchMachException</a> (exception_behavior_t behavior, exception_handler_t exception_port, thread_t thread, task_t task, exception_type_t exception, const mach_exception_data_type_t *code, mach_msg_type_number_t code_count, thread_state_flavor_t *flavor, <a class="el" href="namespacecrashpad.html#ae8a2e5f928712c15766a756cd2035d90">ConstThreadState</a> old_state, mach_msg_type_number_t old_state_count, thread_state_t new_state, mach_msg_type_number_t *new_state_count, const mach_msg_trailer_t *trailer, bool *destroy_complex_request) override</td></tr>
 <tr class="memdesc:a98ecf7abdf0a99fe30b6fa7116649bee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes an exception message by writing a crash report to this object’s <a class="el" href="classcrashpad_1_1CrashReportDatabase.html" title="An interface for managing a collection of crash report files and metadata associated with the crash r...">CrashReportDatabase</a>.  <br /></td></tr>
 <tr class="separator:a98ecf7abdf0a99fe30b6fa7116649bee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a8370bde381637feb46d4095e047303" id="r_a8a8370bde381637feb46d4095e047303"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a8370bde381637feb46d4095e047303">CrashReportExceptionHandler</a> (<a class="el" href="classcrashpad_1_1CrashReportDatabase.html">CrashReportDatabase</a> *database, <a class="el" href="classcrashpad_1_1CrashReportUploadThread.html">CrashReportUploadThread</a> *upload_thread, const std::map&lt; std::string, std::string &gt; *process_annotations, const UserStreamDataSources *user_stream_data_sources)</td></tr>
-<tr class="memdesc:a8a8370bde381637feb46d4095e047303"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new object that will store crash reports in <em class="arg">database</em>.  <br /></td></tr>
-<tr class="separator:a8a8370bde381637feb46d4095e047303"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd0e83e1677c5908e6568425de2d2156" id="r_abd0e83e1677c5908e6568425de2d2156"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abd0e83e1677c5908e6568425de2d2156">CrashReportExceptionHandler</a> (<a class="el" href="classcrashpad_1_1CrashReportDatabase.html">CrashReportDatabase</a> *database, <a class="el" href="classcrashpad_1_1CrashReportUploadThread.html">CrashReportUploadThread</a> *upload_thread, const std::map&lt; std::string, std::string &gt; *process_annotations, const std::vector&lt; base::FilePath &gt; *attachments, const UserStreamDataSources *user_stream_data_sources)</td></tr>
+<tr class="memdesc:abd0e83e1677c5908e6568425de2d2156"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new object that will store crash reports in <em class="arg">database</em>.  <br /></td></tr>
+<tr class="separator:abd0e83e1677c5908e6568425de2d2156"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fd1dc4d78b3deec86a3c96629b5e5bf" id="r_a0fd1dc4d78b3deec86a3c96629b5e5bf"><td class="memItemLeft" align="right" valign="top"><a id="a0fd1dc4d78b3deec86a3c96629b5e5bf" name="a0fd1dc4d78b3deec86a3c96629b5e5bf"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>CrashReportExceptionHandler</b> (const <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">CrashReportExceptionHandler</a> &amp;)=delete</td></tr>
+<tr class="separator:a0fd1dc4d78b3deec86a3c96629b5e5bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e653248d4e677d54cdf69a40e09b5e7" id="r_a4e653248d4e677d54cdf69a40e09b5e7"><td class="memItemLeft" align="right" valign="top"><a id="a4e653248d4e677d54cdf69a40e09b5e7" name="a4e653248d4e677d54cdf69a40e09b5e7"></a>
+<a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">CrashReportExceptionHandler</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">CrashReportExceptionHandler</a> &amp;)=delete</td></tr>
+<tr class="separator:a4e653248d4e677d54cdf69a40e09b5e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aced3c98628a1f723dbd7952f8e3b421f" id="r_aced3c98628a1f723dbd7952f8e3b421f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aced3c98628a1f723dbd7952f8e3b421f">ExceptionHandlerServerStarted</a> () override</td></tr>
 <tr class="memdesc:aced3c98628a1f723dbd7952f8e3b421f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes an exception message by writing a crash report to this object's <a class="el" href="classcrashpad_1_1CrashReportDatabase.html" title="An interface for managing a collection of crash report files and metadata associated with the crash r...">CrashReportDatabase</a>.  <br /></td></tr>
 <tr class="separator:aced3c98628a1f723dbd7952f8e3b421f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,8 +174,8 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><p>An exception handler that writes crash reports for exceptions to a <a class="el" href="classcrashpad_1_1CrashReportDatabase.html" title="An interface for managing a collection of crash report files and metadata associated with the crash r...">CrashReportDatabase</a>. </p>
 <p>An exception handler that writes crash reports for exception messages to a <a class="el" href="classcrashpad_1_1CrashReportDatabase.html" title="An interface for managing a collection of crash report files and metadata associated with the crash r...">CrashReportDatabase</a>. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a8a6915cc3ec83393d25aefb9dcb6c9c5" name="a8a6915cc3ec83393d25aefb9dcb6c9c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a6915cc3ec83393d25aefb9dcb6c9c5">&#9670;&#160;</a></span>CrashReportExceptionHandler() <span class="overload">[1/3]</span></h2>
+<a id="ab592c79401e42435f1c4e96f6893a374" name="ab592c79401e42435f1c4e96f6893a374"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab592c79401e42435f1c4e96f6893a374">&#9670;&#160;</a></span>CrashReportExceptionHandler() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -163,6 +194,11 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const std::map&lt; std::string, std::string &gt; *</td>          <td class="paramname"><span class="paramname"><em>process_annotations</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; base::FilePath &gt; *</td>          <td class="paramname"><span class="paramname"><em>attachments</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -188,6 +224,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">database</td><td>The database to store crash reports in. Weak. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">upload_thread</td><td>The upload thread to notify when a new crash report is written into <em class="arg">database</em>. Report upload is skipped if this value is <code>nullptr</code>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">process_annotations</td><td>A map of annotations to insert as process-level annotations into each crash report that is written. Do not confuse this with module-level annotations, which are under the control of the crashing process, and are used to implement Chrome’s “crash keys.” Process-level annotations are those that are beyond the control of the crashing process, which must reliably be set even if the process crashes before it’s able to establish its own annotations. To interoperate with Breakpad servers, the recommended practice is to specify values for the <code>"prod"</code> and <code>"ver"</code> keys as process annotations. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">attachments</td><td>A vector of file paths that should be captured with each report at the time of the crash. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">write_minidump_to_database</td><td>Whether the minidump shall be written to database. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">write_minidump_to_log</td><td>Whether the minidump shall be written to log. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">user_stream_data_sources</td><td>Data sources to be used to extend crash reports. For each crash report that is written, the data sources are called in turn. These data sources may contribute additional minidump streams. <code>nullptr</code> if not required. </td></tr>
@@ -239,8 +276,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a8a8370bde381637feb46d4095e047303" name="a8a8370bde381637feb46d4095e047303"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a8370bde381637feb46d4095e047303">&#9670;&#160;</a></span>CrashReportExceptionHandler() <span class="overload">[3/3]</span></h2>
+<a id="abd0e83e1677c5908e6568425de2d2156" name="abd0e83e1677c5908e6568425de2d2156"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd0e83e1677c5908e6568425de2d2156">&#9670;&#160;</a></span>CrashReportExceptionHandler() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -263,6 +300,11 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const std::vector&lt; base::FilePath &gt; *</td>          <td class="paramname"><span class="paramname"><em>attachments</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">const UserStreamDataSources *</td>          <td class="paramname"><span class="paramname"><em>user_stream_data_sources</em></span>&#160;)</td>
         </tr>
       </table>
@@ -274,6 +316,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">database</td><td>The database to store crash reports in. Weak. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">upload_thread</td><td>The upload thread to notify when a new crash report is written into <em class="arg">database</em>. Report upload is skipped if this value is <code>nullptr</code>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">process_annotations</td><td>A map of annotations to insert as process-level annotations into each crash report that is written. Do not confuse this with module-level annotations, which are under the control of the crashing process, and are used to implement Chrome's "crash keys." Process-level annotations are those that are beyond the control of the crashing process, which must reliably be set even if the process crashes before it's able to establish its own annotations. To interoperate with Breakpad servers, the recommended practice is to specify values for the <code>"prod"</code> and <code>"ver"</code> keys as process annotations. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">attachments</td><td>A vector of file paths that should be captured with each report at the time of the crash. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">user_stream_data_sources</td><td>Data sources to be used to extend crash reports. For each crash report that is written, the data sources are called in turn. These data sources may contribute additional minidump streams. <code>nullptr</code> if not required. </td></tr>
   </table>
   </dd>
@@ -584,10 +627,13 @@ Public Member Functions</h2></td></tr>
 <li>handler/win/<b>crash_report_exception_handler.cc</b></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html">CrashReportExceptionHandler</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1Settings.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,16 +102,12 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1Settings.html">Settings</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="classcrashpad_1_1Settings-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">crashpad::Settings Class Reference</div></div>
 </div><!--header-->
@@ -109,6 +125,12 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a617a9dd8c920a07dab12d7b075f7c5a2" id="r_a617a9dd8c920a07dab12d7b075f7c5a2"><td class="memItemLeft" align="right" valign="top"><a id="a617a9dd8c920a07dab12d7b075f7c5a2" name="a617a9dd8c920a07dab12d7b075f7c5a2"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Settings</b> (const <a class="el" href="classcrashpad_1_1Settings.html">Settings</a> &amp;)=delete</td></tr>
+<tr class="separator:a617a9dd8c920a07dab12d7b075f7c5a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade207829a5e18e1363dd8be3f18970b2" id="r_ade207829a5e18e1363dd8be3f18970b2"><td class="memItemLeft" align="right" valign="top"><a id="ade207829a5e18e1363dd8be3f18970b2" name="ade207829a5e18e1363dd8be3f18970b2"></a>
+<a class="el" href="classcrashpad_1_1Settings.html">Settings</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1Settings.html">Settings</a> &amp;)=delete</td></tr>
+<tr class="separator:ade207829a5e18e1363dd8be3f18970b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a650c49970614e6de1bf5cab607279a40" id="r_a650c49970614e6de1bf5cab607279a40"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a650c49970614e6de1bf5cab607279a40">Initialize</a> (const base::FilePath &amp;path)</td></tr>
 <tr class="memdesc:a650c49970614e6de1bf5cab607279a40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the settings data store.  <br /></td></tr>
 <tr class="separator:a650c49970614e6de1bf5cab607279a40"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -127,6 +149,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a396d4fcd0adda6fcaf8b15a94f0c24ac" id="r_a396d4fcd0adda6fcaf8b15a94f0c24ac"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a396d4fcd0adda6fcaf8b15a94f0c24ac">SetLastUploadAttemptTime</a> (time_t time)</td></tr>
 <tr class="memdesc:a396d4fcd0adda6fcaf8b15a94f0c24ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the last time at which a report was attempted to be uploaded.  <br /></td></tr>
 <tr class="separator:a396d4fcd0adda6fcaf8b15a94f0c24ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ab8bd4276af188aa8f18cb7b6cfcde66c" id="r_ab8bd4276af188aa8f18cb7b6cfcde66c"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8bd4276af188aa8f18cb7b6cfcde66c">IsLockExpired</a> (const base::FilePath &amp;file_path, time_t lockfile_ttl)</td></tr>
+<tr class="memdesc:ab8bd4276af188aa8f18cb7b6cfcde66c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the lockfile for a file is expired.  <br /></td></tr>
+<tr class="separator:ab8bd4276af188aa8f18cb7b6cfcde66c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a8ce9aee6c2740776650a3e3d8bbdb7c5" id="r_a8ce9aee6c2740776650a3e3d8bbdb7c5"><td class="memItemLeft" align="right" valign="top"><a id="a8ce9aee6c2740776650a3e3d8bbdb7c5" name="a8ce9aee6c2740776650a3e3d8bbdb7c5"></a>
+static constexpr char&#160;</td><td class="memItemRight" valign="bottom"><b>kLockfileExtension</b> [] = &quot;.__lock__&quot;</td></tr>
+<tr class="separator:a8ce9aee6c2740776650a3e3d8bbdb7c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An interface for accessing and modifying the settings of a <a class="el" href="classcrashpad_1_1CrashReportDatabase.html" title="An interface for managing a collection of crash report files and metadata associated with the crash r...">CrashReportDatabase</a>. </p>
@@ -241,6 +275,46 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ab8bd4276af188aa8f18cb7b6cfcde66c" name="ab8bd4276af188aa8f18cb7b6cfcde66c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8bd4276af188aa8f18cb7b6cfcde66c">&#9670;&#160;</a></span>IsLockExpired()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::Settings::IsLockExpired </td>
+          <td>(</td>
+          <td class="paramtype">const base::FilePath &amp;</td>          <td class="paramname"><span class="paramname"><em>file_path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">time_t</td>          <td class="paramname"><span class="paramname"><em>lockfile_ttl</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns whether the lockfile for a file is expired. </p>
+<p>This could be part of ScopedLockedFileHandle, but this needs to be public while ScopedLockedFileHandle is private to <a class="el" href="classcrashpad_1_1Settings.html" title="An interface for accessing and modifying the settings of a CrashReportDatabase.">Settings</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">file_path</td><td>The path to the file whose lockfile will be checked. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">lockfile_ttl</td><td>How long the lockfile has to live before expiring.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the lock for the file is expired, otherwise <code>false</code>. </dd></dl>
+
+</div>
+</div>
 <a id="a396d4fcd0adda6fcaf8b15a94f0c24ac" name="a396d4fcd0adda6fcaf8b15a94f0c24ac"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a396d4fcd0adda6fcaf8b15a94f0c24ac">&#9670;&#160;</a></span>SetLastUploadAttemptTime()</h2>
 
@@ -299,10 +373,13 @@ Public Member Functions</h2></td></tr>
 <li>client/<b>settings.cc</b></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1Settings.html">Settings</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

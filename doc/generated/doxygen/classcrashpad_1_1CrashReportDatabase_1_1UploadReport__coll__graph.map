@@ -1,0 +1,7 @@
+<map id="crashpad::CrashReportDatabase::UploadReport" name="crashpad::CrashReportDatabase::UploadReport">
+<area shape="rect" id="Node000001" title="A crash report that is in the process of being uploaded." alt="" coords="5,200,225,249"/>
+<area shape="rect" id="Node000002" href="$structcrashpad_1_1CrashReportDatabase_1_1Report.html" title="A crash report record." alt="" coords="5,102,225,151"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,166,118,200,112,200,112,166"/>
+<area shape="rect" id="Node000003" href="$structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID)." alt="" coords="55,5,175,35"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="118,51,118,101,112,101,112,51"/>
+</map>

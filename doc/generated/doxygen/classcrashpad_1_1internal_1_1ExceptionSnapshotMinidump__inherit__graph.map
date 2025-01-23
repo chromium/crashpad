@@ -1,0 +1,5 @@
+<map id="crashpad::internal::ExceptionSnapshotMinidump" name="crashpad::internal::ExceptionSnapshotMinidump">
+<area shape="rect" id="Node000001" title="An ExceptionSnapshot based on a minidump file." alt="" coords="5,83,214,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ExceptionSnapshot.html" title="An abstract interface to a snapshot representing an exception that a snapshot process sustained and t..." alt="" coords="9,5,210,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,50,112,82,107,82,107,50"/>
+</map>

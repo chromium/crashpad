@@ -1,0 +1,5 @@
+<map id="crashpad::ZlibOutputStream" name="crashpad::ZlibOutputStream">
+<area shape="rect" id="Node000001" title="The class wraps zlib into OutputStreamInterface." alt="" coords="5,83,200,113"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="19,5,186,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,51,105,82,100,82,100,51"/>
+</map>

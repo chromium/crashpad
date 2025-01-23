@@ -1,0 +1,5 @@
+<map id="crashpad::test::WinMultiprocessWithTempDir" name="crashpad::test::WinMultiprocessWithTempDir">
+<area shape="rect" id="Node000001" title="Manages a multiprocess test on Windows with a parent&#45;created temporary directory." alt="" coords="5,83,223,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1test_1_1WinMultiprocess.html" title="Manages a multiprocess test on Windows." alt="" coords="5,5,223,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,50,117,82,111,82,111,50"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="crashpad::BinaryPruneCondition" name="crashpad::BinaryPruneCondition">
+<area shape="rect" id="Node000001" title="A PruneCondition that conjoins two other PruneConditions." alt="" coords="5,83,227,113"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1PruneCondition.html" title="An abstract base class for evaluating crash reports for deletion." alt="" coords="25,5,207,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,51,119,82,113,82,113,51"/>
+</map>

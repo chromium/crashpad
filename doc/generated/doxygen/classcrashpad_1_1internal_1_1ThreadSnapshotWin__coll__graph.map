@@ -1,0 +1,5 @@
+<map id="crashpad::internal::ThreadSnapshotWin" name="crashpad::internal::ThreadSnapshotWin">
+<area shape="rect" id="Node000001" title="A ThreadSnapshot of a thread in a running (or crashed) process on a Windows system." alt="" coords="21,83,174,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot..." alt="" coords="5,5,190,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,50,100,82,95,82,95,50"/>
+</map>

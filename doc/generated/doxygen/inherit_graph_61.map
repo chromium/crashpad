@@ -1,0 +1,17 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classcrashpad_1_1ExceptionSnapshot.html" title="An abstract interface to a snapshot representing an exception that a snapshot process sustained and t..." alt="" coords="5,235,207,264"/>
+<area shape="rect" id="Node000001" href="$classcrashpad_1_1internal_1_1ExceptionSnapshotFuchsia.html" title="An ExceptionSnapshot of an exception sustained by a process on a Fuchsia system." alt="" coords="304,5,495,54"/>
+<area shape="poly" id="edge19_Node000000_Node000001" title=" " alt="" coords="120,220,142,184,172,142,209,100,253,65,302,43,304,48,256,69,213,104,176,146,146,187,125,223"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1ExceptionSnapshotIOSIntermediateDump.html" title="An ExceptionSnapshot of an exception sustained by a running (or crashed) process on an iOS system." alt="" coords="255,79,544,127"/>
+<area shape="poly" id="edge20_Node000000_Node000002" title=" " alt="" coords="133,222,187,179,253,138,284,125,286,130,256,143,190,183,137,226"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1internal_1_1ExceptionSnapshotLinux.html" title="An ExceptionSnapshot of an signal received by a running (or crashed) process on a Linux system." alt="" coords="310,152,489,201"/>
+<area shape="poly" id="edge21_Node000000_Node000003" title=" " alt="" coords="183,228,309,196,310,201,184,233"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html" title="An ExceptionSnapshot of an exception sustained by a running (or crashed) process on a macOS system." alt="" coords="314,225,485,274"/>
+<area shape="poly" id="edge22_Node000000_Node000004" title=" " alt="" coords="222,247,313,247,313,252,222,252"/>
+<area shape="rect" id="Node000005" href="$classcrashpad_1_1internal_1_1ExceptionSnapshotMinidump.html" title="An ExceptionSnapshot based on a minidump file." alt="" coords="295,299,504,347"/>
+<area shape="poly" id="edge23_Node000000_Node000005" title=" " alt="" coords="184,266,300,295,298,301,183,271"/>
+<area shape="rect" id="Node000006" href="$classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html" title=" " alt="" coords="315,372,484,421"/>
+<area shape="poly" id="edge24_Node000000_Node000006" title=" " alt="" coords="137,273,190,316,256,357,315,378,313,383,254,361,187,320,133,277"/>
+<area shape="rect" id="Node000007" href="$classcrashpad_1_1test_1_1TestExceptionSnapshot.html" title="A test ExceptionSnapshot that can carry arbitrary data for testing purposes." alt="" coords="299,445,500,494"/>
+<area shape="poly" id="edge25_Node000000_Node000007" title=" " alt="" coords="125,277,146,312,176,354,213,395,256,430,299,450,297,455,253,435,209,399,172,357,142,315,120,279"/>
+</map>

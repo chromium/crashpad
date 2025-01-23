@@ -1,0 +1,5 @@
+<map id="crashpad::internal::MemorySnapshotSanitized" name="crashpad::internal::MemorySnapshotSanitized">
+<area shape="rect" id="Node000001" title="A MemorySnapshot which wraps and filters sensitive information from another MemorySnapshot." alt="" coords="5,83,200,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process." alt="" coords="5,5,200,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,50,105,82,100,82,100,50"/>
+</map>

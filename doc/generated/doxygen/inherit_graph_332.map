@@ -1,0 +1,13 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,112,173,142"/>
+<area shape="rect" id="Node000001" href="$classcrashpad_1_1Base94OutputStream.html" title="This class implements Base94 encoding/decoding, it uses all printable characters except space for enc..." alt="" coords="221,5,439,35"/>
+<area shape="poly" id="edge181_Node000000_Node000001" title=" " alt="" coords="122,100,167,71,220,44,252,33,254,38,222,49,170,76,125,105"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1FileOutputStream.html" title="The class is used to write data to a file." alt="" coords="233,59,426,88"/>
+<area shape="poly" id="edge182_Node000000_Node000002" title=" " alt="" coords="173,106,259,86,260,92,175,111"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1LogOutputStream.html" title="This class outputs a stream of data as a series of log messages." alt="" coords="232,112,428,142"/>
+<area shape="poly" id="edge183_Node000000_Node000003" title=" " alt="" coords="189,124,232,124,232,130,189,130"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1ZlibOutputStream.html" title="The class wraps zlib into OutputStreamInterface." alt="" coords="233,165,427,195"/>
+<area shape="poly" id="edge184_Node000000_Node000004" title=" " alt="" coords="175,143,260,162,259,167,173,148"/>
+<area shape="rect" id="Node000005" href="$classcrashpad_1_1test_1_1TestOutputStream.html" title="The help class for OutputStreamInterface related tests." alt="" coords="237,218,422,267"/>
+<area shape="poly" id="edge185_Node000000_Node000005" title=" " alt="" coords="126,148,171,177,222,204,248,215,246,220,220,209,168,182,123,153"/>
+</map>

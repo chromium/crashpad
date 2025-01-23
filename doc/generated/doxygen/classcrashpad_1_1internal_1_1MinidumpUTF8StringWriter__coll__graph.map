@@ -1,0 +1,7 @@
+<map id="crashpad::internal::MinidumpUTF8StringWriter" name="crashpad::internal::MinidumpUTF8StringWriter">
+<area shape="rect" id="Node000001" title="Writes a variable&#45;length UTF&#45;8&#45;encoded MinidumpUTF8String to a minidump file." alt="" coords="29,218,229,266"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1MinidumpStringWriter.html" title=" " alt="" coords="5,102,253,170"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,185,132,217,126,217,126,185"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1internal_1_1MinidumpWritable.html" title="The base class for all content that might be written to a minidump file." alt="" coords="57,5,201,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="132,70,132,102,126,102,126,70"/>
+</map>

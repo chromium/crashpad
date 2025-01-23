@@ -1,0 +1,7 @@
+<map id="crashpad::test::Multiprocess" name="crashpad::test::Multiprocess">
+<area shape="rect" id="Node000001" title="Manages a multiprocess test." alt="" coords="146,5,340,35"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1test_1_1MachMultiprocess.html" title="Manages a Mach&#45;aware multiprocess test." alt="" coords="5,83,233,113"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,46,144,85,141,80,205,41"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1test_1_1MultiprocessExec.html" title="Manages an exec()&#45;based multiprocess test." alt="" coords="257,83,480,113"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="281,41,346,80,343,85,278,46"/>
+</map>

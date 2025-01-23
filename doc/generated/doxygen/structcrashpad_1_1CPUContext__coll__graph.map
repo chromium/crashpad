@@ -1,0 +1,26 @@
+<map id="crashpad::CPUContext" name="crashpad::CPUContext">
+<area shape="rect" id="Node000001" title="A context structure capable of carrying the context of any supported CPU architecture." alt="" coords="861,188,1020,218"/>
+<area shape="rect" id="Node000002" href="$structcrashpad_1_1CPUContextX86.html" title="A context structure carrying 32&#45;bit x86 CPU state." alt="" coords="569,19,751,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="725,52,766,67,804,83,839,103,890,146,928,186,924,190,886,150,836,108,802,88,764,72,724,57"/>
+<area shape="rect" id="Node000003" href="$structcrashpad_1_1CPUContextX86_1_1Fxsave.html" title=" " alt="" coords="280,5,462,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="478,28,569,30,568,35,478,34"/>
+<area shape="rect" id="Node000004" href="$unioncrashpad_1_1CPUContextX86_1_1X87OrMMXRegister.html" title=" " alt="" coords="5,43,188,91"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="203,50,279,39,280,45,204,55"/>
+<area shape="rect" id="Node000006" href="$structcrashpad_1_1CPUContextX86__64_1_1Fxsave.html" title=" " alt="" coords="280,79,462,127"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="203,81,212,82,280,90,279,96,211,87,202,86"/>
+<area shape="rect" id="Node000005" href="$structcrashpad_1_1CPUContextX86__64.html" title="A context structure carrying x86_64 CPU state." alt="" coords="558,82,762,111"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="740,113,766,120,803,131,838,145,916,185,913,190,836,149,801,136,765,126,738,118"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="478,98,557,96,558,101,478,103"/>
+<area shape="rect" id="Node000007" href="$structcrashpad_1_1CPUContextARM.html" title="A context structure carrying ARM CPU state." alt="" coords="566,135,754,164"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="769,164,838,176,877,185,876,190,837,182,769,169"/>
+<area shape="rect" id="Node000008" href="$structcrashpad_1_1CPUContextARM64.html" title="A context structure carrying ARM64 CPU state." alt="" coords="558,188,762,218"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="777,200,861,200,861,206,777,206"/>
+<area shape="rect" id="Node000009" href="$structcrashpad_1_1uint128__struct.html" title="Stores a 128&#45;bit quantity." alt="" coords="284,188,458,218"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="474,200,558,200,558,206,474,206"/>
+<area shape="rect" id="Node000010" href="$structcrashpad_1_1CPUContextMIPS.html" title="A context structure carrying MIPS CPU state." alt="" coords="565,242,755,271"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="770,237,837,225,877,216,879,221,838,230,771,242"/>
+<area shape="rect" id="Node000011" href="$structcrashpad_1_1CPUContextMIPS64.html" title="A context structure carrying MIPS64 CPU state." alt="" coords="557,295,763,324"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="738,288,765,280,801,270,836,257,913,216,916,221,838,262,803,275,766,286,740,293"/>
+<area shape="rect" id="Node000012" href="$structcrashpad_1_1CPUContextRISCV64.html" title="A context structure carrying RISCV64 CPU state." alt="" coords="555,348,765,378"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="744,341,764,334,802,319,836,299,886,256,924,217,928,220,890,260,839,303,804,324,766,339,745,346"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="crashpad::test::ExceptionSwallower::ExceptionSwallowerThread" name="crashpad::test::ExceptionSwallower::ExceptionSwallowerThread">
+<area shape="rect" id="Node000001" title=" " alt="" coords="33,102,289,151"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1Thread.html" title="Basic thread abstraction. Users should derive from this class and implement ThreadMain()." alt="" coords="5,15,133,44"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,54,140,100,136,103,91,58"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1UniversalMachExcServer_1_1Interface.html" title="An interface that the different request messages that are a part of the exc and mach_exc Mach subsyst..." alt="" coords="157,5,352,54"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="223,67,186,103,183,99,219,63"/>
+</map>

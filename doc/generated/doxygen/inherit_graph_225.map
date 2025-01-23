@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classcrashpad_1_1PtraceConnection.html" title="Provides an interface for making ptrace requests against a process and its threads." alt="" coords="5,59,199,88"/>
+<area shape="rect" id="Node000001" href="$classcrashpad_1_1DirectPtraceConnection.html" title="Manages a direct ptrace connection to a process." alt="" coords="247,5,477,35"/>
+<area shape="poly" id="edge145_Node000000_Node000001" title=" " alt="" coords="192,52,285,33,287,38,193,58"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1PtraceClient.html" title="Implements a PtraceConnection over a socket." alt="" coords="283,59,441,88"/>
+<area shape="poly" id="edge146_Node000000_Node000002" title=" " alt="" coords="214,71,282,71,282,76,214,76"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1test_1_1FakePtraceConnection.html" title="Stands&#45;in where real PtraceConnections aren&#39;t available." alt="" coords="270,112,454,160"/>
+<area shape="poly" id="edge147_Node000000_Node000003" title=" " alt="" coords="182,90,270,111,268,116,181,95"/>
+</map>

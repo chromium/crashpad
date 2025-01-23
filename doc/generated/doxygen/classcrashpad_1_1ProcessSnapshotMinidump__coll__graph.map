@@ -1,0 +1,5 @@
+<map id="crashpad::ProcessSnapshotMinidump" name="crashpad::ProcessSnapshotMinidump">
+<area shape="rect" id="Node000001" title="A ProcessSnapshot based on a minidump file." alt="" coords="5,83,194,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ProcessSnapshot.html" title="An abstract interface to a snapshot representing the state of a process." alt="" coords="5,5,194,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,50,102,82,97,82,97,50"/>
+</map>

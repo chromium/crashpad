@@ -1,0 +1,17 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classcrashpad_1_1ModuleSnapshot.html" title="An abstract interface to a snapshot representing a code module (binary image) loaded into a snapshot ..." alt="" coords="5,235,194,264"/>
+<area shape="rect" id="Node000001" href="$classcrashpad_1_1internal_1_1ModuleSnapshotElf.html" title="A ModuleSnapshot of a code module (binary image) loaded into a running (or crashed) process on a syst..." alt="" coords="306,5,454,54"/>
+<area shape="poly" id="edge120_Node000000_Node000001" title=" " alt="" coords="113,220,134,184,162,142,198,100,240,65,271,49,304,38,306,43,273,54,243,69,202,104,166,145,138,187,118,222"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1ModuleSnapshotIOSIntermediateDump.html" title="A ModuleSnapshot of a code module (binary image) loaded into a running (or crashed) process on an iOS..." alt="" coords="242,79,518,127"/>
+<area shape="poly" id="edge121_Node000000_Node000002" title=" " alt="" coords="126,222,176,179,240,138,270,126,272,130,243,143,180,183,129,226"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1internal_1_1ModuleSnapshotMac.html" title="A ModuleSnapshot of a code module (binary image) loaded into a running (or crashed) process on a macO..." alt="" coords="301,152,459,201"/>
+<area shape="poly" id="edge122_Node000000_Node000003" title=" " alt="" coords="173,228,299,194,301,200,174,233"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html" title="A ModuleSnapshot based on a module in a minidump file." alt="" coords="282,225,478,274"/>
+<area shape="poly" id="edge123_Node000000_Node000004" title=" " alt="" coords="209,247,282,247,282,252,209,252"/>
+<area shape="rect" id="Node000005" href="$classcrashpad_1_1internal_1_1ModuleSnapshotSanitized.html" title="A ModuleSnapshot which wraps and filters sensitive information from another ModuleSnapshot." alt="" coords="286,299,474,347"/>
+<area shape="poly" id="edge124_Node000000_Node000005" title=" " alt="" coords="175,266,286,296,284,301,173,272"/>
+<area shape="rect" id="Node000006" href="$classcrashpad_1_1internal_1_1ModuleSnapshotWin.html" title="A ModuleSnapshot of a code module (binary image) loaded into a running (or crashed) process on a Wind..." alt="" coords="302,372,458,421"/>
+<area shape="poly" id="edge125_Node000000_Node000006" title=" " alt="" coords="129,273,180,316,243,357,302,378,300,383,240,361,176,320,126,278"/>
+<area shape="rect" id="Node000007" href="$classcrashpad_1_1test_1_1TestModuleSnapshot.html" title="A test ModuleSnapshot that can carry arbitrary data for testing purposes." alt="" coords="286,445,474,494"/>
+<area shape="poly" id="edge126_Node000000_Node000007" title=" " alt="" coords="118,277,138,313,166,354,202,395,243,430,286,451,284,455,240,435,198,399,162,357,134,315,113,280"/>
+</map>

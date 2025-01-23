@@ -1,0 +1,19 @@
+<map id="crashpad::ProcessSnapshot" name="crashpad::ProcessSnapshot">
+<area shape="rect" id="Node000001" title="An abstract interface to a snapshot representing the state of a process." alt="" coords="5,251,194,280"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ProcessSnapshotFuchsia.html" title="A ProcessSnapshot of a running (or crashed) process running on a Fuchsia system. This class is not ye..." alt="" coords="286,5,474,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,236,131,197,159,151,196,104,240,65,284,43,286,48,243,69,200,108,164,154,135,199,116,238"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1ProcessSnapshotLinux.html" title="A ProcessSnapshot of a running (or crashed) process running on a Linux system." alt="" coords="286,79,474,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="121,237,172,186,205,159,240,137,284,119,286,124,243,141,208,164,176,190,125,241"/>
+<area shape="rect" id="Node000004" href="$classcrashpad_1_1ProcessSnapshotMac.html" title="A ProcessSnapshot of a running (or crashed) process running on a macOS system." alt="" coords="273,151,486,180"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="136,240,185,214,241,190,280,179,282,184,243,195,187,219,139,245"/>
+<area shape="rect" id="Node000005" href="$classcrashpad_1_1ProcessSnapshotMinidump.html" title="A ProcessSnapshot based on a minidump file." alt="" coords="286,204,474,253"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="209,248,285,238,285,244,209,254"/>
+<area shape="rect" id="Node000006" href="$classcrashpad_1_1ProcessSnapshotSanitized.html" title="A ProcessSnapshot which wraps and filters sensitive information from another ProcessSnapshot." alt="" coords="286,277,474,326"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="209,277,285,287,285,292,209,282"/>
+<area shape="rect" id="Node000007" href="$classcrashpad_1_1ProcessSnapshotWin.html" title="A ProcessSnapshot of a running (or crashed) process running on a Windows system." alt="" coords="274,350,486,379"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="140,286,188,312,243,335,282,346,280,351,241,340,185,317,137,291"/>
+<area shape="rect" id="Node000008" href="$classcrashpad_1_1internal_1_1ProcessSnapshotIOSIntermediateDump.html" title="A ProcessSnapshot of a running (or crashed) process running on a iphoneOS system." alt="" coords="242,403,518,451"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="125,290,176,341,208,367,243,389,267,400,265,404,240,393,205,371,173,345,121,294"/>
+<area shape="rect" id="Node000009" href="$classcrashpad_1_1test_1_1TestProcessSnapshot.html" title="A test ProcessSnapshot that can carry arbitrary data for testing purposes." alt="" coords="286,476,474,525"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="116,293,136,331,164,377,200,422,243,461,286,482,284,487,240,465,196,426,159,380,131,334,111,295"/>
+</map>

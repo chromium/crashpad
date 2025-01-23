@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,24 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
-/* @license-end */
-</script>
-<div id="main-nav"></div>
 </div><!-- top -->
-<div id="doc-content">
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
+$(function(){initNavTree('namespacemembers_type.html',''); initResizable(true); });
 /* @license-end */
 </script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -85,42 +103,88 @@ $(function(){ initResizable(false); });
 </div>
 
 <div class="contents">
-<div class="textblock">Here is a list of all documented namespace typedefs with links to the namespaces they belong to:</div><ul>
+<div class="textblock">Here is a list of all documented namespace typedefs with links to the namespaces they belong to:</div>
+
+<h3><a id="index_a" name="index_a"></a>- a -</h3><ul>
 <li>AlignedVector&#160;:&#160;<a class="el" href="namespacecrashpad.html#a22c828ade5104707eb2b9e3d4141778b">crashpad</a></li>
+</ul>
+
+
+<h3><a id="index_c" name="index_c"></a>- c -</h3><ul>
 <li>CheckedLinuxAddressRange&#160;:&#160;<a class="el" href="namespacecrashpad.html#a39b6bbc20b0887c35b955e2898b968fd">crashpad</a></li>
 <li>CheckedMachAddressRange&#160;:&#160;<a class="el" href="namespacecrashpad.html#a9746092c7c995c911caf433b7f1abd15">crashpad</a></li>
 <li>CheckedVMAddressRange&#160;:&#160;<a class="el" href="namespacecrashpad.html#a20680b609955bd1ed0f60f2c7ff46678">crashpad</a></li>
 <li>CheckedWinAddressRange&#160;:&#160;<a class="el" href="namespacecrashpad.html#aee4f562873b273c153c1b9b92c39eafd">crashpad</a></li>
 <li>ConstThreadState&#160;:&#160;<a class="el" href="namespacecrashpad.html#ae8a2e5f928712c15766a756cd2035d90">crashpad</a></li>
+</ul>
+
+
+<h3><a id="index_f" name="index_f"></a>- f -</h3><ul>
 <li>FileHandle&#160;:&#160;<a class="el" href="namespacecrashpad.html#aa23e97af4fc55d89e2f7f6775138980c">crashpad</a></li>
 <li>FileOffset&#160;:&#160;<a class="el" href="namespacecrashpad.html#a73e870ea9156f1bfdff1b998a77cdd9e">crashpad</a></li>
 <li>FileOperationResult&#160;:&#160;<a class="el" href="namespacecrashpad.html#a9cbae3880f57681cd84026b2c5a042ca">crashpad</a></li>
+</ul>
+
+
+<h3><a id="index_h" name="index_h"></a>- h -</h3><ul>
 <li>HTTPHeaders&#160;:&#160;<a class="el" href="namespacecrashpad.html#a1566962442daa1b5a2f67c4346dd7e50">crashpad</a></li>
+</ul>
+
+
+<h3><a id="index_l" name="index_l"></a>- l -</h3><ul>
 <li>LinuxVMAddress&#160;:&#160;<a class="el" href="namespacecrashpad.html#ac349d7ee7fdd6c312073c0e9d9af3db6">crashpad</a></li>
 <li>LinuxVMOffset&#160;:&#160;<a class="el" href="namespacecrashpad.html#ad894185a26f2a63c3c24170b03fa096a">crashpad</a></li>
 <li>LinuxVMSize&#160;:&#160;<a class="el" href="namespacecrashpad.html#af03f17b393b7a4f00279d2c37550b441">crashpad</a></li>
+</ul>
+
+
+<h3><a id="index_m" name="index_m"></a>- m -</h3><ul>
 <li>MachMessageDeadline&#160;:&#160;<a class="el" href="namespacecrashpad.html#abd63ad5a7c13f493e8d1e37ef7801bce">crashpad</a></li>
 <li>MinidumpThreadIDMap&#160;:&#160;<a class="el" href="namespacecrashpad.html#a6e1c44f1c92c4ae031829f6f1b255268">crashpad</a></li>
+</ul>
+
+
+<h3><a id="index_p" name="index_p"></a>- p -</h3><ul>
 <li>ProcessID&#160;:&#160;<a class="el" href="namespacecrashpad.html#ad772b944721fbe2c2cc4df22705bb6ec">crashpad</a></li>
 <li>ProcessMemoryNative&#160;:&#160;<a class="el" href="namespacecrashpad.html#a0c6c24d1765f8acd72a4c5da5ef93767">crashpad</a></li>
 <li>ProcessType&#160;:&#160;<a class="el" href="namespacecrashpad_1_1test.html#a5591ba02262c4dcbcf029770028d399d">crashpad::test</a></li>
+</ul>
+
+
+<h3><a id="index_r" name="index_r"></a>- r -</h3><ul>
+<li>RingBufferAnnotationCapacity&#160;:&#160;<a class="el" href="namespacecrashpad.html#ac3ac7f59200f3fee264cf9f7248a8910">crashpad</a></li>
+<li>RingBufferCapacity&#160;:&#160;<a class="el" href="namespacecrashpad.html#aa7ef9aa2375aa179ab428923628fbc12">crashpad</a></li>
+</ul>
+
+
+<h3><a id="index_s" name="index_s"></a>- s -</h3><ul>
 <li>ScopedDIR&#160;:&#160;<a class="el" href="namespacecrashpad.html#ab78e3cfff43d8e9e512f30955e370bb3">crashpad</a></li>
 <li>ScopedFileHandle&#160;:&#160;<a class="el" href="namespacecrashpad.html#a2d3a0ca2e9e37905b425f2cb1b428e7e">crashpad</a></li>
 <li>SimpleAddressRangeBag&#160;:&#160;<a class="el" href="namespacecrashpad.html#a0ddac921c80ea43961025cacea5e92f1">crashpad</a></li>
 <li>SimpleStringDictionary&#160;:&#160;<a class="el" href="namespacecrashpad.html#a234f585958271d359e8f1a4ae3f95553">crashpad</a></li>
 <li>StringToSymbolicConstantOptions&#160;:&#160;<a class="el" href="namespacecrashpad.html#a78ec34d8dc54f6d191e3ddae3eb79170">crashpad</a></li>
 <li>SymbolicConstantToStringOptions&#160;:&#160;<a class="el" href="namespacecrashpad.html#a18cc715d0526f5bd9909027403f30d7d">crashpad</a></li>
+</ul>
+
+
+<h3><a id="index_v" name="index_v"></a>- v -</h3><ul>
 <li>VMAddress&#160;:&#160;<a class="el" href="namespacecrashpad.html#a3b472f487657ece8e0a9a662a13b2256">crashpad</a></li>
 <li>VMOffset&#160;:&#160;<a class="el" href="namespacecrashpad.html#a4f2830f883069635702408e21571dfe2">crashpad</a></li>
 <li>VMSize&#160;:&#160;<a class="el" href="namespacecrashpad.html#afc29d9e6679a899150179ba3ce896072">crashpad</a></li>
+</ul>
+
+
+<h3><a id="index_w" name="index_w"></a>- w -</h3><ul>
 <li>WinVMAddress&#160;:&#160;<a class="el" href="namespacecrashpad.html#ac5872ff07ebe5bda9f532e8d3d752d77">crashpad</a></li>
 <li>WinVMSize&#160;:&#160;<a class="el" href="namespacecrashpad.html#aa24b456d735f72df6141fd110542b24f">crashpad</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

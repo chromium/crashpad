@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('structMINIDUMP__STRING.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,8 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
@@ -100,12 +118,12 @@ $(function(){ initResizable(false); });
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a1dbda2f62d1b74e2a13fdbae7a13252d" id="r_a1dbda2f62d1b74e2a13fdbae7a13252d"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1dbda2f62d1b74e2a13fdbae7a13252d">Length</a></td></tr>
-<tr class="memdesc:a1dbda2f62d1b74e2a13fdbae7a13252d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The length of the <a class="el" href="#af94c17c544656672a9cca277c4bcf7c4" title="The string, encoded in UTF-16, and terminated with a UTF-16 NUL code unit (two NUL bytes).">Buffer</a> field in bytes, not including the <code>NUL</code> terminator.  <br /></td></tr>
+<tr class="memdesc:a1dbda2f62d1b74e2a13fdbae7a13252d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The length of the <a class="el" href="#a799a913255b13d3f7f542692bcd1522b" title="The string, encoded in UTF-16, and terminated with a UTF-16 NUL code unit (two NUL bytes).">Buffer</a> field in bytes, not including the <code>NUL</code> terminator.  <br /></td></tr>
 <tr class="separator:a1dbda2f62d1b74e2a13fdbae7a13252d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af94c17c544656672a9cca277c4bcf7c4" id="r_af94c17c544656672a9cca277c4bcf7c4"><td class="memItemLeft" align="right" valign="top"><a id="af94c17c544656672a9cca277c4bcf7c4" name="af94c17c544656672a9cca277c4bcf7c4"></a>
-base::char16&#160;</td><td class="memItemRight" valign="bottom"><b>Buffer</b> [0]</td></tr>
-<tr class="memdesc:af94c17c544656672a9cca277c4bcf7c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The string, encoded in UTF-16, and terminated with a UTF-16 <code>NUL</code> code unit (two <code>NUL</code> bytes). <br /></td></tr>
-<tr class="separator:af94c17c544656672a9cca277c4bcf7c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a799a913255b13d3f7f542692bcd1522b" id="r_a799a913255b13d3f7f542692bcd1522b"><td class="memItemLeft" align="right" valign="top"><a id="a799a913255b13d3f7f542692bcd1522b" name="a799a913255b13d3f7f542692bcd1522b"></a>
+char16_t&#160;</td><td class="memItemRight" valign="bottom"><b>Buffer</b> [0]</td></tr>
+<tr class="memdesc:a799a913255b13d3f7f542692bcd1522b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The string, encoded in UTF-16, and terminated with a UTF-16 <code>NUL</code> code unit (two <code>NUL</code> bytes). <br /></td></tr>
+<tr class="separator:a799a913255b13d3f7f542692bcd1522b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A variable-length UTF-16-encoded string carried within a minidump file. </p>
@@ -124,7 +142,7 @@ base::char16&#160;</td><td class="memItemRight" valign="bottom"><b>Buffer</b> [0
       </table>
 </div><div class="memdoc">
 
-<p>The length of the <a class="el" href="#af94c17c544656672a9cca277c4bcf7c4" title="The string, encoded in UTF-16, and terminated with a UTF-16 NUL code unit (two NUL bytes).">Buffer</a> field in bytes, not including the <code>NUL</code> terminator. </p>
+<p>The length of the <a class="el" href="#a799a913255b13d3f7f542692bcd1522b" title="The string, encoded in UTF-16, and terminated with a UTF-16 NUL code unit (two NUL bytes).">Buffer</a> field in bytes, not including the <code>NUL</code> terminator. </p>
 <dl class="section note"><dt>Note</dt><dd>This field is interpreted as a byte count, not a count of UTF-16 code units or Unicode code points. </dd></dl>
 
 </div>
@@ -133,10 +151,13 @@ base::char16&#160;</td><td class="memItemRight" valign="bottom"><b>Buffer</b> [0
 <li>compat/non_win/<a class="el" href="dbghelp_8h.html">dbghelp.h</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="structMINIDUMP__STRING.html">MINIDUMP_STRING</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

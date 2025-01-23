@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('structMINIDUMP__MISC__INFO__5.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,8 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
@@ -99,15 +117,13 @@ $(function(){ initResizable(false); });
 <div class="dynheader">
 Inheritance diagram for MINIDUMP_MISC_INFO_5:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="structMINIDUMP__MISC__INFO__5.png" usemap="#MINIDUMP_5FMISC_5FINFO_5F5_map" alt=""/>
-  <map id="MINIDUMP_5FMISC_5FINFO_5F5_map" name="MINIDUMP_5FMISC_5FINFO_5F5_map">
-<area href="structMINIDUMP__MISC__INFO__4.html" title="Information about the process that the minidump file contains a snapshot of, as well as the system th..." alt="MINIDUMP_MISC_INFO_4" shape="rect" coords="0,168,163,192"/>
-<area href="structMINIDUMP__MISC__INFO__3.html" title="Information about the process that the minidump file contains a snapshot of, as well as the system th..." alt="MINIDUMP_MISC_INFO_3" shape="rect" coords="0,112,163,136"/>
-<area href="structMINIDUMP__MISC__INFO__2.html" title="Information about the process that the minidump file contains a snapshot of, as well as the system th..." alt="MINIDUMP_MISC_INFO_2" shape="rect" coords="0,56,163,80"/>
-<area href="structMINIDUMP__MISC__INFO.html" title="Information about the process that the minidump file contains a snapshot of, as well as the system th..." alt="MINIDUMP_MISC_INFO" shape="rect" coords="0,0,163,24"/>
-  </map>
-</div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structMINIDUMP__MISC__INFO__5__inherit__graph.svg" width="195" height="351"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for MINIDUMP_MISC_INFO_5:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="structMINIDUMP__MISC__INFO__5__coll__graph.svg" width="502" height="466"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -118,12 +134,12 @@ Public Attributes</h2></td></tr>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>ProcessCookie</b></td></tr>
 <tr class="separator:a96a18bc0af925287ce671e7e549f61a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_structMINIDUMP__MISC__INFO__4"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_attribs_structMINIDUMP__MISC__INFO__4')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="structMINIDUMP__MISC__INFO__4.html">MINIDUMP_MISC_INFO_4</a></td></tr>
-<tr class="memitem:a22ccb40896084aced8a3c780a927456f inherit pub_attribs_structMINIDUMP__MISC__INFO__4" id="r_a22ccb40896084aced8a3c780a927456f"><td class="memItemLeft" align="right" valign="top">base::char16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__MISC__INFO__4.html#a22ccb40896084aced8a3c780a927456f">BuildString</a> [260]</td></tr>
-<tr class="memdesc:a22ccb40896084aced8a3c780a927456f inherit pub_attribs_structMINIDUMP__MISC__INFO__4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The operating system’s “build string”, a string identifying a specific build of the operating system.  <br /></td></tr>
-<tr class="separator:a22ccb40896084aced8a3c780a927456f inherit pub_attribs_structMINIDUMP__MISC__INFO__4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75b120e8a596ddc38c414a317da33132 inherit pub_attribs_structMINIDUMP__MISC__INFO__4" id="r_a75b120e8a596ddc38c414a317da33132"><td class="memItemLeft" align="right" valign="top">base::char16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__MISC__INFO__4.html#a75b120e8a596ddc38c414a317da33132">DbgBldStr</a> [40]</td></tr>
-<tr class="memdesc:a75b120e8a596ddc38c414a317da33132 inherit pub_attribs_structMINIDUMP__MISC__INFO__4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The minidump producer’s “build string”, a string identifying the module that produced a minidump file.  <br /></td></tr>
-<tr class="separator:a75b120e8a596ddc38c414a317da33132 inherit pub_attribs_structMINIDUMP__MISC__INFO__4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ff31a9dbbf32ddaed0546f93ae5512f inherit pub_attribs_structMINIDUMP__MISC__INFO__4" id="r_a6ff31a9dbbf32ddaed0546f93ae5512f"><td class="memItemLeft" align="right" valign="top">char16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__MISC__INFO__4.html#a6ff31a9dbbf32ddaed0546f93ae5512f">BuildString</a> [260]</td></tr>
+<tr class="memdesc:a6ff31a9dbbf32ddaed0546f93ae5512f inherit pub_attribs_structMINIDUMP__MISC__INFO__4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The operating system’s “build string”, a string identifying a specific build of the operating system.  <br /></td></tr>
+<tr class="separator:a6ff31a9dbbf32ddaed0546f93ae5512f inherit pub_attribs_structMINIDUMP__MISC__INFO__4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c447d66a5f3154d307e4b794773d418 inherit pub_attribs_structMINIDUMP__MISC__INFO__4" id="r_a6c447d66a5f3154d307e4b794773d418"><td class="memItemLeft" align="right" valign="top">char16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__MISC__INFO__4.html#a6c447d66a5f3154d307e4b794773d418">DbgBldStr</a> [40]</td></tr>
+<tr class="memdesc:a6c447d66a5f3154d307e4b794773d418 inherit pub_attribs_structMINIDUMP__MISC__INFO__4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The minidump producer’s “build string”, a string identifying the module that produced a minidump file.  <br /></td></tr>
+<tr class="separator:a6c447d66a5f3154d307e4b794773d418 inherit pub_attribs_structMINIDUMP__MISC__INFO__4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_structMINIDUMP__MISC__INFO__3"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_attribs_structMINIDUMP__MISC__INFO__3')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="structMINIDUMP__MISC__INFO__3.html">MINIDUMP_MISC_INFO_3</a></td></tr>
 <tr class="memitem:a89afc34c4cddef0b2805cade8ddfec8a inherit pub_attribs_structMINIDUMP__MISC__INFO__3" id="r_a89afc34c4cddef0b2805cade8ddfec8a"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__MISC__INFO__3.html#a89afc34c4cddef0b2805cade8ddfec8a">ProcessIntegrityLevel</a></td></tr>
 <tr class="memdesc:a89afc34c4cddef0b2805cade8ddfec8a inherit pub_attribs_structMINIDUMP__MISC__INFO__3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The process’ integrity level.  <br /></td></tr>
@@ -222,10 +238,13 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>ProcessKernelTime
 <li>compat/non_win/<a class="el" href="dbghelp_8h.html">dbghelp.h</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="structMINIDUMP__MISC__INFO__5.html">MINIDUMP_MISC_INFO_5</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

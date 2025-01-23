@@ -1,0 +1,5 @@
+<map id="crashpad::DirectPtraceConnection" name="crashpad::DirectPtraceConnection">
+<area shape="rect" id="Node000001" title="Manages a direct ptrace connection to a process." alt="" coords="5,83,236,113"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1PtraceConnection.html" title="Provides an interface for making ptrace requests against a process and its threads." alt="" coords="24,5,217,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,51,123,82,118,82,118,51"/>
+</map>

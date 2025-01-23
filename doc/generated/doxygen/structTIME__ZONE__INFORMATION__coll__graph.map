@@ -1,0 +1,5 @@
+<map id="TIME_ZONE_INFORMATION" name="TIME_ZONE_INFORMATION">
+<area shape="rect" id="Node000001" title="Information about a time zone and its daylight saving rules." alt="" coords="5,121,196,151"/>
+<area shape="rect" id="Node000002" href="$structSYSTEMTIME.html" title="Represents a date and time." alt="" coords="50,5,151,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,50,103,121,98,121,98,50"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="crashpad::MinidumpThreadNameWriter" name="crashpad::MinidumpThreadNameWriter">
+<area shape="rect" id="Node000001" title="The writer for a MINIDUMP_THREAD_NAME object in a minidump file." alt="" coords="5,102,195,151"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1MinidumpWritable.html" title="The base class for all content that might be written to a minidump file." alt="" coords="28,5,172,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,69,103,101,97,101,97,69"/>
+</map>

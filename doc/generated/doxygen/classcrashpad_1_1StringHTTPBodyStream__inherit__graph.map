@@ -1,0 +1,5 @@
+<map id="crashpad::StringHTTPBodyStream" name="crashpad::StringHTTPBodyStream">
+<area shape="rect" id="Node000001" title="An implementation of HTTPBodyStream that turns a fixed string into a stream." alt="" coords="9,83,195,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1HTTPBodyStream.html" title="An interface to a stream that can be used for an HTTP request body." alt="" coords="5,5,199,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,50,105,82,99,82,99,50"/>
+</map>

@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1internal_1_1MinidumpWritable.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="namespacecrashpad_1_1internal.html">internal</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html">MinidumpWritable</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -106,44 +120,32 @@ $(function(){ initResizable(false); });
 <div class="dynheader">
 Inheritance diagram for crashpad::internal::MinidumpWritable:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classcrashpad_1_1internal_1_1MinidumpWritable.png" usemap="#crashpad::internal::MinidumpWritable_map" alt=""/>
-  <map id="crashpad::internal::MinidumpWritable_map" name="crashpad::internal::MinidumpWritable_map">
-<area href="classcrashpad_1_1internal_1_1MinidumpStringWriter.html" alt="crashpad::internal::MinidumpStringWriter&lt; MinidumpStringWriterUTF16Traits &gt;" shape="rect" coords="463,56,916,80"/>
-<area href="classcrashpad_1_1internal_1_1MinidumpStringWriter.html" alt="crashpad::internal::MinidumpStringWriter&lt; MinidumpStringWriterUTF8Traits &gt;" shape="rect" coords="463,112,916,136"/>
-<area href="classcrashpad_1_1MinidumpAnnotationListWriter.html" title="The writer for a MinidumpAnnotationList object in a minidump file, containing a list of MinidumpAnnot..." alt="crashpad::MinidumpAnnotationListWriter" shape="rect" coords="463,168,916,192"/>
-<area href="classcrashpad_1_1MinidumpAnnotationWriter.html" title="The writer for a MinidumpAnnotation object in a minidump file." alt="crashpad::MinidumpAnnotationWriter" shape="rect" coords="463,224,916,248"/>
-<area href="classcrashpad_1_1MinidumpByteArrayWriter.html" title="Writes a variable-length byte array for a minidump into a." alt="crashpad::MinidumpByteArrayWriter" shape="rect" coords="463,280,916,304"/>
-<area href="classcrashpad_1_1MinidumpContextWriter.html" title="The base class for writers of CPU context structures in minidump files." alt="crashpad::MinidumpContextWriter" shape="rect" coords="463,336,916,360"/>
-<area href="classcrashpad_1_1MinidumpFileWriter.html" title="The root-level object in a minidump file." alt="crashpad::MinidumpFileWriter" shape="rect" coords="463,392,916,416"/>
-<area href="classcrashpad_1_1MinidumpModuleCodeViewRecordWriter.html" title="The base class for writers of CodeView records referenced by MINIDUMP_MODULE::CvRecord in minidump fi..." alt="crashpad::MinidumpModuleCodeViewRecordWriter" shape="rect" coords="463,448,916,472"/>
-<area href="classcrashpad_1_1MinidumpModuleCrashpadInfoListWriter.html" title="The writer for a MinidumpModuleCrashpadInfoList object in a minidump file, containing a list of Minid..." alt="crashpad::MinidumpModuleCrashpadInfoListWriter" shape="rect" coords="463,504,916,528"/>
-<area href="classcrashpad_1_1MinidumpModuleCrashpadInfoWriter.html" title="The writer for a MinidumpModuleCrashpadInfo object in a minidump file." alt="crashpad::MinidumpModuleCrashpadInfoWriter" shape="rect" coords="463,560,916,584"/>
-<area href="classcrashpad_1_1MinidumpModuleMiscDebugRecordWriter.html" title="The writer for an IMAGE_DEBUG_MISC object in a minidump file." alt="crashpad::MinidumpModuleMiscDebugRecordWriter" shape="rect" coords="463,616,916,640"/>
-<area href="classcrashpad_1_1MinidumpModuleWriter.html" title="The writer for a MINIDUMP_MODULE object in a minidump file." alt="crashpad::MinidumpModuleWriter" shape="rect" coords="463,672,916,696"/>
-<area href="classcrashpad_1_1MinidumpSimpleStringDictionaryEntryWriter.html" title="The writer for a MinidumpSimpleStringDictionaryEntry object in a minidump file." alt="crashpad::MinidumpSimpleStringDictionaryEntryWriter" shape="rect" coords="463,728,916,752"/>
-<area href="classcrashpad_1_1MinidumpSimpleStringDictionaryWriter.html" title="The writer for a MinidumpSimpleStringDictionary object in a minidump file, containing a list of Minid..." alt="crashpad::MinidumpSimpleStringDictionaryWriter" shape="rect" coords="463,784,916,808"/>
-<area href="classcrashpad_1_1MinidumpThreadWriter.html" title="The writer for a MINIDUMP_THREAD object in a minidump file." alt="crashpad::MinidumpThreadWriter" shape="rect" coords="463,840,916,864"/>
-<area href="classcrashpad_1_1MinidumpUnloadedModuleWriter.html" title="The writer for a MINIDUMP_UNLOADED_MODULE object in a minidump file." alt="crashpad::MinidumpUnloadedModuleWriter" shape="rect" coords="463,896,916,920"/>
-<area href="classcrashpad_1_1SnapshotMinidumpMemoryWriter.html" title="The base class for writers of memory ranges pointed to by MINIDUMP_MEMORY_DESCRIPTOR objects in a min..." alt="crashpad::SnapshotMinidumpMemoryWriter" shape="rect" coords="463,952,916,976"/>
-<area href="classcrashpad_1_1internal_1_1MinidumpRVAListWriter.html" title="The writer for a MinidumpRVAList object in a minidump file, containing a list of RVA pointers." alt="crashpad::internal::MinidumpRVAListWriter" shape="rect" coords="463,1008,916,1032"/>
-<area href="classcrashpad_1_1internal_1_1MinidumpStreamWriter.html" title="The base class for all second-level objects (“streams”) in a minidump file." alt="crashpad::internal::MinidumpStreamWriter" shape="rect" coords="463,1064,916,1088"/>
-<area href="classcrashpad_1_1internal_1_1MinidumpStringWriter.html" title="Writes a variable-length string to a minidump file in accordance with the string type’s characteristi..." alt="crashpad::internal::MinidumpStringWriter&lt; Traits &gt;" shape="rect" coords="463,1120,916,1144"/>
-<area href="classcrashpad_1_1test_1_1TestUInt32MinidumpWritable.html" title="An internal::MinidumpWritable that carries a uint32_t for testing." alt="crashpad::test::TestUInt32MinidumpWritable" shape="rect" coords="463,1176,916,1200"/>
-  </map>
-</div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcrashpad_1_1internal_1_1MinidumpWritable__inherit__graph.svg" width="787" height="2102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a1ce61b81ff2771e1ef00f7216b721fe2" id="r_a1ce61b81ff2771e1ef00f7216b721fe2"><td class="memItemLeft" align="right" valign="top"><a id="a1ce61b81ff2771e1ef00f7216b721fe2" name="a1ce61b81ff2771e1ef00f7216b721fe2"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>MinidumpWritable</b> (const <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html">MinidumpWritable</a> &amp;)=delete</td></tr>
+<tr class="separator:a1ce61b81ff2771e1ef00f7216b721fe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a817eaf15a3c8f3ed83b6c9422253b1c2" id="r_a817eaf15a3c8f3ed83b6c9422253b1c2"><td class="memItemLeft" align="right" valign="top"><a id="a817eaf15a3c8f3ed83b6c9422253b1c2" name="a817eaf15a3c8f3ed83b6c9422253b1c2"></a>
+<a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html">MinidumpWritable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html">MinidumpWritable</a> &amp;)=delete</td></tr>
+<tr class="separator:a817eaf15a3c8f3ed83b6c9422253b1c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24507e918299cb566c7f15207de83a7f" id="r_a24507e918299cb566c7f15207de83a7f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24507e918299cb566c7f15207de83a7f">WriteEverything</a> (<a class="el" href="classcrashpad_1_1FileWriterInterface.html">FileWriterInterface</a> *file_writer)</td></tr>
 <tr class="memdesc:a24507e918299cb566c7f15207de83a7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes an object and all of its children to a minidump file.  <br /></td></tr>
 <tr class="separator:a24507e918299cb566c7f15207de83a7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a686683d78f099a07e2a1df8e6b567d37" id="r_a686683d78f099a07e2a1df8e6b567d37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a686683d78f099a07e2a1df8e6b567d37">RegisterRVA</a> (<a class="el" href="dbghelp_8h.html#acf465a1a77ecf067a9d946583bc6a3f8">RVA</a> *rva)</td></tr>
 <tr class="memdesc:a686683d78f099a07e2a1df8e6b567d37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a file offset pointer as one that should point to the object on which this method is called.  <br /></td></tr>
 <tr class="separator:a686683d78f099a07e2a1df8e6b567d37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9536d13e60e15a4d8855b86c67a2b20c" id="r_a9536d13e60e15a4d8855b86c67a2b20c"><td class="memItemLeft" align="right" valign="top"><a id="a9536d13e60e15a4d8855b86c67a2b20c" name="a9536d13e60e15a4d8855b86c67a2b20c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>RegisterRVA</b> (<a class="el" href="dbghelp_8h.html#a18e623b3f5dac42b87070281dda7b26b">RVA64</a> *rva)</td></tr>
+<tr class="separator:a9536d13e60e15a4d8855b86c67a2b20c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed263c64ecb0597696d080e395af6400" id="r_aed263c64ecb0597696d080e395af6400"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed263c64ecb0597696d080e395af6400">RegisterLocationDescriptor</a> (<a class="el" href="structMINIDUMP__LOCATION__DESCRIPTOR.html">MINIDUMP_LOCATION_DESCRIPTOR</a> *location_descriptor)</td></tr>
 <tr class="memdesc:aed263c64ecb0597696d080e395af6400"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a location descriptor as one that should point to the object on which this method is called.  <br /></td></tr>
 <tr class="separator:aed263c64ecb0597696d080e395af6400"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24fd894ccb9418a0b92570c0344e6f26" id="r_a24fd894ccb9418a0b92570c0344e6f26"><td class="memItemLeft" align="right" valign="top"><a id="a24fd894ccb9418a0b92570c0344e6f26" name="a24fd894ccb9418a0b92570c0344e6f26"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>RegisterLocationDescriptor</b> (<a class="el" href="structMINIDUMP__LOCATION__DESCRIPTOR64.html">MINIDUMP_LOCATION_DESCRIPTOR64</a> *location_descriptor64)</td></tr>
+<tr class="separator:a24fd894ccb9418a0b92570c0344e6f26"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-types" name="pro-types"></a>
 Protected Types</h2></td></tr>
@@ -602,7 +604,7 @@ This method should rarely be overridden. </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. <code>false</code> on error, indicating that the content could not be written to the minidump file.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Valid in <a class="el" href="#ac14e05f291f5fa713b5ec82a208fa7c7a87483823ca30a8257b2a5fbd21805bcd" title="The object is writable.">kStateWritable</a>. The object will transition to <a class="el" href="#ac14e05f291f5fa713b5ec82a208fa7c7af0d794ed29c320fcf35c71f40cc6a510" title="The object has been written to a minidump file.">kStateWritten</a> after this method returns. </dd></dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1internal_1_1MinidumpModuleCodeViewRecordPDBLinkWriter.html#a697e2c1bd9e93d74cf68a84d9074b346">crashpad::internal::MinidumpModuleCodeViewRecordPDBLinkWriter&lt; CodeViewRecordType &gt;</a>, <a class="el" href="classcrashpad_1_1internal_1_1MinidumpModuleCodeViewRecordPDBLinkWriter.html#a697e2c1bd9e93d74cf68a84d9074b346">crashpad::internal::MinidumpModuleCodeViewRecordPDBLinkWriter&lt; CodeViewRecordPDB20 &gt;</a>, <a class="el" href="classcrashpad_1_1internal_1_1MinidumpModuleCodeViewRecordPDBLinkWriter.html#a697e2c1bd9e93d74cf68a84d9074b346">crashpad::internal::MinidumpModuleCodeViewRecordPDBLinkWriter&lt; CodeViewRecordPDB70 &gt;</a>, <a class="el" href="classcrashpad_1_1internal_1_1MinidumpRVAListWriter.html#ae888ae943306ead6c87cf1c560a583c9">crashpad::internal::MinidumpRVAListWriter</a>, <a class="el" href="classcrashpad_1_1internal_1_1MinidumpStringWriter.html#a8c9d56b1b0468a07effb67973369b913">crashpad::internal::MinidumpStringWriter&lt; Traits &gt;</a>, <a class="el" href="classcrashpad_1_1internal_1_1MinidumpStringWriter.html#a8c9d56b1b0468a07effb67973369b913">crashpad::internal::MinidumpStringWriter&lt; MinidumpStringWriterUTF16Traits &gt;</a>, <a class="el" href="classcrashpad_1_1internal_1_1MinidumpStringWriter.html#a8c9d56b1b0468a07effb67973369b913">crashpad::internal::MinidumpStringWriter&lt; MinidumpStringWriterUTF8Traits &gt;</a>, <a class="el" href="classcrashpad_1_1MinidumpAnnotationListWriter.html#a7d61599927a4b405cdafbbd2f2d46e9c">crashpad::MinidumpAnnotationListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpAnnotationWriter.html#a6f0a80e45f3b9e652d953cb05fdad777">crashpad::MinidumpAnnotationWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpByteArrayWriter.html#ab4c2e2b737e4209f707ad7171fe4af37">crashpad::MinidumpByteArrayWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpContextAMD64Writer.html#a452865342aef365377d6f059b902ba59">crashpad::MinidumpContextAMD64Writer</a>, <a class="el" href="classcrashpad_1_1MinidumpContextARM64Writer.html#ac8444d16d1958028aab86d13da794101">crashpad::MinidumpContextARM64Writer</a>, <a class="el" href="classcrashpad_1_1MinidumpContextARMWriter.html#a973325059bb848aed264799dbece68b4">crashpad::MinidumpContextARMWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpContextMIPS64Writer.html#a567c33ac61b869580fa9242d23229d31">crashpad::MinidumpContextMIPS64Writer</a>, <a class="el" href="classcrashpad_1_1MinidumpContextMIPSWriter.html#adba1f81d177d57bffb53b4b2302ab185">crashpad::MinidumpContextMIPSWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpContextX86Writer.html#a1bd12750e144f63410d9babf976cceef">crashpad::MinidumpContextX86Writer</a>, <a class="el" href="classcrashpad_1_1MinidumpCrashpadInfoWriter.html#a438010ef37056aaeba48f26680265cfa">crashpad::MinidumpCrashpadInfoWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpExceptionWriter.html#aac2513645536298482694da6c26ed3b0">crashpad::MinidumpExceptionWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpFileWriter.html#abad1dd1348b1224b051014498070dd9e">crashpad::MinidumpFileWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpHandleDataWriter.html#ac9fd688ebfcec0654d3fea41ac2b8e05">crashpad::MinidumpHandleDataWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpMemoryInfoListWriter.html#a4fea0452602af61481528f14280babab">crashpad::MinidumpMemoryInfoListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpMemoryListWriter.html#a9c5cd4c45f2726044aa68dc84f95ddda">crashpad::MinidumpMemoryListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpMiscInfoWriter.html#acf044a02623faf79c1ce99c541656981">crashpad::MinidumpMiscInfoWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpModuleCrashpadInfoListWriter.html#a31a7559378b582330ca3f0107420fce2">crashpad::MinidumpModuleCrashpadInfoListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpModuleCrashpadInfoWriter.html#a1d7c04c213d805e76571ff165eb53135">crashpad::MinidumpModuleCrashpadInfoWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpModuleListWriter.html#a59b068e4b3a256ea9378355d76cb48ef">crashpad::MinidumpModuleListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpModuleMiscDebugRecordWriter.html#a0b84546996b7e289f9732e9e078815d8">crashpad::MinidumpModuleMiscDebugRecordWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpModuleWriter.html#ac89d6271ee0515937052afad8ba15cf1">crashpad::MinidumpModuleWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpSimpleStringDictionaryEntryWriter.html#a2b308901e5fdaac226c400b4da033c67">crashpad::MinidumpSimpleStringDictionaryEntryWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpSimpleStringDictionaryWriter.html#a6364bf64fdb470e5549e7d5626e08fdc">crashpad::MinidumpSimpleStringDictionaryWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpSystemInfoWriter.html#a703099c51937c32e4ab063badc858409">crashpad::MinidumpSystemInfoWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpThreadListWriter.html#aa700bd00164ae912a518f74160d8ebda">crashpad::MinidumpThreadListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpThreadWriter.html#ac8c63d982e88f2624885d3c94b5f5edc">crashpad::MinidumpThreadWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpUnloadedModuleListWriter.html#a86b919c4596f22864fb8b572c43b955b">crashpad::MinidumpUnloadedModuleListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpUnloadedModuleWriter.html#a81dd3bd393ea61456393df0bed6e5571">crashpad::MinidumpUnloadedModuleWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpUserStreamWriter.html#a5fb69a1986433361c1d95246d35d22d9">crashpad::MinidumpUserStreamWriter</a>, and <a class="el" href="classcrashpad_1_1test_1_1TestUInt32MinidumpWritable.html#a7a04afb96009539a3064c2819d84bb74">crashpad::test::TestUInt32MinidumpWritable</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1internal_1_1MinidumpModuleCodeViewRecordPDBLinkWriter.html#a697e2c1bd9e93d74cf68a84d9074b346">crashpad::internal::MinidumpModuleCodeViewRecordPDBLinkWriter&lt; CodeViewRecordType &gt;</a>, <a class="el" href="classcrashpad_1_1internal_1_1MinidumpModuleCodeViewRecordPDBLinkWriter.html#a697e2c1bd9e93d74cf68a84d9074b346">crashpad::internal::MinidumpModuleCodeViewRecordPDBLinkWriter&lt; CodeViewRecordPDB20 &gt;</a>, <a class="el" href="classcrashpad_1_1internal_1_1MinidumpModuleCodeViewRecordPDBLinkWriter.html#a697e2c1bd9e93d74cf68a84d9074b346">crashpad::internal::MinidumpModuleCodeViewRecordPDBLinkWriter&lt; CodeViewRecordPDB70 &gt;</a>, <a class="el" href="classcrashpad_1_1internal_1_1MinidumpRVAListWriter.html#ae888ae943306ead6c87cf1c560a583c9">crashpad::internal::MinidumpRVAListWriter</a>, <a class="el" href="classcrashpad_1_1internal_1_1MinidumpStringWriter.html#a8c9d56b1b0468a07effb67973369b913">crashpad::internal::MinidumpStringWriter&lt; Traits &gt;</a>, <a class="el" href="classcrashpad_1_1internal_1_1MinidumpStringWriter.html#a8c9d56b1b0468a07effb67973369b913">crashpad::internal::MinidumpStringWriter&lt; MinidumpStringWriterUTF16Traits &gt;</a>, <a class="el" href="classcrashpad_1_1internal_1_1MinidumpStringWriter.html#a8c9d56b1b0468a07effb67973369b913">crashpad::internal::MinidumpStringWriter&lt; MinidumpStringWriterUTF8Traits &gt;</a>, <a class="el" href="classcrashpad_1_1MinidumpAnnotationListWriter.html#a7d61599927a4b405cdafbbd2f2d46e9c">crashpad::MinidumpAnnotationListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpAnnotationWriter.html#a6f0a80e45f3b9e652d953cb05fdad777">crashpad::MinidumpAnnotationWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpByteArrayWriter.html#ab4c2e2b737e4209f707ad7171fe4af37">crashpad::MinidumpByteArrayWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpContextAMD64Writer.html#a452865342aef365377d6f059b902ba59">crashpad::MinidumpContextAMD64Writer</a>, <a class="el" href="classcrashpad_1_1MinidumpContextARM64Writer.html#ac8444d16d1958028aab86d13da794101">crashpad::MinidumpContextARM64Writer</a>, <a class="el" href="classcrashpad_1_1MinidumpContextARMWriter.html#a973325059bb848aed264799dbece68b4">crashpad::MinidumpContextARMWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpContextMIPS64Writer.html#a567c33ac61b869580fa9242d23229d31">crashpad::MinidumpContextMIPS64Writer</a>, <a class="el" href="classcrashpad_1_1MinidumpContextMIPSWriter.html#adba1f81d177d57bffb53b4b2302ab185">crashpad::MinidumpContextMIPSWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpContextRISCV64Writer.html#ae96f1d835a8f22343a04a695e4cf5571">crashpad::MinidumpContextRISCV64Writer</a>, <a class="el" href="classcrashpad_1_1MinidumpContextX86Writer.html#a1bd12750e144f63410d9babf976cceef">crashpad::MinidumpContextX86Writer</a>, <a class="el" href="classcrashpad_1_1MinidumpCrashpadInfoWriter.html#a438010ef37056aaeba48f26680265cfa">crashpad::MinidumpCrashpadInfoWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpExceptionWriter.html#aac2513645536298482694da6c26ed3b0">crashpad::MinidumpExceptionWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpFileWriter.html#abad1dd1348b1224b051014498070dd9e">crashpad::MinidumpFileWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpHandleDataWriter.html#ac9fd688ebfcec0654d3fea41ac2b8e05">crashpad::MinidumpHandleDataWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpMemoryInfoListWriter.html#a4fea0452602af61481528f14280babab">crashpad::MinidumpMemoryInfoListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpMemoryListWriter.html#a9c5cd4c45f2726044aa68dc84f95ddda">crashpad::MinidumpMemoryListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpMiscInfoWriter.html#acf044a02623faf79c1ce99c541656981">crashpad::MinidumpMiscInfoWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpModuleCrashpadInfoListWriter.html#a31a7559378b582330ca3f0107420fce2">crashpad::MinidumpModuleCrashpadInfoListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpModuleCrashpadInfoWriter.html#a1d7c04c213d805e76571ff165eb53135">crashpad::MinidumpModuleCrashpadInfoWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpModuleListWriter.html#a59b068e4b3a256ea9378355d76cb48ef">crashpad::MinidumpModuleListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpModuleMiscDebugRecordWriter.html#a0b84546996b7e289f9732e9e078815d8">crashpad::MinidumpModuleMiscDebugRecordWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpModuleWriter.html#ac89d6271ee0515937052afad8ba15cf1">crashpad::MinidumpModuleWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpSimpleStringDictionaryEntryWriter.html#a2b308901e5fdaac226c400b4da033c67">crashpad::MinidumpSimpleStringDictionaryEntryWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpSimpleStringDictionaryWriter.html#a6364bf64fdb470e5549e7d5626e08fdc">crashpad::MinidumpSimpleStringDictionaryWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpSystemInfoWriter.html#a703099c51937c32e4ab063badc858409">crashpad::MinidumpSystemInfoWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpThreadListWriter.html#aa700bd00164ae912a518f74160d8ebda">crashpad::MinidumpThreadListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpThreadWriter.html#ac8c63d982e88f2624885d3c94b5f5edc">crashpad::MinidumpThreadWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpUnloadedModuleListWriter.html#a86b919c4596f22864fb8b572c43b955b">crashpad::MinidumpUnloadedModuleListWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpUnloadedModuleWriter.html#a81dd3bd393ea61456393df0bed6e5571">crashpad::MinidumpUnloadedModuleWriter</a>, <a class="el" href="classcrashpad_1_1MinidumpUserStreamWriter.html#a5fb69a1986433361c1d95246d35d22d9">crashpad::MinidumpUserStreamWriter</a>, and <a class="el" href="classcrashpad_1_1test_1_1TestUInt32MinidumpWritable.html#a7a04afb96009539a3064c2819d84bb74">crashpad::test::TestUInt32MinidumpWritable</a>.</p>
 
 </div>
 </div>
@@ -676,10 +678,13 @@ This method should rarely be overridden. </dd></dl>
 <li>minidump/<b>minidump_writable.cc</b></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="namespacecrashpad_1_1internal.html">internal</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html">MinidumpWritable</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

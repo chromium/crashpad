@@ -1,0 +1,7 @@
+<map id="crashpad::MinidumpThreadListWriter" name="crashpad::MinidumpThreadListWriter">
+<area shape="rect" id="Node000001" title="The writer for a MINIDUMP_THREAD_LIST stream in a minidump file, containing a list of MINIDUMP_THREAD..." alt="" coords="5,199,195,247"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1MinidumpStreamWriter.html" title="The base class for all second&#45;level objects (“streams”) in a minidump file." alt="" coords="12,102,188,151"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,166,103,198,97,198,97,166"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1internal_1_1MinidumpWritable.html" title="The base class for all content that might be written to a minidump file." alt="" coords="28,5,172,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="103,69,103,101,97,101,97,69"/>
+</map>

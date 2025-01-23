@@ -1,0 +1,5 @@
+<map id="FakeProcessMemory" name="FakeProcessMemory">
+<area shape="rect" id="Node000001" title=" " alt="" coords="22,83,173,113"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ProcessMemory.html" title="Abstract base class for accessing the memory of another process." alt="" coords="5,5,190,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,51,100,82,95,82,95,51"/>
+</map>

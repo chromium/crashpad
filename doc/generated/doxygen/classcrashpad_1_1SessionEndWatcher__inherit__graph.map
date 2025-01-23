@@ -1,0 +1,5 @@
+<map id="crashpad::SessionEndWatcher" name="crashpad::SessionEndWatcher">
+<area shape="rect" id="Node000001" title="Creates a hidden window and waits for a WM_ENDSESSION message, indicating that the session is ending ..." alt="" coords="5,83,211,113"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1Thread.html" title="Basic thread abstraction. Users should derive from this class and implement ThreadMain()." alt="" coords="44,5,172,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,51,111,82,105,82,105,51"/>
+</map>

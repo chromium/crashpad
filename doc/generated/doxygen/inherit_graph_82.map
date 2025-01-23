@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classcrashpad_1_1internal_1_1IOSIntermediateDumpObject.html" title="Base class for intermediate dump object types." alt="" coords="5,79,218,127"/>
+<area shape="rect" id="Node000001" href="$classcrashpad_1_1internal_1_1IOSIntermediateDumpData.html" title="A data object, consisting of a std::vector&lt;uint8_t&gt;." alt="" coords="266,5,467,54"/>
+<area shape="poly" id="edge43_Node000000_Node000001" title=" " alt="" coords="212,71,278,52,280,57,214,76"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1IOSIntermediateDumpList.html" title="A list object, consisting of a vector of IOSIntermediateDumpMap." alt="" coords="270,79,463,127"/>
+<area shape="poly" id="edge44_Node000000_Node000002" title=" " alt="" coords="233,100,269,100,269,106,233,106"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1internal_1_1IOSIntermediateDumpMap.html" title="A map object containing a IntermediateDump Key&#45;Object pair." alt="" coords="267,152,466,201"/>
+<area shape="poly" id="edge45_Node000000_Node000003" title=" " alt="" coords="214,130,280,149,278,154,212,135"/>
+</map>

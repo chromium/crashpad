@@ -1,0 +1,5 @@
+<map id="crashpad::internal::MinidumpStringWriter&lt; Traits &gt;" name="crashpad::internal::MinidumpStringWriter&lt; Traits &gt;">
+<area shape="rect" id="Node000001" title="Writes a variable&#45;length string to a minidump file in accordance with the string type’s characteristi..." alt="" coords="5,102,174,170"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1MinidumpWritable.html" title="The base class for all content that might be written to a minidump file." alt="" coords="18,5,161,54"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,70,92,102,87,102,87,70"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="crashpad::MinidumpExceptionWriter" name="crashpad::MinidumpExceptionWriter">
+<area shape="rect" id="Node000001" title="The writer for a MINIDUMP_EXCEPTION_STREAM stream in a minidump file." alt="" coords="5,199,212,247"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1MinidumpStreamWriter.html" title="The base class for all second&#45;level objects (“streams”) in a minidump file." alt="" coords="21,102,196,151"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,166,111,198,106,198,106,166"/>
+<area shape="rect" id="Node000003" href="$classcrashpad_1_1internal_1_1MinidumpWritable.html" title="The base class for all content that might be written to a minidump file." alt="" coords="37,5,180,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="111,69,111,101,106,101,106,69"/>
+</map>

@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1MinidumpContextARM64Writer.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1MinidumpContextARM64Writer.html">MinidumpContextARM64Writer</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -97,39 +111,67 @@ $(function(){ initResizable(false); });
 </div><!--header-->
 <div class="contents">
 
-<p>The writer for a MinidumpContextARM64 structure in a minidump file.  
+<p>The writer for a <a class="el" href="structcrashpad_1_1MinidumpContextARM64.html" title="A 64-bit ARM CPU context (register state) carried in a minidump file.">MinidumpContextARM64</a> structure in a minidump file.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &quot;minidump/minidump_context_writer.h&quot;</code></p>
 <div class="dynheader">
 Inheritance diagram for crashpad::MinidumpContextARM64Writer:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classcrashpad_1_1MinidumpContextARM64Writer.png" usemap="#crashpad::MinidumpContextARM64Writer_map" alt=""/>
-  <map id="crashpad::MinidumpContextARM64Writer_map" name="crashpad::MinidumpContextARM64Writer_map">
-<area href="classcrashpad_1_1MinidumpContextWriter.html" title="The base class for writers of CPU context structures in minidump files." alt="crashpad::MinidumpContextWriter" shape="rect" coords="0,56,243,80"/>
-<area href="classcrashpad_1_1internal_1_1MinidumpWritable.html" title="The base class for all content that might be written to a minidump file." alt="crashpad::internal::MinidumpWritable" shape="rect" coords="0,0,243,24"/>
-  </map>
-</div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcrashpad_1_1MinidumpContextARM64Writer__inherit__graph.svg" width="206" height="254"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for crashpad::MinidumpContextARM64Writer:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcrashpad_1_1MinidumpContextARM64Writer__coll__graph.svg" width="206" height="254"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:ab6387c2af8fd91f38b57202e2b8a6c48" id="r_ab6387c2af8fd91f38b57202e2b8a6c48"><td class="memItemLeft" align="right" valign="top"><a id="ab6387c2af8fd91f38b57202e2b8a6c48" name="ab6387c2af8fd91f38b57202e2b8a6c48"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>MinidumpContextARM64Writer</b> (const <a class="el" href="classcrashpad_1_1MinidumpContextARM64Writer.html">MinidumpContextARM64Writer</a> &amp;)=delete</td></tr>
+<tr class="separator:ab6387c2af8fd91f38b57202e2b8a6c48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a223b2fc3ac4c12a6c696a7547256efa0" id="r_a223b2fc3ac4c12a6c696a7547256efa0"><td class="memItemLeft" align="right" valign="top"><a id="a223b2fc3ac4c12a6c696a7547256efa0" name="a223b2fc3ac4c12a6c696a7547256efa0"></a>
+<a class="el" href="classcrashpad_1_1MinidumpContextARM64Writer.html">MinidumpContextARM64Writer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1MinidumpContextARM64Writer.html">MinidumpContextARM64Writer</a> &amp;)=delete</td></tr>
+<tr class="separator:a223b2fc3ac4c12a6c696a7547256efa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a89b56966afb1a702616e3d111fa06156" id="r_a89b56966afb1a702616e3d111fa06156"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a89b56966afb1a702616e3d111fa06156">InitializeFromSnapshot</a> (const <a class="el" href="structcrashpad_1_1CPUContextARM64.html">CPUContextARM64</a> *context_snapshot)</td></tr>
-<tr class="memdesc:a89b56966afb1a702616e3d111fa06156"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the MinidumpContextARM64 based on <em class="arg">context_snapshot</em>.  <br /></td></tr>
+<tr class="memdesc:a89b56966afb1a702616e3d111fa06156"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="structcrashpad_1_1MinidumpContextARM64.html" title="A 64-bit ARM CPU context (register state) carried in a minidump file.">MinidumpContextARM64</a> based on <em class="arg">context_snapshot</em>.  <br /></td></tr>
 <tr class="separator:a89b56966afb1a702616e3d111fa06156"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67a0bf71a2cbdc6e8c4f34788be3fc41" id="r_a67a0bf71a2cbdc6e8c4f34788be3fc41"><td class="memItemLeft" align="right" valign="top">MinidumpContextARM64 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67a0bf71a2cbdc6e8c4f34788be3fc41">context</a> ()</td></tr>
+<tr class="memitem:a67a0bf71a2cbdc6e8c4f34788be3fc41" id="r_a67a0bf71a2cbdc6e8c4f34788be3fc41"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcrashpad_1_1MinidumpContextARM64.html">MinidumpContextARM64</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67a0bf71a2cbdc6e8c4f34788be3fc41">context</a> ()</td></tr>
 <tr class="memdesc:a67a0bf71a2cbdc6e8c4f34788be3fc41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to the context structure that this object will write.  <br /></td></tr>
 <tr class="separator:a67a0bf71a2cbdc6e8c4f34788be3fc41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classcrashpad_1_1MinidumpContextWriter"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classcrashpad_1_1MinidumpContextWriter')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcrashpad_1_1MinidumpContextWriter.html">crashpad::MinidumpContextWriter</a></td></tr>
+<tr class="memitem:ab36c7d85661d8e1215d0a60cd9fd2f49 inherit pub_methods_classcrashpad_1_1MinidumpContextWriter" id="r_ab36c7d85661d8e1215d0a60cd9fd2f49"><td class="memItemLeft" align="right" valign="top">
+&#160;</td><td class="memItemRight" valign="bottom"><b>MinidumpContextWriter</b> (const <a class="el" href="classcrashpad_1_1MinidumpContextWriter.html">MinidumpContextWriter</a> &amp;)=delete</td></tr>
+<tr class="separator:ab36c7d85661d8e1215d0a60cd9fd2f49 inherit pub_methods_classcrashpad_1_1MinidumpContextWriter"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95f61c9143b0c1d49894add8b7c4b760 inherit pub_methods_classcrashpad_1_1MinidumpContextWriter" id="r_a95f61c9143b0c1d49894add8b7c4b760"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classcrashpad_1_1MinidumpContextWriter.html">MinidumpContextWriter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1MinidumpContextWriter.html">MinidumpContextWriter</a> &amp;)=delete</td></tr>
+<tr class="separator:a95f61c9143b0c1d49894add8b7c4b760 inherit pub_methods_classcrashpad_1_1MinidumpContextWriter"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a219ffc1f211adc1876156272afbc3178 inherit pub_methods_classcrashpad_1_1MinidumpContextWriter" id="r_a219ffc1f211adc1876156272afbc3178"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpContextWriter.html#a219ffc1f211adc1876156272afbc3178">FreezeAndGetSizeOfObject</a> ()</td></tr>
+<tr class="memdesc:a219ffc1f211adc1876156272afbc3178 inherit pub_methods_classcrashpad_1_1MinidumpContextWriter"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the context structure that this object will write.  <br /></td></tr>
+<tr class="separator:a219ffc1f211adc1876156272afbc3178 inherit pub_methods_classcrashpad_1_1MinidumpContextWriter"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html">crashpad::internal::MinidumpWritable</a></td></tr>
+<tr class="memitem:a1ce61b81ff2771e1ef00f7216b721fe2 inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable" id="r_a1ce61b81ff2771e1ef00f7216b721fe2"><td class="memItemLeft" align="right" valign="top">
+&#160;</td><td class="memItemRight" valign="bottom"><b>MinidumpWritable</b> (const <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html">MinidumpWritable</a> &amp;)=delete</td></tr>
+<tr class="separator:a1ce61b81ff2771e1ef00f7216b721fe2 inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a817eaf15a3c8f3ed83b6c9422253b1c2 inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable" id="r_a817eaf15a3c8f3ed83b6c9422253b1c2"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html">MinidumpWritable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html">MinidumpWritable</a> &amp;)=delete</td></tr>
+<tr class="separator:a817eaf15a3c8f3ed83b6c9422253b1c2 inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24507e918299cb566c7f15207de83a7f inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable" id="r_a24507e918299cb566c7f15207de83a7f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#a24507e918299cb566c7f15207de83a7f">WriteEverything</a> (<a class="el" href="classcrashpad_1_1FileWriterInterface.html">FileWriterInterface</a> *file_writer)</td></tr>
 <tr class="memdesc:a24507e918299cb566c7f15207de83a7f inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes an object and all of its children to a minidump file.  <br /></td></tr>
 <tr class="separator:a24507e918299cb566c7f15207de83a7f inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a686683d78f099a07e2a1df8e6b567d37 inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable" id="r_a686683d78f099a07e2a1df8e6b567d37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#a686683d78f099a07e2a1df8e6b567d37">RegisterRVA</a> (<a class="el" href="dbghelp_8h.html#acf465a1a77ecf067a9d946583bc6a3f8">RVA</a> *rva)</td></tr>
 <tr class="memdesc:a686683d78f099a07e2a1df8e6b567d37 inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a file offset pointer as one that should point to the object on which this method is called.  <br /></td></tr>
 <tr class="separator:a686683d78f099a07e2a1df8e6b567d37 inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9536d13e60e15a4d8855b86c67a2b20c inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable" id="r_a9536d13e60e15a4d8855b86c67a2b20c"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>RegisterRVA</b> (<a class="el" href="dbghelp_8h.html#a18e623b3f5dac42b87070281dda7b26b">RVA64</a> *rva)</td></tr>
+<tr class="separator:a9536d13e60e15a4d8855b86c67a2b20c inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed263c64ecb0597696d080e395af6400 inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable" id="r_aed263c64ecb0597696d080e395af6400"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#aed263c64ecb0597696d080e395af6400">RegisterLocationDescriptor</a> (<a class="el" href="structMINIDUMP__LOCATION__DESCRIPTOR.html">MINIDUMP_LOCATION_DESCRIPTOR</a> *location_descriptor)</td></tr>
 <tr class="memdesc:aed263c64ecb0597696d080e395af6400 inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a location descriptor as one that should point to the object on which this method is called.  <br /></td></tr>
 <tr class="separator:aed263c64ecb0597696d080e395af6400 inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24fd894ccb9418a0b92570c0344e6f26 inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable" id="r_a24fd894ccb9418a0b92570c0344e6f26"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>RegisterLocationDescriptor</b> (<a class="el" href="structMINIDUMP__LOCATION__DESCRIPTOR64.html">MINIDUMP_LOCATION_DESCRIPTOR64</a> *location_descriptor64)</td></tr>
+<tr class="separator:a24fd894ccb9418a0b92570c0344e6f26 inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -190,7 +232,7 @@ static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><b>kI
 <tr class="separator:ac2b31049c4fedaabb24857d82531d6d6 inherit pro_static_attribs_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The writer for a MinidumpContextARM64 structure in a minidump file. </p>
+<div class="textblock"><p>The writer for a <a class="el" href="structcrashpad_1_1MinidumpContextARM64.html" title="A 64-bit ARM CPU context (register state) carried in a minidump file.">MinidumpContextARM64</a> structure in a minidump file. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a67a0bf71a2cbdc6e8c4f34788be3fc41" name="a67a0bf71a2cbdc6e8c4f34788be3fc41"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a67a0bf71a2cbdc6e8c4f34788be3fc41">&#9670;&#160;</a></span>context()</h2>
@@ -202,7 +244,7 @@ static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><b>kI
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">MinidumpContextARM64 * crashpad::MinidumpContextARM64Writer::context </td>
+          <td class="memname"><a class="el" href="structcrashpad_1_1MinidumpContextARM64.html">MinidumpContextARM64</a> * crashpad::MinidumpContextARM64Writer::context </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -265,7 +307,7 @@ static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><b>kI
       </table>
 </div><div class="memdoc">
 
-<p>Initializes the MinidumpContextARM64 based on <em class="arg">context_snapshot</em>. </p>
+<p>Initializes the <a class="el" href="structcrashpad_1_1MinidumpContextARM64.html" title="A 64-bit ARM CPU context (register state) carried in a minidump file.">MinidumpContextARM64</a> based on <em class="arg">context_snapshot</em>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">context_snapshot</td><td>The context snapshot to use as source data.</td></tr>
@@ -318,10 +360,13 @@ static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><b>kI
 <li>minidump/<b>minidump_context_writer.cc</b></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1MinidumpContextARM64Writer.html">MinidumpContextARM64Writer</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

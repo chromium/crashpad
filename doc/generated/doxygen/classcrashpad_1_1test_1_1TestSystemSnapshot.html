@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1test_1_1TestSystemSnapshot.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="namespacecrashpad_1_1test.html">test</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1test_1_1TestSystemSnapshot.html">TestSystemSnapshot</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -103,15 +117,22 @@ $(function(){ initResizable(false); });
 <div class="dynheader">
 Inheritance diagram for crashpad::test::TestSystemSnapshot:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classcrashpad_1_1test_1_1TestSystemSnapshot.png" usemap="#crashpad::test::TestSystemSnapshot_map" alt=""/>
-  <map id="crashpad::test::TestSystemSnapshot_map" name="crashpad::test::TestSystemSnapshot_map">
-<area href="classcrashpad_1_1SystemSnapshot.html" title="An abstract interface to a snapshot representing the state of a system, comprising an operating syste..." alt="crashpad::SystemSnapshot" shape="rect" coords="0,0,211,24"/>
-  </map>
-</div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcrashpad_1_1test_1_1TestSystemSnapshot__inherit__graph.svg" width="198" height="138"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for crashpad::test::TestSystemSnapshot:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcrashpad_1_1test_1_1TestSystemSnapshot__coll__graph.svg" width="198" height="138"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:aae6973ca9c4717c9ecbe748a1f969766" id="r_aae6973ca9c4717c9ecbe748a1f969766"><td class="memItemLeft" align="right" valign="top"><a id="aae6973ca9c4717c9ecbe748a1f969766" name="aae6973ca9c4717c9ecbe748a1f969766"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>TestSystemSnapshot</b> (const <a class="el" href="classcrashpad_1_1test_1_1TestSystemSnapshot.html">TestSystemSnapshot</a> &amp;)=delete</td></tr>
+<tr class="separator:aae6973ca9c4717c9ecbe748a1f969766"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0bac0c97a8b31447a7eaf7232484f00" id="r_af0bac0c97a8b31447a7eaf7232484f00"><td class="memItemLeft" align="right" valign="top"><a id="af0bac0c97a8b31447a7eaf7232484f00" name="af0bac0c97a8b31447a7eaf7232484f00"></a>
+<a class="el" href="classcrashpad_1_1test_1_1TestSystemSnapshot.html">TestSystemSnapshot</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1test_1_1TestSystemSnapshot.html">TestSystemSnapshot</a> &amp;)=delete</td></tr>
+<tr class="separator:af0bac0c97a8b31447a7eaf7232484f00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39cfae6443161e4f8bc024ab21db41d6" id="r_a39cfae6443161e4f8bc024ab21db41d6"><td class="memItemLeft" align="right" valign="top"><a id="a39cfae6443161e4f8bc024ab21db41d6" name="a39cfae6443161e4f8bc024ab21db41d6"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>SetCPUArchitecture</b> (<a class="el" href="namespacecrashpad.html#a270e290ba558e948eb6690bd217cbb71">CPUArchitecture</a> cpu_architecture)</td></tr>
 <tr class="separator:a39cfae6443161e4f8bc024ab21db41d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -163,6 +184,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>SetMachineDescription
 <tr class="memitem:af6bd3f1acfb3a1275bd9676f97198532" id="r_af6bd3f1acfb3a1275bd9676f97198532"><td class="memItemLeft" align="right" valign="top"><a id="af6bd3f1acfb3a1275bd9676f97198532" name="af6bd3f1acfb3a1275bd9676f97198532"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>SetTimeZone</b> (<a class="el" href="classcrashpad_1_1SystemSnapshot.html#a28be27b27e7257818a9b13f121f0f472">DaylightSavingTimeStatus</a> dst_status, int standard_offset_seconds, int daylight_offset_seconds, const std::string &amp;standard_name, const std::string &amp;daylight_name)</td></tr>
 <tr class="separator:af6bd3f1acfb3a1275bd9676f97198532"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a242d3522aef9a9462d3ccc1a11a8f4df" id="r_a242d3522aef9a9462d3ccc1a11a8f4df"><td class="memItemLeft" align="right" valign="top"><a id="a242d3522aef9a9462d3ccc1a11a8f4df" name="a242d3522aef9a9462d3ccc1a11a8f4df"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetAddressMask</b> (uint64_t mask)</td></tr>
+<tr class="separator:a242d3522aef9a9462d3ccc1a11a8f4df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf9eeb54511b969bcaf4c4427ae99c4d" id="r_abf9eeb54511b969bcaf4c4427ae99c4d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#a270e290ba558e948eb6690bd217cbb71">CPUArchitecture</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abf9eeb54511b969bcaf4c4427ae99c4d">GetCPUArchitecture</a> () const override</td></tr>
 <tr class="memdesc:abf9eeb54511b969bcaf4c4427ae99c4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the snapshot system’s CPU architecture.  <br /></td></tr>
 <tr class="separator:abf9eeb54511b969bcaf4c4427ae99c4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -214,6 +238,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>SetTimeZone</b> (<a c
 <tr class="memitem:ab3bcd2246883d90a667f8a74a941946b" id="r_ab3bcd2246883d90a667f8a74a941946b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3bcd2246883d90a667f8a74a941946b">TimeZone</a> (<a class="el" href="classcrashpad_1_1SystemSnapshot.html#a28be27b27e7257818a9b13f121f0f472">DaylightSavingTimeStatus</a> *dst_status, int *standard_offset_seconds, int *daylight_offset_seconds, std::string *standard_name, std::string *daylight_name) const override</td></tr>
 <tr class="memdesc:ab3bcd2246883d90a667f8a74a941946b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns time zone information from the snapshot system, based on its locale configuration and real-time clock.  <br /></td></tr>
 <tr class="separator:ab3bcd2246883d90a667f8a74a941946b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a437ad9f894be3c242eb72051004c3929" id="r_a437ad9f894be3c242eb72051004c3929"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a437ad9f894be3c242eb72051004c3929">AddressMask</a> () const override</td></tr>
+<tr class="memdesc:a437ad9f894be3c242eb72051004c3929"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a mask indicating the range of valid addresses for a pointer.  <br /></td></tr>
+<tr class="separator:a437ad9f894be3c242eb72051004c3929"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -228,6 +255,37 @@ Additional Inherited Members</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A test <a class="el" href="classcrashpad_1_1SystemSnapshot.html" title="An abstract interface to a snapshot representing the state of a system, comprising an operating syste...">SystemSnapshot</a> that can carry arbitrary data for testing purposes. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a437ad9f894be3c242eb72051004c3929" name="a437ad9f894be3c242eb72051004c3929"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a437ad9f894be3c242eb72051004c3929">&#9670;&#160;</a></span>AddressMask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t crashpad::test::TestSystemSnapshot::AddressMask </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a mask indicating the range of valid addresses for a pointer. </p>
+<p>ARM64 supports storing pointer authentication codes in the upper bits of a pointer. This mask is generated based on the number of bits in a pointer reserved for the authentication codes. To recover an address from pointer with an authentication code, <code>AND</code> this mask with the pointer. If the pac sign extension bit is set, instead <code>~</code> and <code>OR</code> this mask with the pointer.</p>
+<p>If the platform does not support pointer authentication, or the range of valid addressees for a pointer was inaccessible, this field will be 0. </p>
+
+<p>Implements <a class="el" href="classcrashpad_1_1SystemSnapshot.html#a840363ae791f4160795414ab888ecc68">crashpad::SystemSnapshot</a>.</p>
+
+</div>
+</div>
 <a id="aa4ebbcc06a7d32f2e014c0cfa14591ce" name="aa4ebbcc06a7d32f2e014c0cfa14591ce"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa4ebbcc06a7d32f2e014c0cfa14591ce">&#9670;&#160;</a></span>CPUCount()</h2>
 
@@ -825,10 +883,13 @@ Additional Inherited Members</h2></td></tr>
 <li>snapshot/test/<b>test_system_snapshot.cc</b></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="namespacecrashpad_1_1test.html">test</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1test_1_1TestSystemSnapshot.html">TestSystemSnapshot</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

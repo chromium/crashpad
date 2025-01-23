@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1ProcessSnapshotWin.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html">ProcessSnapshotWin</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -103,15 +117,22 @@ $(function(){ initResizable(false); });
 <div class="dynheader">
 Inheritance diagram for crashpad::ProcessSnapshotWin:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classcrashpad_1_1ProcessSnapshotWin.png" usemap="#crashpad::ProcessSnapshotWin_map" alt=""/>
-  <map id="crashpad::ProcessSnapshotWin_map" name="crashpad::ProcessSnapshotWin_map">
-<area href="classcrashpad_1_1ProcessSnapshot.html" title="An abstract interface to a snapshot representing the state of a process." alt="crashpad::ProcessSnapshot" shape="rect" coords="0,0,190,24"/>
-  </map>
-</div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcrashpad_1_1ProcessSnapshotWin__inherit__graph.svg" width="223" height="119"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for crashpad::ProcessSnapshotWin:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcrashpad_1_1ProcessSnapshotWin__coll__graph.svg" width="223" height="119"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:ac67a6f22513a664038c71cd38187aa86" id="r_ac67a6f22513a664038c71cd38187aa86"><td class="memItemLeft" align="right" valign="top"><a id="ac67a6f22513a664038c71cd38187aa86" name="ac67a6f22513a664038c71cd38187aa86"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ProcessSnapshotWin</b> (const <a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html">ProcessSnapshotWin</a> &amp;)=delete</td></tr>
+<tr class="separator:ac67a6f22513a664038c71cd38187aa86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a109662c96c0b7a0c8ea371bd776078d7" id="r_a109662c96c0b7a0c8ea371bd776078d7"><td class="memItemLeft" align="right" valign="top"><a id="a109662c96c0b7a0c8ea371bd776078d7" name="a109662c96c0b7a0c8ea371bd776078d7"></a>
+<a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html">ProcessSnapshotWin</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html">ProcessSnapshotWin</a> &amp;)=delete</td></tr>
+<tr class="separator:a109662c96c0b7a0c8ea371bd776078d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4f89f057ae0fbaed4a097cf16cb7ffd" id="r_af4f89f057ae0fbaed4a097cf16cb7ffd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af4f89f057ae0fbaed4a097cf16cb7ffd">Initialize</a> (HANDLE process, <a class="el" href="namespacecrashpad.html#ab96bb7edb42a2e1ce28eda205a18a17a">ProcessSuspensionState</a> suspension_state, <a class="el" href="namespacecrashpad.html#ac5872ff07ebe5bda9f532e8d3d752d77">WinVMAddress</a> exception_information_address, <a class="el" href="namespacecrashpad.html#ac5872ff07ebe5bda9f532e8d3d752d77">WinVMAddress</a> debug_critical_section_address)</td></tr>
 <tr class="memdesc:af4f89f057ae0fbaed4a097cf16cb7ffd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the object.  <br /></td></tr>
 <tr class="separator:af4f89f057ae0fbaed4a097cf16cb7ffd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -873,10 +894,13 @@ Public Member Functions</h2></td></tr>
 <li>snapshot/win/<b>process_snapshot_win.cc</b></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html">ProcessSnapshotWin</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

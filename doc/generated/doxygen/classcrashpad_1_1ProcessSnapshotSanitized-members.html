@@ -11,11 +11,18 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -29,6 +36,18 @@
    <div id="projectname">Crashpad
    </div>
   </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -45,22 +64,23 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 $(function() { codefold.init(0); });
 /* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',true,false,'search.php','Search',false);
-  $(function() { init_search(); });
-});
+$(function(){initNavTree('classcrashpad_1_1ProcessSnapshotSanitized.html',''); initResizable(true); });
 /* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,12 +102,6 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">ProcessSnapshotSanitized</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="headertitle"><div class="title">crashpad::ProcessSnapshotSanitized Member List</div></div>
 </div><!--header-->
@@ -100,14 +114,16 @@ $(function(){ initResizable(false); });
   <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#a2b64856b2c7e02167ba6018495f596f0">Exception</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#ad6650681c9ad591b9e9e1f1146c60822">ExtraMemory</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#a380a2f8a906ad3f2321fb7e693f31f47">Handles</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#ae5af7f8ff07544ca6cb6c8bf4ad58c65">Initialize</a>(const ProcessSnapshot *snapshot, std::unique_ptr&lt; const std::vector&lt; std::string &gt; &gt; annotations_whitelist, std::unique_ptr&lt; const std::vector&lt; std::pair&lt; VMAddress, VMAddress &gt; &gt; &gt; memory_range_whitelist, VMAddress target_module_address, bool sanitize_stacks)</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#a83da065e00ea88c962aa777784d0a3e9">Initialize</a>(const ProcessSnapshot *snapshot, std::unique_ptr&lt; const std::vector&lt; std::string &gt; &gt; allowed_annotations, std::unique_ptr&lt; const std::vector&lt; std::pair&lt; VMAddress, VMAddress &gt; &gt; &gt; allowed_memory_ranges, VMAddress target_module_address, bool sanitize_stacks)</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#a2d9b6238429588d14a52a23860723afd">Memory</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#a6a98f95c79205b16c3e285ee18123e5d">MemoryMap</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#ac17bfe6ffd2ac64bbf2124bbacdd4fc3">Modules</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#a34541eb05d598cc12f27cbb524d060a2">ParentProcessID</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#ac4b2c694a952931966eb257ea5a71258">ProcessCPUTimes</a>(timeval *user_time, timeval *system_time) const override</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#ae7db39f1f99633b1f8ec62f7aa4f630a">ProcessID</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>ProcessSnapshotSanitized</b>() (defined in <a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>operator=</b>(const ProcessSnapshotSanitized &amp;)=delete (defined in <a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#a34541eb05d598cc12f27cbb524d060a2">ParentProcessID</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#ac4b2c694a952931966eb257ea5a71258">ProcessCPUTimes</a>(timeval *user_time, timeval *system_time) const override</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#ae7db39f1f99633b1f8ec62f7aa4f630a">ProcessID</a>() const override</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>ProcessSnapshotSanitized</b>() (defined in <a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>ProcessSnapshotSanitized</b>(const ProcessSnapshotSanitized &amp;)=delete (defined in <a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#a47d219d2cc943f686150adf52ffe07c6">ProcessStartTime</a>(timeval *start_time) const override</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#aca4ce8c627dcb04203216df5e6a07971">ReportID</a>(UUID *report_id) const override</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html#a652b0bad89240a9ca5d10088bf3f4e1b">SnapshotTime</a>(timeval *snapshot_time) const override</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
@@ -117,10 +133,12 @@ $(function(){ initResizable(false); });
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>~ProcessSnapshot</b>() (defined in <a class="el" href="classcrashpad_1_1ProcessSnapshot.html">crashpad::ProcessSnapshot</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshot.html">crashpad::ProcessSnapshot</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>~ProcessSnapshotSanitized</b>() override (defined in <a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a>)</td><td class="entry"><a class="el" href="classcrashpad_1_1ProcessSnapshotSanitized.html">crashpad::ProcessSnapshotSanitized</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
 </body>
 </html>

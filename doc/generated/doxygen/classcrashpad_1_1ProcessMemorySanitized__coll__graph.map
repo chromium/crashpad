@@ -1,0 +1,5 @@
+<map id="crashpad::ProcessMemorySanitized" name="crashpad::ProcessMemorySanitized">
+<area shape="rect" id="Node000001" title="Sanitized access to the memory of another process." alt="" coords="5,83,245,113"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ProcessMemory.html" title="Abstract base class for accessing the memory of another process." alt="" coords="33,5,217,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,51,128,82,122,82,122,51"/>
+</map>

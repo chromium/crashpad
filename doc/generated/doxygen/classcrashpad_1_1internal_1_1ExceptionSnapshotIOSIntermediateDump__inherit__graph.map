@@ -1,0 +1,5 @@
+<map id="crashpad::internal::ExceptionSnapshotIOSIntermediateDump" name="crashpad::internal::ExceptionSnapshotIOSIntermediateDump">
+<area shape="rect" id="Node000001" title="An ExceptionSnapshot of an exception sustained by a running (or crashed) process on an iOS system." alt="" coords="5,83,295,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ExceptionSnapshot.html" title="An abstract interface to a snapshot representing an exception that a snapshot process sustained and t..." alt="" coords="49,5,251,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,50,153,82,147,82,147,50"/>
+</map>

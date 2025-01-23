@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['id_0',['id',['../structcrashpad_1_1CrashReportDatabase_1_1Report.html#a55a46d92912b0f2087ece80e47a8d282',1,'crashpad::CrashReportDatabase::Report::id'],['../structcrashpad_1_1ProcessReaderFuchsia_1_1Thread.html#a8ffabea13bdd7fb3fd61185dbd71cef0',1,'crashpad::ProcessReaderFuchsia::Thread::id']]],
-  ['identify_5fclient_5fvia_5furl_1',['identify_client_via_url',['../structcrashpad_1_1CrashReportUploadThread_1_1Options.html#a23fc3f4469701f1e28fe3d088209a879',1,'crashpad::CrashReportUploadThread::Options']]],
-  ['indirectly_5freferenced_5fmemory_5fcap_2',['indirectly_referenced_memory_cap',['../structcrashpad_1_1CrashpadInfoClientOptions.html#aa9aba9adef6705671e909733b29775b5',1,'crashpad::CrashpadInfoClientOptions']]],
-  ['info_3',['info',['../structcrashpad_1_1PtraceBroker_1_1GetThreadInfoResponse.html#a76caa7581fcdee273b1a2be5b01f0eb7',1,'crashpad::PtraceBroker::GetThreadInfoResponse']]],
-  ['iov_4',['iov',['../structcrashpad_1_1PtraceBroker_1_1Request.html#aa401359fd69c68b8c671d08b97af8c7d',1,'crashpad::PtraceBroker::Request']]],
-  ['iov_5fbase_5',['iov_base',['../structcrashpad_1_1WritableIoVec.html#abcf5d801519cf50aa286c3baa8f55d05',1,'crashpad::WritableIoVec']]],
-  ['iov_5flen_6',['iov_len',['../structcrashpad_1_1WritableIoVec.html#af1b5ee41c9beb80c82a6e815cbf473ee',1,'crashpad::WritableIoVec']]]
+  ['handle_0',['Handle',['../structMINIDUMP__HANDLE__DESCRIPTOR.html#a0791847b24b8986ad3505e75c5ce697c',1,'MINIDUMP_HANDLE_DESCRIPTOR']]],
+  ['handle_1',['handle',['../structcrashpad_1_1HandleSnapshot.html#aed65750b587752a10e5b6ea62fafe3c9',1,'crashpad::HandleSnapshot::handle'],['../structcrashpad_1_1ProcessInfo_1_1Handle.html#a421285b38abd5d83d1bcde6759a5d86d',1,'crashpad::ProcessInfo::Handle::handle']]],
+  ['handle_5fcount_2',['handle_count',['../structcrashpad_1_1HandleSnapshot.html#a4ca49980a35f1d37f9b551ef70cf39b7',1,'crashpad::HandleSnapshot::handle_count'],['../structcrashpad_1_1ProcessInfo_1_1Handle.html#af475c436a46f9cc00891580898e29fe0',1,'crashpad::ProcessInfo::Handle::handle_count']]],
+  ['handlecount_3',['HandleCount',['../structMINIDUMP__HANDLE__DESCRIPTOR.html#ae15118f7ade5d20bf013e1e266448dc0',1,'MINIDUMP_HANDLE_DESCRIPTOR']]],
+  ['have_5fpriorities_4',['have_priorities',['../structcrashpad_1_1ProcessReaderLinux_1_1Thread.html#afdba0f7c471bdd5b298f880d28eebbbe',1,'crashpad::ProcessReaderLinux::Thread']]],
+  ['header_5',['header',['../structcrashpad_1_1RingBufferData.html#a1bfd0237bb3639da1129e1f77d0b1186',1,'crashpad::RingBufferData']]],
+  ['hi_6',['hi',['../structcrashpad_1_1MinidumpContextMIPS.html#ac1cba7faaa0eac7f8594be5fd8b8584d',1,'crashpad::MinidumpContextMIPS::hi'],['../structcrashpad_1_1MinidumpContextMIPS64.html#a9a1e7eaca6ddd6161af73096ad5d0f40',1,'crashpad::MinidumpContextMIPS64::hi'],['../structcrashpad_1_1uint128__struct.html#a1d463e934044398b6f0642a8ab989b95',1,'crashpad::uint128_struct::hi']]]
 ];

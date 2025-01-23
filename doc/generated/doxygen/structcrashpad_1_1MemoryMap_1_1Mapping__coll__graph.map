@@ -1,0 +1,5 @@
+<map id="crashpad::MemoryMap::Mapping" name="crashpad::MemoryMap::Mapping">
+<area shape="rect" id="Node000001" title="Information about a mapped region of memory." alt="" coords="38,140,203,189"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html" title=" " alt="" coords="5,5,236,73"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,88,123,139,118,139,118,88"/>
+</map>

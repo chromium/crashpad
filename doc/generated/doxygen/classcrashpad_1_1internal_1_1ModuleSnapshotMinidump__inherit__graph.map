@@ -1,0 +1,5 @@
+<map id="crashpad::internal::ModuleSnapshotMinidump" name="crashpad::internal::ModuleSnapshotMinidump">
+<area shape="rect" id="Node000001" title="A ModuleSnapshot based on a module in a minidump file." alt="" coords="5,83,201,132"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1ModuleSnapshot.html" title="An abstract interface to a snapshot representing a code module (binary image) loaded into a snapshot ..." alt="" coords="9,5,197,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,50,106,82,100,82,100,50"/>
+</map>

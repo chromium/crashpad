@@ -1,0 +1,5 @@
+<map id="crashpad::ProcessReaderMac::Module" name="crashpad::ProcessReaderMac::Module">
+<area shape="rect" id="Node000001" title="Contains information about a module loaded into a process." alt="" coords="11,102,212,151"/>
+<area shape="rect" id="Node000002" href="$classcrashpad_1_1MachOImageReader.html" title="A reader for Mach&#45;O images mapped into another process." alt="" coords="5,5,218,35"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,51,114,101,109,101,109,51"/>
+</map>
