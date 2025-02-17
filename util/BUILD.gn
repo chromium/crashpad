@@ -573,10 +573,7 @@ crashpad_static_library("util") {
     "../third_party/zlib",
   ]
 
-  deps += [
-    "$mini_chromium_source_parent:base",
-    "$mini_chromium_source_parent:chromeos_buildflags",
-  ]
+  deps = [ "$mini_chromium_source_parent:base" ]
 
   configs = [ "../build:flock_always_supported_defines" ]
 
