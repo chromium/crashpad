@@ -228,7 +228,7 @@ source_set("client_test") {
   }
 
   if (crashpad_is_ios) {
-    deps += [ "//minidump" ]
+    deps += [ "../minidump" ]
   }
 }
 
