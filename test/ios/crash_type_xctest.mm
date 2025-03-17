@@ -104,6 +104,12 @@ bool IsMacOSVersion143OrGreaterAndiOS16OrLess() {
 
 - (void)setUp {
   app_ = [[XCUIApplication alloc] init];
+  if ([self.name isEqualToString:@"-[CPTestTestCase testExtensionStreams]"]) {
+    app_.launchArguments = @[ @"--test-extension-streams" ];
+  } else if ([self.name isEqualToString:
+                            @"-[CPTestTestCase testCrashWithExtraMemory]"]) {
+    app_.launchArguments = @[ @"--test-extra_memory" ];
+  }
   [app_ launch];
   rootObject_ = [EDOClientService rootObjectWithPort:12345];
   [rootObject_ clearPendingReports];
@@ -397,12 +403,47 @@ bool IsMacOSVersion143OrGreaterAndiOS16OrLess() {
   XCTAssertFalse(reader.Pop(ringBufferEntry));
 }
 
+- (void)testCrashWithExtraMemory {
+#if TARGET_OS_SIMULATOR
+  // This test will fail on older (<iOS17 simulators) when running on macOS 14.3
+  // or newer due to a bug in Simulator. crbug.com/328282286
+  if (crashpad::IsMacOSVersion143OrGreaterAndiOS16OrLess()) {
+    return;
+  }
+#endif
+
+  [rootObject_ crashKillAbort];
+  [self verifyCrashReportException:EXC_SOFT_SIGNAL];
+
+  NSDictionary* dict = [rootObject_ getExtraMemory];
+  BOOL found = NO;
+  for (NSString* key in dict) {
+    if ([dict[key] isEqualToString:@"hello world"]) {
+      found = YES;
+      break;
+    }
+  }
+  XCTAssertTrue(found);
+}
+
+- (void)testExtensionStreams {
+#if TARGET_OS_SIMULATOR
+  // This test will fail on older (<iOS17 simulators) when running on macOS 14.3
+  // or newer due to a bug in Simulator. crbug.com/328282286
+  if (crashpad::IsMacOSVersion143OrGreaterAndiOS16OrLess()) {
+    return;
+  }
+#endif
+  [rootObject_ crashKillAbort];
+  [self verifyCrashReportException:EXC_SOFT_SIGNAL];
+  XCTAssertTrue([rootObject_ hasExtensionStream]);
+}
+
 - (void)testDumpWithoutCrash {
   [rootObject_ generateDumpWithoutCrash:10 threads:3];
 
   // The app should not crash
   XCTAssertTrue(app_.state == XCUIApplicationStateRunningForeground);
-
   XCTAssertEqual([rootObject_ pendingReportCount], 30);
 }
 
