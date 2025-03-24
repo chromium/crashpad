@@ -15,6 +15,7 @@
 #ifndef CRASHPAD_HANDLER_WIN_WER_CRASHPAD_WER_H_
 #define CRASHPAD_HANDLER_WIN_WER_CRASHPAD_WER_H_
 
+#include <stddef.h>
 #include <Windows.h>
 #include <werapi.h>
 
