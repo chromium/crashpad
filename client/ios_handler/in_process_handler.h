@@ -33,6 +33,7 @@
 #include "snapshot/ios/process_snapshot_ios_intermediate_dump.h"
 #include "util/ios/ios_intermediate_dump_writer.h"
 #include "util/ios/ios_system_data_collector.h"
+#include "util/mach/mach_extensions.h"
 #include "util/misc/capture_context.h"
 #include "util/misc/initialization_state_dcheck.h"
 

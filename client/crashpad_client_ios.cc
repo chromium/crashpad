@@ -18,11 +18,9 @@
 #include <unistd.h>
 
 #include <atomic>
-#include <ios>
 #include <iterator>
 
 #include "base/apple/mach_logging.h"
-#include "base/apple/scoped_mach_port.h"
 #include "base/logging.h"
 #include "client/ios_handler/exception_processor.h"
 #include "client/ios_handler/in_process_handler.h"
