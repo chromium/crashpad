@@ -139,7 +139,7 @@ UIWindow* GetAnyWindow() {
 #if defined(__IPHONE_15_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_15_0
   UIWindowScene* scene = reinterpret_cast<UIWindowScene*>(
       [UIApplication sharedApplication].connectedScenes.anyObject);
-  if (@available(iOS 15.0, *)) {
+  if (@available(iOS 15.0, tvOS 15.0, *)) {
     return scene.keyWindow;
   } else {
     return [scene.windows firstObject];
