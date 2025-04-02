@@ -619,9 +619,10 @@ class CrashpadClient {
   //!     be used in a shipping application.
   static void ResetForTesting();
 
-  //! \brief Inject a callback into Mach handling. Intended to be used by
-  //!     tests to trigger a reentrant exception.
-  static void SetMachExceptionCallbackForTesting(void (*callback)());
+  //! \brief Inject a callback into the Mach exception and signal handling
+  //!     mechanisms. Intended to be used by tests to trigger a reentrant
+  //      exception.
+  static void SetExceptionCallbackForTesting(void (*callback)());
 
   //! \brief Returns the thread id of the Mach exception thread, used by tests.
   static uint64_t GetThreadIdForTesting();

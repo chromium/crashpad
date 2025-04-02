@@ -616,9 +616,9 @@ class ThrowNSExceptionThread : public crashpad::Thread {
 
 - (void)crashInHandlerReentrant {
   crashpad::CrashpadClient client_;
-  client_.SetMachExceptionCallbackForTesting(abort);
+  client_.SetExceptionCallbackForTesting(abort);
 
-  // Trigger a Mach exception.
+  // Trigger an exception.
   [self crashTrap];
 }
 
