@@ -33,12 +33,21 @@ namespace {
 // macOS 14.0 is 23A344, macOS 13.6.5 is 22G621, so if the first two characters
 // in the kern.osversion are > 22, this build will reproduce the simulator bug
 // in crbug.com/328282286
-bool IsMacOSVersion143OrGreaterAndiOS16OrLess() {
+// macOS 14.0 is 23A344, macOS 13.6.5 is 22G621, so if the first two
+// characters in the kern.osversion are > 22, this build will reproduce the
+// simulator bug in crbug.com/328282286
+// This now reproduces on macOS 15.4 24E248 as well for iOS17 simulators.
+bool HasMacOSBrokeDYLDTaskInfo() {
+  if (__builtin_available(iOS 18, *)) {
+    return false;
+  }
+  std::string build = crashpad::ReadStringSysctlByName("kern.osversion", false);
+  if (std::stoi(build.substr(0, 2)) >= 24) {
+    return true;
+  }
   if (__builtin_available(iOS 17, *)) {
     return false;
   }
-
-  std::string build = crashpad::ReadStringSysctlByName("kern.osversion", false);
   return std::stoi(build.substr(0, 2)) > 22;
 }
 #endif
@@ -349,9 +358,10 @@ bool IsMacOSVersion143OrGreaterAndiOS16OrLess() {
 
 - (void)testCrashWithAnnotations {
 #if TARGET_OS_SIMULATOR
-  // This test will fail on older (<iOS17 simulators) when running on macOS 14.3
-  // or newer due to a bug in Simulator. crbug.com/328282286
-  if (crashpad::IsMacOSVersion143OrGreaterAndiOS16OrLess()) {
+  // This test will fail on <iOS17 simulators when running on macOS >=14.3 or
+  // <iOS18 simulators when running on macOS >=15.4 due to a bug in Simulator.
+  // crbug.com/328282286
+  if (crashpad::HasMacOSBrokeDYLDTaskInfo()) {
     return;
   }
 #endif
@@ -405,9 +415,10 @@ bool IsMacOSVersion143OrGreaterAndiOS16OrLess() {
 
 - (void)testCrashWithExtraMemory {
 #if TARGET_OS_SIMULATOR
-  // This test will fail on older (<iOS17 simulators) when running on macOS 14.3
-  // or newer due to a bug in Simulator. crbug.com/328282286
-  if (crashpad::IsMacOSVersion143OrGreaterAndiOS16OrLess()) {
+  // This test will fail on <iOS17 simulators when running on macOS >=14.3 or
+  // <iOS18 simulators when running on macOS >=15.4 due to a bug in Simulator.
+  // crbug.com/328282286
+  if (crashpad::HasMacOSBrokeDYLDTaskInfo()) {
     return;
   }
 #endif
@@ -428,9 +439,10 @@ bool IsMacOSVersion143OrGreaterAndiOS16OrLess() {
 
 - (void)testExtensionStreams {
 #if TARGET_OS_SIMULATOR
-  // This test will fail on older (<iOS17 simulators) when running on macOS 14.3
-  // or newer due to a bug in Simulator. crbug.com/328282286
-  if (crashpad::IsMacOSVersion143OrGreaterAndiOS16OrLess()) {
+  // This test will fail on <iOS17 simulators when running on macOS >=14.3 or
+  // <iOS18 simulators when running on macOS >=15.4 due to a bug in Simulator.
+  // crbug.com/328282286
+  if (crashpad::HasMacOSBrokeDYLDTaskInfo()) {
     return;
   }
 #endif
