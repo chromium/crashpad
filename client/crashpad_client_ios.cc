@@ -198,6 +198,15 @@ class CrashHandler : public Thread,
 
   ~CrashHandler() {
     UninstallObjcExceptionPreprocessor();
+    // Reset the SIGPIPE handler only if the current handler is the one
+    // installed by Initialize(). In other words, if an application has set its
+    // own SIGPIPE handler after initializing Crashpad, there is no need to
+    // change the signal handler here.
+    struct sigaction sa;
+    if (sigaction(SIGPIPE, nullptr, &sa) == 0 &&
+        sa.sa_sigaction == CatchAndReraiseSignalDefaultAction) {
+      Signals::InstallDefaultHandler(SIGPIPE);
+    }
     Signals::InstallDefaultHandler(SIGABRT);
     UninstallMachExceptionHandler();
   }
