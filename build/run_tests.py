@@ -299,7 +299,11 @@ def _RunOnAndroidTarget(binary_dir, test, android_device, extra_command_line):
         _adb_shell(['rm', '-rf', device_temp_dir])
 
 
-def _RunOnIOSTarget(binary_dir, test, target_platform, is_xcuitest=False, gtest_filter=None):
+def _RunOnIOSTarget(binary_dir,
+                    test,
+                    target_platform,
+                    is_xcuitest=False,
+                    gtest_filter=None):
     """Runs the given iOS |test| app on a simulator with the default OS version."""
 
     target_platform = target_platform or 'iphoneos'
