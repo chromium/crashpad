@@ -34,7 +34,11 @@ if (crashpad_is_in_chromium || crashpad_is_in_fuchsia) {
       "util:util_test",
     ]
 
-    data_deps = [ "//testing/buildbot/filters:crashpad_tests_filters" ]
+    data_deps = []
+
+    if (crashpad_is_in_chromium) {
+      data_deps += [ "//testing/buildbot/filters:crashpad_tests_filters" ]
+    }
 
     if (!crashpad_is_ios && !crashpad_is_fuchsia) {
       deps += [ "handler:handler_test" ]
