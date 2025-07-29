@@ -65,9 +65,12 @@ bool MacOSVersionComponents(int* major,
 //! \brief Returns the model name and board ID of the running system.
 //!
 //! \param[out] model The system’s model name. A mid-2012 15\" MacBook Pro would
-//!     report “MacBookPro10,1”.
-//! \param[out] board_id The system’s board ID. A mid-2012 15\" MacBook Pro
-//!     would report “Mac-C3EC7CD22292981F”.
+//!     report “MacBookPro10,1”, and a 2021 16\" M1 Max MacBook Pro would report
+//!     “MacBookPro18,2”.
+//! \param[out] board_id The system’s board ID or target type. An x86_64 system
+//!     reports a board ID: a mid-2012 15\" MacBook Pro would report
+//!     “Mac-C3EC7CD22292981F”. An arm64 system reports a target subtype or
+//!     target type: a 2021 16\" M1 Max MacBook Pro would report “J316cAP”.
 //!
 //! If a value cannot be determined, its string is cleared.
 void MacModelAndBoard(std::string* model, std::string* board_id);

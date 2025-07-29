@@ -255,16 +255,18 @@ void MacModelAndBoard(std::string* model, std::string* board_id) {
     model->assign(IORegistryEntryDataPropertyAsString(platform_expert.get(),
                                                       CFSTR("model")));
 #if defined(ARCH_CPU_X86_FAMILY)
-    CFStringRef kBoardProperty = CFSTR("board-id");
-#elif defined(ARCH_CPU_ARM64)
-    // TODO(https://crashpad.chromium.org/bug/352): When production arm64
-    // hardware is available, determine whether board-id works and switch to it
-    // if feasible, otherwise, determine whether target-type remains a viable
-    // alternative.
-    CFStringRef kBoardProperty = CFSTR("target-type");
-#endif
     board_id->assign(IORegistryEntryDataPropertyAsString(platform_expert.get(),
-                                                         kBoardProperty));
+                                                         CFSTR("board-id")));
+#elif defined(ARCH_CPU_ARM64)
+    board_id->assign(IORegistryEntryDataPropertyAsString(
+        platform_expert.get(), CFSTR("target-sub-type")));
+    if (board_id->empty()) {
+      board_id->assign(IORegistryEntryDataPropertyAsString(
+          platform_expert.get(), CFSTR("target-type")));
+    }
+#else
+#error Port.
+#endif
   } else {
     model->clear();
     board_id->clear();
