@@ -18,13 +18,14 @@
 #include <IOKit/IOKitLib.h>
 #include <sys/types.h>
 
+#include <string_view>
+
 #include "base/apple/foundation_util.h"
 #include "base/apple/scoped_cftyperef.h"
 #include "base/check_op.h"
 #include "base/logging.h"
 #include "base/mac/scoped_ioobject.h"
 #include "base/strings/string_number_conversions.h"
-#include "base/strings/string_piece.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/sys_string_conversions.h"
 #include "build/build_config.h"
@@ -88,7 +89,7 @@ bool StringToVersionNumbers(const std::string& version,
     LOG(ERROR) << "version has unexpected format";
     return false;
   }
-  if (!base::StringToInt(base::StringPiece(&version[0], first_dot), major)) {
+  if (!base::StringToInt(std::string_view(&version[0], first_dot), major)) {
     LOG(ERROR) << "version has unexpected format";
     return false;
   }
@@ -101,9 +102,9 @@ bool StringToVersionNumbers(const std::string& version,
     second_dot = version.length();
   }
 
-  if (!base::StringToInt(base::StringPiece(&version[first_dot + 1],
-                                           second_dot - first_dot - 1),
-                         minor)) {
+  if (!base::StringToInt(
+          std::string_view(&version[first_dot + 1], second_dot - first_dot - 1),
+          minor)) {
     LOG(ERROR) << "version has unexpected format";
     return false;
   }
@@ -111,8 +112,8 @@ bool StringToVersionNumbers(const std::string& version,
   if (second_dot == version.length()) {
     *bugfix = 0;
   } else if (!base::StringToInt(
-                 base::StringPiece(&version[second_dot + 1],
-                                   version.length() - second_dot - 1),
+                 std::string_view(&version[second_dot + 1],
+                                  version.length() - second_dot - 1),
                  bugfix)) {
     LOG(ERROR) << "version has unexpected format";
     return false;
