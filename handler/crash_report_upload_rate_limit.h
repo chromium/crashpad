@@ -26,7 +26,7 @@ namespace crashpad {
 //! \brief How far into the future an upload-attempt timestamp can be and still
 //!     be treated as valid. Beyond this tolerance, timestamps are disregarded.
 //!     Exposed for testing.
-constexpr int kBackwardsClockTolerance = 60 * 60 * 24;  // 1 day
+inline constexpr int kBackwardsClockTolerance = 60 * 60 * 24;  // 1 day
 
 //! \brief The return type of `ShouldRateLimit()`. Describes the number of
 //!     crash-report upload attempts in the past interval, and if upload
