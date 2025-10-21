@@ -21,8 +21,7 @@
 #include "gtest/gtest.h"
 #include "util/misc/metrics.h"
 
-namespace crashpad {
-namespace test {
+namespace crashpad::test {
 namespace {
 
 using Metrics::CrashSkippedReason::kUnexpectedTime;
@@ -74,5 +73,4 @@ TEST(CrashReportUploadRateLimitTest, ShouldRateLimit_OnePerHour) {
 }
 
 }  // namespace
-}  // namespace test
-}  // namespace crashpad
+}  // namespace crashpad::test
