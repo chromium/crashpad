@@ -157,11 +157,11 @@ def crashpad_dimensions(platform, cpu, bucket):
     dimensions["pool"] = "luci.flex." + bucket
 
     if platform == "fuchsia":
-        dimensions["os"] = "Ubuntu-22.04"
+        dimensions["os"] = "Ubuntu-24.04"
     elif platform == "ios":
         dimensions["os"] = "Mac-13|Mac-14"
     elif platform == "linux":
-        dimensions["os"] = "Ubuntu-22.04"
+        dimensions["os"] = "Ubuntu-24.04"
     elif platform == "mac":
         if cpu == "x64":
             dimensions["os"] = "Mac-13|Mac-14"
