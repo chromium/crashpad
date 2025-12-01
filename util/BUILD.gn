@@ -56,7 +56,6 @@ if (crashpad_is_apple && !crashpad_is_tvos) {
     ]
 
     args = [ "{{source}}" ]
-    args += rebase_path(outputs, root_build_dir)
     if (crashpad_is_in_chromium) {
       if (!use_system_xcode) {
         import("//build/config/clang/clang.gni")
@@ -97,24 +96,6 @@ if (crashpad_is_apple && !crashpad_is_tvos) {
         ]
       }
     }
-    args += [
-      "--include",
-      rebase_path("..", root_build_dir),
-      "--include",
-      rebase_path("../compat/mac", root_build_dir),
-    ]
-    if (crashpad_is_ios) {
-      args += [
-        "--include",
-        rebase_path("../compat/ios", root_build_dir),
-
-        # Needed for mach_exception_raise_*_protected
-        "--define",
-        "MACH_EXC_SERVER_TASKIDTOKEN",
-        "--define",
-        "MACH_EXC_SERVER_TASKIDTOKEN_STATE",
-      ]
-    }
     if (current_cpu == "x86") {
       args += [
         "--arch",
@@ -144,6 +125,21 @@ if (crashpad_is_apple && !crashpad_is_tvos) {
       ]
     } else {
       assert(false, "Unsupported architecture")
+    }
+    args += rebase_path(outputs, root_build_dir)
+    args += [
+      "--",
+      "-I" + rebase_path("..", root_build_dir),
+      "-I" + rebase_path("../compat/mac", root_build_dir),
+    ]
+    if (crashpad_is_ios) {
+      args += [
+        "-I" + rebase_path("../compat/ios", root_build_dir),
+
+        # Needed for mach_exception_raise_*_protected
+        "-DMACH_EXC_SERVER_TASKIDTOKEN",
+        "-DMACH_EXC_SERVER_TASKIDTOKEN_STATE",
+      ]
     }
   }
 
