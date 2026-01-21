@@ -118,7 +118,7 @@ luci.bucket(
 )
 
 luci.bucket(
-   name = "ci.shadow",
+    name = "ci.shadow",
     shadows = "ci",
     constraints = luci.bucket_constraints(
         pools = ["luci.flex.ci"],
@@ -160,7 +160,7 @@ luci.bucket(
 )
 
 luci.bucket(
-   name = "try.shadow",
+    name = "try.shadow",
     shadows = "try",
     constraints = luci.bucket_constraints(
         pools = ["luci.flex.try"],
@@ -184,7 +184,7 @@ def crashpad_recipe():
     return luci.recipe(
         name = "crashpad/build",
         cipd_package = "infra/recipe_bundles/chromium.googlesource.com/chromium/tools/build",
-        use_python3=True,
+        use_python3 = True,
     )
 
 def crashpad_caches(platform):
@@ -230,6 +230,11 @@ def crashpad_properties(platform, cpu, config, bucket):
     if platform == "win":
         properties["$depot_tools/windows_sdk"] = {
             "version": "uploaded:2024-01-11",
+        }
+
+    if platform == "mac" or platform == "ios":
+        properties["$depot_tools/osx_sdk"] = {
+            "sdk_version": "17c52",
         }
 
     if bucket == "ci":

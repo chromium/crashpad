@@ -312,7 +312,7 @@ def _RunOnIOSTarget(binary_dir,
             '__PLATFORMS__/iPhoneSimulator.platform/Developer/usr/lib/'
             'libXCTestBundleInject.dylib')
         xcodebuild_platform = 'iOS Simulator'
-        xcodebuild_device_name = 'iPhone 15'
+        xcodebuild_device_name = 'iPhone 17'
     elif target_platform == 'tvos':
         dyld_insert_libraries = (
             '__PLATFORMS__/AppleTVSimulator.platform/Developer/usr/lib/'
