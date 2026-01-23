@@ -367,7 +367,6 @@ def _RunOnIOSTarget(binary_dir,
             ],
             'TestingEnvironmentVariables': {
                 'DYLD_FRAMEWORK_PATH': dyld_framework_path + ':',
-                'DYLD_INSERT_LIBRARIES': dyld_insert_libraries,
                 'DYLD_LIBRARY_PATH': dyld_framework_path,
                 'XCInjectBundleInto': '__TESTHOST__/' + test + '_module-Runner',
             },
