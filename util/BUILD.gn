@@ -936,7 +936,7 @@ source_set("util_test") {
     "../third_party/zlib",
   ]
 
-  if (!crashpad_is_android && !crashpad_is_ios) {
+  if (!crashpad_is_android && !crashpad_is_ios && !crashpad_is_fuchsia) {
     data_deps = [ ":http_transport_test_server" ]
 
     if (crashpad_use_boringssl_for_http_transport_socket) {
