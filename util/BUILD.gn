@@ -805,7 +805,7 @@ source_set("util_test") {
     "thread/worker_thread_test.cc",
   ]
 
-  if (!crashpad_is_android && !crashpad_is_ios) {
+  if (!crashpad_is_android && !crashpad_is_ios && !crashpad_is_fuchsia) {
     # Android requires an HTTPTransport implementation.
     sources += [ "net/http_transport_test.cc" ]
   }
