@@ -10920,7 +10920,8 @@ inline STACK_OF(X509_NAME) * SSLServer::extract_ca_names_from_x509_store(
   }
 
   // Iterate through objects and extract certificate subject names
-  for (int i = 0; i < sk_X509_OBJECT_num(objs); i++) {
+  auto count = sk_X509_OBJECT_num(objs);
+  for (decltype(count) i = 0; i < count; i++) {
     auto obj = sk_X509_OBJECT_value(objs, i);
     if (X509_OBJECT_get_type(obj) == X509_LU_X509) {
       auto cert = X509_OBJECT_get0_X509(obj);
