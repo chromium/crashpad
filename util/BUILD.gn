@@ -133,10 +133,11 @@ if (crashpad_is_apple && !crashpad_is_tvos) {
       "-I" + rebase_path("../compat/mac", root_build_dir),
     ]
     if (crashpad_is_ios) {
+      args += [ "-I" + rebase_path("../compat/ios", root_build_dir) ]
+    }
+    if (crashpad_is_mac || crashpad_is_ios) {
+      # Needed for mach_exception_raise_*_protected
       args += [
-        "-I" + rebase_path("../compat/ios", root_build_dir),
-
-        # Needed for mach_exception_raise_*_protected
         "-DMACH_EXC_SERVER_TASKIDTOKEN",
         "-DMACH_EXC_SERVER_TASKIDTOKEN_STATE",
       ]
