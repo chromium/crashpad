@@ -111,7 +111,8 @@ if (!crashpad_is_ios) {
     ]
 
     if (crashpad_is_win) {
-      cflags = [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
+      cflags =
+          [ "/wd4201" ]  # nonstandard extension used : nameless struct/union
     }
   }
 
