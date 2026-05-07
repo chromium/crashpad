@@ -212,7 +212,7 @@ deps = {
     'packages': [
       {
         'package': 'chrome_internal/third_party/sdk/windows',
-        'version': 'uploaded:2021-04-28'
+        'version': 'uploaded:2026-05-06'
       },
     ],
     'condition': 'checkout_win and pull_win_toolchain',

@@ -229,7 +229,7 @@ def crashpad_properties(platform, cpu, config, bucket):
 
     if platform == "win":
         properties["$depot_tools/windows_sdk"] = {
-            "version": "uploaded:2024-01-11",
+            "version": "uploaded:2026-05-06",
         }
 
     if platform == "mac" or platform == "ios":
