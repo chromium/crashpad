@@ -19,6 +19,7 @@
 
 #include <algorithm>
 #include <iterator>
+#include <type_traits>
 #include <vector>
 
 #include "build/build_config.h"
@@ -482,212 +483,216 @@ bool ExcServer<Traits>::MachMessageServerFunction(
           sizeof(out_reply->new_state[0]) * out_reply->new_stateCnt;
       return true;
     }
+  }
 
-    case MachExcTraits::kMachMessageIDExceptionRaiseIdentityProtected: {
-      // mach_exception_raise_identity_protected(),
-      // catch_mach_exception_raise_identity_protected().
-      using Request =
-          typename MachExcTraits::ExceptionRaiseIdentityProtectedRequest;
-      const Request* in_request = reinterpret_cast<const Request*>(in_header);
-      kern_return_t kr =
-          MachExcTraits::MIGCheckRequestExceptionRaiseIdentityProtected(
-              in_request);
-      if (kr != MACH_MSG_SUCCESS) {
-        SetMIGReplyError(out_header, kr);
-        return true;
-      }
-
-      task_t task_port = TASK_NULL;
-      if (in_request->task_id_token_t.name != MACH_PORT_NULL) {
-        kr = task_identity_token_get_task_port(
-            in_request->task_id_token_t.name, TASK_FLAVOR_CONTROL, &task_port);
+  if constexpr (std::is_same_v<Traits, MachExcTraits>) {
+    switch (in_header->msgh_id) {
+      case Traits::kMachMessageIDExceptionRaiseIdentityProtected: {
+        // mach_exception_raise_identity_protected(),
+        // catch_mach_exception_raise_identity_protected().
+        using Request = typename Traits::ExceptionRaiseIdentityProtectedRequest;
+        const Request* in_request = reinterpret_cast<const Request*>(in_header);
+        kern_return_t kr =
+            Traits::MIGCheckRequestExceptionRaiseIdentityProtected(in_request);
         if (kr != MACH_MSG_SUCCESS) {
+          SetMIGReplyError(out_header, kr);
+          return true;
+        }
+
+        task_t task_port = TASK_NULL;
+        if (in_request->task_id_token_t.name != MACH_PORT_NULL) {
+          kr = task_identity_token_get_task_port(
+              in_request->task_id_token_t.name,
+              TASK_FLAVOR_CONTROL,
+              &task_port);
+          if (kr != MACH_MSG_SUCCESS) {
 #if BUILDFLAG(IS_IOS)
-          CRASHPAD_RAW_LOG_ERROR(kr, "task_identity_token_get_task_port");
+            CRASHPAD_RAW_LOG_ERROR(kr, "task_identity_token_get_task_port");
 #else
-          MACH_LOG(WARNING, kr) << "task_identity_token_get_task_port";
+            MACH_LOG(WARNING, kr) << "task_identity_token_get_task_port";
 #endif
-        }
-      }
-
-      // Get the thread_t matching in_request->thread_id.
-      thread_t thread_port = THREAD_NULL;
-      if (task_port != TASK_NULL) {
-        thread_act_array_t threads;
-        mach_msg_type_number_t thread_count;
-        kr = task_threads(task_port, &threads, &thread_count);
-        if (kr == KERN_SUCCESS) {
-          for (mach_msg_type_number_t thread_index = 0;
-               thread_index < thread_count;
-               ++thread_index) {
-            if (thread_port != THREAD_NULL) {
-              mach_port_deallocate(mach_task_self(), threads[thread_index]);
-              continue;
-            }
-            thread_identifier_info_data_t thread_id_info;
-            mach_msg_type_number_t count = THREAD_IDENTIFIER_INFO_COUNT;
-            kr = thread_info(threads[thread_index],
-                             THREAD_IDENTIFIER_INFO,
-                             (thread_info_t)&thread_id_info,
-                             &count);
-            if (kr != KERN_SUCCESS) {
-              mach_port_deallocate(mach_task_self(), threads[thread_index]);
-              continue;
-            }
-            if (thread_id_info.thread_id == in_request->thread_id) {
-              thread_port = threads[thread_index];
-            } else {
-              mach_port_deallocate(mach_task_self(), threads[thread_index]);
-            }
           }
-          vm_deallocate(mach_task_self(),
-                        (vm_address_t)threads,
-                        thread_count * sizeof(thread_t));
         }
-      }
 
-      using Reply =
-          typename MachExcTraits::ExceptionRaiseIdentityProtectedReply;
-      Reply* out_reply = reinterpret_cast<Reply*>(out_header);
-      out_reply->RetCode = interface_->CatchExceptionRaiseIdentityProtected(
-          in_header->msgh_local_port,
-          thread_port,
-          task_port,
-          in_request->exception,
-          reinterpret_cast<const typename Traits::ExceptionCode*>(
-              in_request->code),
-          in_request->codeCnt,
-          in_trailer,
-          destroy_complex_request);
+        // Get the thread_t matching in_request->thread_id.
+        thread_t thread_port = THREAD_NULL;
+        if (task_port != TASK_NULL) {
+          thread_act_array_t threads;
+          mach_msg_type_number_t thread_count;
+          kr = task_threads(task_port, &threads, &thread_count);
+          if (kr == KERN_SUCCESS) {
+            for (mach_msg_type_number_t thread_index = 0;
+                 thread_index < thread_count;
+                 ++thread_index) {
+              if (thread_port != THREAD_NULL) {
+                mach_port_deallocate(mach_task_self(), threads[thread_index]);
+                continue;
+              }
+              thread_identifier_info_data_t thread_id_info;
+              mach_msg_type_number_t count = THREAD_IDENTIFIER_INFO_COUNT;
+              kr = thread_info(threads[thread_index],
+                               THREAD_IDENTIFIER_INFO,
+                               (thread_info_t)&thread_id_info,
+                               &count);
+              if (kr != KERN_SUCCESS) {
+                mach_port_deallocate(mach_task_self(), threads[thread_index]);
+                continue;
+              }
+              if (thread_id_info.thread_id == in_request->thread_id) {
+                thread_port = threads[thread_index];
+              } else {
+                mach_port_deallocate(mach_task_self(), threads[thread_index]);
+              }
+            }
+            vm_deallocate(mach_task_self(),
+                          (vm_address_t)threads,
+                          thread_count * sizeof(thread_t));
+          }
+        }
 
-      if (task_port != TASK_NULL) {
-        mach_port_deallocate(mach_task_self(), task_port);
-      }
+        using Reply = typename Traits::ExceptionRaiseIdentityProtectedReply;
+        Reply* out_reply = reinterpret_cast<Reply*>(out_header);
+        out_reply->RetCode = interface_->CatchExceptionRaiseIdentityProtected(
+            in_header->msgh_local_port,
+            thread_port,
+            task_port,
+            in_request->exception,
+            in_request->code,
+            in_request->codeCnt,
+            in_trailer,
+            destroy_complex_request);
 
-      if (thread_port != THREAD_NULL) {
-        mach_port_deallocate(mach_task_self(), thread_port);
-      }
+        if (task_port != TASK_NULL) {
+          mach_port_deallocate(mach_task_self(), task_port);
+        }
 
-      if (out_reply->RetCode != KERN_SUCCESS) {
+        if (thread_port != THREAD_NULL) {
+          mach_port_deallocate(mach_task_self(), thread_port);
+        }
+
+        if (out_reply->RetCode != KERN_SUCCESS) {
+          return true;
+        }
+
+        out_header->msgh_size = sizeof(*out_reply);
         return true;
       }
 
-      out_header->msgh_size = sizeof(*out_reply);
-      return true;
-    }
+      case Traits::kMachMessageIDExceptionRaiseStateIdentityProtected: {
+        // mach_exception_raise_state_identity_protected(),
+        // catch_mach_exception_raise_state_identity_protected().
+        using Request =
+            typename Traits::ExceptionRaiseStateIdentityProtectedRequest;
+        const Request* in_request = reinterpret_cast<const Request*>(in_header);
 
-    case MachExcTraits::kMachMessageIDExceptionRaiseStateIdentityProtected: {
-      // mach_exception_raise_state_identity_protected(),
-      // catch_mach_exception_raise_state_identity_protected().
-      using Request =
-          typename MachExcTraits::ExceptionRaiseStateIdentityProtectedRequest;
-      const Request* in_request = reinterpret_cast<const Request*>(in_header);
-
-      // in_request_1 is used for the portion of the request after the codes,
-      // which in theory can be variable-length. The check function will set it.
-      const Request* in_request_1;
-      kern_return_t kr =
-          MachExcTraits::MIGCheckRequestExceptionRaiseStateIdentityProtected(
-              in_request, &in_request_1);
-      if (kr != MACH_MSG_SUCCESS) {
-        SetMIGReplyError(out_header, kr);
-        return true;
-      }
-
-      task_t task_port = TASK_NULL;
-      if (in_request->task_id_token_t.name != MACH_PORT_NULL) {
-        kr = task_identity_token_get_task_port(
-            in_request->task_id_token_t.name, TASK_FLAVOR_CONTROL, &task_port);
+        // in_request_1 is used for the portion of the request after the codes,
+        // which in theory can be variable-length. The check function will set
+        // it.
+        const Request* in_request_1;
+        kern_return_t kr =
+            Traits::MIGCheckRequestExceptionRaiseStateIdentityProtected(
+                in_request, &in_request_1);
         if (kr != MACH_MSG_SUCCESS) {
-          // If this fails, pass TASK_NULL to
-          // CatchExceptionRaiseStateIdentityProtected
+          SetMIGReplyError(out_header, kr);
+          return true;
+        }
+
+        task_t task_port = TASK_NULL;
+        if (in_request->task_id_token_t.name != MACH_PORT_NULL) {
+          kr = task_identity_token_get_task_port(
+              in_request->task_id_token_t.name,
+              TASK_FLAVOR_CONTROL,
+              &task_port);
+          if (kr != MACH_MSG_SUCCESS) {
+            // If this fails, pass TASK_NULL to
+            // CatchExceptionRaiseStateIdentityProtected
 #if BUILDFLAG(IS_IOS)
-          CRASHPAD_RAW_LOG_ERROR(kr, "task_identity_token_get_task_port");
+            CRASHPAD_RAW_LOG_ERROR(kr, "task_identity_token_get_task_port");
 #else
-          MACH_LOG(WARNING, kr) << "task_identity_token_get_task_port";
+            MACH_LOG(WARNING, kr) << "task_identity_token_get_task_port";
 #endif
-        }
-      }
-
-      // Get the thread_t matching in_request->thread_id.
-      thread_t thread_port = THREAD_NULL;
-      if (task_port != TASK_NULL) {
-        thread_act_array_t threads;
-        mach_msg_type_number_t thread_count;
-        kr = task_threads(task_port, &threads, &thread_count);
-        if (kr == KERN_SUCCESS) {
-          for (mach_msg_type_number_t thread_index = 0;
-               thread_index < thread_count;
-               ++thread_index) {
-            if (thread_port != THREAD_NULL) {
-              mach_port_deallocate(mach_task_self(), threads[thread_index]);
-              continue;
-            }
-            thread_identifier_info_data_t thread_id_info;
-            mach_msg_type_number_t count = THREAD_IDENTIFIER_INFO_COUNT;
-            kr = thread_info(threads[thread_index],
-                             THREAD_IDENTIFIER_INFO,
-                             (thread_info_t)&thread_id_info,
-                             &count);
-            if (kr != KERN_SUCCESS) {
-              mach_port_deallocate(mach_task_self(), threads[thread_index]);
-              continue;
-            }
-            if (thread_id_info.thread_id == in_request->thread_id) {
-              thread_port = threads[thread_index];
-            } else {
-              mach_port_deallocate(mach_task_self(), threads[thread_index]);
-            }
           }
-          vm_deallocate(mach_task_self(),
-                        (vm_address_t)threads,
-                        thread_count * sizeof(thread_t));
         }
-      }
 
-      using Reply = MachExcTraits::ExceptionRaiseStateIdentityProtectedReply;
-      Reply* out_reply = reinterpret_cast<Reply*>(out_header);
-      out_reply->flavor = in_request_1->flavor;
-      out_reply->new_stateCnt = std::size(out_reply->new_state);
-      out_reply->RetCode =
-          interface_->CatchExceptionRaiseStateIdentityProtected(
-              in_header->msgh_local_port,
-              thread_port,
-              task_port,
-              in_request->exception,
-              (const typename Traits::ExceptionCode*)in_request->code,
-              in_request->codeCnt,
-              &out_reply->flavor,
-              in_request_1->old_state,
-              in_request_1->old_stateCnt,
-              out_reply->new_state,
-              &out_reply->new_stateCnt,
-              in_trailer,
-              destroy_complex_request);
+        // Get the thread_t matching in_request->thread_id.
+        thread_t thread_port = THREAD_NULL;
+        if (task_port != TASK_NULL) {
+          thread_act_array_t threads;
+          mach_msg_type_number_t thread_count;
+          kr = task_threads(task_port, &threads, &thread_count);
+          if (kr == KERN_SUCCESS) {
+            for (mach_msg_type_number_t thread_index = 0;
+                 thread_index < thread_count;
+                 ++thread_index) {
+              if (thread_port != THREAD_NULL) {
+                mach_port_deallocate(mach_task_self(), threads[thread_index]);
+                continue;
+              }
+              thread_identifier_info_data_t thread_id_info;
+              mach_msg_type_number_t count = THREAD_IDENTIFIER_INFO_COUNT;
+              kr = thread_info(threads[thread_index],
+                               THREAD_IDENTIFIER_INFO,
+                               (thread_info_t)&thread_id_info,
+                               &count);
+              if (kr != KERN_SUCCESS) {
+                mach_port_deallocate(mach_task_self(), threads[thread_index]);
+                continue;
+              }
+              if (thread_id_info.thread_id == in_request->thread_id) {
+                thread_port = threads[thread_index];
+              } else {
+                mach_port_deallocate(mach_task_self(), threads[thread_index]);
+              }
+            }
+            vm_deallocate(mach_task_self(),
+                          (vm_address_t)threads,
+                          thread_count * sizeof(thread_t));
+          }
+        }
 
-      if (task_port != TASK_NULL) {
-        mach_port_deallocate(mach_task_self(), task_port);
-      }
+        using Reply =
+            typename Traits::ExceptionRaiseStateIdentityProtectedReply;
+        Reply* out_reply = reinterpret_cast<Reply*>(out_header);
+        out_reply->flavor = in_request_1->flavor;
+        out_reply->new_stateCnt = std::size(out_reply->new_state);
+        out_reply->RetCode =
+            interface_->CatchExceptionRaiseStateIdentityProtected(
+                in_header->msgh_local_port,
+                thread_port,
+                task_port,
+                in_request->exception,
+                in_request->code,
+                in_request->codeCnt,
+                &out_reply->flavor,
+                in_request_1->old_state,
+                in_request_1->old_stateCnt,
+                out_reply->new_state,
+                &out_reply->new_stateCnt,
+                in_trailer,
+                destroy_complex_request);
 
-      if (thread_port != THREAD_NULL) {
-        mach_port_deallocate(mach_task_self(), thread_port);
-      }
+        if (task_port != TASK_NULL) {
+          mach_port_deallocate(mach_task_self(), task_port);
+        }
 
-      if (out_reply->RetCode != KERN_SUCCESS) {
+        if (thread_port != THREAD_NULL) {
+          mach_port_deallocate(mach_task_self(), thread_port);
+        }
+
+        if (out_reply->RetCode != KERN_SUCCESS) {
+          return true;
+        }
+
+        out_header->msgh_size =
+            sizeof(*out_reply) - sizeof(out_reply->new_state) +
+            sizeof(out_reply->new_state[0]) * out_reply->new_stateCnt;
         return true;
       }
-
-      out_header->msgh_size =
-          sizeof(*out_reply) - sizeof(out_reply->new_state) +
-          sizeof(out_reply->new_state[0]) * out_reply->new_stateCnt;
-      return true;
-    }
-
-    default: {
-      SetMIGReplyError(out_header, MIG_BAD_ID);
-      return false;
     }
   }
+
+  SetMIGReplyError(out_header, MIG_BAD_ID);
+  return false;
 }
 
 //! \brief A server interface for the `exc` or `mach_exc` Mach subsystems,
