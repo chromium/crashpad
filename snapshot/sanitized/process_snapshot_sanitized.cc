@@ -16,6 +16,8 @@
 
 #include <stdint.h>
 
+#include <algorithm>
+
 #include "snapshot/cpu_context.h"
 #include "util/linux/pac_helper.h"
 #include "util/numeric/safe_assignment.h"
@@ -59,8 +61,8 @@ class StackReferencesAddressRange : public MemorySnapshot::Delegate {
     } else if (!AssignIfInRange(&sp_offset, stack_pointer_ - stack_->Address())) {
       return false;
     }
-    const size_t aligned_sp_offset =
-        (sp_offset + sizeof(Pointer) - 1) & ~(sizeof(Pointer) - 1);
+    const size_t aligned_sp_offset = std::min<size_t>(
+        size, (sp_offset + sizeof(Pointer) - 1) & ~(sizeof(Pointer) - 1));
 
     auto words = reinterpret_cast<Pointer*>(static_cast<char*>(data) +
                                             aligned_sp_offset);
