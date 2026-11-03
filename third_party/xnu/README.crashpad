@@ -24,3 +24,8 @@ Local Modifications:
    <mach/machine/machine_types.defs>, and <mach/std_types.defs> are also
    included.
  - Anything not listed above is omitted.
+
+Update instructions:
+Update commit hashes in crowbar.txtpb, then run from
+this directory:
+crowbar build --no-dry-run ./
